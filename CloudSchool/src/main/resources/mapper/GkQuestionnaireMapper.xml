@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.GkQuestionnaireMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.GkQuestionnaire">
+    <id column="wj_id" jdbcType="INTEGER" property="wjId" />
+    <result column="wj_name" jdbcType="VARCHAR" property="wjName" />
+    <result column="wj_type_id" jdbcType="INTEGER" property="wjTypeId" />
+    <result column="wj_publisher" jdbcType="INTEGER" property="wjPublisher" />
+    <result column="wj_object" jdbcType="VARCHAR" property="wjObject" />
+    <result column="wj_fb_time" jdbcType="TIMESTAMP" property="wjFbTime" />
+    <result column="wjxx_type_id" jdbcType="INTEGER" property="wjxxTypeId" />
+    <result column="wj_Explain" jdbcType="VARCHAR" property="wjExplain" />
+    <result column="wj_num" jdbcType="INTEGER" property="wjNum" />
+    <result column="creation_time" jdbcType="TIMESTAMP" property="creationTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="founder" jdbcType="VARCHAR" property="founder" />
+    <result column="delete" jdbcType="INTEGER" property="delete" />
+    <result column="by1" jdbcType="VARCHAR" property="by1" />
+    <result column="by2" jdbcType="VARCHAR" property="by2" />
+    <result column="by3" jdbcType="VARCHAR" property="by3" />
+    <result column="by4" jdbcType="VARCHAR" property="by4" />
+    <result column="by5" jdbcType="VARCHAR" property="by5" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    wj_id, wj_name, wj_type_id, wj_publisher, wj_object, wj_fb_time, wjxx_type_id, wj_Explain, 
+    wj_num, creation_time, update_time, founder, delete, by1, by2, by3, by4, by5
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gk_questionnaire
+    where wj_id = #{wjId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gk_questionnaire
+    where wj_id = #{wjId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.CloudSchool.domain.GkQuestionnaire">
+    insert into gk_questionnaire (wj_id, wj_name, wj_type_id, 
+      wj_publisher, wj_object, wj_fb_time, 
+      wjxx_type_id, wj_Explain, wj_num, 
+      creation_time, update_time, founder, 
+      delete, by1, by2, by3, 
+      by4, by5)
+    values (#{wjId,jdbcType=INTEGER}, #{wjName,jdbcType=VARCHAR}, #{wjTypeId,jdbcType=INTEGER}, 
+      #{wjPublisher,jdbcType=INTEGER}, #{wjObject,jdbcType=VARCHAR}, #{wjFbTime,jdbcType=TIMESTAMP}, 
+      #{wjxxTypeId,jdbcType=INTEGER}, #{wjExplain,jdbcType=VARCHAR}, #{wjNum,jdbcType=INTEGER}, 
+      #{creationTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{founder,jdbcType=VARCHAR}, 
+      #{delete,jdbcType=INTEGER}, #{by1,jdbcType=VARCHAR}, #{by2,jdbcType=VARCHAR}, #{by3,jdbcType=VARCHAR}, 
+      #{by4,jdbcType=VARCHAR}, #{by5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.GkQuestionnaire">
+    insert into gk_questionnaire
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wjId != null">
+        wj_id,
+      </if>
+      <if test="wjName != null">
+        wj_name,
+      </if>
+      <if test="wjTypeId != null">
+        wj_type_id,
+      </if>
+      <if test="wjPublisher != null">
+        wj_publisher,
+      </if>
+      <if test="wjObject != null">
+        wj_object,
+      </if>
+      <if test="wjFbTime != null">
+        wj_fb_time,
+      </if>
+      <if test="wjxxTypeId != null">
+        wjxx_type_id,
+      </if>
+      <if test="wjExplain != null">
+        wj_Explain,
+      </if>
+      <if test="wjNum != null">
+        wj_num,
+      </if>
+      <if test="creationTime != null">
+        creation_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="founder != null">
+        founder,
+      </if>
+      <if test="delete != null">
+        delete,
+      </if>
+      <if test="by1 != null">
+        by1,
+      </if>
+      <if test="by2 != null">
+        by2,
+      </if>
+      <if test="by3 != null">
+        by3,
+      </if>
+      <if test="by4 != null">
+        by4,
+      </if>
+      <if test="by5 != null">
+        by5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wjId != null">
+        #{wjId,jdbcType=INTEGER},
+      </if>
+      <if test="wjName != null">
+        #{wjName,jdbcType=VARCHAR},
+      </if>
+      <if test="wjTypeId != null">
+        #{wjTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="wjPublisher != null">
+        #{wjPublisher,jdbcType=INTEGER},
+      </if>
+      <if test="wjObject != null">
+        #{wjObject,jdbcType=VARCHAR},
+      </if>
+      <if test="wjFbTime != null">
+        #{wjFbTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wjxxTypeId != null">
+        #{wjxxTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="wjExplain != null">
+        #{wjExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="wjNum != null">
+        #{wjNum,jdbcType=INTEGER},
+      </if>
+      <if test="creationTime != null">
+        #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="founder != null">
+        #{founder,jdbcType=VARCHAR},
+      </if>
+      <if test="delete != null">
+        #{delete,jdbcType=INTEGER},
+      </if>
+      <if test="by1 != null">
+        #{by1,jdbcType=VARCHAR},
+      </if>
+      <if test="by2 != null">
+        #{by2,jdbcType=VARCHAR},
+      </if>
+      <if test="by3 != null">
+        #{by3,jdbcType=VARCHAR},
+      </if>
+      <if test="by4 != null">
+        #{by4,jdbcType=VARCHAR},
+      </if>
+      <if test="by5 != null">
+        #{by5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.GkQuestionnaire">
+    update gk_questionnaire
+    <set>
+      <if test="wjName != null">
+        wj_name = #{wjName,jdbcType=VARCHAR},
+      </if>
+      <if test="wjTypeId != null">
+        wj_type_id = #{wjTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="wjPublisher != null">
+        wj_publisher = #{wjPublisher,jdbcType=INTEGER},
+      </if>
+      <if test="wjObject != null">
+        wj_object = #{wjObject,jdbcType=VARCHAR},
+      </if>
+      <if test="wjFbTime != null">
+        wj_fb_time = #{wjFbTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wjxxTypeId != null">
+        wjxx_type_id = #{wjxxTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="wjExplain != null">
+        wj_Explain = #{wjExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="wjNum != null">
+        wj_num = #{wjNum,jdbcType=INTEGER},
+      </if>
+      <if test="creationTime != null">
+        creation_time = #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="founder != null">
+        founder = #{founder,jdbcType=VARCHAR},
+      </if>
+      <if test="delete != null">
+        delete = #{delete,jdbcType=INTEGER},
+      </if>
+      <if test="by1 != null">
+        by1 = #{by1,jdbcType=VARCHAR},
+      </if>
+      <if test="by2 != null">
+        by2 = #{by2,jdbcType=VARCHAR},
+      </if>
+      <if test="by3 != null">
+        by3 = #{by3,jdbcType=VARCHAR},
+      </if>
+      <if test="by4 != null">
+        by4 = #{by4,jdbcType=VARCHAR},
+      </if>
+      <if test="by5 != null">
+        by5 = #{by5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where wj_id = #{wjId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.GkQuestionnaire">
+    update gk_questionnaire
+    set wj_name = #{wjName,jdbcType=VARCHAR},
+      wj_type_id = #{wjTypeId,jdbcType=INTEGER},
+      wj_publisher = #{wjPublisher,jdbcType=INTEGER},
+      wj_object = #{wjObject,jdbcType=VARCHAR},
+      wj_fb_time = #{wjFbTime,jdbcType=TIMESTAMP},
+      wjxx_type_id = #{wjxxTypeId,jdbcType=INTEGER},
+      wj_Explain = #{wjExplain,jdbcType=VARCHAR},
+      wj_num = #{wjNum,jdbcType=INTEGER},
+      creation_time = #{creationTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      founder = #{founder,jdbcType=VARCHAR},
+      delete = #{delete,jdbcType=INTEGER},
+      by1 = #{by1,jdbcType=VARCHAR},
+      by2 = #{by2,jdbcType=VARCHAR},
+      by3 = #{by3,jdbcType=VARCHAR},
+      by4 = #{by4,jdbcType=VARCHAR},
+      by5 = #{by5,jdbcType=VARCHAR}
+    where wj_id = #{wjId,jdbcType=INTEGER}
+  </update>
+</mapper>

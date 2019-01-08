@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.NoticeMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.Notice">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="sender" jdbcType="INTEGER" property="sender" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="receiverRange" jdbcType="INTEGER" property="receiverrange" />
+    <result column="receiverId" jdbcType="INTEGER" property="receiverid" />
+    <result column="readRecord" jdbcType="VARCHAR" property="readrecord" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.CloudSchool.domain.Notice">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, sender, url, time, receiverRange, receiverId, readRecord
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from notice
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from notice
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.CloudSchool.domain.Notice">
+    insert into notice (id, title, sender, 
+      url, time, receiverRange, 
+      receiverId, readRecord, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{sender,jdbcType=INTEGER}, 
+      #{url,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{receiverrange,jdbcType=INTEGER}, 
+      #{receiverid,jdbcType=INTEGER}, #{readrecord,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.Notice">
+    insert into notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="sender != null">
+        sender,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="receiverrange != null">
+        receiverRange,
+      </if>
+      <if test="receiverid != null">
+        receiverId,
+      </if>
+      <if test="readrecord != null">
+        readRecord,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        #{sender,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiverrange != null">
+        #{receiverrange,jdbcType=INTEGER},
+      </if>
+      <if test="receiverid != null">
+        #{receiverid,jdbcType=INTEGER},
+      </if>
+      <if test="readrecord != null">
+        #{readrecord,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.Notice">
+    update notice
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        sender = #{sender,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiverrange != null">
+        receiverRange = #{receiverrange,jdbcType=INTEGER},
+      </if>
+      <if test="receiverid != null">
+        receiverId = #{receiverid,jdbcType=INTEGER},
+      </if>
+      <if test="readrecord != null">
+        readRecord = #{readrecord,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.CloudSchool.domain.Notice">
+    update notice
+    set title = #{title,jdbcType=VARCHAR},
+      sender = #{sender,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      receiverRange = #{receiverrange,jdbcType=INTEGER},
+      receiverId = #{receiverid,jdbcType=INTEGER},
+      readRecord = #{readrecord,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.Notice">
+    update notice
+    set title = #{title,jdbcType=VARCHAR},
+      sender = #{sender,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      receiverRange = #{receiverrange,jdbcType=INTEGER},
+      receiverId = #{receiverid,jdbcType=INTEGER},
+      readRecord = #{readrecord,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

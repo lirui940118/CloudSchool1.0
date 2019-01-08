@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.TesttypeMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.Testtype">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="INTEGER" property="name" />
+    <result column="limits" jdbcType="INTEGER" property="limits" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="user1" jdbcType="VARCHAR" property="user1" />
+    <result column="user2" jdbcType="VARCHAR" property="user2" />
+    <result column="user3" jdbcType="VARCHAR" property="user3" />
+    <result column="user4" jdbcType="VARCHAR" property="user4" />
+    <result column="user5" jdbcType="VARCHAR" property="user5" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, limits, time, status, user1, user2, user3, user4, user5
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from testType
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from testType
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.CloudSchool.domain.Testtype">
+    insert into testType (id, name, limits, 
+      time, status, user1, 
+      user2, user3, user4, 
+      user5)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=INTEGER}, #{limits,jdbcType=INTEGER}, 
+      #{time,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{user1,jdbcType=VARCHAR}, 
+      #{user2,jdbcType=VARCHAR}, #{user3,jdbcType=VARCHAR}, #{user4,jdbcType=VARCHAR}, 
+      #{user5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.Testtype">
+    insert into testType
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="limits != null">
+        limits,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="user1 != null">
+        user1,
+      </if>
+      <if test="user2 != null">
+        user2,
+      </if>
+      <if test="user3 != null">
+        user3,
+      </if>
+      <if test="user4 != null">
+        user4,
+      </if>
+      <if test="user5 != null">
+        user5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=INTEGER},
+      </if>
+      <if test="limits != null">
+        #{limits,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="user1 != null">
+        #{user1,jdbcType=VARCHAR},
+      </if>
+      <if test="user2 != null">
+        #{user2,jdbcType=VARCHAR},
+      </if>
+      <if test="user3 != null">
+        #{user3,jdbcType=VARCHAR},
+      </if>
+      <if test="user4 != null">
+        #{user4,jdbcType=VARCHAR},
+      </if>
+      <if test="user5 != null">
+        #{user5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.Testtype">
+    update testType
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=INTEGER},
+      </if>
+      <if test="limits != null">
+        limits = #{limits,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="user1 != null">
+        user1 = #{user1,jdbcType=VARCHAR},
+      </if>
+      <if test="user2 != null">
+        user2 = #{user2,jdbcType=VARCHAR},
+      </if>
+      <if test="user3 != null">
+        user3 = #{user3,jdbcType=VARCHAR},
+      </if>
+      <if test="user4 != null">
+        user4 = #{user4,jdbcType=VARCHAR},
+      </if>
+      <if test="user5 != null">
+        user5 = #{user5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.Testtype">
+    update testType
+    set name = #{name,jdbcType=INTEGER},
+      limits = #{limits,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      user1 = #{user1,jdbcType=VARCHAR},
+      user2 = #{user2,jdbcType=VARCHAR},
+      user3 = #{user3,jdbcType=VARCHAR},
+      user4 = #{user4,jdbcType=VARCHAR},
+      user5 = #{user5,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

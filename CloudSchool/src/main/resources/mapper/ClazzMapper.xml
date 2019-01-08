@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.ClazzMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.Clazz">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cname" jdbcType="VARCHAR" property="cname" />
+    <result column="gid" jdbcType="INTEGER" property="gid" />
+    <result column="mid" jdbcType="INTEGER" property="mid" />
+    <result column="startdate" jdbcType="DATE" property="startdate" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="enddate" jdbcType="DATE" property="enddate" />
+    <result column="pc" jdbcType="VARCHAR" property="pc" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, cname, gid, mid, startdate, count, enddate, pc, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from clazz
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from clazz
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.CloudSchool.domain.Clazz">
+    insert into clazz (id, cname, gid, 
+      mid, startdate, count, 
+      enddate, pc, status)
+    values (#{id,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, #{gid,jdbcType=INTEGER}, 
+      #{mid,jdbcType=INTEGER}, #{startdate,jdbcType=DATE}, #{count,jdbcType=INTEGER}, 
+      #{enddate,jdbcType=DATE}, #{pc,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.Clazz">
+    insert into clazz
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cname != null">
+        cname,
+      </if>
+      <if test="gid != null">
+        gid,
+      </if>
+      <if test="mid != null">
+        mid,
+      </if>
+      <if test="startdate != null">
+        startdate,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="enddate != null">
+        enddate,
+      </if>
+      <if test="pc != null">
+        pc,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cname != null">
+        #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="gid != null">
+        #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="mid != null">
+        #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="startdate != null">
+        #{startdate,jdbcType=DATE},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="enddate != null">
+        #{enddate,jdbcType=DATE},
+      </if>
+      <if test="pc != null">
+        #{pc,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.Clazz">
+    update clazz
+    <set>
+      <if test="cname != null">
+        cname = #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="gid != null">
+        gid = #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="mid != null">
+        mid = #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="startdate != null">
+        startdate = #{startdate,jdbcType=DATE},
+      </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="enddate != null">
+        enddate = #{enddate,jdbcType=DATE},
+      </if>
+      <if test="pc != null">
+        pc = #{pc,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.Clazz">
+    update clazz
+    set cname = #{cname,jdbcType=VARCHAR},
+      gid = #{gid,jdbcType=INTEGER},
+      mid = #{mid,jdbcType=INTEGER},
+      startdate = #{startdate,jdbcType=DATE},
+      count = #{count,jdbcType=INTEGER},
+      enddate = #{enddate,jdbcType=DATE},
+      pc = #{pc,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
