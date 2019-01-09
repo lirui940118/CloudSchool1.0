@@ -11,6 +11,9 @@
   <sql id="Base_Column_List">
     id, name, ctid, galleryful, floor
   </sql>
+  <select id="query" resultMap="BaseResultMap">
+    SELECT cs.`name` AS `name`,ct.`name` AS ctname,cs.`galleryful`,cs.`floor` FROM classroom cs INNER JOIN classtype ct ON cs.`ctid`=ct.`id`
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
