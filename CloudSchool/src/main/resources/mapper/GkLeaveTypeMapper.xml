@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.GkLeaveTypeMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.GkLeaveType">
+    <id column="qj_type_id" jdbcType="INTEGER" property="qjTypeId" />
+    <result column="qj_type_name" jdbcType="VARCHAR" property="qjTypeName" />
+    <result column="creation_time" jdbcType="TIMESTAMP" property="creationTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="founder" jdbcType="VARCHAR" property="founder" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="by1" jdbcType="VARCHAR" property="by1" />
+    <result column="by2" jdbcType="VARCHAR" property="by2" />
+    <result column="by3" jdbcType="VARCHAR" property="by3" />
+    <result column="by4" jdbcType="VARCHAR" property="by4" />
+    <result column="by5" jdbcType="VARCHAR" property="by5" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    qj_type_id, qj_type_name, creation_time, update_time, founder, status, by1, by2, 
+    by3, by4, by5
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gk_leave_type
+    where qj_type_id = #{qjTypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gk_leave_type
+    where qj_type_id = #{qjTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.CloudSchool.domain.GkLeaveType">
+    insert into gk_leave_type (qj_type_id, qj_type_name, creation_time, 
+      update_time, founder, status, 
+      by1, by2, by3, by4, 
+      by5)
+    values (#{qjTypeId,jdbcType=INTEGER}, #{qjTypeName,jdbcType=VARCHAR}, #{creationTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{founder,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{by1,jdbcType=VARCHAR}, #{by2,jdbcType=VARCHAR}, #{by3,jdbcType=VARCHAR}, #{by4,jdbcType=VARCHAR}, 
+      #{by5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.GkLeaveType">
+    insert into gk_leave_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="qjTypeId != null">
+        qj_type_id,
+      </if>
+      <if test="qjTypeName != null">
+        qj_type_name,
+      </if>
+      <if test="creationTime != null">
+        creation_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="founder != null">
+        founder,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="by1 != null">
+        by1,
+      </if>
+      <if test="by2 != null">
+        by2,
+      </if>
+      <if test="by3 != null">
+        by3,
+      </if>
+      <if test="by4 != null">
+        by4,
+      </if>
+      <if test="by5 != null">
+        by5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="qjTypeId != null">
+        #{qjTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="qjTypeName != null">
+        #{qjTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="creationTime != null">
+        #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="founder != null">
+        #{founder,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="by1 != null">
+        #{by1,jdbcType=VARCHAR},
+      </if>
+      <if test="by2 != null">
+        #{by2,jdbcType=VARCHAR},
+      </if>
+      <if test="by3 != null">
+        #{by3,jdbcType=VARCHAR},
+      </if>
+      <if test="by4 != null">
+        #{by4,jdbcType=VARCHAR},
+      </if>
+      <if test="by5 != null">
+        #{by5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.GkLeaveType">
+    update gk_leave_type
+    <set>
+      <if test="qjTypeName != null">
+        qj_type_name = #{qjTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="creationTime != null">
+        creation_time = #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="founder != null">
+        founder = #{founder,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="by1 != null">
+        by1 = #{by1,jdbcType=VARCHAR},
+      </if>
+      <if test="by2 != null">
+        by2 = #{by2,jdbcType=VARCHAR},
+      </if>
+      <if test="by3 != null">
+        by3 = #{by3,jdbcType=VARCHAR},
+      </if>
+      <if test="by4 != null">
+        by4 = #{by4,jdbcType=VARCHAR},
+      </if>
+      <if test="by5 != null">
+        by5 = #{by5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where qj_type_id = #{qjTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.GkLeaveType">
+    update gk_leave_type
+    set qj_type_name = #{qjTypeName,jdbcType=VARCHAR},
+      creation_time = #{creationTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      founder = #{founder,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      by1 = #{by1,jdbcType=VARCHAR},
+      by2 = #{by2,jdbcType=VARCHAR},
+      by3 = #{by3,jdbcType=VARCHAR},
+      by4 = #{by4,jdbcType=VARCHAR},
+      by5 = #{by5,jdbcType=VARCHAR}
+    where qj_type_id = #{qjTypeId,jdbcType=INTEGER}
+  </update>
+</mapper>

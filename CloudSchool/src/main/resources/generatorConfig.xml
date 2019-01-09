@@ -2,7 +2,7 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
 	<classPathEntry
-		location="D:\apache-maven-3.5.0\jarCache\mysql\mysql-connector-java\5.1.6\mysql-connector-java-5.1.6.jar" />
+		location="C:\Users\leerui\Desktop\mysql-connector-java-5.1.6.jar" />
 	<context id="context1">
 		<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
 		<commentGenerator>

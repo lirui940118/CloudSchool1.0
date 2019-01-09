@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.GkLeaveApplyMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.GkLeaveApply">
+    <id column="qjsq_id" jdbcType="INTEGER" property="qjsqId" />
+    <result column="object_id" jdbcType="INTEGER" property="objectId" />
+    <result column="qjsq_reason" jdbcType="VARCHAR" property="qjsqReason" />
+    <result column="qjsq_type_id" jdbcType="INTEGER" property="qjsqTypeId" />
+    <result column="qjsq_starttime" jdbcType="TIMESTAMP" property="qjsqStarttime" />
+    <result column="qjsq_endtime" jdbcType="TIMESTAMP" property="qjsqEndtime" />
+    <result column="total_time" jdbcType="INTEGER" property="totalTime" />
+    <result column="filltime" jdbcType="TIMESTAMP" property="filltime" />
+    <result column="leader_opinion" jdbcType="VARCHAR" property="leaderOpinion" />
+    <result column="qjsq_state_id" jdbcType="INTEGER" property="qjsqStateId" />
+    <result column="creation_time" jdbcType="TIMESTAMP" property="creationTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="founder" jdbcType="VARCHAR" property="founder" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="by1" jdbcType="VARCHAR" property="by1" />
+    <result column="by2" jdbcType="VARCHAR" property="by2" />
+    <result column="by3" jdbcType="VARCHAR" property="by3" />
+    <result column="by4" jdbcType="VARCHAR" property="by4" />
+    <result column="by5" jdbcType="VARCHAR" property="by5" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    qjsq_id, object_id, qjsq_reason, qjsq_type_id, qjsq_starttime, qjsq_endtime, total_time, 
+    filltime, leader_opinion, qjsq_state_id, creation_time, update_time, founder, status, 
+    by1, by2, by3, by4, by5
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gk_leave_apply
+    where qjsq_id = #{qjsqId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gk_leave_apply
+    where qjsq_id = #{qjsqId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.CloudSchool.domain.GkLeaveApply">
+    insert into gk_leave_apply (qjsq_id, object_id, qjsq_reason, 
+      qjsq_type_id, qjsq_starttime, qjsq_endtime, 
+      total_time, filltime, leader_opinion, 
+      qjsq_state_id, creation_time, update_time, 
+      founder, status, by1, 
+      by2, by3, by4, by5
+      )
+    values (#{qjsqId,jdbcType=INTEGER}, #{objectId,jdbcType=INTEGER}, #{qjsqReason,jdbcType=VARCHAR}, 
+      #{qjsqTypeId,jdbcType=INTEGER}, #{qjsqStarttime,jdbcType=TIMESTAMP}, #{qjsqEndtime,jdbcType=TIMESTAMP}, 
+      #{totalTime,jdbcType=INTEGER}, #{filltime,jdbcType=TIMESTAMP}, #{leaderOpinion,jdbcType=VARCHAR}, 
+      #{qjsqStateId,jdbcType=INTEGER}, #{creationTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{founder,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{by1,jdbcType=VARCHAR}, 
+      #{by2,jdbcType=VARCHAR}, #{by3,jdbcType=VARCHAR}, #{by4,jdbcType=VARCHAR}, #{by5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.GkLeaveApply">
+    insert into gk_leave_apply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="qjsqId != null">
+        qjsq_id,
+      </if>
+      <if test="objectId != null">
+        object_id,
+      </if>
+      <if test="qjsqReason != null">
+        qjsq_reason,
+      </if>
+      <if test="qjsqTypeId != null">
+        qjsq_type_id,
+      </if>
+      <if test="qjsqStarttime != null">
+        qjsq_starttime,
+      </if>
+      <if test="qjsqEndtime != null">
+        qjsq_endtime,
+      </if>
+      <if test="totalTime != null">
+        total_time,
+      </if>
+      <if test="filltime != null">
+        filltime,
+      </if>
+      <if test="leaderOpinion != null">
+        leader_opinion,
+      </if>
+      <if test="qjsqStateId != null">
+        qjsq_state_id,
+      </if>
+      <if test="creationTime != null">
+        creation_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="founder != null">
+        founder,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="by1 != null">
+        by1,
+      </if>
+      <if test="by2 != null">
+        by2,
+      </if>
+      <if test="by3 != null">
+        by3,
+      </if>
+      <if test="by4 != null">
+        by4,
+      </if>
+      <if test="by5 != null">
+        by5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="qjsqId != null">
+        #{qjsqId,jdbcType=INTEGER},
+      </if>
+      <if test="objectId != null">
+        #{objectId,jdbcType=INTEGER},
+      </if>
+      <if test="qjsqReason != null">
+        #{qjsqReason,jdbcType=VARCHAR},
+      </if>
+      <if test="qjsqTypeId != null">
+        #{qjsqTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="qjsqStarttime != null">
+        #{qjsqStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qjsqEndtime != null">
+        #{qjsqEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalTime != null">
+        #{totalTime,jdbcType=INTEGER},
+      </if>
+      <if test="filltime != null">
+        #{filltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leaderOpinion != null">
+        #{leaderOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="qjsqStateId != null">
+        #{qjsqStateId,jdbcType=INTEGER},
+      </if>
+      <if test="creationTime != null">
+        #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="founder != null">
+        #{founder,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="by1 != null">
+        #{by1,jdbcType=VARCHAR},
+      </if>
+      <if test="by2 != null">
+        #{by2,jdbcType=VARCHAR},
+      </if>
+      <if test="by3 != null">
+        #{by3,jdbcType=VARCHAR},
+      </if>
+      <if test="by4 != null">
+        #{by4,jdbcType=VARCHAR},
+      </if>
+      <if test="by5 != null">
+        #{by5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.GkLeaveApply">
+    update gk_leave_apply
+    <set>
+      <if test="objectId != null">
+        object_id = #{objectId,jdbcType=INTEGER},
+      </if>
+      <if test="qjsqReason != null">
+        qjsq_reason = #{qjsqReason,jdbcType=VARCHAR},
+      </if>
+      <if test="qjsqTypeId != null">
+        qjsq_type_id = #{qjsqTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="qjsqStarttime != null">
+        qjsq_starttime = #{qjsqStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qjsqEndtime != null">
+        qjsq_endtime = #{qjsqEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalTime != null">
+        total_time = #{totalTime,jdbcType=INTEGER},
+      </if>
+      <if test="filltime != null">
+        filltime = #{filltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leaderOpinion != null">
+        leader_opinion = #{leaderOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="qjsqStateId != null">
+        qjsq_state_id = #{qjsqStateId,jdbcType=INTEGER},
+      </if>
+      <if test="creationTime != null">
+        creation_time = #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="founder != null">
+        founder = #{founder,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="by1 != null">
+        by1 = #{by1,jdbcType=VARCHAR},
+      </if>
+      <if test="by2 != null">
+        by2 = #{by2,jdbcType=VARCHAR},
+      </if>
+      <if test="by3 != null">
+        by3 = #{by3,jdbcType=VARCHAR},
+      </if>
+      <if test="by4 != null">
+        by4 = #{by4,jdbcType=VARCHAR},
+      </if>
+      <if test="by5 != null">
+        by5 = #{by5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where qjsq_id = #{qjsqId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.GkLeaveApply">
+    update gk_leave_apply
+    set object_id = #{objectId,jdbcType=INTEGER},
+      qjsq_reason = #{qjsqReason,jdbcType=VARCHAR},
+      qjsq_type_id = #{qjsqTypeId,jdbcType=INTEGER},
+      qjsq_starttime = #{qjsqStarttime,jdbcType=TIMESTAMP},
+      qjsq_endtime = #{qjsqEndtime,jdbcType=TIMESTAMP},
+      total_time = #{totalTime,jdbcType=INTEGER},
+      filltime = #{filltime,jdbcType=TIMESTAMP},
+      leader_opinion = #{leaderOpinion,jdbcType=VARCHAR},
+      qjsq_state_id = #{qjsqStateId,jdbcType=INTEGER},
+      creation_time = #{creationTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      founder = #{founder,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      by1 = #{by1,jdbcType=VARCHAR},
+      by2 = #{by2,jdbcType=VARCHAR},
+      by3 = #{by3,jdbcType=VARCHAR},
+      by4 = #{by4,jdbcType=VARCHAR},
+      by5 = #{by5,jdbcType=VARCHAR}
+    where qjsq_id = #{qjsqId,jdbcType=INTEGER}
+  </update>
+</mapper>
