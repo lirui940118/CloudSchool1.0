@@ -2,6 +2,8 @@ package com.CloudSchool.domain;
 
 import java.util.Date;
 
+import org.apache.ibatis.annotations.Mapper;
+@Mapper
 public class Clazzstudent {
     private Integer id;
 

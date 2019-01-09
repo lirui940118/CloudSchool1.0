@@ -138,4 +138,10 @@
       isTeacher = #{isteacher,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="insertAll" parameterType="com.CloudSchool.domain.ClazzInfo">
+    insert into `clazzcourseteacher` values
+    <foreach collection="tlist" item="t" separator=",">
+    	(0,#{id},#{t.courseid},#{t.tid},DATE(now()),null,0,#{t.ismaster},#{t.isteacher})
+    </foreach>
+  </insert>
 </mapper>

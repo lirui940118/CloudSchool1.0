@@ -1,5 +1,6 @@
 package com.CloudSchool.dao;
 
+import com.CloudSchool.domain.ClazzInfo;
 import com.CloudSchool.domain.Clazzcourseteacher;
 
 public interface ClazzcourseteacherMapper {
@@ -14,4 +15,6 @@ public interface ClazzcourseteacherMapper {
     int updateByPrimaryKeySelective(Clazzcourseteacher record);
 
     int updateByPrimaryKey(Clazzcourseteacher record);
+    //自定义-批量新增-老师
+    int insertAll(ClazzInfo record);
 }

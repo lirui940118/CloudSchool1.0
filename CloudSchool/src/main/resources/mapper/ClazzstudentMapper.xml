@@ -103,4 +103,10 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="insertAll" parameterType="com.CloudSchool.domain.ClazzInfo">
+    insert into `clazzstudent` values
+    <foreach collection="slist" item="s" separator=",">
+    	(0,#{id},#{s.sid},DATE(now()),null,0)
+    </foreach>
+  </insert>
 </mapper>
