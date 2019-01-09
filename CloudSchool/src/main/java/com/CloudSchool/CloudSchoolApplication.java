@@ -7,10 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @MapperScan("com.CloudSchool.dao")
 public class CloudSchoolApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(CloudSchoolApplication.class, args);
 	}
-
 }
-
