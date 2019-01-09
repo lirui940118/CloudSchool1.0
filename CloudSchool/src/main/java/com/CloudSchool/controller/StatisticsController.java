@@ -5,9 +5,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Controller
+@RequestMapping("statistics")
 public class StatisticsController {
-	@RequestMapping("/aaa")
+	/**
+	 * 学员首页
+	 * 
+	 */
+	/*打开学员首页*/
+	@RequestMapping("/gotoStudent")
 	public String aa() {
-		return "index";
+		return "statistics/student";
 	}
 }
