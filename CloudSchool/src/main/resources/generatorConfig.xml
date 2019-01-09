@@ -24,86 +24,74 @@
 
 		
 		
-		<table schema="Gk_interview" tableName="gk_interview" enableCountByExample="false"
+		<table schema="Zzy_class_committee" tableName="zzy_class_committee" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Gk_kaoqin" tableName="gk_kaoqin" enableCountByExample="false"
+		<table schema="Zzy_class_events" tableName="Zzy_class_events" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Gk_kaoqin_state" tableName="gk_kaoqin_state" enableCountByExample="false"
+		<table schema="Zzy_class_position" tableName="zzy_class_position" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Gk_leave_apply" tableName="gk_leave_apply" enableCountByExample="false"
+		<table schema="Zzy_class_schedule" tableName="zzy_class_schedule" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Gk_leave_state" tableName="gk_leave_state" enableCountByExample="false"
+		<table schema="Zzy_course" tableName="zzy_course" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Gk_leave_type" tableName="gk_leave_type" enableCountByExample="false"
+		<table schema="Zzy_course_events" tableName="zzy_course_events" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Gk_questionnaire" tableName="gk_questionnaire" enableCountByExample="false"
+		<table schema="Zzy_course_request" tableName="zzy_course_request" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Gk_questionnaire_object" tableName="gk_questionnaire_object" enableCountByExample="false"
+		<table schema="Zzy_event_type" tableName="Zzy_event_type" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Gk_questionnaire_type" tableName="gk_questionnaire_type" enableCountByExample="false"
+		<table schema="Zzy_grade" tableName="zzy_grade" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Gk_questionnairesh" tableName="gk_questionnairesh" enableCountByExample="false"
+		<table schema="Zzy_major" tableName="zzy_major" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Gk_questionnairetm" tableName="gk_questionnairetm" enableCountByExample="false"
+		<table schema="Zzy_realtime_classroom" tableName="zzy_realtime_classroom" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Gk_questionnairetm_sh" tableName="gk_questionnairetm_sh" enableCountByExample="false"
+		<table schema="Zzy_section" tableName="zzy_section" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Gk_questionnairetm_type" tableName="gk_questionnairetm_type" enableCountByExample="false"
+		<table schema="Zzy_teacher_ability" tableName="zzy_teacher_ability" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Gk_questionnairexx" tableName="gk_questionnairexx" enableCountByExample="false"
+		<table schema="Zzy_version" tableName="zzy_version" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
-		
-		<table schema="Gk_wjsh_state" tableName="gk_wjsh_state" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		
-		<table schema="Gk_wjtm_fk" tableName="gk_wjtm_fk" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		
-		
 	</context>
 </generatorConfiguration>
