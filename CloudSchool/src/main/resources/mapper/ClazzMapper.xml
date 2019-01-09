@@ -25,7 +25,7 @@
     delete from clazz
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.CloudSchool.domain.Clazz">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.CloudSchool.domain.Clazz">
     insert into clazz (id, cname, gid, 
       mid, startdate, count, 
       enddate, pc, status)
@@ -33,7 +33,7 @@
       #{mid,jdbcType=INTEGER}, #{startdate,jdbcType=DATE}, #{count,jdbcType=INTEGER}, 
       #{enddate,jdbcType=DATE}, #{pc,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.CloudSchool.domain.Clazz">
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.CloudSchool.domain.Clazz">
     insert into clazz
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
