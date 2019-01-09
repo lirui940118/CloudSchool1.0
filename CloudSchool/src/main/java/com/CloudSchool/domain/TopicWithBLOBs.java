@@ -1,13 +1,32 @@
 package com.CloudSchool.domain;
 
+import java.util.List;
+
 public class TopicWithBLOBs extends Topic {
     private String topicconten;
 
     private String result;
 
     private String analysis;
+    private List<Topicoption> list;
+    private Topictype topicType;
+	public Topictype getTopicType() {
+		return topicType;
+	}
 
-    public String getTopicconten() {
+	public void setTopicType(Topictype topicType) {
+		this.topicType = topicType;
+	}
+
+	public List<Topicoption> getList() {
+		return list;
+	}
+
+	public void setList(List<Topicoption> list) {
+		this.list = list;
+	}
+
+	public String getTopicconten() {
         return topicconten;
     }
 

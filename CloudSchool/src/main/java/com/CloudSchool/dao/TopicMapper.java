@@ -7,7 +7,7 @@ public interface TopicMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(TopicWithBLOBs record);
-
+    /*添加题目*/
     int insertSelective(TopicWithBLOBs record);
 
     TopicWithBLOBs selectByPrimaryKey(Integer id);
