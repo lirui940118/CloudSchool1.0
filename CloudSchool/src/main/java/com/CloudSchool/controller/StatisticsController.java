@@ -15,4 +15,12 @@ public class StatisticsController {
 	public String aa() {
 		return "statistics/student";
 	}
+	
+	
+	
+	
+	
+	/*查询数据*/
+	
+	/*查询单个学员的所有考试成绩数据*/
 }
