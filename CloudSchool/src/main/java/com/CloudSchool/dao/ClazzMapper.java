@@ -1,11 +1,16 @@
 package com.CloudSchool.dao;
 
-import com.CloudSchool.domain.Clazz;
+import org.apache.ibatis.annotations.Mapper;
 
+import com.CloudSchool.domain.Clazz;
+import com.CloudSchool.domain.ClazzInfo;
+
+
+@Mapper
 public interface ClazzMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(Clazz record);
+    int insert(ClazzInfo record);
 
     int insertSelective(Clazz record);
 
