@@ -14,4 +14,6 @@ public interface CqjUserMapper {
     int updateByPrimaryKeySelective(CqjUser record);
 
     int updateByPrimaryKey(CqjUser record);
+    
+    CqjUser login(String username,String password);
 }

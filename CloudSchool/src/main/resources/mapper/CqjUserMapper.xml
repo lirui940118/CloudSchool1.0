@@ -220,4 +220,12 @@
       standby5 = #{standby5,jdbcType=VARCHAR}
     where userid = #{userid,jdbcType=INTEGER}
   </update>
+  
+  <select id="queryClazzByUserId">
+  	
+  </select>
+  <select id="login">
+  	
+  </select>
+  	
 </mapper>
