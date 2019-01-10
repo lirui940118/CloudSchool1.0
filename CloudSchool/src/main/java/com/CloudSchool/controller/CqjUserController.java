@@ -19,13 +19,17 @@ public class CqjUserController {
 	
 	@RequestMapping("/login")
 	public String login(String username,String password,HttpSession session) {
-		/*CqjUser userinfo=cus.login(username, password);
+		CqjUser userinfo=cus.login(username, password);
 		if(userinfo!=null) {
 			System.out.println("登录成功");
 			session.setAttribute("user", userinfo);
 		}else {
 			System.out.println("登录失败");
-		}*/
-		return "cqj_setting/setting-position";
+		}
+		return "redirect:goIndex";
+	}
+	@RequestMapping("goIndex")
+	public String goIndex() {
+		return "index";
 	}
 }
