@@ -16,4 +16,5 @@ public interface CqjUserMapper {
     int updateByPrimaryKey(CqjUser record);
     
     CqjUser login(String username,String password);
+    String[] queryClazzByPositionid(Integer positionid);
 }
