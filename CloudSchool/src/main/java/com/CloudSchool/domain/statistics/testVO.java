@@ -1,15 +1,22 @@
 package com.CloudSchool.domain.statistics;
+
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * 学员首页查询
  * @author leerui
  *
  */
 
-import javax.xml.crypto.Data;
+
 
 public class testVO {
 	private String TestName;//考试名称
-	private Data TestTsime;//考试时间（考试结束时间）
+	private String TestTsime;//考试时间（考试结束时间）
 	private double StudentScore;//学员得分
 	private double TotalScore;//试卷总分
 	private double studentScore100;//学员百分制得分
@@ -19,10 +26,12 @@ public class testVO {
 	public void setTestName(String testName) {
 		TestName = testName;
 	}
-	public Data getTestTsime() {
+	
+	
+	public String getTestTsime() {
 		return TestTsime;
 	}
-	public void setTestTsime(Data testTsime) {
+	public void setTestTsime(String testTsime) {
 		TestTsime = testTsime;
 	}
 	public double getStudentScore() {

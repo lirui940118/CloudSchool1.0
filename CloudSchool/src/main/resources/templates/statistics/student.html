@@ -1,373 +1,425 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<title>学员统计首页</title>
-		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-		<link rel="stylesheet" href="../css/bootstrap.min.css">
-		<link rel="stylesheet" href="../css/ready.css">
-		<style type="text/css">
-			* {
-				margin: 0px;
-				padding: 0px;
-				/*border: 1px solid red;*/
-			}
-			
-			img {
-				width: 76px;
-				height: 100px;
-				border-radius: 5px;
-			}
-			.card{
-				border-radius: 0px;
-			    background-color: #ffffff;
-			    margin-bottom: 0px;
-			    -webkit-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
-			    -moz-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
-			    box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
-			    border: 1px solid #eee;
-			}
-			
-		</style>
-	</head>
+<head>
+<meta charset="UTF-8">
+<title>学员统计首页</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+<style type="text/css">
+* {
+	margin: 0px;
+	padding: 0px;
+	/*border: 1px solid red;*/
+}
 
-	<body>
-		<div class="main-panel">
-			<div class="content">
-				<div class="container-fluid">
-					<h4 class="page-title">学员统计首页</h4>
-					<div class="row">
-						<!--个人信息-->
-						<div class="card col-lg-5">
-							<div class="card-header">
-								<h4 class="card-title">个人信息</h4>
-							</div>
-							<div class="card-body" style="text-align: center;">
-								<div>
-									<img src="../image/studentImg.png">
+img {
+	width: 76px;
+	height: 100px;
+	border-radius: 5px;
+}
+
+.card {
+	border-radius: 0px;
+	background-color: #ffffff;
+	margin-bottom: 0px;
+	-webkit-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+	-moz-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+	box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+	border: 1px solid #eee;
+}
+</style>
+</head>
+
+<body>
+	<div class="main-panel">
+		<div class="content">
+			<div class="container-fluid">
+				<h4 class="page-title">学员统计首页</h4>
+				<div class="row">
+					<!--个人信息-->
+					<div class="card col-lg-5">
+						<div class="card-header">
+							<h4 class="card-title">个人信息</h4>
+							<p class="card-category">
+								<div class="form-group col-lg-3">
+									<label for="defaultSelect">年级</label>
+									<select class="form-control form-control" id="defaultSelect">
+										<option>全部</option>
+										<option>S1</option>
+										<option>S2</option>
+										<option>S3</option>
+									</select>
 								</div>
-								<p>姓名：张泽阳</p>
-								<p>学号：Java20022</p>
-								<p>年级：Y2</p>
-								<p>班级：AT1717</p>
-								<p>专业：Java</p>
-								<p>状态：在读</p>
-							</div>
+							</p>
 						</div>
-						<!--学员能力雷达图-->
-						<div class="card col-lg-7">
-							<div class="card-header">
-								<h4 class="card-title">学员能力雷达图</h4>
+						<div class="card-body" style="text-align: center;">
+							<div>
+								<img th:src="@{/static/image/studentImg.png}">
 							</div>
-							<div class="card-body" id="studentAbilityPicture" style="width: 400; height: 400px;"></div>
+							<p>姓名：张泽阳</p>
+							<p>学号：Java20022</p>
+							<p>年级：Y2</p>
+							<p>班级：AT1717</p>
+							<p>专业：Java</p>
+							<p>状态：在读</p>
 						</div>
-						<!--学员考试成绩-->
-						<div class=" card col-lg-12">
-							<div class="card-header">
-								<h4 class="card-title">学员考试成绩趋势图</h4>
-								<p class="card-category">
-									<div class="form-group col-lg-3">
-										<label for="defaultSelect">年级</label>
-										<select class="form-control form-control" id="defaultSelect">
-											<option>全部</option>
-											<option>S1</option>
-											<option>S2</option>
-											<option>S3</option>
-										</select>
-									</div>
-								</p>
-							</div>
-							<div class="card-body">
-								<div id="studentTestPictrue" style="width: 400; height: 400px;"></div>
-							</div>
-							<div class="card-footer">
-								<div class="legend">
-									<i class="la la-circle text-primary"></i>
-									 查看很多
-								</div>
-							</div>
+					</div>
+					<!--学员能力雷达图-->
+					<div class="card col-lg-7">
+						<div class="card-header">
+							<h4 class="card-title">学员能力雷达图</h4>
 						</div>
-						<!--学员作业成绩-->
-						<div class=" card col-lg-12">
-							<div class="card-header">
-								<h4 class="card-title">学员作业成绩趋势图</h4>
+						<div class="card-body" id="studentAbilityPicture"
+							style="width: 400; height: 400px;"></div>
+					</div>
+					<!--学员考试成绩-->
+					<div class=" card col-lg-12">
+						<div class="card-header">
+							<h4 class="card-title">学员考试成绩趋势图</h4>
+							<!-- <p class="card-category">
+							<div class="form-group col-lg-3">
+								<label for="defaultSelect">年级</label> <select
+									class="form-control form-control" id="defaultSelect">
+									<option>全部</option>
+									<option>S1</option>
+									<option>S2</option>
+									<option>S3</option>
+								</select>
 							</div>
-							<div class="card-body">
-								123
-							</div>
-							<div class="card-footer">
-								<div class="legend">
-									<i class="la la-circle text-primary"></i>
-									 查看很多
-								</div>
-							</div>
+							</p> -->
 						</div>
-						<!--日常考勤-->
-						<div class=" card col-lg-12">
-							<div class="card-header">
-								<h4 class="card-title">日常考勤</h4>
-							</div>
-							<div class="card-body">
-								<div id="dailyPicture" style="width: 400; height: 400px;"></div>
-							</div>
-							<div class="card-footer">
-								<div class="legend">
-									<i class="la la-circle text-primary"></i>
-									 查看很多
-								</div>
-							</div>
+						<div class="card-body">
+							<div id="studentTestPictrue" style="width: 400; height: 400px;"></div>
 						</div>
-						<div class="card col-lg-12">
-							<div class="card-header">
-								<h4 class="card-title">
-									查漏补缺
-								</h4>
-								<p class="card-category">
-									结合多次考试分析出（该知识点所有对应的所有题目错误率30%）
-									<br>
-									上报：告诉教员该知识点没有听懂，需要教员重新讲解。当全班上报人数>全班人数*70%。教员会接到通知
-								</p>
-							</div>
-							<div class="card-body">
-								<table class="table table-bordered" style="text-align: center;">
-									<thead>
-										<tr>
-											<th scope="col">书籍</th>
-											<th scope="col">章节</th>
-											<th scope="col">知识点</th>
-											<th scope="col">操作</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>JAVAOOP</td>
-											<td>面向对象</td>
-											<td>面向对象的三大特征</td>
-											<td>
-												<button class="btn btn-danger">补习</button>
-												<button class="btn btn-info">上报</button>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+						<div class="card-footer">
+							<div class="legend">
+								<i class="la la-circle text-primary"></i> 查看很多
 							</div>
 						</div>
 					</div>
-						
-
+					<!--学员作业成绩-->
+					<div class=" card col-lg-12">
+						<div class="card-header">
+							<h4 class="card-title">学员作业成绩趋势图</h4>
+						</div>
+						<div class="card-body">123</div>
+						<div class="card-footer">
+							<div class="legend">
+								<i class="la la-circle text-primary"></i> 查看很多
+							</div>
+						</div>
+					</div>
+					<!--日常考勤-->
+					<div class=" card col-lg-12">
+						<div class="card-header">
+							<h4 class="card-title">日常考勤</h4>
+						</div>
+						<div class="card-body">
+							<div id="dailyPicture" style="width: 400; height: 400px;"></div>
+						</div>
+						<div class="card-footer">
+							<div class="legend">
+								<i class="la la-circle text-primary"></i> 查看很多
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-12">
+						<div class="card-header">
+							<h4 class="card-title">查漏补缺</h4>
+							<p class="card-category">
+								结合多次考试分析出（该知识点所有对应的所有题目错误率30%） <br>
+								上报：告诉教员该知识点没有听懂，需要教员重新讲解。当全班上报人数>全班人数*70%。教员会接到通知
+							</p>
+						</div>
+						<div class="card-body">
+							<table class="table table-bordered" style="text-align: center;">
+								<thead>
+									<tr>
+										<th scope="col">书籍</th>
+										<th scope="col">章节</th>
+										<th scope="col">知识点</th>
+										<th scope="col">操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>JAVAOOP</td>
+										<td>面向对象</td>
+										<td>面向对象的三大特征</td>
+										<td>
+											<button class="btn btn-danger">补习</button>
+											<button class="btn btn-info">上报</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
+
+
 			</div>
 		</div>
-	</body>
-	<script src="../js/echarts.js"></script>
-	<script src="../js/core/bootstrap.min.js"></script>
-	<script type="text/javascript">
-		//初始化echars实例
-		var myChar = echarts.init(document.querySelector("#studentAbilityPicture"));
-		//myChar.showLoading();
-		//设置图标配置和数据
-		option = {
-			title: {
-				
+	</div>
+</body>
+<script type="text/javascript" th:src="@{/static/js/common.js}"></script>
+<script type="text/javascript"
+	th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
+<script src="/static/js/echarts.js"></script>
+<script src="/static/js/core/bootstrap.min.js"></script>
+<script type="text/javascript">
+	//初始化echars实例
+	var myChar = echarts.init(document.querySelector("#studentAbilityPicture"));
+	//myChar.showLoading();
+	//设置图标配置和数据
+	option = {
+		title : {
+
+		},
+		tooltip : {},
+		legend : {
+			data : [ '学员能力值', '所在班级学员能力平均值' ]
+		},
+		radar : {
+			center : [ '50%', '55%' ],
+			// shape: 'circle',
+			name : {
+				textStyle : {
+					color : '#fff',
+					backgroundColor : '#999',
+					borderRadius : 3,
+					padding : [ 3, 5 ]
+				}
 			},
-			tooltip: {},
-			legend: {
-				data: ['学员能力值', '所在班级学员能力平均值']
-			},
-			radar: {
-				center: ['50%', '55%'],
-				// shape: 'circle',
-				name: {
-					textStyle: {
-						color: '#fff',
-						backgroundColor: '#999',
-						borderRadius: 3,
-						padding: [3, 5]
-					}
+			indicator : [ {
+				name : '理解',
+				max : 100
+			}, {
+				name : '识记',
+				max : 100
+			}, {
+				name : '自控力',
+				max : 100
+			}, {
+				name : '应用上机',
+				max : 100
+			}, {
+				name : '课堂表现',
+				max : 100
+			} ]
+		},
+		series : [ {
+			type : 'radar',
+			// areaStyle: {normal: {}},
+			data : [ {
+				value : [ 98, 56, 67, 56, 47 ],
+				label : {
+					show : true, //是否显示标签。
+					position : "insideTop", //标签的位置。// 绝对的像素值[10, 10],// 相对的百分比['50%', '50%'].'top','left','right','bottom','inside','insideLeft','insideRight','insideTop','insideBottom','insideTopLeft','insideBottomLeft','insideTopRight','insideBottomRight'
+					offset : [ -10, 0 ], //是否对文字进行偏移。默认不偏移。例如：[30, 40] 表示文字在横向上偏移 30，纵向上偏移 40。
+					formatter : '{c}', //标签内容格式器。模板变量有 {a}、{b}、{c}，分别表示系列名，数据名，数据值。
 				},
-				indicator: [{
-						name: '理解',
-						max: 100
-					},
-					{
-						name: '识记',
-						max: 100
-					},
-					{
-						name: '自控力',
-						max: 100
-					},
-					{
-						name: '应用上机',
-						max: 100
-					},
-					{
-						name: '课堂表现',
-						max: 100
-					}
-				]
+				name : '学员能力值'
+			}, {
+				value : [ 23, 45, 23, 34, 23 ],
+				label : {
+					show : true, //是否显示标签。
+					position : "insideTop", //标签的位置。// 绝对的像素值[10, 10],// 相对的百分比['50%', '50%'].'top','left','right','bottom','inside','insideLeft','insideRight','insideTop','insideBottom','insideTopLeft','insideBottomLeft','insideTopRight','insideBottomRight'
+					offset : [ -10, 0 ], //是否对文字进行偏移。默认不偏移。例如：[30, 40] 表示文字在横向上偏移 30，纵向上偏移 40。
+					formatter : '{c}', //标签内容格式器。模板变量有 {a}、{b}、{c}，分别表示系列名，数据名，数据值。
+				},
+				name : '所在班级学员能力平均值'
+			} ]
+		} ]
+	};
+	myChar.setOption(option);
+
+	//初始化echars实例
+	var myChar2 = echarts.init(document.querySelector("#dailyPicture"));
+	//myChar2.showLoading();
+	var option2 = {
+		tooltip : {
+			trigger : 'item',
+			formatter : "{b}: {c} ({d}%)"
+		},
+		legend : {
+			orient : 'vertical',
+			x : 'left',
+			data : [ '正常', '迟到', '早退' ]
+		},
+		series : [ {
+			labelLine : {
+				normal : {
+					show : false
+				}
 			},
-			series: [{
-				type: 'radar',
-				// areaStyle: {normal: {}},
-				data: [{
-						value: [98, 56, 67, 56, 47],
-						label:{
-							show:true,                  //是否显示标签。
-						    position:"insideTop",          //标签的位置。// 绝对的像素值[10, 10],// 相对的百分比['50%', '50%'].'top','left','right','bottom','inside','insideLeft','insideRight','insideTop','insideBottom','insideTopLeft','insideBottomLeft','insideTopRight','insideBottomRight'
-						    offset:[-10, 0],             //是否对文字进行偏移。默认不偏移。例如：[30, 40] 表示文字在横向上偏移 30，纵向上偏移 40。
-						    formatter:'{c}',       //标签内容格式器。模板变量有 {a}、{b}、{c}，分别表示系列名，数据名，数据值。
+			name : '访问来源',
+			type : 'pie',
+			radius : [ '40%', '55%' ],
+			label : {
+				normal : {
+					formatter : '{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+					backgroundColor : '#eee',
+					borderColor : '#aaa',
+					borderWidth : 1,
+					borderRadius : 4,
+					shadowBlur : 3,
+					shadowOffsetX : 2,
+					shadowOffsetY : 2,
+					shadowColor : '#999',
+					padding : [ 0, 0 ],
+					rich : {
+						a : {
+							color : '#999',
+							lineHeight : 22,
+							align : 'center'
 						},
-						name: '学员能力值'
-					},
-					{
-						value: [23, 45, 23, 34, 23],
-						label:{
-							show:true,                  //是否显示标签。
-						    position:"insideTop",          //标签的位置。// 绝对的像素值[10, 10],// 相对的百分比['50%', '50%'].'top','left','right','bottom','inside','insideLeft','insideRight','insideTop','insideBottom','insideTopLeft','insideBottomLeft','insideTopRight','insideBottomRight'
-						    offset:[-10, 0],             //是否对文字进行偏移。默认不偏移。例如：[30, 40] 表示文字在横向上偏移 30，纵向上偏移 40。
-						    formatter:'{c}',       //标签内容格式器。模板变量有 {a}、{b}、{c}，分别表示系列名，数据名，数据值。
+						hr : {
+							borderColor : '#aaa',
+							width : '100%',
+							borderWidth : 0.5,
+							height : 0
 						},
-						name: '所在班级学员能力平均值'
+						b : {
+							fontSize : 16,
+							lineHeight : 33
+						},
+						per : {
+							color : '#eee',
+							backgroundColor : '#334455',
+							padding : [ 2, 4 ],
+							borderRadius : 2
+						}
 					}
-				]
-			}]
-		};
-		myChar.setOption(option);
-		
+				}
+			},
+			data : [ {
+				value : 335,
+				name : '正常'
+			}, {
+				value : 310,
+				name : '迟到'
+			}, {
+				value : 234,
+				name : '早退'
+			} ]
+
+		} ]
+	};
+	myChar2.setOption(option2);
+
+	//全局
+	var myChar1;
+	//初始化数据
+	$(function() {
 		//初始化echars实例
-		var myChar1 = echarts.init(document.querySelector("#studentTestPictrue"));
-		//myChar.showLoading();
-		option1 = {
-		    title: {
-		        
-		    },
-		    tooltip: {
-		        trigger: 'axis'
-		    },
-		    toolbox: {
-		        show: true,
-		        feature: {
-		            dataZoom: {
-		                yAxisIndex: 'none'
-		            },
-		            dataView: {readOnly: true},
-		            magicType: {type: ['line', 'bar']},
-		            restore: {},
-		            saveAsImage: {}
-		        }
-		    },
-		    xAxis:  {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: ['mysql周测1','mysql周测2','mysql周测3','mysql周测4','mysql周测5','mysql周测','mysql周测','mysql周测','mysql周测','mysql周测']
-		    },
-		    yAxis: {
-		        type: 'value',
-		        axisLabel: {
-		            formatter: '{value} 分'
-		        }
-		    },
-		    series: [
-		        {
-		            name:'分数',
-		            type:'line',
-		            label: {
-		                normal: {
-		                    show: true,
-		                    position: 'inside'
-		                }
-		            },
-		            data:[71, 81, 95, 73, 82, 93, 70,23,23,23],
-		            markPoint: {
-		                data: [
-		                    {type: 'max', name: '最大值'},
-		                    {type: 'min', name: '最小值'}
-		                ]
-		            },
-		            markLine: {
-		                data: [
-		                    {type: 'average', name: '平均值'}
-		                ]
-		            }
-		        }
-		    ]
-		};
-		myChar1.setOption(option1);
-		
-		
-		
-		//初始化echars实例
-		var myChar2 = echarts.init(document.querySelector("#dailyPicture"));
-		//myChar2.showLoading();
-		var option2 ={
-			 tooltip: {
-		        trigger: 'item',
-		        formatter: "{b}: {c} ({d}%)"
-		    },
-		    legend: {
-		        orient: 'vertical',
-		        x: 'left',
-		        data:['正常','迟到','早退']
-		    },
-		    series: [
-		        {
-		            labelLine: {
-		                normal: {
-		                    show: false
-		                }
-		            },
-		            name:'访问来源',
-		            type:'pie',
-		            radius: ['40%', '55%'],
-		            label: {
-		                normal: {
-		                    formatter: '{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
-		                    backgroundColor: '#eee',
-		                    borderColor: '#aaa',
-		                    borderWidth: 1,
-		                    borderRadius: 4,
-		                    shadowBlur:3,
-		                    shadowOffsetX: 2,
-		                    shadowOffsetY: 2,
-		                    shadowColor: '#999',
-		                    padding: [0, 0],
-		                    rich: {
-		                        a: {
-		                            color: '#999',
-		                            lineHeight: 22,
-		                            align: 'center'
-		                        },
-		                        hr: {
-		                            borderColor: '#aaa',
-		                            width: '100%',
-		                            borderWidth: 0.5,
-		                            height: 0
-		                        },
-		                        b: {
-		                            fontSize: 16,
-		                            lineHeight: 33
-		                        },
-		                        per: {
-		                            color: '#eee',
-		                            backgroundColor: '#334455',
-		                            padding: [2, 4],
-		                            borderRadius: 2
-		                        }
-		                    }
-		                }
-		            },
-		            data:[
-		                {value:335, name:'正常'},
-		                {value:310, name:'迟到'},
-		                {value:234, name:'早退'}
-		            ]
-		        
-		        }
-		    ]
-		};
-		myChar2.setOption(option2);
-	</script>
+		myChar1 = echarts.init(document.querySelector("#studentTestPictrue"));
+		myChar1.showLoading();
+		//学员所有考试成绩
+		InitTestData();
+
+	})
+	//=============================自定义方法=======================================
+	function InitTestData() {
+		var scoreArr = [];
+		var TestTimeNameArr = [];
+		$.ajax({
+			type : "post",
+			url : adress.url + "/statistics/getDataAboutAllTestBySid",
+			data : {
+				sId : null
+			},
+			async : false,
+			success : function(data) {
+				console.log(data);
+				for (var i = 0; i < data.length; i++) {
+					//分数集合
+					scoreArr.push(data[i].studentScore100);
+					//日期集合+考试每次
+					TestTimeNameArr.push(data[i].testName + "\n" + data[i].testTsime);
+					//加载数据
+					var option1 = {
+						dataZoom: [
+					    {   // 这个dataZoom组件，默认控制x轴。
+					        type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+					        start: 10,      // 左边在 10% 的位置。
+					        end: 60         // 右边在 60% 的位置。
+					    },
+					    {   // 这个dataZoom组件，也控制x轴。
+					        type: 'inside', // 这个 dataZoom 组件是 inside 型 dataZoom 组件
+					        start: 10,      // 左边在 10% 的位置。
+					        end: 60         // 右边在 60% 的位置。
+					    }],
+						title : {
+
+						},
+						tooltip : {
+							trigger : 'axis'
+						},
+						toolbox : {
+							show : true,
+							feature : {
+								dataZoom : {
+									yAxisIndex : 'none'
+								},
+								dataView : {
+									readOnly : true
+								},
+								magicType : {
+									type : [ 'line', 'bar' ]
+								},
+								restore : {},
+								saveAsImage : {}
+							}
+						},
+						xAxis : {
+							type : 'category',
+							boundaryGap : false,
+							data : TestTimeNameArr
+						},
+						yAxis : {
+							type : 'value',
+							axisLabel : {
+								formatter : '{value} 分'
+							}
+						},
+						series : [ {
+							name : '分数',
+							type : 'line',
+							label : {
+								normal : {
+									show : true,
+									position : 'inside'
+								}
+							},
+							data : scoreArr,
+							markPoint : {
+								data : [ {
+									type : 'max',
+									name : '最大值'
+								}, {
+									type : 'min',
+									name : '最小值'
+								} ]
+							},
+							markLine : {
+								data : [ {
+									type : 'average',
+									name : '平均值'
+								} ]
+							}
+						} ]
+					};
+				}
+				myChar1.setOption(option1);
+				myChar1.hideLoading();
+			}
+		});
+	}
+</script>
 
 </html>
