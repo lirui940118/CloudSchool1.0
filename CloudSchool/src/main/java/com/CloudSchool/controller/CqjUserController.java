@@ -28,8 +28,24 @@ public class CqjUserController {
 		}
 		return "redirect:goIndex";
 	}
+	
+	@RequestMapping("goLogin")
+	public String goLogin() {
+		return "login";
+	}
+	
 	@RequestMapping("goIndex")
 	public String goIndex() {
 		return "index";
+	}
+	
+	@RequestMapping("goUrl")
+	public String goUrl(String url) {
+		return url;
+	}
+	
+	@RequestMapping("goHome")
+	public String goHome(String url) {
+		return "login";
 	}
 }

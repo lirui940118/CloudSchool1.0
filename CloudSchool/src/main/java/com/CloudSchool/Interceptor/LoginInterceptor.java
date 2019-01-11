@@ -22,6 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		System.out.println(0);
 		if(user==null) {
 			System.out.println(1);
+            response.sendRedirect("/user/goLogin");
 			return false;
 		}
 		System.out.println(2);

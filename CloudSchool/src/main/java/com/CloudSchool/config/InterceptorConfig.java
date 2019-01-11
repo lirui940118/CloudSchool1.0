@@ -18,6 +18,6 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/static/**","/user/login");
+		registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/static/**","/user/login","/user/goLogin");
 	}
 }

@@ -1,10 +1,361 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+	<meta charset="utf-8" />
+	<title>主面板</title>
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+	<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+	<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+	<style type="text/css">
+		.navSec{
+			overflow: hidden;
+			width: 68%;
+			display: flex;
+			flex-direction: row;
+			height: 39px;
+			position: relative;
+		}
+		.navSec ul li{
+			position: relative;
+			left: 0px;
+		}
+	</style>
+</head> 
 <body>
-	<h1>你好</h1>
+	<div class="wrapper">
+		<div class="main-header">
+			<div class="logo-header">
+				<a href="goHome" class="logo">
+					智慧校园
+				</a>
+				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
+			</div>
+			<nav class="navbar navbar-header navbar-expand-lg">
+				<div class="container-fluid">
+					<!--选项卡-->
+					<div id="card-body" class="navSec">
+						<ul class="nav nav-pills nav-primary">
+							<li class="nav-item">
+								<a class="nav-link active" data-adress="home.html">首页</a>
+							</li>
+						</ul>
+					</div>
+						<!--查看更多-->
+					<ul id="moreBtnSec" class="nav nav-pills nav-primary">
+						<li class="nav-item" id="leftBtn">
+							<a class="nav-link">
+							<i class="la la-caret-left"></i>
+							</a>
+						</li>
+						<li class="nav-item" id="rightBtn">
+							<a class="nav-link">
+							<i class="la la-caret-right"></i>
+							</a>
+						</li>
+					</ul>
+					<!--选项卡-->
+					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+						<li class="nav-item dropdown hidden-caret">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="la la-envelope"></i>
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="#">Action</a>
+								<a class="dropdown-item" href="#">Another action</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#">Something else here</a>
+							</div>
+						</li>
+						<li class="nav-item dropdown hidden-caret">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="la la-bell"></i>
+								<span class="notification">3</span>
+							</a>
+							<ul class="dropdown-menu notif-box" aria-labelledby="navbarDropdown">
+								<li>
+									<div class="dropdown-title">You have 4 new notification</div>
+								</li>
+								<li>
+									<div class="notif-center">
+										<a href="#">
+											<div class="notif-icon notif-primary"> <i class="la la-user-plus"></i> </div>
+											<div class="notif-content">
+												<span class="block">
+													New user registered
+												</span>
+												<span class="time">5 minutes ago</span> 
+											</div>
+										</a>
+										<a href="#">
+											<div class="notif-icon notif-success"> <i class="la la-comment"></i> </div>
+											<div class="notif-content">
+												<span class="block">
+													Rahmad commented on Admin
+												</span>
+												<span class="time">12 minutes ago</span> 
+											</div>
+										</a>
+										<a href="#">
+											<div class="notif-img"> 
+												<img src="img/profile2.jpg" alt="Img Profile">
+											</div>
+											<div class="notif-content">
+												<span class="block">
+													Reza send messages to you
+												</span>
+												<span class="time">12 minutes ago</span> 
+											</div>
+										</a>
+										<a href="#">
+											<div class="notif-icon notif-danger"> <i class="la la-heart"></i> </div>
+											<div class="notif-content">
+												<span class="block">
+													Farrah liked Admin
+												</span>
+												<span class="time">17 minutes ago</span> 
+											</div>
+										</a>
+									</div>
+								</li>
+								<li>
+									<a class="see-all" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="la la-angle-right"></i> </a>
+								</li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="img/profile.jpg" alt="user-img" width="36" class="img-circle"><span >Hizrian</span></span> </a>
+							<ul class="dropdown-menu dropdown-user">
+								<li>
+									<div class="user-box">
+										<div class="u-img"><img src="img/profile.jpg" alt="user"></div>
+										<div class="u-text">
+											<h4>Hizrian</h4>
+											<p class="text-muted">hello@themekita.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
+										</div>
+									</li>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="#"><i class="ti-user"></i> My Profile</a>
+									<a class="dropdown-item" href="#"></i> My Balance</a>
+									<a class="dropdown-item" href="#"><i class="ti-email"></i> Inbox</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="#"><i class="ti-settings"></i> Account Setting</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="#"><i class="fa fa-power-off"></i> Logout</a>
+								</ul>
+								<!-- /.dropdown-user -->
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</div>
+			<div class="sidebar">
+				<div class="scrollbar-inner sidebar-wrapper">
+					<div class="user">
+						<div class="photo">
+							<img src="img/profile.jpg" alt="头像">
+						</div>
+						<div class="info">
+							<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+								<span>
+									
+									<div th:text="${session.user.name}"></div>
+									<span class="user-level">角色-职位</span>
+									<span class="caret"></span>
+								</span>
+							</a>
+							<div class="clearfix"></div>
+
+							<div class="collapse in" id="collapseExample" aria-expanded="true" style="">
+								<ul class="nav">
+									<!-- <li>
+										<a href="#setting-role">
+											<span class="simNav" data-adress="/user/goUrl?url=cqj_setting/setting-role">角色设置</span>
+										</a>
+									</li>
+									
+									<li>
+										<a href="#setting-role">
+											<span class="simNav" data-adress="/user/goUrl?url=cqj_setting/setting-position.html">职位设置</span>
+										</a>
+									</li> -->
+									
+									<li th:each="obj,iterStat:${session.user.moduleList}">
+										
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<ul class="nav">
+						<li class="nav-item">
+							<a class="collapsed" data-toggle="collapse" href="#statistics">
+								<i class="la la-table"></i>
+								<p>数据统计</p>
+							</a>
+							<!--子一级-->
+							<div style="text-align: center;" class="in collapse" id="statistics">
+								<p class="dropdown-item simNav" data-adress="statistics/student.html">学员统计</p>
+								<p class="dropdown-item simNav" data-adress="statistics/b.html">班级统计</p>
+								<p class="dropdown-item simNav" data-adress="statistics/a.html">教员统计</p>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="collapsed" data-toggle="collapse" href="#workadmin">
+								<i class="la la-table"></i>
+								<p>作业管理</p>
+							</a>
+							<!--子一级-->
+							<div style="text-align: center;" class="in collapse" id="workadmin">
+								<p class="dropdown-item simNav" data-adress="zjf/appearTopic.html">布置作业</p>
+								<p class="dropdown-item simNav" data-adress="zjf/publishWork.html">发布作业</p>
+								<p class="dropdown-item simNav" data-adress="zjf/workCorrectInfo.html">作业批改</p>
+								<p class="dropdown-item simNav" data-adress="zjf/workHistoryInfo.html">作业历史记录</p>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="collapsed" data-toggle="collapse" href="#topicadmin">
+								<i class="la la-table"></i>
+								<p>题库管理</p>
+							</a>
+							<!--子一级-->
+							<div style="text-align: center;" class="in collapse" id="topicadmin">
+								<p class="dropdown-item simNav" data-adress="zjf/topickadd.html">新增题目</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--页面-->
+			<div id="iframeSec">
+				<iframe src="/user/goHome" width="100%" border="0" frameborder="0" ></iframe>
+			</div>
+			<!--页面-->
+		</div>
+	</div>
+	<!-- Modal -->
+	<!--<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<h6 class="modal-title"><i class="la la-frown-o"></i> Under Development</h6>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">									
+					<p>Currently the pro version of the <b>Ready Dashboard</b> Bootstrap is in progress development</p>
+					<p>
+						<b>We'll let you know when it's done</b></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>-->
 </body>
+<script th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+<script th:src="@{/static/js/core/popper.min.js}"></script>
+<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+<script th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+<script th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+<script th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+<script th:src="@{/static/js/ready.min.js}"></script>
+<script type="text/javascript">
+	function windowAutoHeight(){
+		var h = $(window).height(); 		
+		$("iframe").css("height",h+"px");
+	}
+	$(function(){
+		//初始化
+		windowAutoHeight();
+		document.body.parentNode.style.overflowY = "hidden";
+	})
+	//左侧导航
+	var adressArr = ["home.html"];//默认加载首页
+	var newAdressArr=[];
+	$(".simNav").on("click",function(){
+		var adressName = this.getAttribute("data-adress");
+		var chineseName = this.innerText;
+		console.log(adressArr);
+		if(adressArr.indexOf(adressName) != -1){
+			//存在，显示iframe
+			
+		}else{
+			//不存在，创建iframe，并显示
+			var iframeNode = "<iframe src='"+adressName+"' width='100%' border='0' frameborder='0' ></iframe>";
+			$("#iframeSec").append(iframeNode);
+			adressArr.push(adressName);
+			windowAutoHeight();
+			//创建导航
+			var headNode = "<li class='nav-item'><a data-adress='"+adressName+"' class='nav-link'>"+chineseName+"<i class='la la-close navCloseBtn'></i></a></li>";
+			$(".navSec ul").append(headNode);
+			$(".navSec ul li a").click(simHeadNavClick);//创建节点绑定节点
+			//
+			$(".navSec ul li a[data-adress='"+adressName+"']").find("i").click(adressName,closeIframe);
+		}
+		console.log(CountUlWidth());
+		showIframe(adressName);
+	})
+	//移动的全局变量
+	var index = 0;
+	//导航左右移动
+	$("#leftBtn").on("click",function(){
+		//是否超出范围
+		var w = 0;
+		for (var i = 0;i<$(".navSec ul li").length;i++) {
+			w+= $(".navSec ul li").eq(i).width();
+		}
+	})
+	$("#rightBtn").on("click",function(){
+		//是否超出范围
+	})
+	//头导航
+	function simHeadNavClick(){
+		var adressName = this.getAttribute("data-adress");
+		showIframe(adressName);
+	}
+	//显示、隐藏、关闭iframe
+	function showIframe(name){
+		//网页和标签
+		$("#iframeSec iframe").hide();//全部隐藏
+		$("iframe[src='"+name+"']").show();
+		$(".simNav").removeClass("active");
+		$(".simNav[data-adress='"+name+"']").addClass("active");
+		//头
+		$(".navSec ul li a").removeClass("active");
+		$(".navSec ul li a[data-adress='"+name+"']").addClass("active");
+	}
+	function closeIframe(event){//event.data=data-adress
+		event.stopPropagation();
+		//移除数组中的iframe名称
+		adressArr.splice(adressArr.indexOf(event.data),1);
+		if($(".navSec ul li a[data-adress='"+event.data+"']").hasClass("active"))
+			showIframe(adressArr[adressArr.length-1]);
+		//移除头
+		$(".navSec ul li a[data-adress='"+event.data+"']").parent("li").remove();
+		//移除iframe
+		$("iframe[src='"+event.data+"']").remove();
+	}
+	
+	
+	function CountUlWidth(){
+		var ul=document.querySelector("#card-body ul");
+		//console.log(ul.offsetWidth);
+		var card=document.querySelector("#card-body");
+		console.log("盒子宽:"+card.offsetWidth);
+		console.log("ul宽:"+ul.offsetWidth);
+		return ul.offsetWidth;
+	}
+</script>
 </html>

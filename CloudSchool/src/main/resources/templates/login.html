@@ -6,12 +6,12 @@
 		<title>登陆</title>
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 		
-		<script src="js/core/jquery.3.2.1.min.js"></script>
-		<link href="css/bootstrap.css" rel="stylesheet">
+		<script th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
+		<link th:href="@{/static/css/bootstrap.css}" rel="stylesheet">
 
 		<style type="text/css">
 			body {
-				background: url("img/bk1.jpg");
+				background: url("/static/img/bk1.jpg");
 				animation-name: myfirst;
 				animation-duration: 12s;
 				/*变换时间*/
@@ -25,10 +25,10 @@
 			
 			@keyframes myfirst {
 				0% {
-					background: url("img/bk2.jpg");
+					background: url("/static/bk2.jpg");
 				}
 				34% {
-					background: url("img/bk1.jpg");
+					background: url("/static/bk1.jpg");
 				}
 			}
 			
@@ -64,6 +64,7 @@
 				<div class="form-horizontal col-md-offset-3" id="login_form">
 					<h3 class="form-title">智慧校园</h3>
 					<div class="col-md-9">
+					<form action="/user/login" method="post">
 						<div class="form-group">
 							<i class="fa fa-user fa-lg"></i>
 							<input class="form-control required" type="text" placeholder="Username" id="username" name="username" autofocus="autofocus" maxlength="20" />
@@ -76,10 +77,13 @@
 						<div class="form-group col-md-offset-12">
 							<button type="submit" class="btn btn-success pull-right" name="submit">登录</button>
 						</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</body>
-
+	<script type="text/javascript">
+		
+	</script>
 </html>
