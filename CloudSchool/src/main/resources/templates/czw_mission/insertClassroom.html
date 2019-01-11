@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.arg">
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>新增教室</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title col-lg-12 col-xs-6">教室管理</h4>
+					<div class="card col-lg-12">
+						<div class="card-header">
+							<h4 class="card-title">
+								新增教室
+							</h4>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="squareInput">教室名称：</label>
+								<input type="text" class="form-control input-square" id="classname">
+							</div>
+							<div class="form-group">
+								<label for="squareInput">教室楼层：</label>
+								<input type="text" class="form-control input-square" id="floor">
+							</div>
+							<div class="form-group">
+								<label for="squareInput">容纳人数：</label>
+								<input type="text" class="form-control input-square" id="nums">
+							</div>
+							<div class="form-group">
+								<label for="largeSelect">教室类型：</label>
+								<select class="form-control form-control-lg" id="largeSelect">
+									<option th:each="m:${list}" th:value="${m.id}" th:text="${m.name}"></option> 
+									<!-- <option th:select="${id=='2'}" value="2">自习室</option>
+									<option th:select="${id=='3'}" value="3">机房</option>
+									<option th:select="${id=='4'}" value="4">多媒体</option> -->
+								</select>
+							</div>
+						</div>
+						<div class="card-footer">
+							<button class="btn btn-primary">新增</button>
+						</div>
+					</div>
+			</div>
+		</div>
+	</body>
+<script src="static/js/core/jquery.3.2.1.min.js"></script>
+<script src="static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="static/js/core/popper.min.js"></script>
+<script src="static/js/core/bootstrap.min.js"></script>
+<script src="static/js/plugin/chartist/chartist.min.js"></script>
+<script src="static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<script src="static/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="static/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="static/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="static/js/plugin/chart-circle/circles.min.js"></script>
+<script src="static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="static/js/ready.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+        $(".btn").click(function(){
+        	var objS = document.getElementById("largeSelect");
+            var type = objS.options[objS.selectedIndex].value;
+            var name=document.getElementById("classname").value;
+            var floor=document.getElementById("floor").value;
+            var nums=document.getElementById("nums").value;
+            $.ajax({
+            	url:"addClassRoom",
+            	data:"name="+name+"&floor="+floor+"&ctid="+type+"&galleryful="+nums,
+            	success:function(result){
+            		alert(result)
+            		location.href="aaa"
+            	}
+            })
+        })
+	})
+</script>
+</html>
