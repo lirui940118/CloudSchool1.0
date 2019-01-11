@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.ZzyGradeMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.ZzyGrade">
+    <id column="gid" jdbcType="INTEGER" property="gid" />
+    <result column="grade_name" jdbcType="VARCHAR" property="gradeName" />
+    <result column="vid" jdbcType="INTEGER" property="vid" />
+    <result column="majorbool" jdbcType="INTEGER" property="majorbool" />
+    <result column="classbool" jdbcType="INTEGER" property="classbool" />
+    <result column="creat_time" jdbcType="DATE" property="creatTime" />
+    <result column="modificationtime" jdbcType="DATE" property="modificationtime" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="user1" jdbcType="VARCHAR" property="user1" />
+    <result column="user2" jdbcType="VARCHAR" property="user2" />
+    <result column="user3" jdbcType="VARCHAR" property="user3" />
+    <result column="user4" jdbcType="VARCHAR" property="user4" />
+    <result column="user5" jdbcType="VARCHAR" property="user5" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    gid, grade_name, vid, majorbool, classbool, creat_time, modificationtime, state, 
+    uid, remark, user1, user2, user3, user4, user5
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zzy_grade
+    where gid = #{gid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from zzy_grade
+    where gid = #{gid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.CloudSchool.domain.ZzyGrade">
+    insert into zzy_grade (gid, grade_name, vid, 
+      majorbool, classbool, creat_time, 
+      modificationtime, state, uid, 
+      remark, user1, user2, 
+      user3, user4, user5
+      )
+    values (#{gid,jdbcType=INTEGER}, #{gradeName,jdbcType=VARCHAR}, #{vid,jdbcType=INTEGER}, 
+      #{majorbool,jdbcType=INTEGER}, #{classbool,jdbcType=INTEGER}, #{creatTime,jdbcType=DATE}, 
+      #{modificationtime,jdbcType=DATE}, #{state,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, 
+      #{user3,jdbcType=VARCHAR}, #{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.ZzyGrade">
+    insert into zzy_grade
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gid != null">
+        gid,
+      </if>
+      <if test="gradeName != null">
+        grade_name,
+      </if>
+      <if test="vid != null">
+        vid,
+      </if>
+      <if test="majorbool != null">
+        majorbool,
+      </if>
+      <if test="classbool != null">
+        classbool,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
+      <if test="modificationtime != null">
+        modificationtime,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="user1 != null">
+        user1,
+      </if>
+      <if test="user2 != null">
+        user2,
+      </if>
+      <if test="user3 != null">
+        user3,
+      </if>
+      <if test="user4 != null">
+        user4,
+      </if>
+      <if test="user5 != null">
+        user5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gid != null">
+        #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="gradeName != null">
+        #{gradeName,jdbcType=VARCHAR},
+      </if>
+      <if test="vid != null">
+        #{vid,jdbcType=INTEGER},
+      </if>
+      <if test="majorbool != null">
+        #{majorbool,jdbcType=INTEGER},
+      </if>
+      <if test="classbool != null">
+        #{classbool,jdbcType=INTEGER},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=DATE},
+      </if>
+      <if test="modificationtime != null">
+        #{modificationtime,jdbcType=DATE},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="user1 != null">
+        #{user1,jdbcType=VARCHAR},
+      </if>
+      <if test="user2 != null">
+        #{user2,jdbcType=VARCHAR},
+      </if>
+      <if test="user3 != null">
+        #{user3,jdbcType=VARCHAR},
+      </if>
+      <if test="user4 != null">
+        #{user4,jdbcType=VARCHAR},
+      </if>
+      <if test="user5 != null">
+        #{user5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.ZzyGrade">
+    update zzy_grade
+    <set>
+      <if test="gradeName != null">
+        grade_name = #{gradeName,jdbcType=VARCHAR},
+      </if>
+      <if test="vid != null">
+        vid = #{vid,jdbcType=INTEGER},
+      </if>
+      <if test="majorbool != null">
+        majorbool = #{majorbool,jdbcType=INTEGER},
+      </if>
+      <if test="classbool != null">
+        classbool = #{classbool,jdbcType=INTEGER},
+      </if>
+      <if test="creatTime != null">
+        creat_time = #{creatTime,jdbcType=DATE},
+      </if>
+      <if test="modificationtime != null">
+        modificationtime = #{modificationtime,jdbcType=DATE},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="user1 != null">
+        user1 = #{user1,jdbcType=VARCHAR},
+      </if>
+      <if test="user2 != null">
+        user2 = #{user2,jdbcType=VARCHAR},
+      </if>
+      <if test="user3 != null">
+        user3 = #{user3,jdbcType=VARCHAR},
+      </if>
+      <if test="user4 != null">
+        user4 = #{user4,jdbcType=VARCHAR},
+      </if>
+      <if test="user5 != null">
+        user5 = #{user5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where gid = #{gid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.ZzyGrade">
+    update zzy_grade
+    set grade_name = #{gradeName,jdbcType=VARCHAR},
+      vid = #{vid,jdbcType=INTEGER},
+      majorbool = #{majorbool,jdbcType=INTEGER},
+      classbool = #{classbool,jdbcType=INTEGER},
+      creat_time = #{creatTime,jdbcType=DATE},
+      modificationtime = #{modificationtime,jdbcType=DATE},
+      state = #{state,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      user1 = #{user1,jdbcType=VARCHAR},
+      user2 = #{user2,jdbcType=VARCHAR},
+      user3 = #{user3,jdbcType=VARCHAR},
+      user4 = #{user4,jdbcType=VARCHAR},
+      user5 = #{user5,jdbcType=VARCHAR}
+    where gid = #{gid,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 查询学员所读过的年级 -->
+  <select id="queryGradeListBySid" resultMap="com.CloudSchool.domain.ZzyGrade">
+  	SELECT DISTINCT`zzy_grade`.`gid`,zzy_grade.`grade_name` FROM `cqj_student` 
+	INNER JOIN `clazzstudent` ON `clazzstudent`.`sid` = `cqj_student`.`studentid` 
+	INNER JOIN `clazz` ON clazz.`id` = clazzstudent.`cid`
+	INNER JOIN `zzy_grade` ON `zzy_grade`.`gid` = clazz.`gid` 
+	WHERE cqj_student.`studentid` = #{sId}
+  </select>
+  <!-- 查询学员当前所在年级 -->
+  <select id="queryCurrentGradeBySid" resultMap="com.CloudSchool.domain.ZzyGrade">
+  	SELECT `zzy_grade`.`gid`,zzy_grade.`grade_name` FROM `cqj_student` 
+	INNER JOIN `clazzstudent` ON `clazzstudent`.`sid` = `cqj_student`.`studentid` 
+	INNER JOIN `clazz` ON clazz.`id` = clazzstudent.`cid`
+	INNER JOIN `zzy_grade` ON `zzy_grade`.`gid` = clazz.`gid` 
+	WHERE cqj_student.`studentid` = #{sId} AND `clazzstudent`.`status` = 0#正常状态
+  </select>
+  
+  
+</mapper>

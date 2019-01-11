@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.CqjModuleMapper">
+	<resultMap id="BaseResultMap"
+		type="com.CloudSchool.domain.CqjModule">
+		<id column="moduleid" jdbcType="INTEGER" property="moduleid" />
+		<result column="modulename" jdbcType="VARCHAR"
+			property="modulename" />
+		<result column="moduleurl" jdbcType="VARCHAR"
+			property="moduleurl" />
+		<result column="icon" jdbcType="VARCHAR" property="icon" />
+		<result column="groupname" jdbcType="VARCHAR"
+			property="groupname" />
+		<result column="leftmenu" jdbcType="INTEGER"
+			property="leftmenu" />
+		<result column="pid" jdbcType="INTEGER" property="pid" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="standby1" jdbcType="VARCHAR"
+			property="standby1" />
+		<result column="standby2" jdbcType="VARCHAR"
+			property="standby2" />
+		<result column="standby3" jdbcType="VARCHAR"
+			property="standby3" />
+		<result column="standby4" jdbcType="VARCHAR"
+			property="standby4" />
+		<result column="standby5" jdbcType="VARCHAR"
+			property="standby5" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		moduleid, modulename, moduleurl, icon, groupname, leftmenu, pid, status,
+		remark,
+		standby1, standby2, standby3, standby4, standby5
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cqj_module
+		where moduleid = #{moduleid,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from cqj_module
+		where moduleid = #{moduleid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.CloudSchool.domain.CqjModule">
+		insert into cqj_module (moduleid, modulename, moduleurl,
+		icon, groupname, leftmenu,
+		pid, status, remark,
+		standby1, standby2, standby3,
+		standby4, standby5)
+		values (#{moduleid,jdbcType=INTEGER}, #{modulename,jdbcType=VARCHAR},
+		#{moduleurl,jdbcType=VARCHAR},
+		#{icon,jdbcType=VARCHAR}, #{groupname,jdbcType=VARCHAR}, #{leftmenu,jdbcType=INTEGER},
+		#{pid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR},
+		#{standby1,jdbcType=VARCHAR}, #{standby2,jdbcType=VARCHAR}, #{standby3,jdbcType=VARCHAR},
+		#{standby4,jdbcType=VARCHAR}, #{standby5,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.CloudSchool.domain.CqjModule">
+		insert into cqj_module
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="moduleid != null">
+				moduleid,
+			</if>
+			<if test="modulename != null">
+				modulename,
+			</if>
+			<if test="moduleurl != null">
+				moduleurl,
+			</if>
+			<if test="icon != null">
+				icon,
+			</if>
+			<if test="groupname != null">
+				groupname,
+			</if>
+			<if test="leftmenu != null">
+				leftmenu,
+			</if>
+			<if test="pid != null">
+				pid,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="standby1 != null">
+				standby1,
+			</if>
+			<if test="standby2 != null">
+				standby2,
+			</if>
+			<if test="standby3 != null">
+				standby3,
+			</if>
+			<if test="standby4 != null">
+				standby4,
+			</if>
+			<if test="standby5 != null">
+				standby5,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="moduleid != null">
+				#{moduleid,jdbcType=INTEGER},
+			</if>
+			<if test="modulename != null">
+				#{modulename,jdbcType=VARCHAR},
+			</if>
+			<if test="moduleurl != null">
+				#{moduleurl,jdbcType=VARCHAR},
+			</if>
+			<if test="icon != null">
+				#{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="groupname != null">
+				#{groupname,jdbcType=VARCHAR},
+			</if>
+			<if test="leftmenu != null">
+				#{leftmenu,jdbcType=INTEGER},
+			</if>
+			<if test="pid != null">
+				#{pid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="standby1 != null">
+				#{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				#{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				#{standby3,jdbcType=VARCHAR},
+			</if>
+			<if test="standby4 != null">
+				#{standby4,jdbcType=VARCHAR},
+			</if>
+			<if test="standby5 != null">
+				#{standby5,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.CloudSchool.domain.CqjModule">
+		update cqj_module
+		<set>
+			<if test="modulename != null">
+				modulename = #{modulename,jdbcType=VARCHAR},
+			</if>
+			<if test="moduleurl != null">
+				moduleurl = #{moduleurl,jdbcType=VARCHAR},
+			</if>
+			<if test="icon != null">
+				icon = #{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="groupname != null">
+				groupname = #{groupname,jdbcType=VARCHAR},
+			</if>
+			<if test="leftmenu != null">
+				leftmenu = #{leftmenu,jdbcType=INTEGER},
+			</if>
+			<if test="pid != null">
+				pid = #{pid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="standby1 != null">
+				standby1 = #{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				standby2 = #{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				standby3 = #{standby3,jdbcType=VARCHAR},
+			</if>
+			<if test="standby4 != null">
+				standby4 = #{standby4,jdbcType=VARCHAR},
+			</if>
+			<if test="standby5 != null">
+				standby5 = #{standby5,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where moduleid = #{moduleid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.CloudSchool.domain.CqjModule">
+		update cqj_module
+		set modulename = #{modulename,jdbcType=VARCHAR},
+		moduleurl = #{moduleurl,jdbcType=VARCHAR},
+		icon = #{icon,jdbcType=VARCHAR},
+		groupname = #{groupname,jdbcType=VARCHAR},
+		leftmenu = #{leftmenu,jdbcType=INTEGER},
+		pid = #{pid,jdbcType=INTEGER},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR},
+		standby1 = #{standby1,jdbcType=VARCHAR},
+		standby2 = #{standby2,jdbcType=VARCHAR},
+		standby3 = #{standby3,jdbcType=VARCHAR},
+		standby4 = #{standby4,jdbcType=VARCHAR},
+		standby5 = #{standby5,jdbcType=VARCHAR}
+		where moduleid = #{moduleid,jdbcType=INTEGER}
+	</update>
+	<select id="queryByRoleidandPositionid" resultMap="BaseResultMap">
+		SELECT cm.* FROM cqj_role cr
+		INNER JOIN cqj_role_module crm ON crm.`roleid`=cr.`roleid` AND
+		cr.`roleid`=#{roleid} AND cr.`status`=0
+		LEFT JOIN cqj_module cm ON cm.`moduleid`=crm.`moduleid` AND
+		cm.`leftmenu`!=2 AND crm.`status`=0
+		UNION ALL
+		SELECT cm.* FROM `cqj_position` cp
+		INNER JOIN cqj_position_module cpm ON cpm.`positionid`=cp.`positionid` AND
+		cp.`positionid`=#{positionid} AND cp.`status`=0
+		LEFT JOIN cqj_module cm ON cm.`moduleid`=cpm.`moduleid` AND
+		cm.`leftmenu`=2 AND cpm.`status`=0
+	</select>
+</mapper>

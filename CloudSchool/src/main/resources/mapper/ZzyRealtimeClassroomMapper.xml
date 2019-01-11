@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.ZzyRealtimeClassroomMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.ZzyRealtimeClassroom">
+    <result column="rcid" jdbcType="INTEGER" property="rcid" />
+    <result column="tid" jdbcType="INTEGER" property="tid" />
+    <result column="sid" jdbcType="INTEGER" property="sid" />
+    <result column="etid" jdbcType="INTEGER" property="etid" />
+    <result column="creat_time" jdbcType="DATE" property="creatTime" />
+    <result column="modificationtime" jdbcType="DATE" property="modificationtime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="user1" jdbcType="VARCHAR" property="user1" />
+    <result column="user2" jdbcType="VARCHAR" property="user2" />
+    <result column="user3" jdbcType="VARCHAR" property="user3" />
+    <result column="user4" jdbcType="VARCHAR" property="user4" />
+    <result column="user5" jdbcType="VARCHAR" property="user5" />
+  </resultMap>
+  <insert id="insert" parameterType="com.CloudSchool.domain.ZzyRealtimeClassroom">
+    insert into zzy_realtime_classroom (rcid, tid, sid, 
+      etid, creat_time, modificationtime, 
+      status, uid, remark, 
+      user1, user2, user3, 
+      user4, user5)
+    values (#{rcid,jdbcType=INTEGER}, #{tid,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, 
+      #{etid,jdbcType=INTEGER}, #{creatTime,jdbcType=DATE}, #{modificationtime,jdbcType=DATE}, 
+      #{status,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, #{user3,jdbcType=VARCHAR}, 
+      #{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.ZzyRealtimeClassroom">
+    insert into zzy_realtime_classroom
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rcid != null">
+        rcid,
+      </if>
+      <if test="tid != null">
+        tid,
+      </if>
+      <if test="sid != null">
+        sid,
+      </if>
+      <if test="etid != null">
+        etid,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
+      <if test="modificationtime != null">
+        modificationtime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="user1 != null">
+        user1,
+      </if>
+      <if test="user2 != null">
+        user2,
+      </if>
+      <if test="user3 != null">
+        user3,
+      </if>
+      <if test="user4 != null">
+        user4,
+      </if>
+      <if test="user5 != null">
+        user5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rcid != null">
+        #{rcid,jdbcType=INTEGER},
+      </if>
+      <if test="tid != null">
+        #{tid,jdbcType=INTEGER},
+      </if>
+      <if test="sid != null">
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="etid != null">
+        #{etid,jdbcType=INTEGER},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=DATE},
+      </if>
+      <if test="modificationtime != null">
+        #{modificationtime,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="user1 != null">
+        #{user1,jdbcType=VARCHAR},
+      </if>
+      <if test="user2 != null">
+        #{user2,jdbcType=VARCHAR},
+      </if>
+      <if test="user3 != null">
+        #{user3,jdbcType=VARCHAR},
+      </if>
+      <if test="user4 != null">
+        #{user4,jdbcType=VARCHAR},
+      </if>
+      <if test="user5 != null">
+        #{user5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
