@@ -3,6 +3,8 @@ package com.CloudSchool.dao;
 import com.CloudSchool.domain.GkInterview;
 
 public interface GkInterviewMapper {
+	
+	//
     int deleteByPrimaryKey(Integer ftId);
 
     int insert(GkInterview record);
