@@ -20,27 +20,55 @@ public class CqjUserServiceImpl implements CqjUserService {
 	CqjUserMapper cum;
 	@Autowired
 	CqjModuleMapper cmm;
+
 	@Override
 	public CqjUser login(String username, String password) {
 		// TODO Auto-generated method stub
 		CqjUser userinfo = cum.login(username, password);
 		if (userinfo != null) {
 			String[] clazzids = cum.queryClazzByPositionid(userinfo.getPositionid());
-			String[] strClazzids = 
-					userinfo.getClazzids().length()>0? userinfo.getClazzids().split(","):new String[0];
+			String[] strClazzids = userinfo.getClazzids().length() > 0 ? userinfo.getClazzids().split(",")
+					: new String[0];
 			String[] c = new String[clazzids.length + strClazzids.length];
 			System.arraycopy(clazzids, 0, c, 0, clazzids.length);
 			System.arraycopy(strClazzids, 0, c, clazzids.length, strClazzids.length);
 			List<String> clazzidsList = new ArrayList<String>();
-			for (int i=0; i<c.length; i++) {
-			  if(!clazzidsList.contains(c[i])) {
-				  clazzidsList.add(c[i]);
-			  }
+			for (int i = 0; i < c.length; i++) {
+				if (!clazzidsList.contains(c[i])) {
+					clazzidsList.add(c[i]);
+				}
 			}
+			List<CqjModule> alllist = cmm.queryByRoleidandPositionid(userinfo.getRoleid(), userinfo.getPositionid());
+			List<CqjModule> moduleSettingList = new ArrayList<CqjModule>();
+			List<CqjModule> moduleList = new ArrayList<CqjModule>();
+			List<CqjModule> moduleInfoList = new ArrayList<CqjModule>();
 			
-			List<CqjModule> mlist=cmm.queryByRoleidandPositionid(userinfo.getRoleid(), userinfo.getPositionid());
+			for (CqjModule list : alllist) {
+				if (list.getPid() == 0) {
+					for (CqjModule clist : alllist) {
+						if(clist.getPid()!=0) {
+							if(clist.getPid()==list.getModuleid()) {
+								list.getMlist().add(clist);
+							}
+						}
+					}
+					if(list.getLeftmenu()==0) {
+						moduleList.add(list);
+					}
+					if(list.getLeftmenu()==1) {
+						moduleSettingList.add(list);
+					}
+				}
+				if(list.getLeftmenu()==2) {
+					moduleInfoList.add(list);
+				}
+			}
 			userinfo.setClazzidsList(clazzidsList);
-			userinfo.setModuleList(mlist);
+			userinfo.setModuleAllList(alllist);
+			userinfo.setModuleList(moduleList);
+			userinfo.setModuleInfoList(moduleInfoList);
+			userinfo.setModuleSettingList(moduleSettingList);
+
 		}
 		return userinfo;
 	}
