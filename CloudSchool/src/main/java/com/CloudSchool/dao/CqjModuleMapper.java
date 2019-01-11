@@ -1,5 +1,9 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.CloudSchool.domain.CqjModule;
 
 public interface CqjModuleMapper {
@@ -14,4 +18,6 @@ public interface CqjModuleMapper {
     int updateByPrimaryKeySelective(CqjModule record);
 
     int updateByPrimaryKey(CqjModule record);
+    
+    List<CqjModule> queryByRoleidandPositionid(@Param("roleid")Integer roleid,@Param("positionid")Integer positionid);
 }

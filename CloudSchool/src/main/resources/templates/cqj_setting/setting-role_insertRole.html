@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>角色设置-增加角色</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/ready.css">
+		<link rel="stylesheet" href="../css/demo.css">
+		<style type="text/css">
+			.card {
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title">增加角色</h4>
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-body">
+								
+								<div class="form-group">
+									<label for="email">角色名称</label>
+									<input type="email" class="form-control" id="email" placeholder="角色名称">
+								</div>
+							</div>
+							</div>
+							
+						</div>
+						<!--<div class="col-md-12">
+								
+										
+									
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">未拥有模块</h4>
+									</div>
+									<div class="card-body">
+										<p class="demo">
+											<button class="btn btn-danger">模块1</button>
+											<button class="btn btn-danger">模块1</button>
+											<button class="btn btn-danger">模块1</button>
+											<button class="btn btn-danger">模块1</button>
+										</p>
+										<p style="float: right;" class="demo">
+											<button  class="btn btn-info">添加访问</button>
+										</p>
+									</div>
+								</div>
+							</div>	
+							
+						<div class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">已有模块</h4>
+									</div>
+									<div class="card-body">
+										<p class="demo">
+											<button class="btn btn-danger">模块1</button>
+											<button class="btn btn-danger">模块1</button>
+											<button class="btn btn-danger">模块1</button>
+											<button class="btn btn-danger">模块1</button>
+										</p>
+										<p style="float: right;" class="demo">
+											<button  class="btn btn-info">移除访问</button>
+										</p>
+									</div>
+								</div>
+							</div>-->
+							<div class="col-md-12">
+							<div class="card">
+								<div class="card-body">
+									<div class="card-sub">
+										备注
+									</div>
+									<table class="table mt-3">
+										<thead>
+											<tr>
+												<th scope="col">父模块名称</th>
+												<th scope="col">操作</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>模块1</td>
+												<td>
+													<input  type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-style="btn-round">
+												</td>
+											</tr>
+											<tr>
+												<td>模块2</td>
+												<td>
+													<input  type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-style="btn-round">
+												</td>
+											</tr>
+											<tr>
+												<td>模块3</td>
+												<td>
+													<input  type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-style="btn-round">
+												</td>
+											</tr>
+											
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+								<div class="col-md-12">
+								<div class="card">
+									<div class="card-body">
+										<p style="float: right;" class="demo">
+											<button  class="btn btn-success" >保存修改</button>
+											<button  class="btn btn-success" onclick="javascript:history.back(-1);">返回</button>
+										</p>
+									</div>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script src="../js/core/jquery.min.js"></script>
+	<script src="../js/core/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="../js/core/popper.min.js"></script>
+	<script src="../js/core/bootstrap.min.js"></script>
+	<script src="../js/plugin/chartist/chartist.min.js"></script>
+	<script src="../js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+	<script src="../js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+	<script src="../js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+	<script src="../js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+	<script src="../js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+	<script src="../js/plugin/chart-circle/circles.min.js"></script>
+	<script src="../js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+	<script src="../js/ready.min.js"></script>
+
+	<script type="text/javascript">
+		var v = new Vue({
+			el: ".content",
+			data: {
+				a: false
+			}
+		});
+		$(function() {
+			
+		
+		})
+	</script>
+
+</html>

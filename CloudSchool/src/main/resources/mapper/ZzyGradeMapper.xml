@@ -209,4 +209,23 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where gid = #{gid,jdbcType=INTEGER}
   </update>
+  
+  <!-- 查询学员所读过的年级 -->
+  <select id="queryGradeListBySid" resultMap="BaseResultMap">
+  	SELECT DISTINCT`zzy_grade`.`gid`,zzy_grade.`grade_name` FROM `cqj_student` 
+	INNER JOIN `clazzstudent` ON `clazzstudent`.`sid` = `cqj_student`.`studentid` 
+	INNER JOIN `clazz` ON clazz.`id` = clazzstudent.`cid`
+	INNER JOIN `zzy_grade` ON `zzy_grade`.`gid` = clazz.`gid` 
+	WHERE cqj_student.`studentid` = #{sId}
+  </select>
+  <!-- 查询学员当前所在年级 -->
+  <select id="queryCurrentGradeBySid" resultMap="BaseResultMap">
+  	SELECT `zzy_grade`.`gid`,zzy_grade.`grade_name` FROM `cqj_student` 
+	INNER JOIN `clazzstudent` ON `clazzstudent`.`sid` = `cqj_student`.`studentid` 
+	INNER JOIN `clazz` ON clazz.`id` = clazzstudent.`cid`
+	INNER JOIN `zzy_grade` ON `zzy_grade`.`gid` = clazz.`gid` 
+	WHERE cqj_student.`studentid` = #{sId} AND `clazzstudent`.`status` = 0#正常状态
+  </select>
+  
+  
 </mapper>

@@ -25,12 +25,12 @@
     delete from clazz
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.CloudSchool.domain.Clazz">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.CloudSchool.domain.ClazzInfo">
     insert into clazz (id, cname, gid, 
       mid, startdate, count, 
       enddate, pc, status)
     values (#{id,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, #{gid,jdbcType=INTEGER}, 
-      #{mid,jdbcType=INTEGER}, #{startdate,jdbcType=DATE}, #{count,jdbcType=INTEGER}, 
+      #{mid,jdbcType=INTEGER}, DATE(NOW()), #{count,jdbcType=INTEGER}, 
       #{enddate,jdbcType=DATE}, #{pc,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.CloudSchool.domain.Clazz">
