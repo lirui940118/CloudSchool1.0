@@ -43,7 +43,8 @@
 										<td th:text="${m.ctname}"></td>
 										<td th:text="${m.galleryful}"></td>
 										<td th:text="${m.floor}"></td>
-										<td><a href="insertclassroom.html">删除</a><a href="updateclassroom.html">修改</a></td>
+										<td><a href="javascript:void(0)" class="del" th:value="${m.id}">删除</a>
+											<a th:href="@{/mission/selectByid(id=${m.id})}" >修改</a></td>
 									</tr>
 									<!-- <tr>
 										<td>402</td>
@@ -104,7 +105,30 @@
 <script src="../js/ready.min.js"></script>
 <script>
 	$(function(){
-		
+		$(".del").click(function(){
+			var id=$(this).attr("value");
+			alert(id)
+			$.ajax({
+				url:"delClassRoom",
+            	data:"id="+id,
+            	success:function(result){
+            		alert(result)
+            		location.href="aaa"
+            	}
+			}) 
+		});
+		/* $(".change").click(function(){
+			var id=$(this).attr("value");
+			alert(id)
+			location.href="selectByid?id="+id
+			$.ajax({
+				url:"selectByid",
+            	data:"id="+id,
+            	success:function(result){
+            		 location.href="selectByid" 
+            	}
+			}) 
+		}); */
 	})
 </script>
 </html>

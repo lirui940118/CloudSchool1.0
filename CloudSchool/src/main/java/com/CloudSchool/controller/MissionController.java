@@ -33,4 +33,38 @@ public class MissionController {
 		model.addAttribute("list", list);
 		return "insertClassroom";
 	}
+	@RequestMapping("/addClassRoom")
+	@ResponseBody
+	public String addClassRoom(Classroom classroom) {
+		int i=cls.insertSelective(classroom);
+		if(i>0) {
+			System.out.println("成功！");
+		}
+		return "新增成功！";
+	}
+	@RequestMapping("/delClassRoom")
+	public String delClassRoom(Integer id) {
+		int i=cls.delete(id);
+		if(i>0) {
+			System.out.println("成功！");
+		}
+		return "删除成功！";
+	}
+	@RequestMapping("/selectByid")
+	public String selectByid(Integer id,Model model) {
+		Classroom cs=cls.selectByid(id);
+		model.addAttribute("cs", cs);
+		List<Classtype> list=clt.query();
+		model.addAttribute("list", list);
+		return "updateClassroom";
+	}
+	@RequestMapping("/updateClassRoom")
+	@ResponseBody
+	public String updateClassRoom(Classroom classroom) {
+		int i=cls.update(classroom);
+		if(i>0) {
+			System.out.println("成功！");
+		}
+		return "修改成功！";
+	}
 }

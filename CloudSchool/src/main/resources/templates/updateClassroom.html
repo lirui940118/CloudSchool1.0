@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.arg">
 <html>
 
 	<head>
@@ -23,23 +24,25 @@
 						<div class="card-body">
 							<div class="form-group">
 								<label for="squareInput">教室名称：</label>
-								<input type="text" class="form-control input-square" id="squareInput">
+								<input type="hidden" class="form-control input-square" id="id" th:value="${cs.id}">
+								<input type="text" class="form-control input-square" id="name" th:value="${cs.name}">
 							</div>
 							<div class="form-group">
 								<label for="squareInput">教室楼层：</label>
-								<input type="text" class="form-control input-square" id="squareInput">
+								<input type="text" class="form-control input-square" id="floor" th:value="${cs.floor}">
 							</div>
 							<div class="form-group">
 								<label for="squareInput">容纳人数：</label>
-								<input type="text" class="form-control input-square" id="squareInput">
+								<input type="text" class="form-control input-square" id="nums" th:value="${cs.galleryful}">
 							</div>
 							<div class="form-group">
 								<label for="largeSelect">教室类型：</label>
 								<select class="form-control form-control-lg" id="largeSelect">
-									<option>机房室</option>
+									<option th:if="${cs.ctid==m.id}" th:each="m:${list}" th:value="${m.id}" th:text="${m.name}" selected="selected"></option> 
+									<!-- <option>机房室</option>
 									<option>自习室</option>
 									<option>上课室</option>
-									<option>多媒体</option>
+									<option>多媒体</option> -->
 								</select>
 							</div>
 						</div>
@@ -50,18 +53,38 @@
 			</div>
 		</div>
 	</body>
-<script src="js/core/jquery.3.2.1.min.js"></script>
-<script src="js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<script src="js/core/popper.min.js"></script>
-<script src="js/core/bootstrap.min.js"></script>
-<script src="js/plugin/chartist/chartist.min.js"></script>
-<script src="js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
-<script src="js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-<script src="js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-<script src="js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
-<script src="js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
-<script src="js/plugin/chart-circle/circles.min.js"></script>
-<script src="js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-<script src="js/ready.min.js"></script>
-
+<script src="../js/core/jquery.3.2.1.min.js"></script>
+<script src="../js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="../js/core/popper.min.js"></script>
+<script src="../js/core/bootstrap.min.js"></script>
+<script src="../js/plugin/chartist/chartist.min.js"></script>
+<script src="../js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<script src="../js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="../js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="../js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="../js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="../js/plugin/chart-circle/circles.min.js"></script>
+<script src="../js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="../js/ready.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		alert(1)
+        $(".btn").click(function(){
+        	var objS = document.getElementById("largeSelect");
+            var type = objS.options[objS.selectedIndex].value;
+            var name=document.getElementById("name").value;
+            var floor=document.getElementById("floor").value;
+            var nums=document.getElementById("nums").value;
+            var id=document.getElementById("id").value;
+            $.ajax({
+            	url:"updateClassRoom",
+            	data:"id="+id+"&name="+name+"&floor="+floor+"&ctid="+type+"&galleryful="+nums,
+            	success:function(result){
+            		alert(result)
+            		location.href="aaa"
+            	}
+            })
+        })
+	})
+</script>
 </html>

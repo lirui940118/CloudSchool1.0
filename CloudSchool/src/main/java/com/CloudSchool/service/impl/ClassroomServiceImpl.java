@@ -19,7 +19,7 @@ public class ClassroomServiceImpl implements ClassroomService{
 
 	@Override
 	public int insert(Classroom cls) {
-		return clr.insert(cls);
+		return clr.insertSelective(cls);
 	}
 
 	@Override
@@ -35,6 +35,11 @@ public class ClassroomServiceImpl implements ClassroomService{
 	@Override
 	public int update(Classroom cls) {
 		return clr.updateByPrimaryKeySelective(cls);
+	}
+
+	@Override
+	public int insertSelective(Classroom record) {
+		return clr.insertSelective(record);
 	}
 
 }
