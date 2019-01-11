@@ -26,6 +26,7 @@ public class CqjUserController {
 		}else {
 			System.out.println("登录失败");
 		}
+		CqjUser cc=(CqjUser)session.getAttribute("user");
 		return "redirect:goIndex";
 	}
 	
@@ -47,5 +48,11 @@ public class CqjUserController {
 	@RequestMapping("goHome")
 	public String goHome(String url) {
 		return "login";
+	}
+	
+	@RequestMapping("getSession")
+	@ResponseBody
+	public Object getSession(HttpSession session) {
+		return session.getAttribute("user");
 	}
 }
