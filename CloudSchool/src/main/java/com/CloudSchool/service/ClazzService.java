@@ -1,5 +1,7 @@
 package com.CloudSchool.service;
 
-public interface ClazzService {
+import com.CloudSchool.domain.ClazzInfo;
 
+public interface ClazzService {
+	public int CreateClass(ClazzInfo c);
 }

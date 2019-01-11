@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.ZzyClassScheduleMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.ZzyClassSchedule">
+    <result column="csid" jdbcType="INTEGER" property="csid" />
+    <result column="clid" jdbcType="INTEGER" property="clid" />
+    <result column="rid" jdbcType="INTEGER" property="rid" />
+    <result column="tid" jdbcType="INTEGER" property="tid" />
+    <result column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="time" jdbcType="DATE" property="time" />
+    <result column="temporal_interva" jdbcType="INTEGER" property="temporalInterva" />
+    <result column="creat_time" jdbcType="DATE" property="creatTime" />
+    <result column="modificationtime" jdbcType="DATE" property="modificationtime" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="user1" jdbcType="VARCHAR" property="user1" />
+    <result column="user2" jdbcType="VARCHAR" property="user2" />
+    <result column="user3" jdbcType="VARCHAR" property="user3" />
+    <result column="user4" jdbcType="VARCHAR" property="user4" />
+    <result column="user5" jdbcType="VARCHAR" property="user5" />
+  </resultMap>
+  <insert id="insert" parameterType="com.CloudSchool.domain.ZzyClassSchedule">
+    insert into zzy_class_schedule (csid, clid, rid, 
+      tid, cid, time, temporal_interva, 
+      creat_time, modificationtime, state, 
+      uid, remark, user1, 
+      user2, user3, user4, 
+      user5)
+    values (#{csid,jdbcType=INTEGER}, #{clid,jdbcType=INTEGER}, #{rid,jdbcType=INTEGER}, 
+      #{tid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{time,jdbcType=DATE}, #{temporalInterva,jdbcType=INTEGER}, 
+      #{creatTime,jdbcType=DATE}, #{modificationtime,jdbcType=DATE}, #{state,jdbcType=INTEGER}, 
+      #{uid,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{user1,jdbcType=VARCHAR}, 
+      #{user2,jdbcType=VARCHAR}, #{user3,jdbcType=VARCHAR}, #{user4,jdbcType=VARCHAR}, 
+      #{user5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.ZzyClassSchedule">
+    insert into zzy_class_schedule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="csid != null">
+        csid,
+      </if>
+      <if test="clid != null">
+        clid,
+      </if>
+      <if test="rid != null">
+        rid,
+      </if>
+      <if test="tid != null">
+        tid,
+      </if>
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="temporalInterva != null">
+        temporal_interva,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
+      <if test="modificationtime != null">
+        modificationtime,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="user1 != null">
+        user1,
+      </if>
+      <if test="user2 != null">
+        user2,
+      </if>
+      <if test="user3 != null">
+        user3,
+      </if>
+      <if test="user4 != null">
+        user4,
+      </if>
+      <if test="user5 != null">
+        user5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="csid != null">
+        #{csid,jdbcType=INTEGER},
+      </if>
+      <if test="clid != null">
+        #{clid,jdbcType=INTEGER},
+      </if>
+      <if test="rid != null">
+        #{rid,jdbcType=INTEGER},
+      </if>
+      <if test="tid != null">
+        #{tid,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null">
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=DATE},
+      </if>
+      <if test="temporalInterva != null">
+        #{temporalInterva,jdbcType=INTEGER},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=DATE},
+      </if>
+      <if test="modificationtime != null">
+        #{modificationtime,jdbcType=DATE},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="user1 != null">
+        #{user1,jdbcType=VARCHAR},
+      </if>
+      <if test="user2 != null">
+        #{user2,jdbcType=VARCHAR},
+      </if>
+      <if test="user3 != null">
+        #{user3,jdbcType=VARCHAR},
+      </if>
+      <if test="user4 != null">
+        #{user4,jdbcType=VARCHAR},
+      </if>
+      <if test="user5 != null">
+        #{user5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

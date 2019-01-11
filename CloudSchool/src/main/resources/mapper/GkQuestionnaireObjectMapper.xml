@@ -8,7 +8,7 @@
     <result column="creation_time" jdbcType="TIMESTAMP" property="creationTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="founder" jdbcType="VARCHAR" property="founder" />
-    <result column="delete" jdbcType="INTEGER" property="delete" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="by1" jdbcType="VARCHAR" property="by1" />
     <result column="by2" jdbcType="VARCHAR" property="by2" />
     <result column="by3" jdbcType="VARCHAR" property="by3" />
@@ -16,7 +16,7 @@
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
   <sql id="Base_Column_List">
-    wjdx_id, wj_id, uid, creation_time, update_time, founder, delete, by1, by2, by3, 
+    wjdx_id, wj_id, uid, creation_time, update_time, founder, status, by1, by2, by3, 
     by4, by5
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -32,11 +32,11 @@
   <insert id="insert" parameterType="com.CloudSchool.domain.GkQuestionnaireObject">
     insert into gk_questionnaire_object (wjdx_id, wj_id, uid, 
       creation_time, update_time, founder, 
-      delete, by1, by2, by3, 
+      status, by1, by2, by3, 
       by4, by5)
     values (#{wjdxId,jdbcType=INTEGER}, #{wjId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
       #{creationTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{founder,jdbcType=VARCHAR}, 
-      #{delete,jdbcType=INTEGER}, #{by1,jdbcType=VARCHAR}, #{by2,jdbcType=VARCHAR}, #{by3,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{by1,jdbcType=VARCHAR}, #{by2,jdbcType=VARCHAR}, #{by3,jdbcType=VARCHAR}, 
       #{by4,jdbcType=VARCHAR}, #{by5,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.CloudSchool.domain.GkQuestionnaireObject">
@@ -60,8 +60,8 @@
       <if test="founder != null">
         founder,
       </if>
-      <if test="delete != null">
-        delete,
+      <if test="status != null">
+        status,
       </if>
       <if test="by1 != null">
         by1,
@@ -98,8 +98,8 @@
       <if test="founder != null">
         #{founder,jdbcType=VARCHAR},
       </if>
-      <if test="delete != null">
-        #{delete,jdbcType=INTEGER},
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="by1 != null">
         #{by1,jdbcType=VARCHAR},
@@ -136,8 +136,8 @@
       <if test="founder != null">
         founder = #{founder,jdbcType=VARCHAR},
       </if>
-      <if test="delete != null">
-        delete = #{delete,jdbcType=INTEGER},
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="by1 != null">
         by1 = #{by1,jdbcType=VARCHAR},
@@ -164,7 +164,7 @@
       creation_time = #{creationTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       founder = #{founder,jdbcType=VARCHAR},
-      delete = #{delete,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
       by1 = #{by1,jdbcType=VARCHAR},
       by2 = #{by2,jdbcType=VARCHAR},
       by3 = #{by3,jdbcType=VARCHAR},
