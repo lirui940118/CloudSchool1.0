@@ -8,7 +8,7 @@
     <result column="modificationtime" jdbcType="DATE" property="modificationtime" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
-    <result column="remark" jdbcType="INTEGER" property="remark" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="user1" jdbcType="VARCHAR" property="user1" />
     <result column="user2" jdbcType="VARCHAR" property="user2" />
     <result column="user3" jdbcType="VARCHAR" property="user3" />
@@ -19,6 +19,9 @@
     vid, versionof, creat_time, modificationtime, status, uid, remark, user1, user2, 
     user3, user4, user5
   </sql>
+  <select id="queryAll" resultMap="BaseResultMap">
+  		select * from zzy_version where status=0
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>123</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/ready.css">
+		<style type="text/css">
+
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-titl1e">添加版本</h4>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-body">
+									<div style="display: inline-block;">
+												<button id="addgrade" class="btn btn-info" style="margin-right: 10px; margin-left: 10px;">添加年级</button>
+												<button id="addmajor" class="btn btn-info">添加专业</button>
+									        </div>
+									<div class="form-group">
+										<label for="email">版本名:</label>
+										<input class="form-control" id="versionof" type="text"> 
+									</div>
+									<div id="grade">
+										<div class="form-group gradezuhe">
+											<label for="password" style="display: block;">年级名</label>
+											<input type="text" name="grade" class="form-control" style="width: 75%; display: inline-block;" >
+											<input type="checkbox"  style="margin-left: 70px; position: static; "/><span style="">自动开班</span>
+											<input type="radio" name="1" id="" value="1" style="position: static;  margin-left: 50px;"/><span>选择专业</span>
+										</div> 
+									</div>
+									<div id="major">
+										<div class="form-group has-success majorzuhe">
+											<label for="successInput">专业名:</label>
+											<input type="text" id="successInput " value="专业名" class="major form-control">
+										</div>
+									</div>
+								
+									
+									
+									
+								<div class="card-action" style="float: right;">
+									<button id="submit" class="btn btn-success">下一步</button>
+									<button class="btn btn-danger">重置</button>
+								</div>
+							</div>
+						</div>
+							</div>
+						</div>
+			</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/core/jquery.3.2.1.min.js"></script>
+	<script src="../js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="../js/core/popper.min.js"></script>
+	<script src="../js/core/bootstrap.min.js"></script>
+	<script src="../js/plugin/chartist/chartist.min.js"></script>
+	<script src="../js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+	<script src="../js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+	<script src="../js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+	<script src="../js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+	<script src="../js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+	<script src="../js/plugin/chart-circle/circles.min.js"></script>
+	<script src="../js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+	<script src="../js/ready.min.js"></script>
+	<script type="text/javascript">
+	$("#addgrade").click(function() {
+		var num=$("#grade div").length;
+		var p='<div class="form-group gradezuhe"><label for="password" style="display: block;">年级名</label><input type="text" class="form-control " name="grade" style="width: 75%; display: inline-block;" ><input type="checkbox"  style="margin-left: 70px; position: static; "/><span style="">自动开班</span><input type="radio" name="1" id="" value="1" style="position: static;  margin-left: 50px;"/><span>选择专业</span></div>';
+		$("#grade").append(p);
+	});
+	
+	$("#addmajor").click(function() {
+		var num=$("#grade major").length;
+		var p='<div class="form-group has-success majorzuhe"><label for="successInput">专业名:</label><input type="text" id="successInput" value="专业名" class="form-control major"></div>';
+		$("#major").append(p);
+	});
+	$("#submit").click(function(){
+		//版本对象
+		var version={};
+		//获取版本名称
+		version.versionof=$("#versionof").val();
+		//年级数组
+		var grade=[];
+		//专业数组
+		var major=[];
+		
+		//获取所有年级节点
+		var arr1=$(".gradezuhe");
+		//循环所有年级节点
+		$.each(arr1,function(i,obj){
+			//当前年级对象
+			var g={};
+			//当前年级名称
+			g.grade_name=$(obj).find("[name=grade]").val();
+			//当前年级是否自动开班
+			var bool1=$(obj).find("[type=checkbox]").is(':checked');
+			if(bool1){
+				g.classbool=1;
+			}else{
+				g.classbool=0;
+			}
+			//当前年级是否选择专业
+			var bool2=$(obj).find("[type=radio]").is(':checked');
+			if(bool2){
+				g.majorbool=1;
+			}else{
+				g.majorbool=0;
+			}
+			grade.push(g);
+			});
+			version.list=grade;
+		
+		//获取所有专业节点
+		var arr2=$(".majorzuhe");
+		
+		$.each(arr2,function(i,obj){
+			var m={};
+			
+			m.majorName=$(obj).find("[type=text]").val();
+			major.push(m);
+		});
+		
+		//Ajax提交版本和年级信息 JSON.stringify(grade)+JSON.stringify(major)
+		$.ajax({
+			url:"insertVersion",
+			type:'POST',
+			data: JSON.stringify(version),
+			dataType:"json",
+			contentType:'application/json;charset=utf-8',
+			success:function(data){
+				//Ajax提交专业信息
+				$.ajax({
+					url:"insertMajor",
+					type:'POST',
+					data: JSON.stringify(major),
+					dataType:"json",
+					contentType:'application/json;charset=utf-8',
+					success:function(data){
+						location.href="";
+					}
+				})
+			}
+		})
+		
+	
+	})
+	</script>
+</html>

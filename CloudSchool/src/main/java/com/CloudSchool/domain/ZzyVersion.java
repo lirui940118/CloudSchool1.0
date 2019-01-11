@@ -1,13 +1,17 @@
 package com.CloudSchool.domain;
 
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class ZzyVersion {
     private Integer vid;
 
     private String versionof;
 
-    private Date creatTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss") 
+    private String creatTime;
 
     private Date modificationtime;
 
@@ -15,7 +19,7 @@ public class ZzyVersion {
 
     private Integer uid;
 
-    private Integer remark;
+    private String remark;
 
     private String user1;
 
@@ -26,8 +30,18 @@ public class ZzyVersion {
     private String user4;
 
     private String user5;
+    
+    private List<ZzyGrade> list;
 
-    public Integer getVid() {
+    public List<ZzyGrade> getList() {
+		return list;
+	}
+
+	public void setList(List<ZzyGrade> list) {
+		this.list = list;
+	}
+
+	public Integer getVid() {
         return vid;
     }
 
@@ -43,11 +57,11 @@ public class ZzyVersion {
         this.versionof = versionof;
     }
 
-    public Date getCreatTime() {
+    public String getCreatTime() {
         return creatTime;
     }
 
-    public void setCreatTime(Date creatTime) {
+    public void setCreatTime(String creatTime) {
         this.creatTime = creatTime;
     }
 
@@ -75,11 +89,11 @@ public class ZzyVersion {
         this.uid = uid;
     }
 
-    public Integer getRemark() {
+    public String getRemark() {
         return remark;
     }
 
-    public void setRemark(Integer remark) {
+    public void setRemark(String remark) {
         this.remark = remark;
     }
 
