@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.CqjRoleMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.CqjRole">
+    <id column="roleid" jdbcType="INTEGER" property="roleid" />
+    <result column="rolename" jdbcType="VARCHAR" property="rolename" />
+    <result column="creationtime" jdbcType="TIMESTAMP" property="creationtime" />
+    <result column="modificationtime" jdbcType="TIMESTAMP" property="modificationtime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="standby1" jdbcType="VARCHAR" property="standby1" />
+    <result column="standby2" jdbcType="VARCHAR" property="standby2" />
+    <result column="standby3" jdbcType="VARCHAR" property="standby3" />
+    <result column="standby4" jdbcType="VARCHAR" property="standby4" />
+    <result column="standby5" jdbcType="VARCHAR" property="standby5" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    roleid, rolename, creationtime, modificationtime, status, uid, remark, standby1, 
+    standby2, standby3, standby4, standby5
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cqj_role
+    where roleid = #{roleid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cqj_role
+    where roleid = #{roleid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.CloudSchool.domain.CqjRole">
+    insert into cqj_role (roleid, rolename, creationtime, 
+      modificationtime, status, uid, 
+      remark, standby1, standby2, 
+      standby3, standby4, standby5
+      )
+    values (#{roleid,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{creationtime,jdbcType=TIMESTAMP}, 
+      #{modificationtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{standby1,jdbcType=VARCHAR}, #{standby2,jdbcType=VARCHAR}, 
+      #{standby3,jdbcType=VARCHAR}, #{standby4,jdbcType=VARCHAR}, #{standby5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.CqjRole">
+    insert into cqj_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleid != null">
+        roleid,
+      </if>
+      <if test="rolename != null">
+        rolename,
+      </if>
+      <if test="creationtime != null">
+        creationtime,
+      </if>
+      <if test="modificationtime != null">
+        modificationtime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="standby1 != null">
+        standby1,
+      </if>
+      <if test="standby2 != null">
+        standby2,
+      </if>
+      <if test="standby3 != null">
+        standby3,
+      </if>
+      <if test="standby4 != null">
+        standby4,
+      </if>
+      <if test="standby5 != null">
+        standby5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleid != null">
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="rolename != null">
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="creationtime != null">
+        #{creationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modificationtime != null">
+        #{modificationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="standby1 != null">
+        #{standby1,jdbcType=VARCHAR},
+      </if>
+      <if test="standby2 != null">
+        #{standby2,jdbcType=VARCHAR},
+      </if>
+      <if test="standby3 != null">
+        #{standby3,jdbcType=VARCHAR},
+      </if>
+      <if test="standby4 != null">
+        #{standby4,jdbcType=VARCHAR},
+      </if>
+      <if test="standby5 != null">
+        #{standby5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.CqjRole">
+    update cqj_role
+    <set>
+      <if test="rolename != null">
+        rolename = #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="creationtime != null">
+        creationtime = #{creationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modificationtime != null">
+        modificationtime = #{modificationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="standby1 != null">
+        standby1 = #{standby1,jdbcType=VARCHAR},
+      </if>
+      <if test="standby2 != null">
+        standby2 = #{standby2,jdbcType=VARCHAR},
+      </if>
+      <if test="standby3 != null">
+        standby3 = #{standby3,jdbcType=VARCHAR},
+      </if>
+      <if test="standby4 != null">
+        standby4 = #{standby4,jdbcType=VARCHAR},
+      </if>
+      <if test="standby5 != null">
+        standby5 = #{standby5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where roleid = #{roleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.CqjRole">
+    update cqj_role
+    set rolename = #{rolename,jdbcType=VARCHAR},
+      creationtime = #{creationtime,jdbcType=TIMESTAMP},
+      modificationtime = #{modificationtime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      standby1 = #{standby1,jdbcType=VARCHAR},
+      standby2 = #{standby2,jdbcType=VARCHAR},
+      standby3 = #{standby3,jdbcType=VARCHAR},
+      standby4 = #{standby4,jdbcType=VARCHAR},
+      standby5 = #{standby5,jdbcType=VARCHAR}
+    where roleid = #{roleid,jdbcType=INTEGER}
+  </update>
+</mapper>
