@@ -46,12 +46,10 @@ img {
 							<h4 class="card-title">个人信息</h4>
 							<p class="card-category">
 								<div class="form-group col-lg-3">
-									<label for="defaultSelect">年级</label>
-									<select class="form-control form-control" id="defaultSelect">
-										<option>全部</option>
-										<option>S1</option>
-										<option>S2</option>
-										<option>S3</option>
+									<label for="defaultSelect" id="gradeSelect">年级</label>
+									<select class="form-control form-control" v-for="(item, index) in list">
+										<option gid="-1">全部</option>
+										<option  v-bind:gId="item.gid">{{item.gradeName}}</option>
 									</select>
 								</div>
 							</p>
@@ -80,17 +78,6 @@ img {
 					<div class=" card col-lg-12">
 						<div class="card-header">
 							<h4 class="card-title">学员考试成绩趋势图</h4>
-							<!-- <p class="card-category">
-							<div class="form-group col-lg-3">
-								<label for="defaultSelect">年级</label> <select
-									class="form-control form-control" id="defaultSelect">
-									<option>全部</option>
-									<option>S1</option>
-									<option>S2</option>
-									<option>S3</option>
-								</select>
-							</div>
-							</p> -->
 						</div>
 						<div class="card-body">
 							<div id="studentTestPictrue" style="width: 400; height: 400px;"></div>
@@ -166,6 +153,7 @@ img {
 		</div>
 	</div>
 </body>
+<script type="text/javascript" th:src="@{/static/js/core/vue.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/common.js}"></script>
 <script type="text/javascript"
 	th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
@@ -316,6 +304,8 @@ img {
 	var myChar1;
 	//初始化数据
 	$(function() {
+		//基础数据加载
+		InitBaseData();
 		//初始化echars实例
 		myChar1 = echarts.init(document.querySelector("#studentTestPictrue"));
 		myChar1.showLoading();
@@ -324,6 +314,48 @@ img {
 
 	})
 	//=============================自定义方法=======================================
+		
+	var currentGid;	
+	function InitBaseData(){
+		//当前所在年级
+		$.ajax({
+			type : "post",
+			url : adress.url + "/statistics/queryCurrentGradeBySid",
+			data : {
+				sId : null
+			},
+			async : false,
+			success : function(data) {
+				console.log(data);
+				var vue = new Vue({
+					el:".gradeSelect",
+					data:{
+						grade:data
+					}
+				})
+				console.log(data);
+			}
+		})
+		//全部年级
+		$.ajax({
+			type : "post",
+			url : adress.url + "/statistics/queryGradeListBySid",
+			data : {
+				sId : null
+			},
+			async : false,
+			success : function(data) {
+				console.log(data);
+				var vue = new Vue({
+					el:"#gradeSelect",
+					data:{
+						list:data
+					}
+				})
+				console.log(data);
+			}
+		})
+	}
 	function InitTestData() {
 		var scoreArr = [];
 		var TestTimeNameArr = [];
@@ -331,11 +363,11 @@ img {
 			type : "post",
 			url : adress.url + "/statistics/getDataAboutAllTestBySid",
 			data : {
-				sId : null
+				sId:null
 			},
 			async : false,
 			success : function(data) {
-				console.log(data);
+				//console.log(data);
 				for (var i = 0; i < data.length; i++) {
 					//分数集合
 					scoreArr.push(data[i].studentScore100);
