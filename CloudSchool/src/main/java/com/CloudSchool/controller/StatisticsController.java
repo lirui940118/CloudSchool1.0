@@ -33,7 +33,7 @@ public class StatisticsController {
 	
 	
 	/*查询数据*/
-	
+	/*查询该学生所*/
 	/*查询单个学员的所有考试成绩数据*/
 	@RequestMapping("getDataAboutAllTestBySid")
 	@ResponseBody
@@ -45,4 +45,6 @@ public class StatisticsController {
 		}
 		return testGradeService.querySimStudentTestGradeBySid(sId);
 	}
+	
+	
 }
