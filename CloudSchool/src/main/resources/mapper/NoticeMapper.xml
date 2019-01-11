@@ -10,6 +10,7 @@
     <result column="receiverRange" jdbcType="INTEGER" property="receiverrange" />
     <result column="receiverId" jdbcType="INTEGER" property="receiverid" />
     <result column="readRecord" jdbcType="VARCHAR" property="readrecord" />
+    <result column="sendername" jdbcType="VARCHAR" property="sendername" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.CloudSchool.domain.Notice">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
@@ -156,4 +157,9 @@
       readRecord = #{readrecord,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="query" resultMap="BaseResultMap">
+  	SELECT notice.*,cqj_staff.`staffname` as sendername FROM notice
+	INNER JOIN cqj_staff ON cqj_staff.`staffid`=notice.`id`
+  </select>
 </mapper>

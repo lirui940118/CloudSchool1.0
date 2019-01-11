@@ -1,5 +1,7 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
+
 import com.CloudSchool.domain.Notice;
 
 public interface NoticeMapper {
@@ -16,4 +18,6 @@ public interface NoticeMapper {
     int updateByPrimaryKeyWithBLOBs(Notice record);
 
     int updateByPrimaryKey(Notice record);
+    
+    List<Notice> query();
 }

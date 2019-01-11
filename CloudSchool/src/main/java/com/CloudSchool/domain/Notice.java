@@ -20,7 +20,8 @@ public class Notice {
     private String readrecord;
 
     private String content;
-
+    
+    private String sendername;
     public Integer getId() {
         return id;
     }
@@ -92,4 +93,12 @@ public class Notice {
     public void setContent(String content) {
         this.content = content;
     }
+
+	public String getSendername() {
+		return sendername;
+	}
+
+	public void setSendername(String sendername) {
+		this.sendername = sendername;
+	}
 }

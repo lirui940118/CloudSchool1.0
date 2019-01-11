@@ -7,6 +7,7 @@
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
 		<link rel="stylesheet" href="../css/ready.css">
+		<script src="../js/core/jquery.3.2.1.min.js"></script>
 	</head>
 
 	<body>
@@ -67,8 +68,27 @@
 		</div>
 	</body>
 	<script>
+// 		var v=new Vue({
+// 			el : ".card",
+// 			data : {
+// 				aa:[],
+// 				totaladdMoney:0,
+// 				totalbackMoneyy:0,
+// 				totalfinalMoney:0,
+// 				name:'abc',
+// 				initMoney:0
+// 			}
+// 		})
 		function edit(nid){
 			
 		}
+		$(function(){
+			alert(1)
+			$.post("noticeList","",function(result){
+				alert(result)
+				console.log(result)
+// 				v.name=result
+			})
+		})
 	</script>
 </html>
