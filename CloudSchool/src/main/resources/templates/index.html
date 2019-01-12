@@ -187,11 +187,11 @@
 					</div>
 				</div>
 				<ul class="nav">
-					<li class="nav-item"><a class="collapsed"
+					<!--  <li class="nav-item"><a class="collapsed"
 						data-toggle="collapse" href="#statistics"> <i
 							class="la la-table"></i>
 							<p>数据统计</p>
-					</a> <!--子一级-->
+					</a> 子一级
 						<div style="text-align: center;" class="in collapse"
 							id="statistics">
 							<p class="dropdown-item simNav" onclick="simNavClick(this)"
@@ -203,7 +203,7 @@
 						data-toggle="collapse" href="#workadmin"> <i
 							class="la la-table"></i>
 							<p>作业管理</p>
-					</a> <!--子一级-->
+					</a> 子一级
 						<div style="text-align: center;" class="in collapse"
 							id="workadmin">
 							<p class="dropdown-item simNav" onclick="simNavClick(this)"
@@ -219,11 +219,23 @@
 						data-toggle="collapse" href="#topicadmin"> <i
 							class="la la-table"></i>
 							<p>题库管理</p>
-					</a> <!--子一级-->
+					</a> 子一级
 						<div style="text-align: center;" class="in collapse"
 							id="topicadmin">
 							<p class="dropdown-item simNav" onclick="simNavClick(this)" data-adress="zjf/topickadd.html">新增题目</p>
 						</div></li>
+						 -->
+						
+						<li v-for="(list,index) in userinfo.moduleList" class="nav-item">
+						<a class="collapsed" data-toggle="collapse"  v-bind:href="'#'+list.groupname">
+						 	<i class="la la-table"></i>
+							<p>{{list.modulename}}</p>
+						</a> 
+						<div  style="text-align: center;" class="in collapse"
+							v-bind:id="list.groupname">
+							<p v-for="(mm,i) in list.mlist" class="dropdown-item simNav" onclick="simNavClick(this)" v-bind:data-adress="mm.moduleurl">{{mm.modulename}}</p>
+						</div>
+						</li>
 				</ul>
 			</div>
 		</div>
