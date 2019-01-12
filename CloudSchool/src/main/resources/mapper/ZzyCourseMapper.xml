@@ -18,15 +18,15 @@
     <result column="user4" jdbcType="VARCHAR" property="user4" />
     <result column="user5" jdbcType="VARCHAR" property="user5" />
   </resultMap>
-  <insert id="insert" parameterType="com.CloudSchool.domain.ZzyCourse">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="cid" parameterType="com.CloudSchool.domain.ZzyCourse">
     insert into zzy_course (cid, course_name, period, 
-      gid, mid, creat_time, modificationtime, 
-      state, uid, remark, 
+      gid, mid,  modificationtime, 
+       uid, 
       user1, user2, user3, 
       user4, user5)
     values (#{cid,jdbcType=INTEGER}, #{courseName,jdbcType=VARCHAR}, #{period,jdbcType=INTEGER}, 
-      #{gid,jdbcType=INTEGER}, #{mid,jdbcType=INTEGER}, #{creatTime,jdbcType=DATE}, #{modificationtime,jdbcType=DATE}, 
-      #{state,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{gid,jdbcType=INTEGER}, #{mid,jdbcType=INTEGER},  #{modificationtime,jdbcType=DATE}, 
+       #{uid,jdbcType=INTEGER}, 
       #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, #{user3,jdbcType=VARCHAR}, 
       #{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR})
   </insert>

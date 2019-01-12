@@ -227,5 +227,17 @@
 	WHERE cqj_student.`studentid` = #{sId} AND `clazzstudent`.`status` = 0#正常状态
   </select>
   
+  <!-- 循环新增年级 -->
+  <insert id="insertMap">
+		insert into `zzy_grade`(grade_name,vid,majorbool,classbool) values
+		<foreach collection="list" item="l" separator="," >
+			(#{l.gradeName},#{vid},#{l.majorbool},#{l.classbool})
+		</foreach>
+	</insert>
+	
+	<!-- 根据版本查询年级 -->
+	<select id="queryByvid" resultMap="BaseResultMap">
+		select * from `zzy_grade` where vid=#{vid}
+	</select>
   
 </mapper>

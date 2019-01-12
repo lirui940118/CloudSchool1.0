@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>123</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+		<style type="text/css">
+
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-titl1e col-lg-12 ">添加课程</h4>
+					<div class="col-lg-12">
+						<div class="card">
+
+							<div class="card-body">
+								
+								<div class="form-group">
+									<label for="exampleFormControlSelect1">版本:</label>
+									<select class="form-control" id="exampleFormControlSelect1">
+										<option v-for="l in list" v-bind:value="l.vid">{{l.versionof}}</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="exampleFormControlSelect1">年级:</label>
+									<select class="form-control" id="exampleFormControlSelect2">
+										<option v-for="l2 in list2" v-bind:value="l2.gid">{{l2.gradeName}}</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="exampleFormControlSelect1">专业:</label>
+									<select class="form-control" id="exampleFormControlSelect3">
+										<option v-for="l3 in list3" v-bind:value="l3.mid">{{l3.majorName}}</option>
+									</select>
+								</div>
+								<div class="form-group has-success">
+									<label for="successInput">课程名:</label>
+									<input type="text" id="courseName" value="" class="form-control" placeholder="课程名">
+								</div>
+								<div class="form-group has-success">
+									<label for="successInput">课时:</label>
+									<input type="text" id="keshi" value="" class="form-control" placeholder="课时">
+								</div>
+								<div style="margin-left:10px ;display: block;">
+										<button class="btn btn-danger" style="" id="addzhang">添加章节</button>
+										<span >剩余可分配课时:<strong id="shenyu" style="color: red"></strong></span>
+								</div>
+								<div id="zhangjiezh">
+									<div class="form-group has-success">
+										<input style="width: 50%;display: inline;" type="text" id="successInput" value="" class="form-control sectionName" placeholder="章节名">
+										<input style="width: 49%;display: inline;"type="text" id="successInput" value="" class="form-control suozhankeshi" placeholder="所占课时">
+									</div>
+								</div>
+								
+						</div>
+						<div class="card-footer">
+							<h4 class="page-titl1e col-lg-12 ">选择任教教员</h4>
+							<table class="table table-bordered table-head-bg-info table-bordered-bd-info mt-4">
+											<thead>
+												<tr>
+													<th scope="col">#</th>
+													<th scope="col">教员姓名</th>
+													<th scope="col">教员年龄</th>
+													<th scope="col">教员教龄</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td><input type="checkbox" name="" id="" value="" style="position: static;"/></td>
+													<td>Mark</td>
+													<td>Otto</td>
+													<td>@mdo</td>
+												</tr>
+												<tr>
+													<td><input type="checkbox" name="" id="" value="" style="position: static;"/></td>
+													<td>Jacob</td>
+													<td>Thornton</td>
+													<td>@fat</td>
+												</tr>
+												<tr>
+													<td><input type="checkbox" name="" id="" value="" style="position: static;"/></td>
+													<td>Larry the Bird</td>
+													<td>@twitter</td>
+													<td>@twitter</td>
+												</tr>
+											</tbody>
+										</table>
+							<div class="card-action" style="float: right;">
+								<button class="btn btn-success" id="continue">继续添加</button>
+								<button class="btn btn-danger">添加结束</button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
+	<script th:src="@{/static/js/core/vue.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+	<script th:src="@{/static/js/core/popper.min.js}"></script>
+	<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+	<script th:src="@{/static/js/ready.min.js}"></script>
+	<script type="text/javascript">
+		$(function(){
+			v=new Vue({
+				el:'.main-panel',
+				data:{
+					list:null,
+					list2:null,
+					list3:null,
+				}
+			})
+			//查询所有版本
+			$.ajax({
+				url:'AjaxqueryAllVersion',
+				type:'POST',
+				dataType:'json',
+				success:function(data){
+					queryByvid(data[0].vid);
+					v.list=data;
+				}
+			})
+			//查询所有年级
+			$.ajax({
+				url:'queryMajorAll',
+				type:'POST',
+				dataType:'json',
+				success:function(data){
+					v.list3=data;
+				}
+			})
+			//版本下拉框改变时取版本id调用方法
+			$("#exampleFormControlSelect1").change(function(){
+				queryByvid($(this).val());
+			})
+			//点击添加章节按钮生成input
+			$("#addzhang").click(function(){
+				var p='<div class="form-group has-success"><input style="width: 50%;display: inline;" type="text" id="successInput" value="" class="form-control sectionName" placeholder="章节名"><input style="width: 49%;display: inline;"type="text" id="successInput" value="" class="form-control suozhankeshi" placeholder="所占课时"></div>';
+				$("#zhangjiezh").append(p);
+			});
+			//当有一个章节所占课时的input值改变时重新计算剩余可分配课时
+			$("body").on("change",".suozhankeshi",function(){
+				//存储课时数量
+				var count=0;
+				//获取这门课程的所有课时
+				var suo=$("#keshi").val();
+				//获取所有的所占课时的标签
+				var arr1=$(".suozhankeshi");
+				//循环所有节点课时累加值
+				$.each(arr1,function(i,obj){
+					var ss=$(obj).val();
+					count=parseInt(count)+parseInt(ss);
+				})
+				//计算剩余可分配课时
+				var shen=parseInt(suo)-parseInt(count);
+				if(shen<0){
+					alert("章节总课时不能超过课程课时哦");
+				}else{
+					$("#shenyu").html(shen);
+				}
+				
+				
+			})
+			//点击继续添加的时候 继续添加并且刷新页面
+			$("#continue").click(function(){
+				//课程对象
+				var course={};
+				//章节数组
+				course.list=[];
+				//获取年级id
+				course.gid=$("#exampleFormControlSelect2").val();
+				//获取专业id
+				course.mid=$("#exampleFormControlSelect3").val();
+				//获取课程名
+				course.courseName=$("#courseName").val();
+				//获取课时
+				course.period=$("#keshi").val();
+				//获取所有的章节节点
+				var section=$("#zhangjiezh div");
+				//循环所有章节节点
+				$.each(section,function(i,obj){
+					var m={};
+					m.sectionName=$(obj).find(".sectionName").val();
+					m.period=$(obj).find(".suozhankeshi").val();
+					course.list.push(m);
+				})
+				console.log(course);
+				//使用Ajax提交一个课程信息以及提交一个章节集合
+				$.ajax({
+					url:"insertCourse",
+					type:'POST',
+					data: JSON.stringify(course),
+					dataType:"json",
+					contentType:'application/json;charset=utf-8',
+					success:function(data){
+						location.reload();
+					}
+				})
+				
+			})
+		
+		})
+		//根据版本id查询版本所有年级方法
+		 function queryByvid(vid){
+			$.ajax({
+				url:'queryByvid?vid='+vid,
+				type:'POST',
+				dataType:'json',
+				success:function(data){
+					v.list2=data;
+				}
+			})
+		}
+	</script>	
+</html>

@@ -9,4 +9,6 @@ public interface ZzyGradeService {
 	public List<ZzyGrade> queryGradeListBySid(Integer sId);
 	//查询该学员当前在读年级
 	public ZzyGrade queryCurrentGradeBySid(Integer sId);
+	//根据版本id查询年级
+	public List<ZzyGrade> queryByvid(Integer vid);
 }

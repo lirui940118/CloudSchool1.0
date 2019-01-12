@@ -120,4 +120,11 @@
       </if>
     </trim>
   </insert>
+    <!-- 循环新增年级 -->
+  <insert id="insertMap">
+		insert into `zzy_section`(section_name,cid,period) values
+		<foreach collection="list" item="l" separator="," >
+			(#{l.sectionName},#{cid},#{l.period})
+		</foreach>
+	</insert>
 </mapper>

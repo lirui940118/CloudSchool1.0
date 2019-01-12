@@ -32,15 +32,15 @@
     delete from zzy_version
     where vid = #{vid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.CloudSchool.domain.ZzyVersion">
-    insert into zzy_version (vid, versionof, creat_time, 
-      modificationtime, status, uid, 
-      remark, user1, user2, 
+  <insert id="insert" useGeneratedKeys="true" keyProperty="vid" parameterType="com.CloudSchool.domain.ZzyVersion">
+    insert into zzy_version (vid, versionof, 
+      modificationtime,  uid, 
+      user1, user2, 
       user3, user4, user5
       )
-    values (#{vid,jdbcType=INTEGER}, #{versionof,jdbcType=VARCHAR}, #{creatTime,jdbcType=DATE}, 
-      #{modificationtime,jdbcType=DATE}, #{status,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
-      #{remark,jdbcType=INTEGER}, #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, 
+    values (#{vid,jdbcType=INTEGER}, #{versionof,jdbcType=VARCHAR}, 
+      #{modificationtime,jdbcType=DATE},  #{uid,jdbcType=INTEGER}, 
+       #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, 
       #{user3,jdbcType=VARCHAR}, #{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR}
       )
   </insert>
@@ -177,4 +177,16 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where vid = #{vid,jdbcType=INTEGER}
   </update>
+  
+  <!-- 一对多查询版本以及版本里面的年级 -->
+  <resultMap type="com.CloudSchool.domain.ZzyVersion" id="resultMapVerAndGrade" extends="BaseResultMap">
+		<collection property="list" column="vid" 
+			ofType="com.CloudSchool.domain.ZzyGrade" 
+			select="com.CloudSchool.dao.ZzyGradeMapper.queryByvid">
+		</collection>
+	</resultMap>
+	
+	<select id="VerAndGrade" resultMap="resultMapVerAndGrade">
+		select * from zzy_version where vid=#{vid};
+	</select>
 </mapper>
