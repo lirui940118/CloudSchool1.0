@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.ZzyGrade;
 import com.CloudSchool.domain.statistics.testVO;
+import com.CloudSchool.service.CqjStudentService;
 import com.CloudSchool.service.TestGradeService;
 import com.CloudSchool.service.ZzyGradeService;
 
@@ -22,6 +24,8 @@ public class StatisticsController {
 	TestGradeService testGradeService;
 	@Autowired
 	ZzyGradeService zzyGradeService;
+	@Autowired
+	CqjStudentService cqjStudentService;
 	/**
 	 * 学员首页
 	 * 
@@ -37,6 +41,17 @@ public class StatisticsController {
 	
 	
 	/*查询数据*/
+	/*查询该学员个人信息*/
+	@RequestMapping("/queryStudentInfoBySid")
+	@ResponseBody
+	public CqjStudent queryStudentInfoBySid(Integer sId) {
+		if(sId !=null) {//查其他学员
+					
+		}else {//查本人（学员）
+			sId = 1;//doto session获取登陆学员的id
+		}
+		return cqjStudentService.queryStudentInfoBySid(sId);
+	}
 	/*查询该学员所读过的年级*/
 	@RequestMapping("/queryGradeListBySid")
 	@ResponseBody
@@ -62,13 +77,14 @@ public class StatisticsController {
 	/*查询单个学员的所有考试成绩数据*/
 	@RequestMapping("getDataAboutAllTestBySid")
 	@ResponseBody
-	public List<testVO> getDataAboutAllTestBySid(Integer sId) {
+	public List<testVO> getDataAboutAllTestBySid(Integer sId,Integer gId) {
 		if(sId !=null) {//查其他学员
 			
 		}else {//查本人（学员）
 			sId = 1;//doto session获取登陆学员的id
 		}
-		return testGradeService.querySimStudentTestGradeBySid(sId);
+		List<testVO> list = testGradeService.querySimStudentTestGradeBySid(sId,gId);
+		return list;
 	}
 	
 	
