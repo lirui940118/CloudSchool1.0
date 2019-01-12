@@ -1,5 +1,7 @@
 package com.CloudSchool.dao;
 
+import java.util.Map;
+
 import com.CloudSchool.domain.Workinfo;
 
 public interface WorkinfoMapper {
@@ -14,4 +16,7 @@ public interface WorkinfoMapper {
     int updateByPrimaryKeySelective(Workinfo record);
 
     int updateByPrimaryKey(Workinfo record);
+    
+    //添加作业题目
+    int insertListByMap(Map<String, Object> obj);
 }

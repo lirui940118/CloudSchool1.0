@@ -1,6 +1,7 @@
 package com.CloudSchool.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Workmould {
     private Integer id;
@@ -30,8 +31,28 @@ public class Workmould {
     private String user4;
 
     private String user5;
+    
+    //作业模板包含的作业类型
+    private Integer[] workTypeList;
+    public Integer[] getWorkTypeList() {
+		return workTypeList;
+	}
 
-    public Integer getId() {
+	public void setWorkTypeList(Integer[] workTypeList) {
+		this.workTypeList = workTypeList;
+	}
+
+	//模板题目
+    private Integer[] ids;
+	public Integer[] getIds() {
+		return ids;
+	}
+
+	public void setIds(Integer[] ids) {
+		this.ids = ids;
+	}
+
+	public Integer getId() {
         return id;
     }
 

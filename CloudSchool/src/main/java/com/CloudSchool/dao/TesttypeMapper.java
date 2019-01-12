@@ -1,6 +1,9 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
+
 import com.CloudSchool.domain.Testtype;
+import com.CloudSchool.domain.Topictype;
 
 public interface TesttypeMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,6 @@ public interface TesttypeMapper {
     int updateByPrimaryKeySelective(Testtype record);
 
     int updateByPrimaryKey(Testtype record);
+    
+   
 }

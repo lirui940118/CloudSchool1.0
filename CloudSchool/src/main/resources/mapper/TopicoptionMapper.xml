@@ -196,11 +196,9 @@
   </update>
   <!-- 添加多个题目 -->
   <insert id="insertList">
-  	insert into topicOption values
+  	 insert into topicOption values
   	<foreach collection="list" separator="," item="obj">
-  		<if test="obj.id!=null">
-  		(0,#{tid},#{option},#{istrue},#{time},#{status},#{user1},#{user2},#{user3},#{user4},#{user5},#{optionconten})
-  		</if>
+  		(0,#{tid},#{obj.option},#{obj.optionconten},#{obj.istrue},now(),#{obj.status},#{obj.user1},#{obj.user2},#{obj.user3},#{obj.user4},#{obj.user5})
   	</foreach>
   </insert>
 </mapper>

@@ -149,4 +149,11 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="insertListByMap">
+  	insert into workInfo(id, wId, tId, 
+      time) values
+      <foreach collection="ids" separator="," item="obj">
+      	(0,#{wid},#{obj},now())
+      </foreach>
+  </insert>
 </mapper>
