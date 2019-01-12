@@ -17,7 +17,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		//ServletServerHttpRequest servletRequest = (ServletServerHttpRequest)request;
 		//HttpSession session = servletRequest.getServletRequest().getSession();
 
-		HttpSession session = request.getSession();
+		/*HttpSession session = request.getSession();
 		CqjUser user=(CqjUser)session.getAttribute("user");
 		System.out.println(0);
 		if(user==null) {
@@ -25,7 +25,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             response.sendRedirect("/user/goLogin");
 			return false;
 		}
-		System.out.println(2);
+		System.out.println(2);*/
 		return true;
 	}
 }

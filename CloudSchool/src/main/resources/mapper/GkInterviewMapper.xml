@@ -20,6 +20,19 @@
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
+  <!-- 查询所有访谈 -->
+  <select id="queryAllFangTan" resultMap="BaseResultMap" >
+  	SELECT * FROM `gk_interview` LIMIT #{currentPage},#{pageSize}
+  </select>
+  <!-- 查询所有访谈行数 -->
+  <select id="queryAllFangTanCount" resultType="int">
+  	SELECT COUNT(*) FROM `gk_interview`
+  </select>
+  <!-- 通过访谈id查询访谈详情 -->
+  <select id="queryFangTanDetailsByftid" resultMap="BaseResultMap">
+  	
+  </select>
+  
   <sql id="Base_Column_List">
     ft_id, ft_people, ft_object, ft_starttime, ft_time, ft_problem, people_proposal, 
     ft_object_explain, creation_time, update_time, founder, status, by1, by2, by3, by4, 
