@@ -160,4 +160,20 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  
+  
+  <!-- 查询单个学员所有考试成绩 -->
+  <select id="querySimStudentTestGradeBySid" resultType="com.CloudSchool.domain.statistics.testVO">
+  	SELECT testInstance.`id`, testModule.`name`AS TestName,testGrade.`score`AS StudentScore,testModule.Score AS TotalScore,testInstance.`endtime` AS TestTsime,
+	(testGrade.`score`/testModule.Score*100)AS studentScore100
+	FROM testGrade 
+	INNER JOIN testInstance ON testInstance.`id` = testGrade.tid
+	INNER JOIN testModule ON testInstance.`tId`=testModule.`id`
+	WHERE testGrade.`sId` = #{sId}
+	<if test="gId!=-1">
+	AND testModule.user1 = #{gId}
+	</if>
+	ORDER BY testInstance.`startTime` ASC
+  </select>
 </mapper>

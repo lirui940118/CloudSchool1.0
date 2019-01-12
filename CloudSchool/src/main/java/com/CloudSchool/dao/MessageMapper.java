@@ -1,7 +1,9 @@
 package com.CloudSchool.dao;
 
-import com.CloudSchool.domain.Message;
+import org.apache.ibatis.annotations.Mapper;
 
+import com.CloudSchool.domain.Message;
+@Mapper
 public interface MessageMapper {
     int deleteByPrimaryKey(Integer id);
 

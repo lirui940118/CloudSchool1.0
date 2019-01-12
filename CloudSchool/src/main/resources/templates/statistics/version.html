@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>123</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/ready.css">
+		<link rel="stylesheet" href="../css/demo.css">
+		<style type="text/css">
+				
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title">版本管理</h4>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">
+								所有版本
+							</h4>
+						</div>
+						<div class="card-body">
+										<table class="table table-head-bg-success">
+											<thead>
+												<tr>
+													<th scope="col">#</th>
+													<th scope="col">版本</th>
+													<th scope="col">创建时间</th>
+													<th scope="col">说明</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="s,sStat:${list}">
+													<td th:text="${sStat.count}"></td>
+													<td th:text="${s.versionof}"></td>
+													<td th:text="${s.creatTime}"></td>
+													<td th:text="${s.remark}">无</td>
+												</tr>
+											</tbody>
+										</table>
+										
+									</div>
+						<div class="card-footer">
+							<button style="float: right;" class="btn btn-success">添加版本</button>
+						</div>
+					</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	</body>
+<script src="../js/core/jquery.3.2.1.min.js"></script>
+<script src="../js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="../js/core/popper.min.js"></script>
+<script src="../js/core/bootstrap.min.js"></script>
+<script src="../js/plugin/chartist/chartist.min.js"></script>
+<script src="../js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<script src="../js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="../js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="../js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="../js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="../js/plugin/chart-circle/circles.min.js"></script>
+<script src="../js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="../js/ready.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("body").on("click","tbody tr",function(){
+				alert(1);
+			})
+			$(".btn-success").click(function(){
+				location.href="addVersion";
+			})
+		})
+	</script>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>查询访谈记录</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+		<style type="text/css">
+			/** {
+				margin: 0px;
+				padding: 0px;
+				
+			}*/
+			
+			.card {
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title">查询访谈记录</h4>
+					
+					<div class="row">
+						<div class="card col-lg-12">
+							<div class="card-body">
+								<h6>展示列</h6>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">访谈人</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">访谈对象</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">访谈时间</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">访谈时长</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">问题</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">查看详情</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">复选框</span>
+								</label>
+								<div class="col-lg-12 row">
+									<div class="col-lg-6 col-md-9 col-sm-12 row">
+										<input type="datetime-local" class="form-control form-control col-lg-5"/><span>至</span><input type="datetime-local" class="form-control form-control col-lg-5"/>
+									</div>
+									<div class="col-lg-3 col-md-9 col-sm-12 row">
+										<input type="text" class="form-control form-control" id="defaultInput" placeholder="访谈对象">
+									</div>
+									<div class="col-lg-3 col-md-9 col-sm-12 row">
+										<input type="text" class="form-control form-control" id="defaultInput" placeholder="访谈人">
+									</div>
+								</div>
+							</div>
+							<div class="card-body">
+								<h6>操作</h6>
+								<button class="btn btn-warning">修改</button>
+								<button class="btn btn-danger">删除</button>
+								<button class="btn btn-primary">导入</button>
+								<button class="btn btn-info">导出</button>
+							</div>
+						</div>
+							<div class="card col-lg-12" id="shuaxin">
+								<div class="card-body">
+									<table class="table table-head-bg-success table-striped table-hover">
+										<thead>
+											<tr>
+												<th scope="col">访谈人</th>
+												<th scope="col">访谈对象</th>
+												<th scope="col">访谈时间</th>
+												<th scope="col">访谈时长</th>
+												<th scope="col">问题</th>
+												<th scope="col">查看详情</th>
+												<th scope="col">复选框</th>
+											</tr>
+										</thead>
+										<tbody v-if="page">
+											<tr v-for="item in page.list">
+												<td name="访谈人"><span>{{item.ftPeople}}</span></td>
+												<td name="访谈对象"><span>{{item.ftObject}}</span></td>
+												<td name="访谈时间"><span>{{item.ftStarttime}}</span></td>
+												<td name="访谈时长"><span>{{item.ftTime}}</span></td>
+												<td name="问题"><span>{{item.ftProblem}}</span></td>
+												<td name="查看详情" data-toggle="modal" data-target=".bs-example-modal-lg">查看详情</td>
+												<td name="复选框">
+													<label class="form-check-label">
+														<input class="form-check-input task-select" type="checkbox">
+														<span class="form-check-sign">选择</span>
+													</label>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								<ul class="pagination pg-primary">
+									<li class="page-item active">
+										<a v-on:click="go(1)" class="page-link">首页</a>
+									</li>
+									<li class="page-item">
+										<a v-on:click="go(page.prevPage)" class="page-link" aria-label="Previous">
+											<span aria-hidden="true">«</span>
+											<span class="sr-only">Previous</span>
+										</a>
+									</li>
+									<li class="page-item active">
+										<a v-on:click="go(page.currentPage)" class="page-link">{{page.currentPage}}</a>
+									</li>
+									<li class="page-item" v-if="page.currentPage + 1 <= page.totalPage">
+										<a v-on:click="go(page.currentPage + 1)" class="page-link">{{page.currentPage + 1}}</a>
+									</li>
+									<li class="page-item" v-if="page.currentPage + 2 <= page.totalPage">
+							 			<a v-on:click="go(page.currentPage + 2)" class="page-link">{{page.currentPage + 2}}</a>
+									</li>
+									<li class="page-item">
+										<a v-on:click="go(page.nextPage)" class="page-link" aria-label="Next">
+											<span aria-hidden="true">»</span>
+											<span class="sr-only">Next</span>
+										</a>
+									</li>
+									<li class="page-item active">
+										<a v-on:click="go(page.totalPage)" class="page-link">尾页</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal -->
+		<div id="modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		  <div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<!-- <iframe style="width: 800px;height: 500px;" src="Interview details.html"></iframe> -->
+				<div class="content">
+					<div class="container-fluid">
+						<div class="col-lg-12 row">
+							<h4 class="page-title col-lg-6">访谈详情</h4>
+							<h4 class="page-title col-lg-6">2017-10-20-8：00</h4>
+						</div>
+						<div class="row">
+							
+							<div class="col-md-12">
+									<div class="card">
+										<div class="card-header">
+											<h4 class="card-title">问题</h4>
+										</div>
+										<div class="card-footer">
+											成绩下滑严重
+										</div>
+									</div>
+								</div>
+							
+							<div class="col-md-6">
+								<div class="card">
+									<div class="card-header">
+										<div class="card-title">张老师</div>
+									</div>
+									<div class="card-body">
+										sfdafasf胜多负少
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="card">
+									<div class="card-header">
+										<div class="card-title">小明同学</div>
+									</div>
+									<div class="card-body">
+										sfdafasf胜多负少
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		  </div>
+		</div>
+		
+		
+		
+	</body>
+	<script th:src="@{/static/js/core/jquery.min.js}"></script>
+	<script th:src="@{/static/js/core/vue.js}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+	<script th:src="@{/static/js/core/popper.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+	<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+	<script th:src="@{/static/js/ready.min.js}"></script>
+
+	<script>
+		/* 加载事件，默认全部复选框选中 */
+		$(function(){
+			$("input[type='checkbox']").attr("checked",'true');
+			queryAllFangTan(1);
+		});
+		/* 查询访谈详情 */
+		var M = new Vue({
+			el:"#modal",
+			data:{
+				fangtan:null
+			}
+		});
+		/* 查询访谈详情 */
+		function fangTanDetails(ftid){
+			$.ajax({
+				url:"queryAllFangTan",
+				  data:{
+						ftid:ftid
+					},success:function(result){
+					  M.fangtan = result;
+				  }
+			});
+		}
+		/* 查询所有访谈 */
+		var V = new Vue({
+			  el:"#shuaxin",
+			  data:{
+				  page:null/* ,
+				  title:null */
+			  },methods:{
+					go:function(num){
+						queryAllFangTan(num)
+					}
+			  },watch:{
+					/* title:function(){
+						shuaxin(1,this.title)
+					} */
+				}
+		  });
+		/* 查询所有访谈 */
+		function queryAllFangTan(currentPage){
+			$.ajax({
+				  url:"queryAllFangTan",
+				  data:{
+						currentPage:currentPage
+					},success:function(result){
+						alert(result.list);
+						console.log(result.list);
+					  V.page = result;
+				  }
+			  });
+		}
+		/* 复选框单击事件*/
+		$("input[type='checkbox']").click(function(){
+			var ziji = $(this);
+			var checkboxname = $(this).next().html();
+			$("th[scope='col']").each(function(index,element){
+				var thname = $(this).text();
+				if(checkboxname == thname){
+					if(ziji.prop("checked")){
+						$(this).show();
+						$("[name="+thname+"]").show();
+					}else{
+						$(this).hide();
+						$("[name="+thname+"]").hide();
+					}
+				}
+			});
+		});
+	</script>
+
+</html>

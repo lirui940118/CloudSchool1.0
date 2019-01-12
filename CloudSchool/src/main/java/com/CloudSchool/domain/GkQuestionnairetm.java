@@ -17,7 +17,7 @@ public class GkQuestionnairetm {
 
     private String founder;
 
-    private Integer delete;
+    private Integer status;
 
     private String by1;
 
@@ -85,12 +85,12 @@ public class GkQuestionnairetm {
         this.founder = founder;
     }
 
-    public Integer getDelete() {
-        return delete;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setDelete(Integer delete) {
-        this.delete = delete;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getBy1() {

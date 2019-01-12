@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.ZzyTeacherAbilityMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.ZzyTeacherAbility">
+    <result column="taid" jdbcType="INTEGER" property="taid" />
+    <result column="tid" jdbcType="INTEGER" property="tid" />
+    <result column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="creat_time" jdbcType="DATE" property="creatTime" />
+    <result column="modificationtime" jdbcType="DATE" property="modificationtime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="user1" jdbcType="VARCHAR" property="user1" />
+    <result column="user2" jdbcType="VARCHAR" property="user2" />
+    <result column="user3" jdbcType="VARCHAR" property="user3" />
+    <result column="user4" jdbcType="VARCHAR" property="user4" />
+    <result column="user5" jdbcType="VARCHAR" property="user5" />
+  </resultMap>
+  <insert id="insert" parameterType="com.CloudSchool.domain.ZzyTeacherAbility">
+    insert into zzy_teacher_ability (taid, tid, cid, 
+      creat_time, modificationtime, status, 
+      uid, remark, user1, 
+      user2, user3, user4, 
+      user5)
+    values (#{taid,jdbcType=INTEGER}, #{tid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, 
+      #{creatTime,jdbcType=DATE}, #{modificationtime,jdbcType=DATE}, #{status,jdbcType=INTEGER}, 
+      #{uid,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{user1,jdbcType=VARCHAR}, 
+      #{user2,jdbcType=VARCHAR}, #{user3,jdbcType=VARCHAR}, #{user4,jdbcType=VARCHAR}, 
+      #{user5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.ZzyTeacherAbility">
+    insert into zzy_teacher_ability
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taid != null">
+        taid,
+      </if>
+      <if test="tid != null">
+        tid,
+      </if>
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
+      <if test="modificationtime != null">
+        modificationtime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="user1 != null">
+        user1,
+      </if>
+      <if test="user2 != null">
+        user2,
+      </if>
+      <if test="user3 != null">
+        user3,
+      </if>
+      <if test="user4 != null">
+        user4,
+      </if>
+      <if test="user5 != null">
+        user5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taid != null">
+        #{taid,jdbcType=INTEGER},
+      </if>
+      <if test="tid != null">
+        #{tid,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null">
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=DATE},
+      </if>
+      <if test="modificationtime != null">
+        #{modificationtime,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="user1 != null">
+        #{user1,jdbcType=VARCHAR},
+      </if>
+      <if test="user2 != null">
+        #{user2,jdbcType=VARCHAR},
+      </if>
+      <if test="user3 != null">
+        #{user3,jdbcType=VARCHAR},
+      </if>
+      <if test="user4 != null">
+        #{user4,jdbcType=VARCHAR},
+      </if>
+      <if test="user5 != null">
+        #{user5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
