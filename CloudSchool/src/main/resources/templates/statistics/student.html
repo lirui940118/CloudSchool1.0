@@ -45,25 +45,25 @@ img {
 						<div class="card-header">
 							<h4 class="card-title">个人信息</h4>
 							<p class="card-category">
-								<div class="form-group col-lg-3">
-									<label for="defaultSelect" id="gradeSelect">年级</label>
-									<select class="form-control form-control" v-for="(item, index) in list">
-										<option gid="-1">全部</option>
-										<option  v-bind:gId="item.gid">{{item.gradeName}}</option>
+								<div class="form-group col-lg-3" id="gradeSelect">
+									<label for="defaultSelect">年级</label>
+									<select v-model="gid" class="form-control form-control">
+										<option value="-1">全部</option>
+										<option v-bind:value="item.gid" v-for="(item, index) in list">{{item.gradeName}}</option>
 									</select>
 								</div>
 							</p>
 						</div>
-						<div class="card-body" style="text-align: center;">
+						<div class="card-body" style="text-align: center;" id="studentInfoSec">
 							<div>
-								<img th:src="@{/static/image/studentImg.png}">
+								<!-- <img th:src="@{/static/image/studentImg.png}"> -->
+								<img v-bind:src="url+studentInfo.url">
 							</div>
-							<p>姓名：张泽阳</p>
-							<p>学号：Java20022</p>
-							<p>年级：Y2</p>
-							<p>班级：AT1717</p>
-							<p>专业：Java</p>
-							<p>状态：在读</p>
+							<p>姓名：{{studentInfo.studentname}}</p>
+							<p>学号：{{studentInfo.studentid}}</p>
+							<p v-if="studentInfo.standby1==0&&studentInfo.endtime==null">班级：{{studentInfo.className}}</p>
+							<p v-if="studentInfo.standby1==0">状态：在读</p>
+							<p v-if="studentInfo.standby1==1">状态：毕业</p>
 						</div>
 					</div>
 					<!--学员能力雷达图-->
@@ -309,14 +309,30 @@ img {
 		//初始化echars实例
 		myChar1 = echarts.init(document.querySelector("#studentTestPictrue"));
 		myChar1.showLoading();
-		//学员所有考试成绩
-		InitTestData();
-
 	})
 	//=============================自定义方法=======================================
 		
-	var currentGid;	
+	
 	function InitBaseData(){
+		//查询学员信息
+		$.ajax({
+			type : "post",
+			url : adress.url + "/statistics/queryStudentInfoBySid",
+			data : {
+				sId : null
+			},
+			success : function(data) {
+				console.log(data);
+				var vue = new Vue({
+					el:"#studentInfoSec",
+					data:{
+						studentInfo:data,
+						url:adress.url
+					}
+				});
+			}
+		})
+		var currentGrade;
 		//当前所在年级
 		$.ajax({
 			type : "post",
@@ -324,16 +340,17 @@ img {
 			data : {
 				sId : null
 			},
-			async : false,
+			async:false,
 			success : function(data) {
-				console.log(data);
-				var vue = new Vue({
-					el:".gradeSelect",
-					data:{
-						grade:data
-					}
-				})
-				console.log(data);
+				currentGrade = data;
+				console.log(data.gid);
+				//
+				if(data == ""){
+					//学员所有考试成绩
+					InitTestData(-1);//-1为全部成绩
+				}else{
+					InitTestData(data.gid);
+				}
 			}
 		})
 		//全部年级
@@ -343,31 +360,36 @@ img {
 			data : {
 				sId : null
 			},
-			async : false,
+			async:false,
 			success : function(data) {
-				console.log(data);
 				var vue = new Vue({
 					el:"#gradeSelect",
 					data:{
+						gid:currentGrade.gid,
 						list:data
+					},
+					watch:{
+						gid(){
+							InitTestData(this.gid);
+						}
 					}
 				})
 				console.log(data);
 			}
 		})
 	}
-	function InitTestData() {
+	function InitTestData(gId) {
 		var scoreArr = [];
 		var TestTimeNameArr = [];
 		$.ajax({
 			type : "post",
 			url : adress.url + "/statistics/getDataAboutAllTestBySid",
 			data : {
-				sId:null
+				sId:null,
+				gId:gId
 			},
-			async : false,
 			success : function(data) {
-				//console.log(data);
+				console.log(data);
 				for (var i = 0; i < data.length; i++) {
 					//分数集合
 					scoreArr.push(data[i].studentScore100);
@@ -447,7 +469,7 @@ img {
 						} ]
 					};
 				}
-				myChar1.setOption(option1);
+				setTimeout(myChar1.setOption(option1,true), 500);
 				myChar1.hideLoading();
 			}
 		});

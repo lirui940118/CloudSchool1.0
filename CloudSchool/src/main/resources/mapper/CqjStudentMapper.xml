@@ -18,6 +18,10 @@
     <result column="standby3" jdbcType="VARCHAR" property="standby3" />
     <result column="standby4" jdbcType="VARCHAR" property="standby4" />
     <result column="standby5" jdbcType="VARCHAR" property="standby5" />
+ 	<result column="className" property="className"/>
+  	<result column="statusValue" property="statusValue"/>
+  	<result column="endtime" property="endtime"/>
+  	<result column="url" property="url"/>
   </resultMap>
   <sql id="Base_Column_List">
     studentid, studentname, studentnub, positionid, sex, age, phone, idcard, birthday, 
@@ -220,4 +224,17 @@
       standby5 = #{standby5,jdbcType=VARCHAR}
     where studentid = #{studentid,jdbcType=INTEGER}
   </update>
+  
+  
+  
+  
+  <!-- 查询该学员个人信息 -->
+  <select id="queryStudentInfoBySid" resultMap="BaseResultMap">
+  	SELECT cqj_student.studentid,cqj_student.`studentname`,cqj_student.`sex`,clazz.`cname` as className,cqj_student.`standby1`,img.`url`,clazzstudent.`endtime` FROM `cqj_student` 
+	INNER JOIN `clazzstudent` ON `clazzstudent`.`sid` = `cqj_student`.`studentid` 
+	INNER JOIN `clazz` ON clazz.`id` = clazzstudent.`cid`
+	INNER JOIN `zzy_grade` ON `zzy_grade`.`gid` = clazz.`gid` 
+	INNER JOIN img ON img.`id` = cqj_student.studentid
+	WHERE `cqj_student`.`studentid` = #{sId} AND  img.`style` = 0 ORDER BY clazzstudent.`starttime` DESC LIMIT 1
+  </select>
 </mapper>
