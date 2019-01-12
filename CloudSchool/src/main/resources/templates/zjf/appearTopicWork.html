@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>事例</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/ready.css">
+		<style>
+			#condition div {
+				width: 30%;
+				float: left;
+			}
+			
+			table {
+				border: 1px solid lightskyblue;
+			}
+			
+			.btn {
+				float: right;
+			}
+			#pagebox{
+				float: right;
+			}
+			#topicinfo button{
+				float: left;
+			}
+			#topicinfo button:nth-child(2){
+				margin-left: 10px;
+			}
+			#testscore{
+				margin-left: 30px;
+			}
+			#testscore{
+				float: left;
+			}
+			#testscore button{
+				float: left;
+			}
+			#testscore button:nth-child(2){
+				margin-left: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title">布置作业</h4>
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">选择题目</h4>
+						</div>
+						<div class="card-body">
+							<nav id="condition">
+								<div class="form-group courseselect">
+									<label for="squareSelect">课程</label>
+									<select class="form-control input-square" id="squareSelect">
+										<option>逻辑java</option>
+										<option>MySQL数据库</option>
+										<option>ssm框架</option>
+									</select>
+								</div>
+								<div class="form-group courseselect">
+									<label for="squareSelect">章节</label>
+									<select class="form-control input-square" id="squareSelect">
+										<option>第一章</option>
+										<option>第二章</option>
+										<option>第三章</option>
+									</select>
+								</div>
+								<div class="form-group courseselect" id="topicType">
+									<label for="squareSelect">题目类型</label>
+									<select class="form-control input-square" id="squareSelect">
+										<option v-for="(obj,index) in list" v-bind:value="obj.id">{{obj.typename}}</option>
+										<!-- <option>上机题</option>
+										<option>阅读题</option> -->
+									</select>
+								</div>
+								<!--<div class="form-group courseselect">
+									<label for="squareSelect">考题类别</label>
+									<select class="form-control input-square" id="squareSelect">
+										<option>理解</option>
+										<option>应用</option>
+										<option>识记</option>
+									</select>
+								</div>-->
+								<div class="form-group courseselect">
+									<label class="card-category">考题类别</label>
+									<label class="form-radio-label">
+										<input class="form-radio-input" type="radio" name="optionsRadios" value="" >
+										<span class="form-radio-sign">理解</span>
+									</label>
+									<label class="form-radio-label">
+										<input class="form-radio-input" type="radio" name="optionsRadios" value="" >
+										<span class="form-radio-sign">应用</span>
+									</label>
+									<label class="form-radio-label">
+										<input class="form-radio-input" type="radio" name="optionsRadios" value="">
+										<span class="form-radio-sign">识记</span>
+									</label>
+								</div>
+								<div class="form-group courseselect">
+									<label class="card-category">题目级别</label>
+									<label class="form-radio-label">
+										<input class="form-radio-input" type="radio" name="optionsRadios" value="" >
+										<span class="form-radio-sign">易</span>
+									</label>
+									<label class="form-radio-label">
+										<input class="form-radio-input" type="radio" name="optionsRadios" value="" >
+										<span class="form-radio-sign">中</span>
+									</label>
+									<label class="form-radio-label">
+										<input class="form-radio-input" type="radio" name="optionsRadios" value="" >
+										<span class="form-radio-sign">难</span>
+									</label>
+								</div>
+								<div class="btn" style="display: flex;justify-content:space-between;">
+								<label style="line-height: 40px;">模板名称:</label>
+								<input type="text" class="form-control form-control" style="width: 40%;" name="workMoudleName">
+									<button class="btn btn-primary btn-round"  id="addWork">生成作业</button>
+								</div>
+							</nav>
+							<div id="conten">
+								<table class="table table-striped mt-3">
+									<!--<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">First</th>
+										<th scope="col">Last</th>
+										<th scope="col">Handle</th>
+									</tr>
+								</thead>-->
+									<tbody id="topics">
+										<tr v-for="(obj,index) in obj.list" v-bind:data-score="obj.user1" v-bind:data-id="obj.id">
+											<td>
+												<label class="form-check-label">
+												<input class="form-check-input" type="checkbox" value="" v-bind:data-id="obj.id">
+												<span class="form-check-sign"></span>
+											</label>
+											</td>
+											<td colspan="4">
+												<p class="text-muted">{{obj.topicconten}}</p>
+												</span>
+											</td>
+										</tr>
+										<!-- <tr data-score="2">
+											<td>
+												<label class="form-check-label">
+												<input class="form-check-input" type="checkbox" value="" checked>
+												<span class="form-check-sign"></span>
+											</label>
+											</td>
+											<td colspan="4">
+												<p class="text-muted">用注解的方式实现的面向切面编程（AOP），可以在某个方法的执行前或者执行后插入一些代码（例如日志功能的代码）。用注解的方式实现的面向切面编程（AOP），可以在某个方法的执行前或者执行后插入一些代码（例如日志功能的代码）。...</p>
+												</span>
+											</td>
+										</tr>
+										<tr data-score="5">
+											<td>
+												<label class="form-check-label">
+												<input class="form-check-input" type="checkbox" value="" checked>
+												<span class="form-check-sign"></span>
+											</label>
+											</td>
+											<td colspan="4">
+												<p class="text-muted">fail-fast（快速失败）：快速失败机制在遍历一个集合时，如果集合内容被修改，会抛出ConcurrentModificationException异常。 fail-safe（安全失败）：安全失败机制对集合的任何修改都会在一个复制的集合上进行，因此不会抛出异常。...
+												</p>
+												</span>
+											</td>
+										</tr> -->
+									</tbody>
+								</table>
+								<div id="topicinfo">
+									<button class="btn btn-default" disabled="disabled">已出题数量</button>
+									<button class="btn btn-default" disabled="disabled" id="topicCount">0</button>
+								</div>
+								<div id="testscore">
+									<button class="btn btn-default" disabled="disabled">总分</button>
+									<button class="btn btn-default" disabled="disabled" id="sumScore">0</button>
+								</div>
+								<div id="pagebox">
+									<p class="demo">
+										<ul class="pagination pg-primary">
+											<li class="page-item">
+												<a class="page-link" href="javascript:void(0)" aria-label="Previous" id="previousPage" data-pre="">
+													<span aria-hidden="true">&laquo;</span>
+													<span class="sr-only">Previous</span>
+												</a>
+											</li>
+											<li class="page-item active">
+												<a class="page-link" href="#">1</a>
+											</li>
+											<li class="page-item">
+												<a class="page-link" href="#">2</a>
+											</li>
+											<li class="page-item">
+									 				<a class="page-link" href="#">3</a>
+											</li>
+											<li class="page-item">
+												<a class="page-link" href="javascript:void(0)" aria-label="Next"  id="nextPage" data-next="">
+													<span aria-hidden="true">&raquo;</span>
+													<span class="sr-only">Next</span>
+												</a>
+											</li>
+										</ul>
+									</p>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
+<script src="../js/core/jquery.min.js"></script>
+<script src="../js/core/vue.js"></script>
+<!--<script src="js/core/jquery.3.2.1.min.js"></script>
+<script src="js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="js/core/popper.min.js"></script>
+<script src="js/core/bootstrap.min.js"></script>
+<script src="js/plugin/chartist/chartist.min.js"></script>
+<script src="js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<script src="js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="js/plugin/chart-circle/circles.min.js"></script>
+<script src="js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="js/ready.min.js"></script>
+<script src="js/demo.js"></script>-->
+<script>
+	var ids=[]		//选中的题目id
+	//题目类型
+	var v=new Vue({
+		el:"#topicType",
+		data:{
+			list:null,
+		}
+	})
+	//题目
+	var topiclist=new Vue({
+		el:"#topics",
+		data:{
+			obj:{},
+			ids:null
+		},updated : function(){
+			/* 清空所有check选中 */
+			$("[type=checkbox]").each(function(){
+				if(this.checked){
+					this.checked=false
+				 }
+			})
+			 $("[type=checkbox]").each(function(){
+				var id=$(this).attr("data-id")
+				for(var i=0; i<ids.length; i++){
+					if(id==ids[i]){
+						this.checked=true
+					}
+				}
+			 })
+			 /* 语出值 */
+			 $("[type=checkbox]").click(function(){
+				 var id=$(this).attr("data-id")
+				 for(var i=0; i<ids.length; i++){
+						if(id==ids[i]){
+							ids.splice(i,1);
+							break;
+						}
+					}
+			 })
+		}
+	})
+	
+	//分页查询题目
+	function paging(cur){
+		$.ajax({
+			url:"http://127.0.0.1:8080/topicWarehouseController/conditionsQueryTopci",
+			data:{cur:cur},
+			success:function(data){
+				$("#previousPage").attr("data-pre",data.prePage)
+				$("#nextPage").attr("data-next",data.nextPage)
+				topiclist.obj=data
+				topiclist.ids=ids
+			}
+		})
+	}
+	
+	/* cheackbox事件 */
+	var sum=0;		//出题总分数
+	var topicCount=0;	//出题总数量
+	function getSumScore(th){
+		var checklist=$("[type=checkbox]")
+		var id=$(th).parents("tr").attr("data-id")
+		if($(th).is(":checked")){
+			sum=sum+parseInt($(th).parents("tr").attr("data-score"))
+			topicCount+=1
+			/* 添加id到数组中 */
+			if(ids.length==0){
+				ids.push(id)
+			}
+			for(var j=0; j<ids.length; j++){
+				if(id==ids[j]){
+					break;
+				}
+				if(ids.length-1==j && id!=ids[j]){
+					ids.push(id)
+					break;
+				}
+			}
+		}else{
+			topicCount-=1;
+			sum=sum-$(th).parents("tr").attr("data-score")
+		}
+		$("#sumScore").html(sum)
+		$("#topicCount").html(topicCount)
+	}
+	$(function(){
+		
+		 paging(1)
+		//查询选择题类型
+		$.ajax({
+			url:"http://127.0.0.1:8080/topicWarehouseController/queryAllTopicType",
+			data:"",
+			success:function(data){
+				v.list=data
+			}
+		})
+		
+		
+		/* 选择题目 */
+		$("body").on("click","[type=checkbox]",function(){
+			getSumScore(this)
+		})
+		/*上一页*/
+		$("body").on("click","#previousPage",function(){
+			var cur=$(this).attr("data-pre")
+			paging(cur)
+		})
+		/*下一页  */
+		$("body").on("click","#nextPage",function(){
+			var cur=$(this).attr("data-next")
+			paging(cur)
+		})
+		/*生成作业模板  */
+		$("#addWork").click(function(){
+			var name=$("[name=workMoudleName]").val().trim()
+			if(name!=null && name!=""){
+				var obj={}
+				obj.name=name;
+				obj.tcount=topicCount;
+				obj.score=sum;
+				obj.tid=1;		//出作业人ID暂时死值 */
+				obj.ids=ids;
+				$.ajax({
+					type:"post",
+					url:"http://127.0.0.1:8080/topicWarehouseController/workTemplateCreate",
+					data:JSON.stringify(obj),
+					contentType:"application/json;charset=utf-8",
+					success:function(data){
+						if(data>0){
+							alert("成功！")
+						}
+					}
+				})
+			}
+		})
+	})
+</script>

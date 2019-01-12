@@ -138,4 +138,8 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="queryTopicTypeAll" resultMap="BaseResultMap">
+  	select * from topicType
+  </select>
 </mapper>

@@ -17,6 +17,11 @@
     <result column="user4" jdbcType="VARCHAR" property="user4" />
     <result column="user5" jdbcType="VARCHAR" property="user5" />
   </resultMap>
+  <!-- <resultMap type="com.CloudSchool.domain.Workmould" id="setArrayValue">
+  	<collection property="workTypeList" column="examdot" javaType="java.lang.Integer">
+  		<
+  	</collection>
+  </resultMap> -->
   <sql id="Base_Column_List">
     id, name, tid, wType, tCount, score, count, time, status, user1, user2, user3, user4, 
     user5
@@ -43,7 +48,7 @@
       #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, #{user3,jdbcType=VARCHAR}, 
       #{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.CloudSchool.domain.Workmould">
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.Workmould" useGeneratedKeys="true" keyProperty="id">
     insert into workMould
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -196,4 +201,14 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!-- 作业模板 类型 -->
+  <select id="queryWorkMouldType" resultType="int">
+  	SELECT examdot FROM topic WHERE id 
+  	IN(
+  	<foreach collection="ids" separator="," item="obj">
+  		#{obj}
+  	</foreach>
+  	) 
+  	GROUP BY examdot
+  </select>
 </mapper>

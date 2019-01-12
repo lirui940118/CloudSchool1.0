@@ -14,4 +14,6 @@ public interface WorkmouldMapper {
     int updateByPrimaryKeySelective(Workmould record);
 
     int updateByPrimaryKey(Workmould record);
+    
+    Integer[] queryWorkMouldType(Workmould obj);
 }

@@ -1,5 +1,7 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
+
 import com.CloudSchool.domain.Topictype;
 
 public interface TopictypeMapper {
@@ -14,4 +16,5 @@ public interface TopictypeMapper {
     int updateByPrimaryKeySelective(Topictype record);
 
     int updateByPrimaryKey(Topictype record);
+    List<Topictype> queryTopicTypeAll();
 }

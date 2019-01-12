@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>事例</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/ready.css">
+		<style>
+			.has-success .form-control {
+				border-color: #ced4da;
+				color: black;
+			}
+			
+			.modalbox {
+				border: 1px solid #ced4da;
+				margin-top: 20px;
+			}
+			
+			.modalbox button {
+				float: right;
+			}
+			
+			.modelinfo {
+				display: flex;
+				flex-direction: column;
+				padding: 5px;
+			}
+			
+			#pagebox {
+				display: flex;
+				justify-content: flex-end;
+			}
+			#btnsubmit button:nth-child(1){
+				margin-top: 20px;
+				width: 100px;
+				float: left;
+			}
+			#btnsubmit button:nth-child(2){
+				margin-top: 20px;
+				width: 100px;
+				float: right;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title">发布作业</h4>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">选择班级</h4>
+								</div>
+								<div class="card-body">
+									<table class="table table-bordered table-bordered-bd-warning mt-4">
+										<thead>
+											<tr>
+												<th scope="col">操作</th>
+												<th scope="col">年级</th>
+												<th scope="col">班级</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>1</td>
+												<td>Mark</td>
+												<td>Otto</td>
+											</tr>
+											<tr>
+												<td>2</td>
+												<td>Jacob</td>
+												<td>Thornton</td>
+											</tr>
+											<tr>
+												<td>2</td>
+												<td>Jacob</td>
+												<td>Thornton</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">发布作业</h4>
+								</div>
+								<div class="card-body">
+									<div class="form-group has-success">
+										<label for="successInput">作业名称</label>
+										<input type="text" id="successInput" class="form-control">
+									</div>
+									<div class="form-group has-success">
+										<label for="successInput">开始时间</label>
+										<input type="text" id="successInput" class="form-control">
+									</div>
+									<div class="form-group has-success">
+										<label for="successInput">结束时间</label>
+										<input type="text" id="successInput" class="form-control">
+									</div>
+									<div class="form-group">
+										<label for="comment">Comment</label>
+										<textarea class="form-control" id="comment" rows="5">
+
+										</textarea>
+									</div>
+									<div id="btnsubmit">
+										<button class="btn btn-danger">取消</button>
+										<button class="btn btn-success">确认</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">作业模板</h4>
+								</div>
+								<div class="card-body">
+									<div class="modalbox">
+										<div class="modelinfo">
+											<p>作业名称:<span>MySQL第一次作业</span><button class="btn btn-success">使用</button></p>
+											<p>发布时间:<span>2019-02-01</span></p>
+											<p>级别:<span>难</span></p>
+											<p>使用次数:<span>1</span></p>
+										</div>
+									</div>
+									<div class="modalbox">
+										<div class="modelinfo">
+											<p>作业名称:<span>MySQL第一次作业</span><button class="btn btn-success">使用</button></p>
+											<p>发布时间:<span>2019-02-01</span></p>
+											<p>级别:<span>难</span></p>
+											<p>使用次数:<span>1</span></p>
+										</div>
+									</div>
+									<div class="modalbox">
+										<div class="modelinfo">
+											<p>作业名称:<span>MySQL第一次作业</span><button class="btn btn-success">使用</button></p>
+											<p>发布时间:<span>2019-02-01</span></p>
+											<p>级别:<span>难</span></p>
+											<p>使用次数:<span>1</span></p>
+										</div>
+									</div>
+								</div>
+								<div id="pagebox">
+									<p class="demo">
+										<ul class="pagination pg-primary">
+											<li class="page-item">
+												<a class="page-link" href="#" aria-label="Previous">
+													<span aria-hidden="true">&laquo;</span>
+													<span class="sr-only">Previous</span>
+												</a>
+											</li>
+											<li class="page-item active">
+												<a class="page-link" href="#">1</a>
+											</li>
+											<li class="page-item">
+												<a class="page-link" href="#">2</a>
+											</li>
+											<li class="page-item">
+												<a class="page-link" href="#">3</a>
+											</li>
+											<li class="page-item">
+												<a class="page-link" href="#" aria-label="Next">
+													<span aria-hidden="true">&raquo;</span>
+													<span class="sr-only">Next</span>
+												</a>
+											</li>
+										</ul>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

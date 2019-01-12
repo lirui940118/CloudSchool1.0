@@ -2,6 +2,8 @@ package com.CloudSchool.domain;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class TopicWithBLOBs extends Topic {
     private String topicconten;
 

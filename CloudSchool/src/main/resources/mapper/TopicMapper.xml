@@ -65,7 +65,7 @@
       <if test="tid != null">
         tId,
       </if>
-      <if test="time != null">
+      <if test="time != null || time==null">
         time,
       </if>
       <if test="uid != null">
@@ -121,8 +121,8 @@
       <if test="tid != null">
         #{tid,jdbcType=INTEGER},
       </if>
-      <if test="time != null">
-        #{time,jdbcType=TIMESTAMP},
+       <if test="time != null || time==null">
+       now(),
       </if>
       <if test="uid != null">
         #{uid,jdbcType=INTEGER},
@@ -267,4 +267,21 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="queryCount" resultType="int">
+  	SELECT count(*) FROM topic
+  	<where>
+  		<if test="tid!=null">
+  			tid=#{tid}
+  		</if>
+  	</where>
+  </select>
+  <select id="conditionsQueryTopci" resultMap="ResultMapWithBLOBs">
+  	SELECT * FROM topic
+  	<where>
+  		<if test="obj.tid!=null">
+  			tid=#{obj.tid}
+  		</if>
+  	</where>
+  	limit #{cur},#{pagesize}
+  </select>
 </mapper>
