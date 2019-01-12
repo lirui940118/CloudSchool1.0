@@ -63,22 +63,68 @@ public class CqjUser {
     private String address;
     //邮箱
     private String email;
+    //头像路径
+    private String url;
     
     //班级组用于接收数据库返回的值
     private String clazzids;
     
     //能访问的班级组
     private List<String> clazzidsList;
-    //能访问的模块组
+    
+    //能访问的设置模块组
+    private List<CqjModule> moduleSettingList;
+    
+    //能访问的列表模块组
     private List<CqjModule> moduleList;
     
+    //能访问的数据模块组
+    private List<CqjModule> moduleInfoList;
     
-    public List<CqjModule> getModuleList() {
+    //所有能访问模块组
+    private List<CqjModule> moduleAllList;
+    
+    
+    
+    
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public List<CqjModule> getModuleAllList() {
+		return moduleAllList;
+	}
+
+	public void setModuleAllList(List<CqjModule> moduleAllList) {
+		this.moduleAllList = moduleAllList;
+	}
+
+	public List<CqjModule> getModuleSettingList() {
+		return moduleSettingList;
+	}
+
+	public void setModuleSettingList(List<CqjModule> moduleSettingList) {
+		this.moduleSettingList = moduleSettingList;
+	}
+
+	public List<CqjModule> getModuleList() {
 		return moduleList;
 	}
 
 	public void setModuleList(List<CqjModule> moduleList) {
 		this.moduleList = moduleList;
+	}
+
+	public List<CqjModule> getModuleInfoList() {
+		return moduleInfoList;
+	}
+
+	public void setModuleInfoList(List<CqjModule> moduleInfoList) {
+		this.moduleInfoList = moduleInfoList;
 	}
 
 	public List<String> getClazzidsList() {

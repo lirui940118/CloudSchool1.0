@@ -1,5 +1,8 @@
 package com.CloudSchool.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CqjModule {
     private Integer moduleid;
 
@@ -28,8 +31,18 @@ public class CqjModule {
     private String standby4;
 
     private String standby5;
+    
+    private List<CqjModule> mlist=new ArrayList<CqjModule>();
+    
+    public List<CqjModule> getMlist() {
+		return mlist;
+	}
 
-    public Integer getModuleid() {
+	public void setMlist(List<CqjModule> mlist) {
+		this.mlist = mlist;
+	}
+
+	public Integer getModuleid() {
         return moduleid;
     }
 

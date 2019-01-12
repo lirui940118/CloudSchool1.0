@@ -20,24 +20,24 @@
 //�ڵ����  -- Node object
 function Node(id, pid, cname, cvalue, cshow, cchecked, cdisabled, url, title,
 		target, icon, iconOpen, open) {
-	this.id = id; // int ÿ���ڵ㶼��ΨһID�����ӽڵ�ʱ��Ҫ�ֹ�����һ��ID��
-	this.pid = pid; // int ���ڵ�ID�����ڵ�ĸ��ڵ���-1��
-	this.cname = cname; // chechbox������
-	this.cvalue = cvalue; // chechbox��ֵ
-	this.cshow = cshow; // chechbox����ʾ
-	this.cchecked = cchecked || false; // chechbox�Ƿ�ѡ�У�Ĭ���ǲ�ѡ
-	this.cdisabled = cdisabled || false; // chechbox�Ƿ���ã�Ĭ���ǿ���
-	this.url = url || '#'; // �ڵ����ӣ�Ĭ���������� String �ڵ�URL���������ת��ַ��
-	this.title = title; // ����ƶ����ڵ�����ʾ������
-	this.target = target; // String ҳ����ת���ڵ�frame
-	this.icon = icon; // String �ڵ�ر�ʱ��ʾ��ͼ���ַ
-	this.iconOpen = iconOpen; // String �ڵ��ʱ��ʾ��ͼ���ַ
-	this._io = open || false; // boolean �ڵ��Ƿ��Ѵ򿪣�Ĭ��ֵfalse��
-	this._is = false; // boolean �ڵ��Ƿ��Ѵ򿪣�Ĭ��ֵfalse��
-	this._ls = false; // boolean �Ƿ������һ���ڵ㣬Ĭ��ֵfalse��
-	this._hc = false; // boolean �Ƿ����ӽڵ㣬Ĭ��ֵfalse��
-	this._ai = 0; // int �����Ľڵ������е��±�(λ��)��Ĭ��ֵ0��
-	this._p; // Node ���ڵ����Ĭ��ֵnull��
+	this.id = id; // int 每个节点都有唯一ID，增加节点时需要手工定义一个ID。 
+	this.pid = pid; // int 父节点ID，根节点的父节点是-1。 
+	this.cname = cname; // chechbox的名称    
+	this.cvalue = cvalue; // chechbox的值    
+	this.cshow = cshow; // chechbox的显示    
+	this.cchecked = cchecked || false; // chechbox是否被选中，默认是不选   
+	this.cdisabled = cdisabled || false; // chechbox是否可用，默认是可用    
+	this.url = url || '#'; // 节点链接，默认是虚链接  String 节点URL（鼠标点击跳转地址） 
+	this.title = title; // 鼠标移动到节点上显示的文字 
+	this.target = target; // String 页面跳转所在的frame 
+	this.icon = icon; // String 节点关闭时显示的图标地址 
+	this.iconOpen = iconOpen; // String 节点打开时显示的图标地址 
+	this._io = open || false; // boolean 节点是否已打开，默认值false。 
+	this._is = false; // boolean 节点是否已打开，默认值false。 
+	this._ls = false; // boolean 是否是最后一个节点，默认值false。  
+	this._hc = false; // boolean 是否有子节点，默认值false。 
+	this._ai = 0; // int 在树的节点数组中的下标(位置)，默认值0。 
+	this._p; // Node 父节点对象，默认值null。 
 };
 
 // ������ Tree object
@@ -203,10 +203,10 @@ dTree.prototype.node = function(node, nodeId) {
 	} else {
 		var checkboxSyntax = "";
 		// �Ƿ����
-		if (node.cchecked) {
+		/*if (node.cchecked) {
 			checkboxSyntax = "<span class='dtree_node' node_id='" + node.id
 					+ "'>" + node.cshow + "</span>";
-		} else {
+		} else {*/
 			/** ��װcheckbox��ʼ */
 			if (this.RadioRocheckbox) {
 
@@ -263,7 +263,7 @@ dTree.prototype.node = function(node, nodeId) {
 			/** ��װcheckbox���� */
 		}
 		str += checkboxSyntax;
-	}
+	/*}*/
 
 	if (node.url || ((!this.config.folderLinks || !node.url) && node._hc))
 		str += '</a>';

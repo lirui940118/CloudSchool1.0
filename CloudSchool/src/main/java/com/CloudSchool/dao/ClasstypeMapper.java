@@ -1,8 +1,13 @@
 package com.CloudSchool.dao;
 
-import com.CloudSchool.domain.Classtype;
+import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.CloudSchool.domain.Classtype;
+@Mapper
 public interface ClasstypeMapper {
+	List<Classtype> query();
     int deleteByPrimaryKey(Integer id);
 
     int insert(Classtype record);

@@ -9,7 +9,7 @@ import com.CloudSchool.domain.statistics.testVO;
 
 public interface TestgradeMapper {
 	//write by leerui
-	public List<testVO> querySimStudentTestGradeBySid(Integer sId);
+	public List<testVO> querySimStudentTestGradeBySid(Integer sId,Integer gId);
 	
 	
 	

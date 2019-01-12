@@ -1,11 +1,11 @@
-package com.CloudSchool.dao;
+package com.CloudSchool.service;
 
 import java.util.List;
 
 import com.CloudSchool.domain.ZzyVersion;
 
-public interface ZzyVersionMapper {
-    int deleteByPrimaryKey(Integer vid);
+public interface ZzyVersionService {
+	int deleteByPrimaryKey(Integer vid);
 
     int insert(ZzyVersion record);
 

@@ -3,6 +3,17 @@ package com.CloudSchool.domain;
 import java.util.Date;
 
 public class CqjStudent {
+	
+	//write by lirui 
+	//当前所在班级名称
+	private String className;
+	//学员状态（正常,毕业） 
+	private int statusValue;
+	//班级结束时间（最近一次班级结束时间）
+	private String endtime;
+	//学员图片地址
+	private String url;
+	
     private Integer studentid;
 
     private String studentname;
@@ -35,7 +46,48 @@ public class CqjStudent {
 
     private String standby5;
 
-    public Integer getStudentid() {
+    
+    
+    
+    public String getClassName() {
+		return className;
+	}
+
+	public void setClassname(String className) {
+		this.className = className;
+	}
+
+	
+
+	public String getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(String endtime) {
+		this.endtime = endtime;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public int getStatusValue() {
+		return statusValue;
+	}
+
+	public void setStatusValue(int statusValue) {
+		this.statusValue = statusValue;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
+
+	public Integer getStudentid() {
         return studentid;
     }
 

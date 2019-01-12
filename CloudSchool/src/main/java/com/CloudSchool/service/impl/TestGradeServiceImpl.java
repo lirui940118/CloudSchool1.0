@@ -19,8 +19,8 @@ public class TestGradeServiceImpl implements TestGradeService{
 	
 	
 	@Override
-	public List<testVO> querySimStudentTestGradeBySid(Integer sId) {
-		return testgradeMapper.querySimStudentTestGradeBySid(sId);
+	public List<testVO> querySimStudentTestGradeBySid(Integer sId,Integer gId) {
+		return testgradeMapper.querySimStudentTestGradeBySid(sId,gId);
 	}
 
 }

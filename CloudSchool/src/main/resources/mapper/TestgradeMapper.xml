@@ -171,6 +171,9 @@
 	INNER JOIN testInstance ON testInstance.`id` = testGrade.tid
 	INNER JOIN testModule ON testInstance.`tId`=testModule.`id`
 	WHERE testGrade.`sId` = #{sId}
+	<if test="gId!=-1">
+	AND testModule.user1 = #{gId}
+	</if>
 	ORDER BY testInstance.`startTime` ASC
   </select>
 </mapper>
