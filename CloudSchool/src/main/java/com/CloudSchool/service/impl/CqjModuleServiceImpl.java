@@ -54,13 +54,40 @@ public class CqjModuleServiceImpl implements CqjMoudelService{
 	@Override
 	public List<CqjModule> queryAllModule(Integer roleid) {
 		// TODO Auto-generated method stub
+		
+		
+		
 		return cmm.queryAllModule(roleid);
 	}
 
 	@Override
 	public List<CqjModule> queryAllInfoModule(Integer positionid) {
 		// TODO Auto-generated method stub
-		return cmm.queryAllInfoModule(positionid);
+		List<CqjModule> alllist =cmm.queryAllInfoModule(positionid);
+		List<CqjModule> infoModule=new ArrayList<CqjModule>();
+		for (CqjModule list : alllist) {
+			//判断父级0
+			if (list.getPid() == 0) {
+				for (CqjModule clist : alllist) {
+					//将不为0的查出，并且父级节点是上一级的
+					if(clist.getPid()!=0&&clist.getPid()==list.getModuleid()) {
+						list.getMlist().add(clist);
+						for (CqjModule cclist : alllist) {
+							if(cclist.getPid()!=0&&cclist.getPid()==clist.getModuleid()) {
+								clist.getMlist().add(cclist);
+							}		
+						}	
+					}
+				}
+			}
+		}
+		System.out.println(infoModule);
+		return infoModule;
+	}
+	
+	public List<CqjModule> mm(List<CqjModule> list1,List<CqjModule> list2){
+		
+		return null;
 	}
 
 	
