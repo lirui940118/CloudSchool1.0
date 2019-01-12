@@ -178,7 +178,7 @@
 							style="">
 							<ul class="nav">
 								 <li  v-for="(sm,idenx) in userinfo.moduleSettingList">
-									<a v-bind:href="sm.groupname">
+									<a v-bind:href="'#'+sm.groupname">
 										<span class="simNav" onclick="simNavClick(this)" v-bind:data-adress="sm.moduleurl">{{sm.modulename}}</span>
 									</a>
 								</li>
@@ -233,7 +233,9 @@
 	var v = new Vue({
 		el : ".wrapper",
 		data : {
-			userinfo : {}
+			userinfo : {},
+			leftmodule:{},
+			settingmodule:{}
 		}
 	});
 	function windowAutoHeight() {
@@ -244,8 +246,9 @@
 		//初始化
 		windowAutoHeight();
 		document.body.parentNode.style.overflowY = "hidden";
+		//初始化用户信息
 		$.ajax({
-			url:"/user/getSession",
+			url:"/user/getInfo",
 			type:"post",
 			dataType: "json",
 			success: function(data){

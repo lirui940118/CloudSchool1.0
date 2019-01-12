@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.CloudSchool.domain.CqjUser;
+import com.CloudSchool.service.CqjMoudelService;
 import com.CloudSchool.service.CqjUserService;
 
 @Controller
@@ -15,7 +16,8 @@ import com.CloudSchool.service.CqjUserService;
 public class CqjUserController {
 	@Autowired
 	CqjUserService cus;
-	
+	@Autowired
+	CqjMoudelService cms;
 	
 	@RequestMapping("/login")
 	public String login(String username,String password,HttpSession session) {
@@ -50,9 +52,11 @@ public class CqjUserController {
 		return "login";
 	}
 	
-	@RequestMapping("getSession")
+	@RequestMapping("getInfo")
 	@ResponseBody
-	public Object getSession(HttpSession session) {
-		return session.getAttribute("user");
+	public CqjUser getInfo(HttpSession session) {
+		CqjUser userinfo =(CqjUser)session.getAttribute("user");
+		cms.queryByRoleidandPositionid(userinfo, userinfo.getRoleid(), userinfo.getPositionid());
+		return userinfo;
 	}
 }

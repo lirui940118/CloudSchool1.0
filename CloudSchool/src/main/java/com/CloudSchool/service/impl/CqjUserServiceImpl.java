@@ -38,38 +38,15 @@ public class CqjUserServiceImpl implements CqjUserService {
 					clazzidsList.add(c[i]);
 				}
 			}
-			List<CqjModule> alllist = cmm.queryByRoleidandPositionid(userinfo.getRoleid(), userinfo.getPositionid());
-			List<CqjModule> moduleSettingList = new ArrayList<CqjModule>();
-			List<CqjModule> moduleList = new ArrayList<CqjModule>();
-			List<CqjModule> moduleInfoList = new ArrayList<CqjModule>();
 			
-			for (CqjModule list : alllist) {
-				if (list.getPid() == 0) {
-					for (CqjModule clist : alllist) {
-						if(clist.getPid()!=0) {
-							if(clist.getPid()==list.getModuleid()) {
-								list.getMlist().add(clist);
-							}
-						}
-					}
-					if(list.getLeftmenu()==0) {
-						moduleList.add(list);
-					}
-					if(list.getLeftmenu()==1) {
-						moduleSettingList.add(list);
-					}
-				}
-				if(list.getLeftmenu()==2) {
-					moduleInfoList.add(list);
-				}
-			}
 			userinfo.setClazzidsList(clazzidsList);
-			userinfo.setModuleAllList(alllist);
-			userinfo.setModuleList(moduleList);
-			userinfo.setModuleInfoList(moduleInfoList);
-			userinfo.setModuleSettingList(moduleSettingList);
-
 		}
 		return userinfo;
+	}
+
+	@Override
+	public CqjUser queryByUserid(Integer userid) {
+		// TODO Auto-generated method stub
+		return cum.queryByUserid(userid);
 	}
 }

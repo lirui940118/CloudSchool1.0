@@ -396,4 +396,53 @@
 		WHERE ischild != 0)
 
 	</select>
+	<select id="queryByUserId" resultMap="BaseResultMap">
+		SELECT
+		cu.`userid`,cu.`roleid`,cu.`usertypeid`,cu.`usertypenub`,cu.`creationtime`,cu.`modificationtime`,cu.`status`,cu.`uid`,cu.`remark`,im.`url`,
+		CONCAT_WS('',cs.`studentname`,cst.`staffname`,cp.`parentsname`) AS
+		`name`,
+		GROUP_CONCAT(CONCAT_WS('',cls1.`cid`,cct.`clazzid`,cls2.`cid`)
+		SEPARATOR ',') AS clazzids,
+		cr.`rolename`,
+		CONCAT_WS('',cs.`studentnub`,cst.`staffnub`) AS usernub,
+		CONCAT_WS('',cs.`positionid`,cst.`positionid`,cp.`positionid`) AS
+		`positionid`,positionname,
+		CONCAT_WS('',cs.`sex`,cst.`sex`,cp.`sex`) AS
+		`sex`,
+		CONCAT_WS('',cs.`age`,cst.`age`,cp.`age`) AS `age`,
+		CONCAT_WS('',cs.`phone`,cst.`phone`,cp.`phone`) AS `phone`,
+		CONCAT_WS('',cs.`idcard`,cst.`idcard`,cp.`idcard`) AS `idcard`,
+		CONCAT_WS('',cs.`birthday`,cst.`birthday`,cp.`birthday`) AS
+		`birthday`,
+		CONCAT_WS('',cs.`address`,cst.`address`,cp.`address`) AS
+		`address`,
+		CONCAT_WS('',cs.`email`,cst.`email`,cp.`email`) AS `email`
+		FROM cqj_user cu
+		LEFT JOIN cqj_student cs ON
+		cu.`usertypeid`=cs.`studentid` AND
+		cu.`usertypenub`=1
+		LEFT JOIN
+		cqj_staff cst ON cu.`usertypeid`=cst.`staffid` AND
+		cu.`usertypenub`=0
+		LEFT JOIN cqj_parents cp ON cu.`usertypeid`=cp.`parentsid` AND
+		cu.`usertypenub`=2
+		LEFT JOIN cqj_parents_student cps ON
+		cp.`parentsid`=cps.`parentsid` AND cps.`status`=0
+		LEFT JOIN `clazzstudent` cls1 ON
+		cls1.`sid`=cs.`studentid` AND cls1.`status`=0
+		LEFT JOIN `clazzcourseteacher` cct ON
+		cct.`tid`=cst.`staffid`
+		LEFT JOIN (SELECT * FROM `clazzstudent` ) AS
+		cls2 ON cps.`studentid`
+		=cls2.`sid` AND cls2.`status`=0
+		LEFT JOIN `cqj_position` cpo ON
+		cpo.`positionid`=CONCAT_WS('',cs.`positionid`,cst.`positionid`,cp.`positionid`)
+		INNER JOIN cqj_role cr ON cr.`roleid`=cu.`roleid`
+		LEFT JOIN img im ON cu.`usertypenub`=im.`style` AND cu.`usertypeid`=im.`id`
+		WHERE
+		cu.`userid`=#{userid}
+		GROUP BY
+		cu.userid,cpo.positionid,im.imgId
+	
+	</select>
 </mapper>
