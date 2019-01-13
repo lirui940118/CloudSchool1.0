@@ -3,6 +3,11 @@ package com.CloudSchool.domain;
 import java.util.Date;
 
 public class GkKaoqinState {
+	//write by lirui
+	//總次數（數據統計使用）
+	private Integer totalCount;
+	
+	
     private Integer kqStateId;
 
     private String kqStateName;
@@ -25,7 +30,16 @@ public class GkKaoqinState {
 
     private String by5;
 
-    public Integer getKqStateId() {
+    
+    public Integer getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(Integer totalCount) {
+		this.totalCount = totalCount;
+	}
+
+	public Integer getKqStateId() {
         return kqStateId;
     }
 

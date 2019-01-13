@@ -29,7 +29,7 @@ public class GkKaoqin {
 
     private String by5;
 
-    public Integer getKqId() {
+	public Integer getKqId() {
         return kqId;
     }
 
