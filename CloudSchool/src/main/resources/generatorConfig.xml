@@ -24,22 +24,7 @@
 
 		
 		
-		<table schema="Gk_wjcs" tableName="gk_wjcs" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		
-		<table schema="Gk_questionnairexx_type" tableName="gk_questionnairexx_type" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		
-		<table schema="Img" tableName="img" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		
-		<table schema="Lr_knowledagePoint" tableName="lr_knowledagePoint" enableCountByExample="false"
+		<table schema="Commission" tableName="commission" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
