@@ -10,4 +10,6 @@ public interface ZzyCourseMapper {
     int insertSelective(ZzyCourse record);
     
     public List<ZzyCourse> queryBygid(Integer gid);
+    
+    public ZzyCourse queryBycid(Integer cid);
 }

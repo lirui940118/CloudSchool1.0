@@ -220,4 +220,13 @@
       standby5 = #{standby5,jdbcType=VARCHAR}
     where staffid = #{staffid,jdbcType=INTEGER}
   </update>
+  
+  <!-- 根据班级id查询到班主任的对象 -->
+  <select id="queryByclazzid" resultMap="BaseResultMap">
+  	SELECT * FROM `cqj_staff` WHERE staffid =(SELECT tid FROM `clazzcourseteacher` WHERE clazzid =#{clazzid} AND isMaster=1) 
+  </select>
+  <!-- 根据员工id查询员工信息-->
+  <select id="queryBytid" resultMap="BaseResultMap">
+  		SELECT * FROM `cqj_staff` WHERE staffid=#{tid};
+  </select>
 </mapper>

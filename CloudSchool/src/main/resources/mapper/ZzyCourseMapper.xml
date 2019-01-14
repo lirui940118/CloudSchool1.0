@@ -140,4 +140,9 @@
 	<select id="queryBygid" resultMap="resultMapCouAndSec">
 		select * from `zzy_course` where gid=#{gid}
 	</select>
+	
+	<!-- 根据课程id查询课程对象 -->
+	<select id="queryBycid" resultMap="BaseResultMap">
+		select * from `zzy_course` where cid=#{cid}
+	</select>
 </mapper>
