@@ -24,74 +24,25 @@
 
 		
 		
-		<table schema="Zzy_class_committee" tableName="zzy_class_committee" enableCountByExample="false"
+		<table schema="Gk_wjcs" tableName="gk_wjcs" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Zzy_class_events" tableName="Zzy_class_events" enableCountByExample="false"
+		<table schema="Gk_questionnairexx_type" tableName="gk_questionnairexx_type" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Zzy_class_position" tableName="zzy_class_position" enableCountByExample="false"
+		<table schema="Img" tableName="img" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Zzy_class_schedule" tableName="zzy_class_schedule" enableCountByExample="false"
+		<table schema="Lr_knowledagePoint" tableName="lr_knowledagePoint" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
-		<table schema="Zzy_course" tableName="zzy_course" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		
-		<table schema="Zzy_course_events" tableName="zzy_course_events" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		
-		<table schema="Zzy_course_request" tableName="zzy_course_request" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		
-		<table schema="Zzy_event_type" tableName="Zzy_event_type" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		
-		<table schema="Zzy_grade" tableName="zzy_grade" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		
-		<table schema="Zzy_major" tableName="zzy_major" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		
-		<table schema="Zzy_realtime_classroom" tableName="zzy_realtime_classroom" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		
-		<table schema="Zzy_section" tableName="zzy_section" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		
-		<table schema="Zzy_teacher_ability" tableName="zzy_teacher_ability" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		
-		<table schema="Zzy_version" tableName="zzy_version" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
 	</context>
 </generatorConfiguration>

@@ -15,11 +15,20 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 public class testVO {
+	private Integer tId; //考试成绩testGrade.`id`
 	private String TestName;//考试名称
 	private String TestTsime;//考试时间（考试结束时间）
 	private double StudentScore;//学员得分
 	private double TotalScore;//试卷总分
 	private double studentScore100;//学员百分制得分
+	
+	
+	public Integer gettId() {
+		return tId;
+	}
+	public void settId(Integer tId) {
+		this.tId = tId;
+	}
 	public String getTestName() {
 		return TestName;
 	}

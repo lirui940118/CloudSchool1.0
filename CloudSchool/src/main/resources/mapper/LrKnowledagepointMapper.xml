@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.CloudSchool.dao.TestgradeMapper">
-  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.Testgrade">
+<mapper namespace="com.CloudSchool.dao.LrKnowledagepointMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.LrKnowledagepoint">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="tid" jdbcType="INTEGER" property="tid" />
     <result column="sId" jdbcType="INTEGER" property="sid" />
-    <result column="score" jdbcType="INTEGER" property="score" />
-    <result column="time" jdbcType="TIMESTAMP" property="time" />
-    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="kName" jdbcType="VARCHAR" property="kname" />
+    <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="user1" jdbcType="VARCHAR" property="user1" />
     <result column="user2" jdbcType="VARCHAR" property="user2" />
     <result column="user3" jdbcType="VARCHAR" property="user3" />
@@ -15,48 +16,53 @@
     <result column="user5" jdbcType="VARCHAR" property="user5" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, tid, sId, score, time, status, user1, user2, user3, user4, user5
+    id, sId, kName, creat_time, state, uid, remark, user1, user2, user3, user4, user5
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from testGrade
+    from lr_knowledagePoint
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from testGrade
+    delete from lr_knowledagePoint
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.CloudSchool.domain.Testgrade">
-    insert into testGrade (id, tid, sId, 
-      score, time, status, 
-      user1, user2, user3, 
-      user4, user5)
-    values (#{id,jdbcType=INTEGER}, #{tid,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, 
-      #{score,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, #{user3,jdbcType=VARCHAR}, 
-      #{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.CloudSchool.domain.LrKnowledagepoint">
+    insert into lr_knowledagePoint (id, sId, kName, 
+      creat_time, state, uid, 
+      remark, user1, user2, 
+      user3, user4, user5
+      )
+    values (#{id,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, #{kname,jdbcType=VARCHAR}, 
+      #{creatTime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, 
+      #{user3,jdbcType=VARCHAR}, #{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.CloudSchool.domain.Testgrade">
-    insert into testGrade
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.LrKnowledagepoint">
+    insert into lr_knowledagePoint
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="tid != null">
-        tid,
-      </if>
       <if test="sid != null">
         sId,
       </if>
-      <if test="score != null">
-        score,
+      <if test="kname != null">
+        kName,
       </if>
-      <if test="time != null">
-        time,
+      <if test="creatTime != null">
+        creat_time,
       </if>
-      <if test="status != null">
-        status,
+      <if test="state != null">
+        state,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="remark != null">
+        remark,
       </if>
       <if test="user1 != null">
         user1,
@@ -78,20 +84,23 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="tid != null">
-        #{tid,jdbcType=INTEGER},
-      </if>
       <if test="sid != null">
         #{sid,jdbcType=INTEGER},
       </if>
-      <if test="score != null">
-        #{score,jdbcType=INTEGER},
+      <if test="kname != null">
+        #{kname,jdbcType=VARCHAR},
       </if>
-      <if test="time != null">
-        #{time,jdbcType=TIMESTAMP},
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="user1 != null">
         #{user1,jdbcType=VARCHAR},
@@ -110,23 +119,26 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.Testgrade">
-    update testGrade
+  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.LrKnowledagepoint">
+    update lr_knowledagePoint
     <set>
-      <if test="tid != null">
-        tid = #{tid,jdbcType=INTEGER},
-      </if>
       <if test="sid != null">
         sId = #{sid,jdbcType=INTEGER},
       </if>
-      <if test="score != null">
-        score = #{score,jdbcType=INTEGER},
+      <if test="kname != null">
+        kName = #{kname,jdbcType=VARCHAR},
       </if>
-      <if test="time != null">
-        time = #{time,jdbcType=TIMESTAMP},
+      <if test="creatTime != null">
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="user1 != null">
         user1 = #{user1,jdbcType=VARCHAR},
@@ -146,13 +158,14 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.Testgrade">
-    update testGrade
-    set tid = #{tid,jdbcType=INTEGER},
-      sId = #{sid,jdbcType=INTEGER},
-      score = #{score,jdbcType=INTEGER},
-      time = #{time,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.LrKnowledagepoint">
+    update lr_knowledagePoint
+    set sId = #{sid,jdbcType=INTEGER},
+      kName = #{kname,jdbcType=VARCHAR},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
       user1 = #{user1,jdbcType=VARCHAR},
       user2 = #{user2,jdbcType=VARCHAR},
       user3 = #{user3,jdbcType=VARCHAR},
@@ -160,20 +173,4 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  
-  
-  <!-- 查询单个学员所有考试成绩 -->
-  <select id="querySimStudentTestGradeBySid" resultType="com.CloudSchool.domain.statistics.testVO">
-  	SELECT testGrade.`id`, testModule.`name`AS TestName,testGrade.`score`AS StudentScore,testModule.Score AS TotalScore,testInstance.`endtime` AS TestTsime,
-	(testGrade.`score`/testModule.Score*100)AS studentScore100
-	FROM testGrade 
-	INNER JOIN testInstance ON testInstance.`id` = testGrade.tid
-	INNER JOIN testModule ON testInstance.`tId`=testModule.`id`
-	WHERE testGrade.`sId` = #{sId}
-	<if test="gId!=-1">
-	AND testModule.user1 = #{gId}
-	</if>
-	ORDER BY testInstance.`startTime` ASC
-  </select>
 </mapper>

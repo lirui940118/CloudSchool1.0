@@ -543,10 +543,10 @@ img {
 	function gotoGradeInfo(){
 		$.ajax({
 			type : "post",
-			url : adress.url + "/statistics/getDataAboutQkBySidAndGid",
+			url : adress.url + "/statistics/gotoStudentText",
 			data : {
 				sId:sId,
-				gId:gId
+				tId:tId
 			},
 			success : function(data) {
 				
