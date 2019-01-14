@@ -100,15 +100,22 @@ public class ZzyController {
 	
 	//进入概览图
 	@RequestMapping("/overview")
-	public String overview() {
+	public String overview(Integer vid,Model model) {
+		model.addAttribute("vid", vid);
 		return "zzy/overview.html";
 	}
 	
 	//一对多查询版本以及版本里面的年级
 	@RequestMapping("/VerAndGrade")
 	@ResponseBody
-	public List<ZzyVersion> VerAndGrade(Integer vid) {
-		return vers.VerAndGrade(vid);
+	public ZzyVersion VerAndGrade(Integer vid) {
+		return vers.VerAndGrade(vid); 
 	}
 	
+	//一对多查询版本以及版本里面的年级,年级里面的课程,课程里面的章节
+	@RequestMapping("/VerAndGrade2")
+	@ResponseBody
+	public ZzyVersion VerAndGrade2(Integer vid) {
+		return vers.VerAndGrade2(vid); 
+	}
 }

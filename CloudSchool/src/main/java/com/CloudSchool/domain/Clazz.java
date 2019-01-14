@@ -20,6 +20,8 @@ public class Clazz {
     private String pc;
 
     private Integer status;
+    
+
 
     public Integer getId() {
         return id;

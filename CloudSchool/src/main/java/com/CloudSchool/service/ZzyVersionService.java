@@ -19,5 +19,7 @@ public interface ZzyVersionService {
     
     List<ZzyVersion> queryAll();
     
-    public List<ZzyVersion> VerAndGrade(Integer vid); 
+    public ZzyVersion VerAndGrade(Integer vid); 
+    
+    public ZzyVersion VerAndGrade2(Integer vid); 
 }

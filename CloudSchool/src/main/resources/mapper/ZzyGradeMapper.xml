@@ -235,8 +235,30 @@
 		</foreach>
 	</insert>
 	
-	<!-- 根据版本查询年级 -->
-	<select id="queryByvid" resultMap="BaseResultMap">
+	 <!-- 一对多查询年级以及年级里面的班级 -->
+  <resultMap type="com.CloudSchool.domain.ZzyGrade" id="resultMapGraAndCla" extends="BaseResultMap">
+		<collection property="list" column="gid" 
+			ofType="com.CloudSchool.domain.Clazz" 
+			select="com.CloudSchool.dao.ClazzMapper.queryBygid">
+		</collection>
+	</resultMap>
+	
+	<!-- 根据id查询年级 -->
+	<select id="queryByvid" resultMap="resultMapGraAndCla">
+		select * from `zzy_grade` where vid=#{vid}
+	</select>
+	
+	
+	<!-- 一对多查询年级以及年级里面的课程 -->
+  <resultMap type="com.CloudSchool.domain.ZzyGrade" id="resultMapGraAndCou" extends="BaseResultMap">
+		<collection property="list2" column="gid" 
+			ofType="com.CloudSchool.domain.ZzyCourse" 
+			select="com.CloudSchool.dao.ZzyCourseMapper.queryBygid">
+		</collection>
+	</resultMap>
+	
+	<!-- 根据id查询年级 -->
+	<select id="queryByvid2" resultMap="resultMapGraAndCou">
 		select * from `zzy_grade` where vid=#{vid}
 	</select>
   

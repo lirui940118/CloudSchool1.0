@@ -127,4 +127,17 @@
       </if>
     </trim>
   </insert>
+  
+  	<!-- 一对多查询课程以及课程里面的章节 -->
+  <resultMap type="com.CloudSchool.domain.ZzyCourse" id="resultMapCouAndSec" extends="BaseResultMap">
+		<collection property="list" column="cid" 
+			ofType="com.CloudSchool.domain.ZzySection" 
+			select="com.CloudSchool.dao.ZzySectionMapper.queryBycid">
+		</collection>
+	</resultMap>
+	
+	<!-- 根据年级id查询课程 -->
+	<select id="queryBygid" resultMap="resultMapCouAndSec">
+		select * from `zzy_course` where gid=#{gid}
+	</select>
 </mapper>

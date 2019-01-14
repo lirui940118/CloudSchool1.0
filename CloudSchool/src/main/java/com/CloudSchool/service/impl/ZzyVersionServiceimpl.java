@@ -76,9 +76,15 @@ public class ZzyVersionServiceimpl implements ZzyVersionService{
 	}
 
 	@Override
-	public List<ZzyVersion> VerAndGrade(Integer vid) {
+	public ZzyVersion VerAndGrade(Integer vid) {
 		// TODO Auto-generated method stub
 		return ma.VerAndGrade(vid);
+	}
+
+	@Override
+	public ZzyVersion VerAndGrade2(Integer vid) {
+		// TODO Auto-generated method stub
+		return ma.VerAndGrade2(vid);
 	}
 
 }

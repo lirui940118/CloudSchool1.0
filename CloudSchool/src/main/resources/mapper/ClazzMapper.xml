@@ -136,4 +136,9 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <!-- 根据年级id查询所有班级 -->
+  <select id="queryBygid" resultMap="BaseResultMap">
+		select * from clazz where gid=#{gid};
+	</select>
 </mapper>

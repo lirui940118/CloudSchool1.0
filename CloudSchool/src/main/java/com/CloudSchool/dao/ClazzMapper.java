@@ -1,5 +1,7 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.CloudSchool.domain.Clazz;
@@ -19,4 +21,7 @@ public interface ClazzMapper {
     int updateByPrimaryKeySelective(Clazz record);
 
     int updateByPrimaryKey(Clazz record);
+    
+    //根据年级id查询班级
+    public List<Clazz> queryBygid(Integer gid);
 }

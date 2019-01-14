@@ -15,6 +15,9 @@ public interface ZzyGradeMapper {
 	public int insertMap(Map<String,Object> map);
 	//根据版本id查询年级
 	public List<ZzyGrade> queryByvid(Integer vid);
+	public List<ZzyGrade> queryByvid2(Integer vid);
+	
+
 	
     int deleteByPrimaryKey(Integer gid);
 

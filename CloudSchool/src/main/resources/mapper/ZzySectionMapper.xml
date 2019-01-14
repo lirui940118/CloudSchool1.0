@@ -127,4 +127,9 @@
 			(#{l.sectionName},#{cid},#{l.period})
 		</foreach>
 	</insert>
+	
+		<!-- 根据课程id查询章节 -->
+	<select id="queryBycid" resultMap="BaseResultMap">
+		select * from `zzy_section` where cid=#{cid}
+	</select>
 </mapper>

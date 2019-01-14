@@ -37,7 +37,7 @@
 												</tr>
 											</thead>
 											<tbody>
-												<tr th:each="s,sStat:${list}">
+												<tr th:each="s,sStat:${list}" th:data-id="${s.vid}">
 													<td th:text="${sStat.count}"></td>
 													<td th:text="${s.versionof}"></td>
 													<td th:text="${s.creatTime}"></td>
@@ -72,7 +72,8 @@
 	<script type="text/javascript">
 		$(function(){
 			$("body").on("click","tbody tr",function(){
-				alert(1);
+				var vid=$(this).attr("data-id");
+				location.href="overview?vid="+vid;
 			})
 			$(".btn-success").click(function(){
 				location.href="addVersion";

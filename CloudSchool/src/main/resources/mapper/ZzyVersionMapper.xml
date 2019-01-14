@@ -189,4 +189,16 @@
 	<select id="VerAndGrade" resultMap="resultMapVerAndGrade">
 		select * from zzy_version where vid=#{vid};
 	</select>
+	
+	  <!-- 一对多查询版本以及版本里面的年级 -->
+  <resultMap type="com.CloudSchool.domain.ZzyVersion" id="resultMapVerAndGrade2" extends="BaseResultMap">
+		<collection property="list" column="vid" 
+			ofType="com.CloudSchool.domain.ZzyGrade" 
+			select="com.CloudSchool.dao.ZzyGradeMapper.queryByvid2">
+		</collection>
+	</resultMap>
+	
+	<select id="VerAndGrade2" resultMap="resultMapVerAndGrade2">
+		select * from zzy_version where vid=#{vid};
+	</select>
 </mapper>

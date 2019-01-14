@@ -1,5 +1,6 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import com.CloudSchool.domain.ZzySection;
@@ -11,5 +12,5 @@ public interface ZzySectionMapper {
     
     int insertMap(Map<String,Object> map);
     
-    
+    public List<ZzySection> queryBycid(Integer cid);
 }
