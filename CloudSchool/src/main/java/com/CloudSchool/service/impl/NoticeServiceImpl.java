@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.CloudSchool.dao.NoticeMapper;
+import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.Notice;
 import com.CloudSchool.service.NoticeService;
 @Service
@@ -57,9 +58,16 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public List<Notice> query() {
+	public List<Notice> query(String time,String str) {
 		// TODO Auto-generated method stub
-		return nm.query();
+		return nm.query(time,str);
 	}
+
+	@Override
+	public CqjUser querpersonerInfo(Integer uid) {
+		// TODO Auto-generated method stub
+		return nm.querpersonerInfo(uid);
+	}
+
 	
 }

@@ -2,6 +2,7 @@ package com.CloudSchool.dao;
 
 import java.util.List;
 
+import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.Notice;
 
 public interface NoticeMapper {
@@ -20,4 +21,7 @@ public interface NoticeMapper {
     int updateByPrimaryKey(Notice record);
     
     List<Notice> query();
+    CqjUser querpersonerInfo(Integer uid);
+
+	List<Notice> query(String time, String str);
 }

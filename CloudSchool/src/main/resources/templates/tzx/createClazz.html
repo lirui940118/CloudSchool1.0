@@ -7,6 +7,7 @@
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 		<link rel="stylesheet" href="../static/css/bootstrap.min.css">
 		<link rel="stylesheet" href="../static/css/ready.css">
+		<script src="static/js/core/jquery.3.2.1.min.js"></script>
 		<style type="text/css">
 			.jb .form-control{width: 50%;}
 			
@@ -26,7 +27,7 @@
 							<div class="card-body">
 								<div class="form-group">
 									<label for="smallInput">名称：</label>
-									<input type="text" class="form-control form-control-sm" id="smallInput" placeholder="AT1717">
+									<input type="text" class="form-control form-control-sm" id="smallInput" name="cname" placeholder="AT1717">
 								</div>
 								<div class="form-group">
 									<label for="exampleSelect">版本：</label>
@@ -38,26 +39,26 @@
 								</div>
 								<div class="form-group">
 									<label for="exampleSelect">年级：</label>
-									<select class="form-control form-control-sm" id="smallSelect">
-										<option>S1</option>
-										<option>S2</option>
-										<option>Y2</option>
+									<select class="form-control form-control-sm" id="smallSelect" name="gid">
+										<option value="1">S1</option>
+										<option value="2">S2</option>
+										<option value="3">Y2</option>
 									</select>
 								</div>
 								<div class="form-group">
 									<label for="exampleSelect">专业：</label>
-									<select class="form-control form-control-sm" id="smallSelect">
-										<option>java</option>
-										<option>.net</option>
+									<select class="form-control form-control-sm" id="smallSelect" name="mid">
+										<option value="1">java</option>
+										<option value="2">.net</option>
 									</select>
 								</div>
 								<div class="form-group">
 									<label for="exampleSelect">班主任：</label>
-									<select class="form-control form-control-sm" id="smallSelect">
-										<option>张骞</option>
-										<option>李白</option>
-										<option>王安石</option>
-										<option>赵日天</option>
+									<select class="form-control form-control-sm" id="smallSelect" name="tid">
+										<option value="1">张骞</option>
+										<option value="2">李白</option>
+										<option value="3">王安石</option>
+										<option value="4">赵日天</option>
 									</select>
 								</div>
 							</div>
@@ -81,51 +82,51 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>JAVA</td>
+										<tr class="t-content">
+											<td><input type="hidden" name=courseid value="1" style="border: 0px;width: 100%;">JAVA</td>
 											<td>java</td>
 											<td>48</td>
 											<td>ACCP8.0</td>
 											<td>30</td>
 											<td>
-												<select class="form-control form-control-sm" id="smallSelect">
-													<option>1</option>
-													<option>2</option>
-													<option>3</option>
-													<option>4</option>
-													<option>5</option>
+												<select class="form-control form-control-sm" id="smallSelect" name=tid>
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
 												</select>
 											</td>
 										</tr>
-										<tr>
-											<td>JAVA</td>
+										<tr class="t-content">
+											<td><input type="hidden" name=courseid value="2" style="border: 0px;width: 100%;">JAVA</td>
 											<td>java</td>
 											<td>48</td>
 											<td>ACCP8.0</td>
 											<td>30</td>
 											<td>
-												<select class="form-control form-control-sm" id="smallSelect">
-													<option>1</option>
-													<option>2</option>
-													<option>3</option>
-													<option>4</option>
-													<option>5</option>
+												<select class="form-control form-control-sm" id="smallSelect" name="tid">
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
 												</select>
 											</td>
 										</tr>
-										<tr>
-											<td>JAVA</td>
+										<tr class="t-content">
+											<td><input type="hidden" name=courseid value="3" style="border: 0px;width: 100%;">JAVA</td>
 											<td>java</td>
 											<td>48</td>
 											<td>ACCP8.0</td>
 											<td>30</td>
 											<td>
-												<select class="form-control form-control-sm" id="smallSelect">
-													<option>1</option>
-													<option>2</option>
-													<option>3</option>
-													<option>4</option>
-													<option>5</option>
+												<select class="form-control form-control-sm" id="smallSelect" name="tid">
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
 												</select>
 											</td>
 										</tr>
@@ -135,7 +136,7 @@
 							</div>
 						</div>
 						
-						<div class="card">
+						<div class="card student">
 							<div class="card-header">
 								<div class="card-title">选择学生</div>
 							</div>
@@ -153,8 +154,8 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>201801010001</td>
+										<tr class="s-content">
+											<td><input type="hidden" name=sid value="1" style="border: 0px;width: 100%;">201801010001</td>
 											<td>张三</td>
 											<td>S1</td>
 											<td>2000.11.11</td>
@@ -162,16 +163,16 @@
 											<td>新生</td>
 											<td>删除</td>
 										</tr>
-										<tr>
-											<td>201801010001</td><td>张三</td><td>S1</td><td>2000.11.11</td>
+										<tr class="s-content">
+											<td><input type="hidden" name=sid value="2" style="border: 0px;width: 100%;">201801010001</td><td>张三</td><td>S1</td><td>2000.11.11</td>
 											<td>ACCP8.0</td><td>新生</td><td>删除</td>
 										</tr>
-										<tr>
-											<td>201801010001</td><td>张三</td><td>S1</td><td>2000.11.11</td>
+										<tr class="s-content">
+											<td><input type="hidden" name=sid value="3" style="border: 0px;width: 100%;">201801010001</td><td>张三</td><td>S1</td><td>2000.11.11</td>
 											<td>ACCP8.0</td><td>新生</td><td>删除</td>
 										</tr>
-										<tr>
-											<td>201801010001</td><td>张三</td><td>S1</td><td>2000.11.11</td>
+										<tr class="s-content">
+											<td><input type="hidden" name=sid value="4" style="border: 0px;width: 100%;">201801010001</td><td>张三</td><td>S1</td><td>2000.11.11</td>
 											<td>ACCP8.0</td><td>新生</td><td>删除</td>
 										</tr>
 										
@@ -183,7 +184,7 @@
 							</div>
 						</div>
 						<p class="demo">
-							<button class="btn btn-success btn-lg">马上开班</button>
+							<button class="btn btn-success btn-lg" onclick="createClazz()">马上开班</button>
 							<button class="btn btn-link" disabled style="color: red;">放弃</button>
 						</p>
 					</div>
@@ -191,5 +192,45 @@
 			</div>
 		</div>
 	</body>
-
+	<script>
+		//获取开班可选信息
+		$(function(){
+// 			$.post("getOptionOfCreateClazz","",function(result){
+// 				console.log(result)
+// 				v.aa=result
+// 			})
+		})
+		//开班
+		function createClazz(){
+			var cname=$("[name=cname]").val()
+			var gid=$("[name=gid]").val()
+			var mid=$("[name=mid]").val()
+			var tid=$("[name=tid]").val()
+			var data="cname="+cname+"&gid="+gid+"&mid="+mid;
+			var tlist=$(".teacher table .t-content")
+			var slist=$(".student table .s-content")
+			data+="&tlist[0].tid="+tid+"&tlist[0].ismaster=1&tlist[0].isteacher=0"
+			$.each(tlist,function(index,obj){
+				var courseid=$(obj).find("input[name=courseid]").val()
+				var tid=$(obj).find("[name=tid]").val()
+				data+="&tlist["+(index+1)+"].courseid="+courseid+"&tlist["+(index+1)+"].tid="+tid+"&tlist["+(index+1)+"].isMaster=1&tlist["+(index+1)+"].isTeacher=0"
+				console.log(obj)
+			})
+			$.each(slist,function(index,obj){
+				var studentid=$(obj).find("input[name=studentid]").val()
+				var sid=$(obj).find("[name=sid]").val()
+				data+="&slist["+(index)+"].sid="+sid
+				console.log(obj)
+			})
+			alert("添加学生："+slist.length)
+			data+="&count="+slist.length
+			console.log(data)
+			$.post("craeteClazz",data,function(result){
+				alert(result)
+				console.log(result)
+			})
+		}
+		
+		
+	</script>
 </html>

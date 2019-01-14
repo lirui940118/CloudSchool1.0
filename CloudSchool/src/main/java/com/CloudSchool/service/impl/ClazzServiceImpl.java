@@ -21,13 +21,13 @@ public class ClazzServiceImpl implements ClazzService {
 	ClazzcourseteacherMapper cctm;
 	@Override
 	public int CreateClass(ClazzInfo c) {
-//		int jg=cm.insert(c);
+		int jg=cm.insert(c);
 //		System.out.println(jg+"-"+c.getId()+"-"+c.getCname());
-//		int jg=csm.insertAll(c);
+		int jg1=csm.insertAll(c);
 //		System.out.println(jg+"------------------------\n\n\n\n------");
-		int jg1=cctm.insertAll(c);
+		int jg2=cctm.insertAll(c);
 		System.out.println(jg1+"------------------------\n\n\n\n------");
-		return jg1;
+		return jg+jg1+jg2;
 	}
 	/**
 	 * 自动开班

@@ -2,6 +2,7 @@ package com.CloudSchool.service;
 
 import java.util.List;
 
+import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.Notice;
 
 public interface NoticeService {
@@ -19,5 +20,7 @@ public interface NoticeService {
 
     int updateByPrimaryKey(Notice record);
     
-    List<Notice> query();
+    CqjUser querpersonerInfo(Integer uid);
+
+	List<Notice> query(String time, String str);
 }

@@ -15,6 +15,29 @@
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.CloudSchool.domain.Notice">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
+  	<resultMap id="CqjUser"
+		type="com.CloudSchool.domain.CqjUser">
+		<id column="userid" jdbcType="INTEGER" property="userid" />
+		<result column="username" jdbcType="VARCHAR"
+			property="username" />
+		<result column="password" jdbcType="VARCHAR"
+			property="password" />
+		<result column="roleid" jdbcType="INTEGER" property="roleid" />
+		<result column="usertypeid" jdbcType="INTEGER"
+			property="usertypeid" />
+		<result column="usertypenub" jdbcType="INTEGER"
+			property="usertypenub" />
+		<result column="name" jdbcType="VARCHAR"
+			property="standby1" />
+		<result column="standby2" jdbcType="VARCHAR"
+			property="standby2" />
+		<result column="standby3" jdbcType="VARCHAR"
+			property="standby3" />
+		<result column="standby4" jdbcType="VARCHAR"
+			property="standby4" />
+		<result column="standby5" jdbcType="VARCHAR"
+			property="standby5" />
+	</resultMap>
   <sql id="Base_Column_List">
     id, title, sender, url, time, receiverRange, receiverId, readRecord
   </sql>
@@ -38,8 +61,8 @@
       url, time, receiverRange, 
       receiverId, readRecord, content
       )
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{sender,jdbcType=INTEGER}, 
-      #{url,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{receiverrange,jdbcType=INTEGER}, 
+    values (0, #{title,jdbcType=VARCHAR}, #{sender,jdbcType=INTEGER}, 
+      #{url,jdbcType=VARCHAR}, now(), #{receiverrange,jdbcType=INTEGER}, 
       #{receiverid,jdbcType=INTEGER}, #{readrecord,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -117,7 +140,7 @@
         url = #{url,jdbcType=VARCHAR},
       </if>
       <if test="time != null">
-        time = #{time,jdbcType=TIMESTAMP},
+        time = now(),
       </if>
       <if test="receiverrange != null">
         receiverRange = #{receiverrange,jdbcType=INTEGER},
@@ -159,7 +182,23 @@
   </update>
   
   <select id="query" resultMap="BaseResultMap">
-  	SELECT notice.*,cqj_staff.`staffname` as sendername FROM notice
-	INNER JOIN cqj_staff ON cqj_staff.`staffid`=notice.`id`
+	SELECT notice.*,u.`userid`,CONCAT(IFNULL(s.`staffname`,''),IFNULL(stu.`studentname`,''),IFNULL(p.`parentsname`,'')) AS `sendername` FROM notice
+	INNER JOIN cqj_user AS u ON u.`userid`=notice.`sender`
+	LEFT JOIN cqj_staff AS s ON s.`staffid`=u.`usertypeid` AND u.`usertypenub`=0
+	LEFT JOIN cqj_student AS stu ON stu.`studentid`=u.`usertypeid` AND u.`usertypenub`=1
+	LEFT JOIN cqj_parents AS p ON p.`parentsid`=u.`usertypeid` AND u.`usertypenub`=2
+	<where>
+		<if test="str != null">(notice.title like concat("%",#{str},"%") or notice.title = concat("%",#{str},"%"))</if>
+	</where>
+	<where>
+		<if test="time != null">notice.`time`=#{time}</if>
+	</where>
+  </select>
+  <select id="querpersonerInfo" resultMap="CqjUser">
+	SELECT u.`userid`,u.`username`,u.`usertypeid`,u.`usertypenub`,CONCAT(IFNULL(s.`staffname`,''),IFNULL(stu.`studentname`,''),IFNULL(p.`parentsname`,'')) AS `name` FROM cqj_user AS u
+	LEFT JOIN cqj_staff AS s ON s.`staffid`=u.`usertypeid` AND u.`usertypenub`=0
+	LEFT JOIN cqj_student AS stu ON stu.`studentid`=u.`usertypeid` AND u.`usertypenub`=1
+	LEFT JOIN cqj_parents AS p ON p.`parentsid`=u.`usertypeid` AND u.`usertypenub`=2
+	WHERE u.`userid`=#{uid}
   </select>
 </mapper>
