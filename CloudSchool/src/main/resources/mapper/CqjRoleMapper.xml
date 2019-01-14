@@ -174,4 +174,7 @@
       standby5 = #{standby5,jdbcType=VARCHAR}
     where roleid = #{roleid,jdbcType=INTEGER}
   </update>
+  <select id="queryAllRole" resultMap="BaseResultMap">
+  	SELECT * FROM cqj_role WHERE `status`=0
+  </select>
 </mapper>

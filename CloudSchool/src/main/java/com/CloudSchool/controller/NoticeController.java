@@ -3,6 +3,7 @@ package com.CloudSchool.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,15 +44,17 @@ public class NoticeController {
 		return ns.query();
 	}
 	@RequestMapping("/noticeDetail")
-	public String toNoticeDetail() {
+	public String toNoticeDetail(HttpSession session,int nid) {
 		System.out.println("跳转页面-通知详情");
+		session.setAttribute("noticeid", nid);
 		return "tzx/noticeDetail";
 	}
 	@ResponseBody
 	@RequestMapping("/noticeInfo")
-	public String noticeInfo() {
+	public Notice noticeInfo(HttpSession session) {
 		System.out.println("查询-通知详情");
-		return "通知详情";
+		int nid=(int) session.getAttribute("noticeid");
+		return ns.selectByPrimaryKey(nid);
 	}
 	
 	

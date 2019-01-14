@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.GkWjcsMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.GkWjcs">
+    <id column="wjcs_id" jdbcType="INTEGER" property="wjcsId" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="wj_id" jdbcType="INTEGER" property="wjId" />
+    <result column="wjtm_id" jdbcType="INTEGER" property="wjtmId" />
+    <result column="wjxx_name" jdbcType="VARCHAR" property="wjxxName" />
+    <result column="wjcs_time" jdbcType="TIMESTAMP" property="wjcsTime" />
+    <result column="creation_time" jdbcType="TIMESTAMP" property="creationTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="founder" jdbcType="VARCHAR" property="founder" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="by1" jdbcType="VARCHAR" property="by1" />
+    <result column="by2" jdbcType="VARCHAR" property="by2" />
+    <result column="by3" jdbcType="VARCHAR" property="by3" />
+    <result column="by4" jdbcType="VARCHAR" property="by4" />
+    <result column="by5" jdbcType="VARCHAR" property="by5" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    wjcs_id, uid, wj_id, wjtm_id, wjxx_name, wjcs_time, creation_time, update_time, founder, 
+    status, by1, by2, by3, by4, by5
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gk_wjcs
+    where wjcs_id = #{wjcsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gk_wjcs
+    where wjcs_id = #{wjcsId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.CloudSchool.domain.GkWjcs">
+    insert into gk_wjcs (wjcs_id, uid, wj_id, 
+      wjtm_id, wjxx_name, wjcs_time, 
+      creation_time, update_time, founder, 
+      status, by1, by2, by3, 
+      by4, by5)
+    values (#{wjcsId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{wjId,jdbcType=INTEGER}, 
+      #{wjtmId,jdbcType=INTEGER}, #{wjxxName,jdbcType=VARCHAR}, #{wjcsTime,jdbcType=TIMESTAMP}, 
+      #{creationTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{founder,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{by1,jdbcType=VARCHAR}, #{by2,jdbcType=VARCHAR}, #{by3,jdbcType=VARCHAR}, 
+      #{by4,jdbcType=VARCHAR}, #{by5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.GkWjcs">
+    insert into gk_wjcs
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wjcsId != null">
+        wjcs_id,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="wjId != null">
+        wj_id,
+      </if>
+      <if test="wjtmId != null">
+        wjtm_id,
+      </if>
+      <if test="wjxxName != null">
+        wjxx_name,
+      </if>
+      <if test="wjcsTime != null">
+        wjcs_time,
+      </if>
+      <if test="creationTime != null">
+        creation_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="founder != null">
+        founder,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="by1 != null">
+        by1,
+      </if>
+      <if test="by2 != null">
+        by2,
+      </if>
+      <if test="by3 != null">
+        by3,
+      </if>
+      <if test="by4 != null">
+        by4,
+      </if>
+      <if test="by5 != null">
+        by5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wjcsId != null">
+        #{wjcsId,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="wjId != null">
+        #{wjId,jdbcType=INTEGER},
+      </if>
+      <if test="wjtmId != null">
+        #{wjtmId,jdbcType=INTEGER},
+      </if>
+      <if test="wjxxName != null">
+        #{wjxxName,jdbcType=VARCHAR},
+      </if>
+      <if test="wjcsTime != null">
+        #{wjcsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creationTime != null">
+        #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="founder != null">
+        #{founder,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="by1 != null">
+        #{by1,jdbcType=VARCHAR},
+      </if>
+      <if test="by2 != null">
+        #{by2,jdbcType=VARCHAR},
+      </if>
+      <if test="by3 != null">
+        #{by3,jdbcType=VARCHAR},
+      </if>
+      <if test="by4 != null">
+        #{by4,jdbcType=VARCHAR},
+      </if>
+      <if test="by5 != null">
+        #{by5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.GkWjcs">
+    update gk_wjcs
+    <set>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="wjId != null">
+        wj_id = #{wjId,jdbcType=INTEGER},
+      </if>
+      <if test="wjtmId != null">
+        wjtm_id = #{wjtmId,jdbcType=INTEGER},
+      </if>
+      <if test="wjxxName != null">
+        wjxx_name = #{wjxxName,jdbcType=VARCHAR},
+      </if>
+      <if test="wjcsTime != null">
+        wjcs_time = #{wjcsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creationTime != null">
+        creation_time = #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="founder != null">
+        founder = #{founder,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="by1 != null">
+        by1 = #{by1,jdbcType=VARCHAR},
+      </if>
+      <if test="by2 != null">
+        by2 = #{by2,jdbcType=VARCHAR},
+      </if>
+      <if test="by3 != null">
+        by3 = #{by3,jdbcType=VARCHAR},
+      </if>
+      <if test="by4 != null">
+        by4 = #{by4,jdbcType=VARCHAR},
+      </if>
+      <if test="by5 != null">
+        by5 = #{by5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where wjcs_id = #{wjcsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.GkWjcs">
+    update gk_wjcs
+    set uid = #{uid,jdbcType=INTEGER},
+      wj_id = #{wjId,jdbcType=INTEGER},
+      wjtm_id = #{wjtmId,jdbcType=INTEGER},
+      wjxx_name = #{wjxxName,jdbcType=VARCHAR},
+      wjcs_time = #{wjcsTime,jdbcType=TIMESTAMP},
+      creation_time = #{creationTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      founder = #{founder,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      by1 = #{by1,jdbcType=VARCHAR},
+      by2 = #{by2,jdbcType=VARCHAR},
+      by3 = #{by3,jdbcType=VARCHAR},
+      by4 = #{by4,jdbcType=VARCHAR},
+      by5 = #{by5,jdbcType=VARCHAR}
+    where wjcs_id = #{wjcsId,jdbcType=INTEGER}
+  </update>
+</mapper>

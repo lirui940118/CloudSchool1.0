@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>领导阅员工请假申请</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+		<style type="text/css">
+			/** {
+				margin: 0px;
+				padding: 0px;
+				
+			}*/
+			
+			.card {
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title">领导阅员工请假申请</h4>
+					
+					<div class="row">
+						<div class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<div class="card-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请填写完整表格</font></font></div>
+									</div>
+									<div class="card-body">
+										<div class="form-group">
+											<label for="disableinput"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">姓名</font></font></label>
+											<input type="text" class="form-control" id="disableinput" placeholder="张起灵" disabled="">
+										</div>
+										<div class="form-group">
+											<label for="disableinput"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">部门</font></font></label>
+											<input type="text" class="form-control" id="disableinput" placeholder="教学部" disabled="">
+										</div>
+										<div class="form-group">
+											<label for="exampleFormControlSelect1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请假类别</font></font></label>
+											<select class="form-control" id="exampleFormControlSelect1">
+												<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">事假</font></font></option>
+												<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">病假</font></font></option>
+												<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">婚假</font></font></option>
+												<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">产假</font></font></option>
+												<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">其他</font></font></option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请假原因</font></font></label>
+											<textarea class="form-control" id="comment" rows="5">
+											</textarea>
+										</div>
+										<div class="form-group">
+											<div class="col-lg-6 col-md-9 col-sm-12 row">
+												<input type="datetime-local" class="form-control form-control col-lg-5"/><span>至</span><input type="datetime-local" class="form-control form-control col-lg-5"/>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="largeInput"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">共请假天数</font></font></label>
+											<input type="text" class="form-control form-control" id="defaultInput" placeholder="Default Input">
+										</div>
+										
+										
+										
+										
+										<div class="form-group">
+											<label for="exampleFormControlSelect1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">是否同意？</font></font></label>
+											<select class="form-control" id="exampleFormControlSelect1">
+												<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">同意</font></font></option>
+												<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">不同意</font></font></option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">你的意见</font></font></label>
+											<textarea class="form-control" id="comment" rows="5">
+											</textarea>
+										</div>
+										<div class="card-action">
+											<button class="btn btn-success"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">提交</font></font></button>
+											<button class="btn btn-danger"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">取消</font></font></button>
+										</div>
+									</div>
+							</div>
+						
+						
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script th:src="@{/static/core/jquery.min.js}"></script>
+	<script th:src="@{/static/core/vue.js}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/static/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+	<script th:src="@{/static/core/popper.min.js}"></script>
+	<script th:src="@{/static/plugin/chartist/chartist.min.js}"></script>
+	<script th:src="@{/static/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+	<script th:src="@{/static/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+	<script th:src="@{/static/core/bootstrap.min.js}"></script>
+	<script th:src="@{/static/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+	<script th:src="@{/static/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+	<script th:src="@{/static/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+	<script th:src="@{/static/plugin/chart-circle/circles.min.js}"></script>
+	<script th:src="@{/static/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+	<script th:src="@{/static/ready.min.js}"></script>
+
+	<script type="text/javascript">
+		var v = new Vue({
+			el: ".content",
+			data: {
+				a: false
+			}
+		});
+		$(function() {
+			//点击进入子模块修改
+			$('[name="goUpdateModule"]').click(function(){
+				window.location.href="setting-role_updateModule.html?id=10"				
+			});
+			//点击创建角色
+			$('[name="goInsertRole"]').click(function(){
+				window.location.href="setting-role_insertRole.html"				
+			});
+		})
+	</script>
+
+</html>

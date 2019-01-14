@@ -56,7 +56,7 @@
       #{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR}, #{topicconten,jdbcType=LONGVARCHAR}, 
       #{result,jdbcType=LONGVARCHAR}, #{analysis,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.CloudSchool.domain.TopicWithBLOBs">
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.TopicWithBLOBs" useGeneratedKeys="true" keyProperty="id">
     insert into topic
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

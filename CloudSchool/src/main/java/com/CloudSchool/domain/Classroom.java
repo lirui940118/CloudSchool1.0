@@ -10,8 +10,18 @@ public class Classroom {
     private Integer galleryful;
 
     private Integer floor;
+    
+    private String ctname;
 
-    public Integer getId() {
+    public String getCtname() {
+		return ctname;
+	}
+
+	public void setCtname(String ctname) {
+		this.ctname = ctname;
+	}
+
+	public Integer getId() {
         return id;
     }
 

@@ -1,5 +1,8 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.CloudSchool.domain.CqjPosition;
 
 public interface CqjPositionMapper {
@@ -14,4 +17,6 @@ public interface CqjPositionMapper {
     int updateByPrimaryKeySelective(CqjPosition record);
 
     int updateByPrimaryKey(CqjPosition record);
+    List<CqjPosition> qeuryAllposition();
+
 }

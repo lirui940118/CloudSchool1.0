@@ -7,9 +7,14 @@
     <result column="describe" jdbcType="VARCHAR" property="describe" />
     <result column="accessory" jdbcType="VARCHAR" property="accessory" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="user1" jdbcType="VARCHAR" property="user1" />
+    <result column="user2" jdbcType="VARCHAR" property="user2" />
+    <result column="user3" jdbcType="VARCHAR" property="user3" />
+    <result column="user4" jdbcType="VARCHAR" property="user4" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, tid, describe, accessory, status
+    id, tid, describe, accessory, status, cid, user1, user2, user3, user4
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,9 +28,13 @@
   </delete>
   <insert id="insert" parameterType="com.CloudSchool.domain.Commission">
     insert into commission (id, tid, describe, 
-      accessory, status)
+      accessory, status, cid, 
+      user1, user2, user3, 
+      user4)
     values (#{id,jdbcType=INTEGER}, #{tid,jdbcType=INTEGER}, #{describe,jdbcType=VARCHAR}, 
-      #{accessory,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+      #{accessory,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, 
+      #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, #{user3,jdbcType=VARCHAR}, 
+      #{user4,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.CloudSchool.domain.Commission">
     insert into commission
@@ -45,6 +54,21 @@
       <if test="status != null">
         status,
       </if>
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="user1 != null">
+        user1,
+      </if>
+      <if test="user2 != null">
+        user2,
+      </if>
+      <if test="user3 != null">
+        user3,
+      </if>
+      <if test="user4 != null">
+        user4,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -61,6 +85,21 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null">
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="user1 != null">
+        #{user1,jdbcType=VARCHAR},
+      </if>
+      <if test="user2 != null">
+        #{user2,jdbcType=VARCHAR},
+      </if>
+      <if test="user3 != null">
+        #{user3,jdbcType=VARCHAR},
+      </if>
+      <if test="user4 != null">
+        #{user4,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -79,6 +118,21 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="cid != null">
+        cid = #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="user1 != null">
+        user1 = #{user1,jdbcType=VARCHAR},
+      </if>
+      <if test="user2 != null">
+        user2 = #{user2,jdbcType=VARCHAR},
+      </if>
+      <if test="user3 != null">
+        user3 = #{user3,jdbcType=VARCHAR},
+      </if>
+      <if test="user4 != null">
+        user4 = #{user4,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -87,7 +141,12 @@
     set tid = #{tid,jdbcType=INTEGER},
       describe = #{describe,jdbcType=VARCHAR},
       accessory = #{accessory,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      cid = #{cid,jdbcType=INTEGER},
+      user1 = #{user1,jdbcType=VARCHAR},
+      user2 = #{user2,jdbcType=VARCHAR},
+      user3 = #{user3,jdbcType=VARCHAR},
+      user4 = #{user4,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

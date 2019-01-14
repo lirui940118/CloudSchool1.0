@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>学生请假记录</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+		<style type="text/css">
+			/** {
+				margin: 0px;
+				padding: 0px;
+				
+			}*/
+			
+			.card {
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title">学生请假记录</h4>
+					
+					<div class="row">
+						<div class="card col-lg-12">
+							<div class="card-body">
+								<h6>展示列</h6>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">姓名</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">班级</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">请假类别</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">开始时间</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">结束时间</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">总共天数</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">填表日期</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">班主任意见</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">当前状态</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">复选框</span>
+								</label>
+								<div class="col-lg-12 row">
+									<div class="col-lg-6 col-md-9 col-sm-12 row">
+										<input type="datetime-local" class="form-control form-control col-lg-5"/><span>至</span><input type="datetime-local" class="form-control form-control col-lg-5"/>
+									</div>
+									<div class="col-lg-3 col-md-9 col-sm-12 row">
+										<select class="form-control" id="exampleFormControlSelect1">
+											<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请假类别</font></font></option>
+											<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">事假</font></font></option>
+											<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">病假</font></font></option>
+											<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">婚假</font></font></option>
+											<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">产假</font></font></option>
+											<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">其他</font></font></option>
+										</select>
+									</div>
+									<div class="col-lg-3 col-md-9 col-sm-12 row">
+										<input type="text" class="form-control form-control" id="defaultInput" placeholder="姓名">
+									</div>
+								</div>
+							</div>
+							<div class="card-body">
+								<h6>操作</h6>
+								<button class="btn btn-warning">修改</button>
+								<button class="btn btn-danger">删除</button>
+								<button class="btn btn-primary">导入</button>
+								<button class="btn btn-info">导出</button>
+							</div>
+						</div>
+	
+							<div class="card col-lg-12">
+								<div class="card-body">
+									<table class="table table-head-bg-success table-striped table-hover">
+										<thead>
+											<tr>
+												<th scope="col">姓名</th>
+												<th scope="col">班级</th>
+												<th scope="col">请假类别</th>
+												<th scope="col">开始时间</th>
+												<th scope="col">结束时间</th>
+												<th scope="col">总共天数</th>
+												<th scope="col">填表日期</th>
+												<th scope="col">班主任意见</th>
+												<th scope="col">当前状态</th>
+												<th scope="col">复选框</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td name="姓名">1</td>
+												<td name="班级">教员</td>
+												<td name="请假类别">1</td>
+												<td name="开始时间">1</td>
+												<td name="结束时间">1</td>
+												<td name="总共天数">1</td>
+												<td name="填表日期">正常</td>
+												<td name="班主任意见">小数点</td>
+												<td name="当前状态">小数点</td>
+												<td name="复选框">
+													<label class="form-check-label">
+														<input class="form-check-input task-select" type="checkbox">
+														<span class="form-check-sign">选择</span>
+													</label>
+												</td>
+											</tr>
+											<tr>
+												<td name="姓名">1</td>
+												<td name="班级">教员</td>
+												<td name="请假类别">1</td>
+												<td name="开始时间">1</td>
+												<td name="结束时间">1</td>
+												<td name="总共天数">1</td>
+												<td name="填表日期">正常</td>
+												<td name="班主任意见">小数点</td>
+												<td name="当前状态">小数点</td>
+												<td name="复选框">
+													<label class="form-check-label">
+														<input class="form-check-input task-select" type="checkbox">
+														<span class="form-check-sign">选择</span>
+													</label>
+												</td>
+											</tr>
+											<tr>
+												<td name="姓名">1</td>
+												<td name="班级">教员</td>
+												<td name="请假类别">1</td>
+												<td name="开始时间">1</td>
+												<td name="结束时间">1</td>
+												<td name="总共天数">1</td>
+												<td name="填表日期">正常</td>
+												<td name="班主任意见">小数点</td>
+												<td name="当前状态">小数点</td>
+												<td name="复选框">
+													<label class="form-check-label">
+														<input class="form-check-input task-select" type="checkbox">
+														<span class="form-check-sign">选择</span>
+													</label>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+						</div>
+						
+						
+						<div class="col-lg-12">
+							<button class="btn btn-success">上一页</button>
+							<button class="btn btn-success">下一页</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script th:src="@{/static/core/jquery.min.js}"></script>
+	<script th:src="@{/static/core/vue.js}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/static/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+	<script th:src="@{/static/core/popper.min.js}"></script>
+	<script th:src="@{/static/plugin/chartist/chartist.min.js}"></script>
+	<script th:src="@{/static/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+	<script th:src="@{/static/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+	<script th:src="@{/static/core/bootstrap.min.js}"></script>
+	<script th:src="@{/static/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+	<script th:src="@{/static/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+	<script th:src="@{/static/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+	<script th:src="@{/static/plugin/chart-circle/circles.min.js}"></script>
+	<script th:src="@{/static/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+	<script th:src="@{/static/ready.min.js}"></script>
+
+	<script>
+		/* 加载事件，默认全部复选框选中 */
+		$(function(){
+			$("input[type='checkbox']").attr("checked",'true');
+			$("td input[type='checkbox']").attr("checked",'false');
+		});
+		/* 复选框单击事件*/
+		$("input[type='checkbox']").click(function(){
+			var ziji = $(this);
+			var checkboxname = $(this).next().html();
+			$("th[scope='col']").each(function(index,element){
+				var thname = $(this).text();
+				if(checkboxname == thname){
+					if(ziji.prop("checked")){
+						$(this).show();
+						$("[name="+thname+"]").show();
+					}else{
+						$(this).hide();
+						$("[name="+thname+"]").hide();
+					}
+				}
+			});
+		});
+	</script>
+
+</html>

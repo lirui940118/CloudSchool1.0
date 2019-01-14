@@ -18,13 +18,14 @@
 //
 //==================================================
 //�ڵ����  -- Node object
-function Node(id, pid, cname, cvalue, cshow, cchecked, cdisabled, url, title,
+function Node(id, pid, cname, cvalue, cshow,checked, cchecked, cdisabled, url, title,
 		target, icon, iconOpen, open) {
 	this.id = id; // int ÿ���ڵ㶼��ΨһID�����ӽڵ�ʱ��Ҫ�ֹ�����һ��ID��
 	this.pid = pid; // int ���ڵ�ID�����ڵ�ĸ��ڵ���-1��
 	this.cname = cname; // chechbox������
 	this.cvalue = cvalue; // chechbox��ֵ
 	this.cshow = cshow; // chechbox����ʾ
+	this.checked=checked;
 	this.cchecked = cchecked || false; // chechbox�Ƿ�ѡ�У�Ĭ���ǲ�ѡ
 	this.cdisabled = cdisabled || false; // chechbox�Ƿ���ã�Ĭ���ǿ���
 	this.url = url || '#'; // �ڵ����ӣ�Ĭ���������� String �ڵ�URL���������ת��ַ��
@@ -83,9 +84,9 @@ function dTree(objName, objbool) { // void ���췽���������
 };
 
 // ���һ���½ڵ㵽�ڵ������� --Adds a new node to the node array
-dTree.prototype.add = function(id, pid, cname, cvalue, cshow, cchecked,
+dTree.prototype.add = function(id, pid, cname, cvalue, cshow, checked,cchecked,
 		cdisabled, url, title, target, icon, iconOpen, open) {
-	this.aNodes[this.aNodes.length] = new Node(id, pid, cname, cvalue, cshow,
+	this.aNodes[this.aNodes.length] = new Node(id, pid, cname, cvalue, cshow,checked,
 			cchecked, cdisabled, url, title, target, icon, iconOpen, open);
 };
 
@@ -252,7 +253,7 @@ dTree.prototype.node = function(node, nodeId) {
 						+ node.pid
 						+ "," + node._hc + ",this.checked);' ";
 			}
-			if (node.cchecked)
+			if (node.checked)
 				checkboxSyntax += " checked ";
 
 			if (node.cdisabled)

@@ -1,5 +1,7 @@
 package com.CloudSchool.dao;
 
+import java.util.Map;
+
 import com.CloudSchool.domain.Topicoption;
 
 public interface TopicoptionMapper {
@@ -16,4 +18,6 @@ public interface TopicoptionMapper {
     int updateByPrimaryKeyWithBLOBs(Topicoption record);
 
     int updateByPrimaryKey(Topicoption record);
+    
+    int insertList(Map<String, Object> obj);
 }

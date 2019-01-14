@@ -5,9 +5,10 @@
 		<meta charset="UTF-8">
 		<title>通知公告</title>
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-		<link rel="stylesheet" href="../static/css/bootstrap.min.css">
-		<link rel="stylesheet" href="../static/css/ready.css">
-		<script src="../static/js/core/jquery.3.2.1.min.js"></script>
+		<link rel="stylesheet" href="static/css/bootstrap.min.css">
+		<link rel="stylesheet" href="static/css/ready.css">
+		<script src="static/js/core/jquery.3.2.1.min.js"></script>
+		<script src="static/js/core/vue.js"></script>
 	</head>
 
 	<body>
@@ -39,18 +40,22 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>1</td>
-											<td>改革春风</td>
-											<td>老王</td>
-											<td>2018-1-1</td>
-											<td>已发布</td>
-											<td>删除</td>
-											<td><button class="btn btn-primary btn-xs">编辑</button></td>
-										</tr>
-										<tr>
-											<td>1</td><td>国庆放假通知</td><td>老校长</td><td>2018-9-12</td><td>已发布</td>
-											<td>删除</td><td><button class="btn btn-primary btn-xs" onclick="edit(1)">编辑</button></td>
+<!-- 										<tr> -->
+<!-- 											<td>1</td> -->
+<!-- 											<td>改革春风</td> -->
+<!-- 											<td>老王</td> -->
+<!-- 											<td>2018-1-1</td> -->
+<!-- 											<td>已发布</td> -->
+<!-- 											<td>删除</td> -->
+<!-- 											<td><button class="btn btn-primary btn-xs">编辑</button></td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<td>1</td><td>国庆放假通知</td><td>老校长</td><td>2018-9-12</td><td>已发布</td> -->
+<!-- 											<td>删除</td><td><button class="btn btn-primary btn-xs" onclick="edit(1)">编辑</button></td> -->
+<!-- 										</tr> -->
+										<tr v-for="obj,index in aa" v-bind:nid="obj.id">
+											<td>{{obj.id}}</td><td>{{obj.title}}</td><td>{{obj.sendername}}</td><td>{{obj.time}}</td><td>已发布</td>
+											<td>删除</td><td><button class="btn btn-primary btn-xs" v-on:click="jump(obj.id)">编辑</button></td>
 										</tr>
 										
 									</tbody>
@@ -68,26 +73,27 @@
 		</div>
 	</body>
 	<script>
-// 		var v=new Vue({
-// 			el : ".card",
-// 			data : {
-// 				aa:[],
-// 				totaladdMoney:0,
-// 				totalbackMoneyy:0,
-// 				totalfinalMoney:0,
-// 				name:'abc',
-// 				initMoney:0
-// 			}
-// 		})
-		function edit(nid){
-			
-		}
+		var v=new Vue({
+			el : ".card",
+			data : {
+				aa:null,
+				totaladdMoney:0,
+				totalbackMoneyy:0,
+				totalfinalMoney:0,
+				nid:'abc',
+				initMoney:0
+			},
+			methods:{
+				jump:function(nid){
+					location.href="noticeDetail?nid="+nid;
+				}
+			}
+		})
 		$(function(){
-			alert(1)
 			$.post("noticeList","",function(result){
-				alert(result)
+// 				alert(result)
 				console.log(result)
-// 				v.name=result
+				v.aa=result
 			})
 		})
 	</script>

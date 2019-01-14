@@ -194,4 +194,13 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!-- 添加多个题目 -->
+  <insert id="insertList">
+  	insert into topicOption values
+  	<foreach collection="list" separator="," item="obj">
+  		<if test="obj.id!=null">
+  		(0,#{tid},#{option},#{istrue},#{time},#{status},#{user1},#{user2},#{user3},#{user4},#{user5},#{optionconten})
+  		</if>
+  	</foreach>
+  </insert>
 </mapper>

@@ -20,28 +20,32 @@ public class CqjUserServiceImpl implements CqjUserService {
 	CqjUserMapper cum;
 	@Autowired
 	CqjModuleMapper cmm;
+
 	@Override
 	public CqjUser login(String username, String password) {
 		// TODO Auto-generated method stub
 		CqjUser userinfo = cum.login(username, password);
 		if (userinfo != null) {
 			String[] clazzids = cum.queryClazzByPositionid(userinfo.getPositionid());
-			String[] strClazzids = 
-					userinfo.getClazzids().length()>0? userinfo.getClazzids().split(","):new String[0];
+			String[] strClazzids = userinfo.getClazzids().length() > 0 ? userinfo.getClazzids().split(",")
+					: new String[0];
 			String[] c = new String[clazzids.length + strClazzids.length];
 			System.arraycopy(clazzids, 0, c, 0, clazzids.length);
 			System.arraycopy(strClazzids, 0, c, clazzids.length, strClazzids.length);
 			List<String> clazzidsList = new ArrayList<String>();
-			for (int i=0; i<c.length; i++) {
-			  if(!clazzidsList.contains(c[i])) {
-				  clazzidsList.add(c[i]);
-			  }
+			for (int i = 0; i < c.length; i++) {
+				if (!clazzidsList.contains(c[i])) {
+					clazzidsList.add(c[i]);
+				}
 			}
-			
-			List<CqjModule> mlist=cmm.queryByRoleidandPositionid(userinfo.getRoleid(), userinfo.getPositionid());
 			userinfo.setClazzidsList(clazzidsList);
-			userinfo.setModuleList(mlist);
 		}
 		return userinfo;
+	}
+
+	@Override
+	public CqjUser queryByUserid(Integer userid) {
+		// TODO Auto-generated method stub
+		return cum.queryByUserid(userid);
 	}
 }

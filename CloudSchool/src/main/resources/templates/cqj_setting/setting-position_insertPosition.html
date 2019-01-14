@@ -54,9 +54,23 @@
 									<button class="btn btn-info" onclick="d.openAll()">收回</button>
 								</p>
 								<script type="text/javascript">
+									$.ajax({
+										url:"/module/getInfoModule",
+										data:"",
+										type:"post",
+										dataType: "json",
+										success: function(data){
+											v.infoModule=data;
+											console.log(data);
+										}
+									}) 
+								
 									d = new dTree('d', true); //参数一: 树名称。参数二：单选多选 true多选  false单选  默认单选               
 									d.add(0, -1, '权限管理');
-									d.add(1, 0, 'authority', '0001', '日常工作',
+									for(var i=0;i<v.infoModule.length;i++){
+										d.add(v.infoModule[i].moduleid,v.infoModule[i].pid,v.infoModule[i].groupname,v.infoModule[i].moduleid,v.infoModule[i].moduleidname)
+									}
+								/* 	d.add(1, 0, 'authority', '0001', '日常工作',
 											true, false);
 									d.add(2, 1, 'authority', '0002', '新建工作',
 											true, false);
@@ -92,8 +106,8 @@
 									d.add(14, 12, 'authority', '0019',
 											'用户组管理 ', false, false);
 									d.add(20, 0, 'authority', '0020', '测试',
-											true, false);
-									document.write(d);
+											true, false); */
+									//document.write(d);
 									d.openAll();
 								</script>
 							</div>
@@ -138,7 +152,7 @@
 	var v = new Vue({
 		el : ".content",
 		data : {
-			a : false
+			infoModule:{}
 		}
 	});
 	$(function() {
