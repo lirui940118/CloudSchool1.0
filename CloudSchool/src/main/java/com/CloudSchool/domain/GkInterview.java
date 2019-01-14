@@ -36,8 +36,39 @@ public class GkInterview {
     private String by4;
 
     private String by5;
+    
+    private String peoplename;
+    private String objectname;
+    private Integer userid;
 
-    public Integer getFtId() {
+    
+    
+    
+    public String getPeoplename() {
+		return peoplename;
+	}
+
+	public void setPeoplename(String peoplename) {
+		this.peoplename = peoplename;
+	}
+
+	public String getObjectname() {
+		return objectname;
+	}
+
+	public void setObjectname(String objectname) {
+		this.objectname = objectname;
+	}
+
+	public Integer getUserid() {
+		return userid;
+	}
+
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
+
+	public Integer getFtId() {
         return ftId;
     }
 
