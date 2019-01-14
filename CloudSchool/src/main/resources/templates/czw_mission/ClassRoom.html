@@ -105,6 +105,7 @@
 <script src="static/js/ready.min.js"></script>
 <script>
 	$(function(){
+		goPage(1);
 		$(".del").click(function(){
 			var id=$(this).attr("value");
 			alert(id)
@@ -113,22 +114,43 @@
             	data:"id="+id,
             	success:function(result){
             		alert(result)
-            		location.href="aaa"
+            		location.href="queryClr"
             	}
 			}) 
 		});
-		/* $(".change").click(function(){
-			var id=$(this).attr("value");
-			alert(id)
-			location.href="selectByid?id="+id
-			$.ajax({
-				url:"selectByid",
-            	data:"id="+id,
-            	success:function(result){
-            		 location.href="selectByid" 
-            	}
-			}) 
-		}); */
 	})
+	function goPage(page){
+		var name = $("[name=name]").val();
+		$.ajax({
+			url:"model/ajaxQuery",
+			data:"currentPage="+page+"&name="+name,
+			success:function(result){//result = pageBean
+				$("#tb").html("");
+				for(var v in result.list){ // 循环分页数据
+					console.log(v);
+					var tr = $("<tr>");
+					var td1 = $("<td>").html(result.list[v].id);
+					var td2 = $("<td>").html(result.list[v].name);
+					tr.append(td1).append(td2);
+					$("#tb").append(tr);
+				}
+				$("#pageMenu").remove();
+				var pageMenu = '<div id="pageMenu">'+
+					'<span><a param="'+result.prevPage+'">上一页</a></span>'+
+					'<span><a param="'+result.nextPage+'">下一页</a></span>'+
+					'<span><a param=1>首页</a></span>'+
+					'<span><a param="'+result.totalPage+'">尾页</a></span>'+
+					'<span>'+result.totalPage+'/'+result.currentPage+'</span>'+
+				'</div>';
+				$("body").append(pageMenu);
+				
+				
+				$("#pageMenu span").click(function(){
+					var param = $(this).find("a").attr("param");
+					goPage(param);
+				});
+			}
+		});
+	}
 </script>
 </html>
