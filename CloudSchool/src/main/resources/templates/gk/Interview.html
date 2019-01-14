@@ -27,7 +27,7 @@
 				<div class="container-fluid">
 					<h4 class="page-title">查询访谈记录</h4>
 					
-					<div class="row">
+					<div class="row"  id="shuaxin">
 						<div class="card col-lg-12">
 							<div class="card-body">
 								<h6>展示列</h6>
@@ -61,13 +61,15 @@
 								</label>
 								<div class="col-lg-12 row">
 									<div class="col-lg-6 col-md-9 col-sm-12 row">
-										<input type="datetime-local" class="form-control form-control col-lg-5"/><span>至</span><input type="datetime-local" class="form-control form-control col-lg-5"/>
+										<input v-model="starttime" type="datetime-local" class="form-control form-control col-lg-5"/>
+										<span>至</span>
+										<input v-model="endtime" type="datetime-local" class="form-control form-control col-lg-5"/>
 									</div>
 									<div class="col-lg-3 col-md-9 col-sm-12 row">
-										<input type="text" class="form-control form-control" id="defaultInput" placeholder="访谈对象">
+										<input type="text" class="form-control form-control" id="defaultInput" placeholder="访谈对象" v-model="objectname">
 									</div>
 									<div class="col-lg-3 col-md-9 col-sm-12 row">
-										<input type="text" class="form-control form-control" id="defaultInput" placeholder="访谈人">
+										<input type="text" class="form-control form-control" id="defaultInput" placeholder="访谈人" v-model="peoplename">
 									</div>
 								</div>
 							</div>
@@ -79,7 +81,7 @@
 								<button class="btn btn-info">导出</button>
 							</div>
 						</div>
-							<div class="card col-lg-12" id="shuaxin">
+							<div class="card col-lg-12">
 								<div class="card-body">
 									<table class="table table-head-bg-success table-striped table-hover">
 										<thead>
@@ -219,7 +221,7 @@
 		/* 加载事件，默认全部复选框选中 */
 		$(function(){
 			$("input[type='checkbox']").attr("checked",'true');
-			queryAllFangTan(1);
+			queryAllFangTan(1,this.peoplename,this.objectname,this.starttime,this.endtime);
 		});
 		/* 查询访谈详情 */
 		var M = new Vue({
@@ -243,28 +245,47 @@
 		var V = new Vue({
 			  el:"#shuaxin",
 			  data:{
-				  page:null/* ,
-				  title:null */
+				  page:{},
+				  peoplename:null,
+				  objectname:null,
+				  starttime:null,
+				  endtime:null
 			  },methods:{
-					go:function(num){
-						queryAllFangTan(num)
+					go:function(currentPage){
+						queryAllFangTan(currentPage,this.peoplename,this.objectname,this.starttime,this.endtime)
 					}
 			  },watch:{
-					/* title:function(){
-						shuaxin(1,this.title)
-					} */
+				  	peoplename:function(){
+				  		queryAllFangTan(1,this.peoplename,this.objectname,this.starttime,this.endtime)
+					},
+					objectname:function(){
+				  		queryAllFangTan(1,this.peoplename,this.objectname,this.starttime,this.endtime)
+					},
+					starttime:function(){
+				  		queryAllFangTan(1,this.peoplename,this.objectname,this.starttime,this.endtime)
+					},
+					endtime:function(){
+				  		queryAllFangTan(1,this.peoplename,this.objectname,this.starttime,this.endtime)
+					},
 				}
 		  });
 		/* 查询所有访谈 */
-		function queryAllFangTan(currentPage){
+		function queryAllFangTan(currentPage,peoplename,objectname,starttime,endtime){
+			var ft={};
+			ft.currentPage=currentPage;
+			ft.peoplename=peoplename;
+			ft.objectname=objectname;
+			ft.starttime=starttime;
+			ft.endtime=endtime;
 			$.ajax({
 				  url:"queryAllFangTan",
 				  data:{
-						currentPage:currentPage
-					},success:function(result){
-						alert(result.list);
+					  ft:ft
+				  }
+				  ,success:function(result){
+						alert(result);
 						console.log(result.list);
-					  V.page = result;
+					  	V.page = result;
 				  }
 			  });
 		}
