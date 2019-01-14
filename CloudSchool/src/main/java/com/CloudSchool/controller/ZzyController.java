@@ -1,6 +1,9 @@
 package com.CloudSchool.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.CloudSchool.domain.Clazz;
+import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.ZzyCourse;
 import com.CloudSchool.domain.ZzyGrade;
 import com.CloudSchool.domain.ZzyMajor;
 import com.CloudSchool.domain.ZzyVersion;
+import com.CloudSchool.service.ClazzService;
 import com.CloudSchool.service.ZzyCourseService;
 import com.CloudSchool.service.ZzyGradeService;
 import com.CloudSchool.service.ZzyMajorService;
@@ -32,6 +38,9 @@ public class ZzyController {
 	
 	@Autowired
 	ZzyCourseService cous;
+	
+	@Autowired
+	ClazzService clas;
 	
 	//查询所有版本
 	@RequestMapping("/queryAllversion")
@@ -117,5 +126,20 @@ public class ZzyController {
 	@ResponseBody
 	public ZzyVersion VerAndGrade2(Integer vid) {
 		return vers.VerAndGrade2(vid); 
+	}
+	
+	//根据登录的用户获取与用户相关的班级
+	@RequestMapping("/zz")
+	@ResponseBody
+	public List<Clazz> zz(HttpSession session) {
+//		CqjUser user=(CqjUser)session.getAttribute("user");
+//		user.getClazzidsList();
+		List<String> list = new ArrayList<String>();
+		list.add("4");
+		list.add("5");
+		list.add("6");
+		List<Clazz> list2=clas.queryListid(list);
+		
+		return list2;
 	}
 }

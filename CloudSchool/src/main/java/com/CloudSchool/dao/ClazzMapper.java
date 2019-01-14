@@ -24,4 +24,7 @@ public interface ClazzMapper {
     
     //根据年级id查询班级
     public List<Clazz> queryBygid(Integer gid);
+    
+    //根据班级id集合 查询班级数据
+    public List<Clazz> queryListid(List<String> list);
 }

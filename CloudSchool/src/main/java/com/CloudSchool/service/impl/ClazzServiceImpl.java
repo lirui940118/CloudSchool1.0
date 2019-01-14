@@ -1,5 +1,7 @@
 package com.CloudSchool.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.CloudSchool.dao.ClazzMapper;
 import com.CloudSchool.dao.ClazzcourseteacherMapper;
 import com.CloudSchool.dao.ClazzstudentMapper;
+import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.ClazzInfo;
 import com.CloudSchool.domain.Clazzstudent;
 import com.CloudSchool.service.ClazzService;
@@ -37,5 +40,12 @@ public class ClazzServiceImpl implements ClazzService {
 		System.out.println("自动开班");
 		
 		return 0;
+	}
+	
+	
+	@Override
+	public List<Clazz> queryListid(List<String> list) {
+		// TODO Auto-generated method stub
+		return cm.queryListid(list);
 	}
 }

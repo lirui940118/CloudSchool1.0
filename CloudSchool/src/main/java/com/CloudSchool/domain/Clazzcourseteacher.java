@@ -20,8 +20,31 @@ public class Clazzcourseteacher {
     private Integer ismaster;
 
     private Integer isteacher;
+    
+    //数据中教员id对应的教员对象
+    private CqjStaff teacher;
+    
+    //数据中课程id对应的课程对象
+    private ZzyCourse zzycourse;
+    
 
-    public Integer getId() {
+    public CqjStaff getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(CqjStaff teacher) {
+		this.teacher = teacher;
+	}
+
+	public ZzyCourse getZzycourse() {
+		return zzycourse;
+	}
+
+	public void setZzycourse(ZzyCourse zzycourse) {
+		this.zzycourse = zzycourse;
+	}
+
+	public Integer getId() {
         return id;
     }
 

@@ -71,6 +71,7 @@
 <script th:src="@{/static/js/ready.min.js}"></script>
 	<script type="text/javascript">
 		$(function(){
+			
 			$("body").on("click","tbody tr",function(){
 				var vid=$(this).attr("data-id");
 				location.href="overview?vid="+vid;
