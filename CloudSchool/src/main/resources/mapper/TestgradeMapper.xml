@@ -165,7 +165,7 @@
   
   <!-- 查询单个学员所有考试成绩 -->
   <select id="querySimStudentTestGradeBySid" resultType="com.CloudSchool.domain.statistics.testVO">
-  	SELECT testInstance.`id`, testModule.`name`AS TestName,testGrade.`score`AS StudentScore,testModule.Score AS TotalScore,testInstance.`endtime` AS TestTsime,
+  	SELECT testGrade.`id`, testModule.`name`AS TestName,testGrade.`score`AS StudentScore,testModule.Score AS TotalScore,testInstance.`endtime` AS TestTsime,
 	(testGrade.`score`/testModule.Score*100)AS studentScore100
 	FROM testGrade 
 	INNER JOIN testInstance ON testInstance.`id` = testGrade.tid

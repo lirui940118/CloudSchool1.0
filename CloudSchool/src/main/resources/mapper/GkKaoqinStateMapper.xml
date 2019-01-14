@@ -13,6 +13,7 @@
     <result column="by3" jdbcType="VARCHAR" property="by3" />
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
+    <result column="totalCount" property="totalCount" />
   </resultMap>
   <sql id="Base_Column_List">
     kq_state_id, kq_state_name, creation_time, update_time, founder, status, by1, by2, 
@@ -161,4 +162,19 @@
       by5 = #{by5,jdbcType=VARCHAR}
     where kq_state_id = #{kqStateId,jdbcType=INTEGER}
   </update>
+  
+  
+  
+  <!-- 查詢學員考情情況（write by lirui 考情匯總） -->
+  <select id="queryKqTotalInfoBySidAndGid" resultMap="BaseResultMap">
+  	SELECT gk_kaoqin_state.`kq_state_id`,gk_kaoqin_state.`kq_state_name`,COUNT(*)AS totalCount FROM `gk_kaoqin` 
+	INNER JOIN `gk_kaoqin_state` ON `gk_kaoqin_state`.`kq_state_id` = `gk_kaoqin`.`kq_state_id`
+	INNER JOIN cqj_user ON cqj_user.`userid` = `gk_kaoqin`.`uid` AND cqj_user.`usertypenub`=1#學員
+	INNER JOIN cqj_student ON cqj_student.`studentid`=cqj_user.`usertypeid`  
+	WHERE cqj_student.`studentid` = #{sId} 
+	<if test="gId!=-1">
+		AND gk_kaoqin.`by2` = #{gId}
+	</if>
+	GROUP BY gk_kaoqin_state.`kq_state_id`
+  </select>
 </mapper>

@@ -45,16 +45,17 @@ img {
 						<div class="card-header">
 							<h4 class="card-title">个人信息</h4>
 							<p class="card-category">
-								<div class="form-group col-lg-3" id="gradeSelect">
-									<label for="defaultSelect">年级</label>
-									<select v-model="gid" class="form-control form-control">
-										<option value="-1">全部</option>
-										<option v-bind:value="item.gid" v-for="(item, index) in list">{{item.gradeName}}</option>
-									</select>
-								</div>
+							<div class="form-group col-lg-3" id="gradeSelect">
+								<label for="defaultSelect">年级</label> <select v-model="gid"
+									class="form-control form-control">
+									<option value="-1">全部</option>
+									<option v-bind:value="item.gid" v-for="(item, index) in list">{{item.gradeName}}</option>
+								</select>
+							</div>
 							</p>
 						</div>
-						<div class="card-body" style="text-align: center;" id="studentInfoSec">
+						<div class="card-body" style="text-align: center;"
+							id="studentInfoSec">
 							<div>
 								<!-- <img th:src="@{/static/image/studentImg.png}"> -->
 								<img v-bind:src="url+studentInfo.url">
@@ -156,11 +157,14 @@ img {
 <script type="text/javascript" th:src="@{/static/js/core/vue.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/common.js}"></script>
 <script type="text/javascript"
+	th:src="@{/static/js/statisticsDefaultData.js}"></script>
+<script type="text/javascript"
 	th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
 <script src="/static/js/echarts.js"></script>
 <script src="/static/js/core/bootstrap.min.js"></script>
 <script type="text/javascript">
 	//初始化echars实例
+	var sId = null;
 	var myChar = echarts.init(document.querySelector("#studentAbilityPicture"));
 	//myChar.showLoading();
 	//设置图标配置和数据
@@ -226,89 +230,17 @@ img {
 	};
 	myChar.setOption(option);
 
-	//初始化echars实例
-	var myChar2 = echarts.init(document.querySelector("#dailyPicture"));
-	//myChar2.showLoading();
-	var option2 = {
-		tooltip : {
-			trigger : 'item',
-			formatter : "{b}: {c} ({d}%)"
-		},
-		legend : {
-			orient : 'vertical',
-			x : 'left',
-			data : [ '正常', '迟到', '早退' ]
-		},
-		series : [ {
-			labelLine : {
-				normal : {
-					show : false
-				}
-			},
-			name : '访问来源',
-			type : 'pie',
-			radius : [ '40%', '55%' ],
-			label : {
-				normal : {
-					formatter : '{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
-					backgroundColor : '#eee',
-					borderColor : '#aaa',
-					borderWidth : 1,
-					borderRadius : 4,
-					shadowBlur : 3,
-					shadowOffsetX : 2,
-					shadowOffsetY : 2,
-					shadowColor : '#999',
-					padding : [ 0, 0 ],
-					rich : {
-						a : {
-							color : '#999',
-							lineHeight : 22,
-							align : 'center'
-						},
-						hr : {
-							borderColor : '#aaa',
-							width : '100%',
-							borderWidth : 0.5,
-							height : 0
-						},
-						b : {
-							fontSize : 16,
-							lineHeight : 33
-						},
-						per : {
-							color : '#eee',
-							backgroundColor : '#334455',
-							padding : [ 2, 4 ],
-							borderRadius : 2
-						}
-					}
-				}
-			},
-			data : [ {
-				value : 335,
-				name : '正常'
-			}, {
-				value : 310,
-				name : '迟到'
-			}, {
-				value : 234,
-				name : '早退'
-			} ]
-
-		} ]
-	};
-	myChar2.setOption(option2);
+	
 
 	//全局
-	var myChar1;
+	var myChar1 = echarts.init(document.querySelector("#studentTestPictrue"));
+	var myChar2 = echarts.init(document.querySelector("#dailyPicture"));
 	//初始化数据
 	$(function() {
 		//基础数据加载
 		InitBaseData();
-		//初始化echars实例
-		myChar1 = echarts.init(document.querySelector("#studentTestPictrue"));
-		myChar1.showLoading();
+		myChar1.setOption(initDataAboutLine,true);
+		myChar2.setOption(initDataAboutCircle,true);
 	})
 	//=============================自定义方法=======================================
 		
@@ -319,7 +251,7 @@ img {
 			type : "post",
 			url : adress.url + "/statistics/queryStudentInfoBySid",
 			data : {
-				sId : null
+				sId : sId
 			},
 			success : function(data) {
 				console.log(data);
@@ -338,18 +270,21 @@ img {
 			type : "post",
 			url : adress.url + "/statistics/queryCurrentGradeBySid",
 			data : {
-				sId : null
+				sId : sId
 			},
 			async:false,
 			success : function(data) {
 				currentGrade = data;
 				console.log(data.gid);
 				//
-				if(data == ""){
+				if(data == ""){//-1为全部成绩
 					//学员所有考试成绩
-					InitTestData(-1);//-1为全部成绩
+					InitTestData(-1);
+					//學院所有考勤
+					initQkData(-1);
 				}else{
 					InitTestData(data.gid);
+					initQkData(data.gid);
 				}
 			}
 		})
@@ -358,7 +293,7 @@ img {
 			type : "post",
 			url : adress.url + "/statistics/queryGradeListBySid",
 			data : {
-				sId : null
+				sId : sId
 			},
 			async:false,
 			success : function(data) {
@@ -371,6 +306,7 @@ img {
 					watch:{
 						gid(){
 							InitTestData(this.gid);
+							initQkData(this.gid);
 						}
 					}
 				})
@@ -379,13 +315,14 @@ img {
 		})
 	}
 	function InitTestData(gId) {
+		myChar1.showLoading();
 		var scoreArr = [];
 		var TestTimeNameArr = [];
 		$.ajax({
 			type : "post",
 			url : adress.url + "/statistics/getDataAboutAllTestBySid",
 			data : {
-				sId:null,
+				sId:sId,
 				gId:gId
 			},
 			success : function(data) {
@@ -395,84 +332,226 @@ img {
 					scoreArr.push(data[i].studentScore100);
 					//日期集合+考试每次
 					TestTimeNameArr.push(data[i].testName + "\n" + data[i].testTsime);
-					//加载数据
+				}
+				if(data!=""){//没有查询到考试成绩数据
 					var option1 = {
-						dataZoom: [
-					    {   // 这个dataZoom组件，默认控制x轴。
-					        type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
-					        start: 10,      // 左边在 10% 的位置。
-					        end: 60         // 右边在 60% 的位置。
-					    },
-					    {   // 这个dataZoom组件，也控制x轴。
-					        type: 'inside', // 这个 dataZoom 组件是 inside 型 dataZoom 组件
-					        start: 10,      // 左边在 10% 的位置。
-					        end: 60         // 右边在 60% 的位置。
-					    }],
-						title : {
-
-						},
+							dataZoom: [
+						    {   // 这个dataZoom组件，默认控制x轴。
+						        type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+						        start: 10,      // 左边在 10% 的位置。
+						        end: 60         // 右边在 60% 的位置。
+						    },
+						    {   // 这个dataZoom组件，也控制x轴。
+						        type: 'inside', // 这个 dataZoom 组件是 inside 型 dataZoom 组件
+						        start: 10,      // 左边在 10% 的位置。
+						        end: 60         // 右边在 60% 的位置。
+						    }],
+							title : {
+								text:"1,2,3,4",
+								show:false
+							},
+							tooltip : {
+								trigger : 'axis'
+							},
+							toolbox : {
+								show : true,
+								feature : {
+									dataZoom : {
+										yAxisIndex : 'none'
+									},
+									dataView : {
+										readOnly : true
+									},
+									magicType : {
+										type : [ 'line', 'bar' ]
+									},
+									restore : {},
+									saveAsImage : {}
+								}
+							},
+							xAxis : {
+								type : 'category',
+								boundaryGap : false,
+								data : TestTimeNameArr
+							},
+							yAxis : {
+								type : 'value',
+								axisLabel : {
+									formatter : '{value} 分'
+								}
+							},
+							series : [ {
+								name : '分数',
+								type : 'line',
+								label : {
+									normal : {
+										show : true,
+										position : 'inside'
+									}
+								},
+								data : scoreArr,
+								markPoint : {
+									data : [ {
+										type : 'max',
+										name : '最大值'
+									}, {
+										type : 'min',
+										name : '最小值'
+									} ]
+								},
+								markLine : {
+									data : [ {
+										type : 'average',
+										name : '平均值'
+									} ]
+								}
+							} ]
+						};
+					myChar1.setOption(option1,true);
+					myChar1.getZr().on('click',function (params) {
+					  	const pointInPixel= [params.offsetX, params.offsetY];
+					    if (myChar1.containPixel('grid',pointInPixel)) {
+						var pointInGrid=myChar1.convertFromPixel({seriesIndex:0},pointInPixel);
+				        //X轴序号
+				        var xIndex=pointInGrid[0];
+			 
+			            //获取当前图表的option
+				        var op=myChar1.getOption();
+			 
+			            //获得图表中我们想要的数据
+				        var month=op.xAxis[0].data[xIndex];
+			            //获取标题中的隐藏字段（id集合 考试id）
+			            //console.log(op.title[0].text);
+			            var ids = op.title[0].text.split(",");
+			            console.log(ids[xIndex]);
+			            alert(op.series[0].data[xIndex]);
+			            
+			            //跳转查询具体某场考试分析
+			            
+						}
+					});
+				}else{
+					myChar1.setOption(noDataLoadingOption,true);
+					
+				}
+				myChar1.hideLoading();
+			}
+		});
+	}
+	function initQkData(gId){
+		myChar2.showLoading();
+		var kQStateNameArr = [];//考勤類別名稱
+		var kQStateNameAndTotalArr =[];//考勤狀態名稱和狀態
+		$.ajax({
+			type : "post",
+			url : adress.url + "/statistics/getDataAboutQkBySidAndGid",
+			data : {
+				sId:sId,
+				gId:gId
+			},
+			success : function(data) {
+				console.log(data);
+				for(var i = 0;i<data.length;i++){
+					kQStateNameArr.push(data[i].kqStateName);
+					var kq ={};
+					kq.value = data[i].totalCount;
+					kq.name = data[i].kqStateName;
+					kQStateNameAndTotalArr.push(kq);
+				}
+				if(data!=""){
+					var option2 = {
 						tooltip : {
-							trigger : 'axis'
+							trigger : 'item',
+							formatter : "{b}: {c} ({d}%)"
 						},
 						toolbox : {
 							show : true,
 							feature : {
-								dataZoom : {
-									yAxisIndex : 'none'
-								},
 								dataView : {
 									readOnly : true
 								},
-								magicType : {
-									type : [ 'line', 'bar' ]
-								},
-								restore : {},
 								saveAsImage : {}
 							}
 						},
-						xAxis : {
-							type : 'category',
-							boundaryGap : false,
-							data : TestTimeNameArr
-						},
-						yAxis : {
-							type : 'value',
-							axisLabel : {
-								formatter : '{value} 分'
-							}
+						legend : {
+							orient : 'vertical',
+							x : 'left',
+							data : kQStateNameArr
 						},
 						series : [ {
-							name : '分数',
-							type : 'line',
-							label : {
+							labelLine : {
 								normal : {
-									show : true,
-									position : 'inside'
-								}
-							},
-							data : scoreArr,
-							markPoint : {
-								data : [ {
-									type : 'max',
-									name : '最大值'
-								}, {
-									type : 'min',
-									name : '最小值'
-								} ]
-							},
-							markLine : {
-								data : [ {
-									type : 'average',
-									name : '平均值'
-								} ]
+									show : false
 							}
+						},
+						type : 'pie',
+						radius : [ '40%', '55%' ],
+						label : {
+							normal : {
+								formatter : '{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+								backgroundColor : '#eee',
+								borderColor : '#aaa',
+								borderWidth : 1,
+								borderRadius : 4,
+								shadowBlur : 3,
+								shadowOffsetX : 2,
+								shadowOffsetY : 2,
+								shadowColor : '#999',
+								padding : [ 0, 0 ],
+								rich : {
+									a : {
+										color : '#999',
+										lineHeight : 22,
+										align : 'center'
+									},
+									hr : {
+										borderColor : '#aaa',
+										width : '100%',
+										borderWidth : 0.5,
+										height : 0
+									},
+									b : {
+										fontSize : 16,
+										lineHeight : 33
+									},
+									per : {
+										color : '#eee',
+										backgroundColor : '#334455',
+										padding : [ 2, 4 ],
+										borderRadius : 2
+									}
+								}
+							}
+						},
+						data : kQStateNameAndTotalArr
 						} ]
 					};
+					myChar2.setOption(option2,true);
+				}else{//沒有數據
+					myChar2.setOption(noDataLoadingOption,true);
 				}
-				setTimeout(myChar1.setOption(option1,true), 500);
-				myChar1.hideLoading();
+				myChar2.hideLoading();
+			}//success
+		})
+	}
+	
+	
+	
+	
+	
+	//=========================跳转=======================================
+	function gotoGradeInfo(){
+		$.ajax({
+			type : "post",
+			url : adress.url + "/statistics/gotoStudentText",
+			data : {
+				sId:sId,
+				tId:tId
+			},
+			success : function(data) {
+				
 			}
-		});
+		})
 	}
 </script>
 

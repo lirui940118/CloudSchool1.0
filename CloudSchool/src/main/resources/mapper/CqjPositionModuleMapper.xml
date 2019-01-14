@@ -1,153 +1,182 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.CloudSchool.dao.CqjPositionModuleMapper">
-  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.CqjPositionModule">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="positionid" jdbcType="INTEGER" property="positionid" />
-    <result column="moduleid" jdbcType="INTEGER" property="moduleid" />
-    <result column="creationtime" jdbcType="TIMESTAMP" property="creationtime" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="standby1" jdbcType="VARCHAR" property="standby1" />
-    <result column="standby2" jdbcType="VARCHAR" property="standby2" />
-    <result column="standby3" jdbcType="VARCHAR" property="standby3" />
-    <result column="standby4" jdbcType="VARCHAR" property="standby4" />
-    <result column="standby5" jdbcType="VARCHAR" property="standby5" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, positionid, moduleid, creationtime, status, standby1, standby2, standby3, standby4, 
-    standby5
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from cqj_position_module
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from cqj_position_module
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.CloudSchool.domain.CqjPositionModule">
-    insert into cqj_position_module (id, positionid, moduleid, 
-      creationtime, status, standby1, 
-      standby2, standby3, standby4, 
-      standby5)
-    values (#{id,jdbcType=INTEGER}, #{positionid,jdbcType=INTEGER}, #{moduleid,jdbcType=INTEGER}, 
-      #{creationtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{standby1,jdbcType=VARCHAR}, 
-      #{standby2,jdbcType=VARCHAR}, #{standby3,jdbcType=VARCHAR}, #{standby4,jdbcType=VARCHAR}, 
-      #{standby5,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.CloudSchool.domain.CqjPositionModule">
-    insert into cqj_position_module
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="positionid != null">
-        positionid,
-      </if>
-      <if test="moduleid != null">
-        moduleid,
-      </if>
-      <if test="creationtime != null">
-        creationtime,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="standby1 != null">
-        standby1,
-      </if>
-      <if test="standby2 != null">
-        standby2,
-      </if>
-      <if test="standby3 != null">
-        standby3,
-      </if>
-      <if test="standby4 != null">
-        standby4,
-      </if>
-      <if test="standby5 != null">
-        standby5,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="positionid != null">
-        #{positionid,jdbcType=INTEGER},
-      </if>
-      <if test="moduleid != null">
-        #{moduleid,jdbcType=INTEGER},
-      </if>
-      <if test="creationtime != null">
-        #{creationtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="standby1 != null">
-        #{standby1,jdbcType=VARCHAR},
-      </if>
-      <if test="standby2 != null">
-        #{standby2,jdbcType=VARCHAR},
-      </if>
-      <if test="standby3 != null">
-        #{standby3,jdbcType=VARCHAR},
-      </if>
-      <if test="standby4 != null">
-        #{standby4,jdbcType=VARCHAR},
-      </if>
-      <if test="standby5 != null">
-        #{standby5,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.CqjPositionModule">
-    update cqj_position_module
-    <set>
-      <if test="positionid != null">
-        positionid = #{positionid,jdbcType=INTEGER},
-      </if>
-      <if test="moduleid != null">
-        moduleid = #{moduleid,jdbcType=INTEGER},
-      </if>
-      <if test="creationtime != null">
-        creationtime = #{creationtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="standby1 != null">
-        standby1 = #{standby1,jdbcType=VARCHAR},
-      </if>
-      <if test="standby2 != null">
-        standby2 = #{standby2,jdbcType=VARCHAR},
-      </if>
-      <if test="standby3 != null">
-        standby3 = #{standby3,jdbcType=VARCHAR},
-      </if>
-      <if test="standby4 != null">
-        standby4 = #{standby4,jdbcType=VARCHAR},
-      </if>
-      <if test="standby5 != null">
-        standby5 = #{standby5,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.CqjPositionModule">
-    update cqj_position_module
-    set positionid = #{positionid,jdbcType=INTEGER},
-      moduleid = #{moduleid,jdbcType=INTEGER},
-      creationtime = #{creationtime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
-      standby1 = #{standby1,jdbcType=VARCHAR},
-      standby2 = #{standby2,jdbcType=VARCHAR},
-      standby3 = #{standby3,jdbcType=VARCHAR},
-      standby4 = #{standby4,jdbcType=VARCHAR},
-      standby5 = #{standby5,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+	<resultMap id="BaseResultMap"
+		type="com.CloudSchool.domain.CqjPositionModule">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="positionid" jdbcType="INTEGER"
+			property="positionid" />
+		<result column="moduleid" jdbcType="INTEGER"
+			property="moduleid" />
+		<result column="creationtime" jdbcType="TIMESTAMP"
+			property="creationtime" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="standby1" jdbcType="VARCHAR"
+			property="standby1" />
+		<result column="standby2" jdbcType="VARCHAR"
+			property="standby2" />
+		<result column="standby3" jdbcType="VARCHAR"
+			property="standby3" />
+		<result column="standby4" jdbcType="VARCHAR"
+			property="standby4" />
+		<result column="standby5" jdbcType="VARCHAR"
+			property="standby5" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, positionid, moduleid, creationtime, status, standby1, standby2,
+		standby3, standby4,
+		standby5
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cqj_position_module
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from cqj_position_module
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.CloudSchool.domain.CqjPositionModule">
+		insert into cqj_position_module (id, positionid, moduleid,
+		creationtime, status, standby1,
+		standby2, standby3, standby4,
+		standby5)
+		values (#{id,jdbcType=INTEGER}, #{positionid,jdbcType=INTEGER},
+		#{moduleid,jdbcType=INTEGER},
+		#{creationtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{standby1,jdbcType=VARCHAR},
+		#{standby2,jdbcType=VARCHAR}, #{standby3,jdbcType=VARCHAR},
+		#{standby4,jdbcType=VARCHAR},
+		#{standby5,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.CloudSchool.domain.CqjPositionModule">
+		insert into cqj_position_module
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="positionid != null">
+				positionid,
+			</if>
+			<if test="moduleid != null">
+				moduleid,
+			</if>
+			<if test="creationtime != null">
+				creationtime,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="standby1 != null">
+				standby1,
+			</if>
+			<if test="standby2 != null">
+				standby2,
+			</if>
+			<if test="standby3 != null">
+				standby3,
+			</if>
+			<if test="standby4 != null">
+				standby4,
+			</if>
+			<if test="standby5 != null">
+				standby5,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="positionid != null">
+				#{positionid,jdbcType=INTEGER},
+			</if>
+			<if test="moduleid != null">
+				#{moduleid,jdbcType=INTEGER},
+			</if>
+			<if test="creationtime != null">
+				#{creationtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="standby1 != null">
+				#{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				#{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				#{standby3,jdbcType=VARCHAR},
+			</if>
+			<if test="standby4 != null">
+				#{standby4,jdbcType=VARCHAR},
+			</if>
+			<if test="standby5 != null">
+				#{standby5,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.CloudSchool.domain.CqjPositionModule">
+		update cqj_position_module
+		<set>
+			<if test="positionid != null">
+				positionid = #{positionid,jdbcType=INTEGER},
+			</if>
+			<if test="moduleid != null">
+				moduleid = #{moduleid,jdbcType=INTEGER},
+			</if>
+			<if test="creationtime != null">
+				creationtime = #{creationtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="standby1 != null">
+				standby1 = #{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				standby2 = #{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				standby3 = #{standby3,jdbcType=VARCHAR},
+			</if>
+			<if test="standby4 != null">
+				standby4 = #{standby4,jdbcType=VARCHAR},
+			</if>
+			<if test="standby5 != null">
+				standby5 = #{standby5,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.CloudSchool.domain.CqjPositionModule">
+		update cqj_position_module
+		set positionid = #{positionid,jdbcType=INTEGER},
+		moduleid = #{moduleid,jdbcType=INTEGER},
+		creationtime = #{creationtime,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		standby1 = #{standby1,jdbcType=VARCHAR},
+		standby2 = #{standby2,jdbcType=VARCHAR},
+		standby3 = #{standby3,jdbcType=VARCHAR},
+		standby4 = #{standby4,jdbcType=VARCHAR},
+		standby5 = #{standby5,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<delete id="deleteByPositionId"
+		parameterType="java.lang.Integer">
+		DELETE FROM cqj_position_module WHERE
+		cqj_position_module.`positionid`=#{positionid}
+	</delete>
+	<insert id="addByPositionIdAndModuleid">
+		INSERT INTO cqj_position_module(positionid,moduleid) VALUES
+		<foreach collection="result" separator="," item="item">
+			(#{positionid},#{item})
+		</foreach>
+	</insert>
 </mapper>

@@ -1,6 +1,7 @@
 package com.CloudSchool.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.CloudSchool.domain.ZzyGrade;
 
@@ -10,7 +11,13 @@ public interface ZzyGradeMapper {
 	public List<ZzyGrade> queryGradeListBySid(Integer sId);
 	//查询该学员当前在读年级
 	public ZzyGrade queryCurrentGradeBySid(Integer sId);
+	//循环新增年级
+	public int insertMap(Map<String,Object> map);
+	//根据版本id查询年级
+	public List<ZzyGrade> queryByvid(Integer vid);
+	public List<ZzyGrade> queryByvid2(Integer vid);
 	
+
 	
     int deleteByPrimaryKey(Integer gid);
 

@@ -22,11 +22,42 @@
   </resultMap>
   <!-- 查询所有访谈 -->
   <select id="queryAllFangTan" resultMap="BaseResultMap" >
-  	SELECT * FROM `gk_interview` LIMIT #{currentPage},#{pageSize}
+  	SELECT * FROM ftinfo
+  		<if test="peoplename">
+  			peoplename LIKE concat('%',peoplename,'%')
+  		</if>
+  		<if test="objectname">
+  		 	AND objectname LIKE concat('%',objectname,'%')
+  		</if>
+		<if test="starttime and endtime">
+			AND ft_starttime BETWEEN  #{starttime} AND #{endtime}
+		</if>
+		<if test="starttime and endtime==null">
+			AND ft_starttime BETWEEN  #{starttime} AND NOW()
+		</if>
+		<if test="starttime==null and endtime">
+			AND ft_starttime &lt;= #{endtime}
+		</if>
+	LIMIT #{currentPage},#{pageSize}
   </select>
   <!-- 查询所有访谈行数 -->
   <select id="queryAllFangTanCount" resultType="int">
-  	SELECT COUNT(*) FROM `gk_interview`
+  	SELECT COUNT(*) FROM `ftinfo`
+	<if test="peoplename">
+		peoplename LIKE concat('%',peoplename,'%')
+	</if>
+	<if test="objectname">
+	 	AND objectname LIKE concat('%',objectname,'%')
+	</if>
+	<if test="starttime and endtime">
+		AND ft_starttime BETWEEN  #{starttime} AND #{endtime}
+	</if>
+	<if test="starttime and endtime==null">
+		AND ft_starttime BETWEEN  #{starttime} AND NOW()
+	</if>
+	<if test="starttime==null and endtime">
+		AND ft_starttime &lt;= #{endtime}
+	</if>
   </select>
   <!-- 通过访谈id查询访谈详情 -->
   <select id="queryFangTanDetailsByftid" resultMap="BaseResultMap">

@@ -21,5 +21,9 @@ public class ZzyGradeServiceImpl implements ZzyGradeService{
 	public ZzyGrade queryCurrentGradeBySid(Integer sId) {
 		return zzyGradeMapper.queryCurrentGradeBySid(sId);
 	}
+	@Override
+	public List<ZzyGrade> queryByvid(Integer vid) {
+		return zzyGradeMapper.queryByvid(vid);
+	}
 
 }

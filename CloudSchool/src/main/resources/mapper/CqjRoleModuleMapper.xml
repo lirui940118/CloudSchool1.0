@@ -150,4 +150,16 @@
       standby5 = #{standby5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  	<delete id="deleteByRoleId"
+		parameterType="java.lang.Integer">
+		DELETE FROM cqj_role_module WHERE
+		cqj_role_module.`roleid`=#{roleid}
+	</delete>
+	<insert id="addByRoleIdAndModuleid">
+		INSERT INTO cqj_role_module(roleid,moduleid) VALUES
+		<foreach collection="result" separator="," item="item">
+			(#{roleid},#{item})
+		</foreach>
+	</insert>
 </mapper>

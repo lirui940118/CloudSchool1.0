@@ -21,17 +21,17 @@ public class MissionController {
 	@Autowired
 	ClasstypeService clt;
 	
-	@RequestMapping("/aaa")
+	@RequestMapping("/queryClr")
 	public String aaa(Model model) {
 		List<Classroom> list=cls.query();
 		model.addAttribute("list", list);
-		return "ClassRoom";
+		return "czw_mission/ClassRoom";
 	}
-	@RequestMapping("/bbb")
+	@RequestMapping("/toInsertClr")
 	public String bbb(Model model) {
 		List<Classtype> list=clt.query();
 		model.addAttribute("list", list);
-		return "insertClassroom";
+		return "czw_mission/insertClassroom";
 	}
 	@RequestMapping("/addClassRoom")
 	@ResponseBody
@@ -56,7 +56,7 @@ public class MissionController {
 		model.addAttribute("cs", cs);
 		List<Classtype> list=clt.query();
 		model.addAttribute("list", list);
-		return "updateClassroom";
+		return "czw_mission/updateClassroom";
 	}
 	@RequestMapping("/updateClassRoom")
 	@ResponseBody

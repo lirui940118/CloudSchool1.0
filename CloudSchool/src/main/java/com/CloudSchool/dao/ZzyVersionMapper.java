@@ -18,4 +18,9 @@ public interface ZzyVersionMapper {
     int updateByPrimaryKey(ZzyVersion record);
     
     List<ZzyVersion> queryAll();
+    
+    public ZzyVersion VerAndGrade(Integer vid);
+    
+    public ZzyVersion VerAndGrade2(Integer vid);
+    
 }

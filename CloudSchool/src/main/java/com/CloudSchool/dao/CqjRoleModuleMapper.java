@@ -1,5 +1,7 @@
 package com.CloudSchool.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.CloudSchool.domain.CqjRoleModule;
 
 public interface CqjRoleModuleMapper {
@@ -14,4 +16,8 @@ public interface CqjRoleModuleMapper {
     int updateByPrimaryKeySelective(CqjRoleModule record);
 
     int updateByPrimaryKey(CqjRoleModule record);
+    
+    int deleteByRoleId(Integer roleid);
+    
+    int addByRoleIdAndModuleid(@Param("roleid")Integer roleid,@Param("result")String[] result);
 }

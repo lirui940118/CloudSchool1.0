@@ -1,6 +1,7 @@
 package com.CloudSchool.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class ZzyCourse {
     private Integer cid;
@@ -32,8 +33,20 @@ public class ZzyCourse {
     private String user4;
 
     private String user5;
+    
+    //添加一个章节集合
+    private List<ZzySection> list;
+    
 
-    public Integer getCid() {
+    public List<ZzySection> getList() {
+		return list;
+	}
+
+	public void setList(List<ZzySection> list) {
+		this.list = list;
+	}
+
+	public Integer getCid() {
         return cid;
     }
 

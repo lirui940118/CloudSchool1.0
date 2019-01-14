@@ -1,6 +1,7 @@
 package com.CloudSchool.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Clazz {
     private Integer id;
@@ -20,8 +21,30 @@ public class Clazz {
     private String pc;
 
     private Integer status;
+    
+    //班级中班主任对象
+    private CqjStaff master;
+    
+    //班级中任课教员集合
+    private List<Clazzcourseteacher> list;
 
-    public Integer getId() {
+    public CqjStaff getMaster() {
+		return master;
+	}
+
+	public void setMaster(CqjStaff master) {
+		this.master = master;
+	}
+
+	public List<Clazzcourseteacher> getList() {
+		return list;
+	}
+
+	public void setList(List<Clazzcourseteacher> list) {
+		this.list = list;
+	}
+
+	public Integer getId() {
         return id;
     }
 

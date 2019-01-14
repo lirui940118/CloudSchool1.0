@@ -32,84 +32,43 @@
 								<div class="card">
 									<div class="card-body">
 										<p class="demo">
-											<button name="goInsertRole" class="btn btn-success">创建角色</button>
-											<button name="goUpdateModule" class="btn btn-info">进入子模块修改</button>
+											<button infoBut moduleUrl="role/insert" name="goInsertRole" class="btn btn-success">创建角色</button>
 										</p>
 									</div>
 								</div>
 							</div>
 						
-						<div class="col-md-12">
+						<div class="col-md-2">
 								<div class="card">
 									<div class="card-header">
 										<h4 class="card-title">角色列表</h4>
 									</div>
 									<div class="card-body">
 										<p class="demo">
-											<button class="btn btn-default">Default</button>
-
-											<button class="btn btn-primary">Primary</button>
-
-											<button class="btn btn-info">Info</button>
-
-											<button class="btn btn-success">Success</button>
-
-											<button class="btn btn-warning">Warning</button>
-
-											<button class="btn btn-danger">Danger</button>
-
-											<button class="btn btn-link">Link</button>
-										</p>
-										
-										<p class="demo">
-											<button class="btn btn-primary">角色1</button>
-											<button class="btn btn-info">角色2</button>
-											<button class="btn btn-info">角色3</button>
-											<button class="btn btn-info">角色3</button>
-											<button class="btn btn-info">角色3</button>
+											<button style="margin-right: 10px;"
+										v-for="(r,index) in role" class="btn btn-info role"
+										onclick="RoleClick(this)" v-bind:roleid="r.roleid">{{r.rolename}}</button>
 										</p>
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">已有模块</h4>
-									</div>
-									<div class="card-body">
-										<p class="demo">
-											<button class="btn btn-danger">模块1</button>
-											<button class="btn btn-danger">模块1</button>
-											<button class="btn btn-danger">模块1</button>
-											<button class="btn btn-danger">模块1</button>
-										</p>
-										<p style="float: right;" class="demo">
-											<button  class="btn btn-info">移除访问</button>
-										</p>
-									</div>
+							<div class="col-md-8">
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">权限</h4>
+								<p style="float: right;" class="demo">
+									<button name="baochun" class="btn btn-success">保存</button>
+								</p>
+							</div>
+
+							<div style="height: 800px" class="card-body dtree "
+								id="dtree_div">
+								<div id="app">
+									<tree :folder="infoModule" :select="select"></tree>
 								</div>
 							</div>
-							
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">未拥有模块</h4>
-									</div>
-									<div class="card-body">
-										<p class="demo">
-											<button class="btn btn-danger">模块1</button>
-											<button class="btn btn-danger">模块1</button>
-											<button class="btn btn-danger">模块1</button>
-											<button class="btn btn-danger">模块1</button>
-										</p>
-										<p style="float: right;" class="demo">
-											<button  class="btn btn-info">添加访问</button>
-										</p>
-									</div>
-								</div>
-							</div>
-						
-						
+						</div>
+					</div>
 					</div>
 				</div>
 			</div>
@@ -130,15 +89,41 @@
 	<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
 	<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
 	<script th:src="@{/static/js/ready.min.js}"></script>
-
+	<script th:src="@{/static/js/cqj_infoBut.js}"></script>
 	<script type="text/javascript">
+	Vue.component('tree', {
+	    name:"tree",
+	    template:`<ul>
+	                <li style="margin-left: 40px;"  v-for = "item in folder">
+		                <label class="form-check-label">
+		                <input @click = "select(item)" v-if = "item.status==0" checked class="form-check-input" type="checkbox" v-bind:value="item.moduleid"> 
+		                <input @click = "select(item)" v-else class="form-check-input" type="checkbox" v-bind:value="item.moduleid" > 	
+		                	<span class="form-check-sign" @click = "select(item)">{{item.modulename}}</span>
+						</label>
+	                    <tree v-if = "item.mlist" :folder = "item.mlist" :select = "select"></tree>
+	                </li>
+	            </ul>`,
+	    props:["folder","select"],
+	})
 		var v = new Vue({
 			el: ".content",
 			data: {
-				a: false
-			}
+				infoModule:{},
+				role:{}
+			},
+		    methods:{
+		        clickHandler(){
+		        },
+		        select(data){
+		        }
+		    },
+		    mounted(){
+		        console.log(this.trees);
+		    }
 		});
 		$(function() {
+			infoBut.ccc();
+			getRole();
 			//点击进入子模块修改
 			$('[name="goUpdateModule"]').click(function(){
 				window.location.href="setting-role_updateModule.html?id=10"				
@@ -147,7 +132,71 @@
 			$('[name="goInsertRole"]').click(function(){
 				window.location.href="setting-role_insertRole.html"				
 			});
+			
+			
+			//点击保存
+			$('[name="baochun"]')
+					.click(
+							function() {
+								var roleid=$(".roleKey").attr("roleid");
+								console.log(roleid);
+								var json={};
+								json.modules="";
+								 $.each($('input:checkbox:checked'),function(index,element){
+									 json.modules+=$(this).val()+",";
+						         }); 
+								json.roleid=roleid;
+								console.log(JSON.stringify(json) + "我传过来的");
+								$.ajax({
+									url:"/role/update",
+									data:json,
+									type:"post",
+									dataType:"json",
+									success:function(data){
+										
+									}
+								});		
+							});
+			
+			
 		})
+		//获取所有status为0的角色	
+		function getRole(){
+			$.ajax({
+				url : "/role/getRole",
+				data : null,
+				type : "post",
+				dataType : "json",
+				success : function(data) {
+					v.role=data;
+				}
+			})
+		}
+		//点击角色事件，更改样式，添加positionKey识别类
+		function RoleClick(th){
+				$(".roleKey").removeClass("btn-primary roleKey");
+				$(".role").addClass("btn-info");
+				th.classList.remove("btn-info");
+				th.classList.add("btn-primary");
+				th.classList.add("roleKey");
+				var roleid=th.getAttribute("roleid");
+				v.infoModule={};
+				getInfoModule(roleid);
+			}
+		
+		//通过传值获取模块信息
+		function getInfoModule(i){
+			$.ajax({
+				url : "/module/getRoleAllModule?roleid="+i,
+				data : null,
+				type : "post",
+				dataType : "json",
+				success : function(data) {
+					console.log(data);
+					v.infoModule = data;
+				}
+			})
+		}
 	</script>
 
 </html>

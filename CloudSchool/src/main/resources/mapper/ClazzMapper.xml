@@ -136,5 +136,23 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
+
+  <!-- 根据年级id查询所有班级 -->
+  <select id="queryBygid" resultMap="BaseResultMap">
+		select * from clazz where gid=#{gid};
+	</select>
+	
+	<!-- 一对一查询班级的班主任对象 以及一对多查询班级的教员集合 -->
+	<resultMap type="com.CloudSchool.domain.Clazz" id="result" extends="BaseResultMap">
+		<association property="master" column="clazzid" javaType="com.CloudSchool.domain.CqjStaff" select="com.CloudSchool.dao.CqjStaff.queryByclazzid"></association>
+	</resultMap>
+	
+<!-- 根据班级id数组查询班级 以及查询班主任对象以及教员集合-->
+	<select id="queryListid" resultMap="result">
+		select * from clazz where id in (
+		<foreach collection="list" item="l" separator=",">
+ 			#{l}
+ 		</foreach>
+ 		)
+	</select>
 </mapper>

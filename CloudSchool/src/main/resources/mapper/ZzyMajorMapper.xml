@@ -15,15 +15,26 @@
     <result column="user4" jdbcType="VARCHAR" property="user4" />
     <result column="user5" jdbcType="VARCHAR" property="user5" />
   </resultMap>
+  <!-- 循环添加专业 -->
+  <insert id="insertList">
+		insert into `zzy_major`(major_name) values
+		<foreach collection="list" item="l" separator="," >
+			(#{l.majorName})
+		</foreach>
+	</insert>
+	<!-- 查询所有专业 -->
+	<select id="queryAll" resultMap="BaseResultMap">
+		select * from `zzy_major`
+	</select>
   <insert id="insert" parameterType="com.CloudSchool.domain.ZzyMajor">
-    insert into zzy_major (mid, major_name, creat_time, 
-      modificationtime, state, uid, 
+    insert into zzy_major (mid, major_name,
+      modificationtime,  uid, 
       remark, user1, user2, 
       user3, user4, user5
       )
-    values (#{mid,jdbcType=INTEGER}, #{majorName,jdbcType=VARCHAR}, #{creatTime,jdbcType=DATE}, 
-      #{modificationtime,jdbcType=DATE}, #{state,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, 
+    values (#{mid,jdbcType=INTEGER}, #{majorName,jdbcType=VARCHAR}, 
+      #{modificationtime,jdbcType=DATE}, #{uid,jdbcType=INTEGER}, 
+       #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, 
       #{user3,jdbcType=VARCHAR}, #{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR}
       )
   </insert>

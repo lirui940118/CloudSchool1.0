@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> 
+
+	<head>
+		<meta charset="UTF-8">
+		<title>123</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<style type="text/css">
+
+		</style>
+	</head>
+
+	<body>
+		<div id="aaa" style="width: 100%;height: 650px;"></div>
+		<input type="hidden" id="vid" >
+	</body>
+	<script th:src="@{/static/js/echarts.js}"></script>
+	<script th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
+	<script th:src="@{/static/js/core/vue.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+	<script th:src="@{/static/js/core/popper.min.js}"></script>
+	<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+	<script th:src="@{/static/js/ready.min.js}"></script>
+	<script type="text/javascript">
+		var vid=[[${vid}]];
+		 $.ajax({
+				url:"VerAndGrade?vid="+vid,
+				type:'POST',
+				dataType:"json",
+				success:function(data){
+					$.ajax({
+						url:"VerAndGrade2?vid="+vid,
+						type:'POST',
+						dataType:"json",
+						success:function(d){
+							var myChart = echarts.init(document.querySelector("#aaa"));
+							var node =[];
+							$.each(data.list,function(i,obj){
+								var obj1={};
+								obj1.name =obj.gradeName;
+								var node2=[];
+								$.each(obj.list,function(i2,obj2){
+									var obj3={};
+									obj3.name=obj2.cname;
+									node2.push(obj3);
+								})
+								obj1.children=node2;
+								node.push(obj1);
+							})
+							//整个年级数组
+							var n =[];
+							//循环版本里面的年级
+							$.each(d.list,function(i,obj){
+								//定义一个年级对象
+								var obj1={};
+								//赋值年级的名字
+								obj1.name =obj.gradeName;
+								//定义一个年级里面的课程数组
+								var node2=[];
+								//循环年级里面的课程
+								$.each(obj.list2,function(i2,obj2){
+									//定义一个课程对象
+									var obj3={};
+									//赋值课程名字
+									obj3.name=obj2.courseName;
+									//定义一个课程里面章节的数组
+									var node3=[];
+									//循环课程里面的章节
+									$.each(obj2.list,function(i3,obj3){
+										//定义一个章节对象
+										var obj4={};
+										//赋值章节名字
+										obj4.name=obj3.sectionName;
+										//将章节对象添加章节数组中
+										node3.push(obj4);
+									})
+									//将章节数组添加进课程子项中
+									obj3.children=node3;
+									//将课程对象添加课程数组里面
+									node2.push(obj3);
+								})
+								//将课程数组添加如年级子项中
+								obj1.children=node2;
+								//将年级对象添加入年级数组中
+								n.push(obj1);
+							})
+							
+							var data1 = {
+								"name": data.versionof,
+								
+								"children": node
+							 }
+							
+							var data2 = {
+									"name": d.versionof,
+									"children": n
+								};
+
+								myChart.hideLoading();
+
+								myChart.setOption(option = {
+									tooltip: {
+										trigger: 'item',
+										triggerOn: 'mousemove'
+									},
+									legend: {
+										top: '2%',
+										left: '3%',
+										orient: 'vertical',
+										data: [{
+												name: '班级相关',
+												icon: 'rectangle'
+											},
+											{
+												name: '课程相关',
+												icon: 'rectangle'
+											}
+										],
+										borderColor: '#c23531'
+									},
+									series: [{
+											type: 'tree',
+
+											name: '班级相关',
+
+											data: [data1],
+
+											top: '5%',
+											left: '7%',
+											bottom: '2%',
+											right: '60%',
+
+											symbolSize: 7,
+
+											label: {
+												normal: {
+													position: 'left',
+													verticalAlign: 'middle',
+													align: 'right'
+												}
+											},
+
+											leaves: {
+												label: {
+													normal: {
+														position: 'right',
+														verticalAlign: 'middle',
+														align: 'left'
+													}
+												}
+											},
+
+											expandAndCollapse: true,
+
+											animationDuration: 550,
+											animationDurationUpdate: 750
+
+										},
+										{
+											type: 'tree',
+											name: '课程相关',
+											data: [data2],
+
+											top: '20%',
+											left: '60%',
+											bottom: '22%',
+											right: '18%',
+
+											symbolSize: 7,
+
+											label: {
+												normal: {
+													position: 'left',
+													verticalAlign: 'middle',
+													align: 'right'
+												}
+											},
+
+											leaves: {
+												label: {
+													normal: {
+														position: 'right',
+														verticalAlign: 'middle',
+														align: 'left'
+													}
+												}
+											},
+
+											expandAndCollapse: true,
+
+											animationDuration: 550,
+											animationDurationUpdate: 750
+										}
+									]
+								});
+
+								var option = {};
+								myChart.setOption(option);
+						}
+						});
+					
+					
+				}
+			})
+		
+	</script>
+
+</html>

@@ -34,13 +34,33 @@ public class Clazzcourseteacher {
 	public String getCname() {
 		return cname;
 	}
-
+    //数据中教员id对应的教员对象
+    private CqjStaff teacher;
+    
+    //数据中课程id对应的课程对象
+    private ZzyCourse zzycourse;
+    
 	public void setCname(String cname) {
 		this.cname = cname;
 	}
 
 	public void setGreaName(String greaName) {
 		this.greaName = greaName;
+	}
+    public CqjStaff getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(CqjStaff teacher) {
+		this.teacher = teacher;
+	}
+
+	public ZzyCourse getZzycourse() {
+		return zzycourse;
+	}
+
+	public void setZzycourse(ZzyCourse zzycourse) {
+		this.zzycourse = zzycourse;
 	}
 
 	public Integer getId() {

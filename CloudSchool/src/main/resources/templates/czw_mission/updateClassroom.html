@@ -38,7 +38,9 @@
 							<div class="form-group">
 								<label for="largeSelect">教室类型：</label>
 								<select class="form-control form-control-lg" id="largeSelect">
-									<option th:if="${cs.ctid==m.id}" th:each="m:${list}" th:value="${m.id}" th:text="${m.name}" selected="selected"></option> 
+									<option th:if="${cs.ctid==m.id}" th:value="${m.id}" th:text="${m.name}" selected="selected" th:each="m:${list}" ></option> 
+									<option th:if="${cs.ctid!=m.id}" th:value="${m.id}" th:text="${m.name}"  th:each="m:${list}" ></option> 
+									
 									<!-- <option>机房室</option>
 									<option>自习室</option>
 									<option>上课室</option>
@@ -81,7 +83,7 @@
             	data:"id="+id+"&name="+name+"&floor="+floor+"&ctid="+type+"&galleryful="+nums,
             	success:function(result){
             		alert(result)
-            		location.href="aaa"
+            		location.href="queryClr"
             	}
             })
         })
