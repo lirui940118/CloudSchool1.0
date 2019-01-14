@@ -22,4 +22,5 @@ public interface CqjModuleMapper {
     List<CqjModule> queryByRoleidandPositionid(@Param("roleid")Integer roleid,@Param("positionid")Integer positionid);
     List<CqjModule> queryAllModule(Integer roleid);
     List<CqjModule> queryAllInfoModule(Integer positionid);
+    List<CqjModule> queryInfoModule(Integer positionid);
 }

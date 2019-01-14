@@ -38,7 +38,6 @@ public class CqjUserServiceImpl implements CqjUserService {
 					clazzidsList.add(c[i]);
 				}
 			}
-			
 			userinfo.setClazzidsList(clazzidsList);
 		}
 		return userinfo;

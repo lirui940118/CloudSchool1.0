@@ -185,4 +185,7 @@
       standby5 = #{standby5,jdbcType=VARCHAR}
     where positionid = #{positionid,jdbcType=INTEGER}
   </update>
+  <select id="qeuryAllposition" resultMap="BaseResultMap">
+  	SELECT * FROM cqj_position WHERE `status`=0
+  </select>
 </mapper>
