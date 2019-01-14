@@ -31,8 +31,17 @@ public class Workmould {
     private String user4;
 
     private String user5;
+    private PageBean pagebean;
     
-    //作业模板包含的作业类型
+    public PageBean getPagebean() {
+		return pagebean;
+	}
+
+	public void setPagebean(PageBean pagebean) {
+		this.pagebean = pagebean;
+	}
+
+	//作业模板包含的作业类型
     private Integer[] workTypeList;
     public Integer[] getWorkTypeList() {
 		return workTypeList;

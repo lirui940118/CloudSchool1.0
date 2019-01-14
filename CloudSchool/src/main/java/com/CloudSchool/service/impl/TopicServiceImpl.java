@@ -32,20 +32,20 @@ public class TopicServiceImpl implements TopicService {
 	TopicMapper topicMapper;
 	@Autowired
 	TopicoptionMapper topicoptionMapper;
-	
+
 	@Autowired
 	WorkmouldMapper workmouldMapper;
-	
+
 	@Autowired
 	WorkinfoMapper workinfoMapper;
-	
+
 	@Override
 	// 添加题目
 	public int insertSelective(TopicWithBLOBs record, MultipartFile file) {
 		// 添加选择题题目
 		if (record.getTid() == 1) {
 			int i = topicMapper.insertSelective(record);
-			if(i>0) {
+			if (i > 0) {
 				List<Topicoption> list = record.getList(); // 所有题目
 				Map<String, Object> obj = new HashMap<String, Object>();
 				obj.put("tid", record.getId());
@@ -55,10 +55,11 @@ public class TopicServiceImpl implements TopicService {
 		}
 		// 上机题目新增 上传附件
 		if (record.getTid() == 3) {
-			 UUID u = UUID.randomUUID();
-			 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-			 //文件名称
-			 String filename=df.format(new Date()).toString().replace("-", "").replace(":", "").replace(" ", "")+u.toString().substring(0, 8);
+			UUID u = UUID.randomUUID();
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+			// 文件名称
+			String filename = df.format(new Date()).toString().replace("-", "").replace(":", "").replace(" ", "")
+					+ u.toString().substring(0, 8);
 			File f = new File("E:\\img\\word");
 			if (!f.exists()) {
 				f.mkdirs();
@@ -66,11 +67,11 @@ public class TopicServiceImpl implements TopicService {
 				f.delete();
 			}
 			try {
-				file.transferTo(new File(f,filename+file.getOriginalFilename()));
+				file.transferTo(new File(f, filename + file.getOriginalFilename()));
 			} catch (IllegalStateException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}finally {
+			} finally {
 				record.setUrl(filename);
 				record.setTopicconten("上机题目(请参考附件)");
 				record.setAnalysis("无解析");
@@ -80,24 +81,46 @@ public class TopicServiceImpl implements TopicService {
 		}
 		return topicMapper.insertSelective(record);
 	}
-	
-	//多条件查询题目
+
+	// 多条件查询题目
 	@Override
-	public PageBean conditionsQueryTopci(Topic obj,Integer cur,Integer pagesize) {
+	public PageBean conditionsQueryTopci(Topic obj, Integer cur, Integer pagesize) {
 		// TODO Auto-generated method stub
-		PageBean page=new PageBean(topicMapper.queryCount(obj),pagesize,topicMapper.conditionsQueryTopci(obj,(cur-1)*pagesize,pagesize),cur);
+		PageBean page = new PageBean(topicMapper.queryCount(obj), pagesize,
+				topicMapper.conditionsQueryTopci(obj, (cur - 1) * pagesize, pagesize), cur);
 		return page;
 	}
-	
-	
-	//生成作业模板
+
+	// 生成作业模板
 	@Override
 	public int workTemplateCreate(Workmould obj) {
-		int i=workmouldMapper.insertSelective(obj);
-		Integer [] array=workmouldMapper.queryWorkMouldType(obj);
-		if(i>0) {
-			Map<String, Object> map=new HashMap<String, Object>();
-			map.put("wid",obj.getId());
+		//生成作业的类型    选择题 阅读题 上机题  混合题
+		Integer[] array = workmouldMapper.queryWorkMouldType(obj);
+		for (int j = 0; j < array.length; j++) {
+			/*选择题*/
+			if (array.length == 1 && array[0] == 1) {
+				obj.setWtype(0);
+				break;
+			}
+			/*阅读题*/
+			if (array.length == 1 && array[0] == 2) {
+				obj.setWtype(1);
+				break;
+			}
+			/*上机题*/
+			if (array.length == 1 && array[0] == 3) {
+				obj.setWtype(2);
+				break;
+			}
+			/*混合题*/
+			if(array.length>1) {
+				obj.setWtype(3);
+			}
+		}
+		int i = workmouldMapper.insertSelective(obj);
+		if (i > 0) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("wid", obj.getId());
 			map.put("ids", obj.getIds());
 			System.out.println(obj.getId());
 			return workinfoMapper.insertListByMap(map);

@@ -12,13 +12,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.CloudSchool.domain.Clazzcourseteacher;
 import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.Topic;
 import com.CloudSchool.domain.TopicWithBLOBs;
 import com.CloudSchool.domain.Topictype;
 import com.CloudSchool.domain.Workmould;
+import com.CloudSchool.domain.zjfvo.TeacherAdminStu;
+import com.CloudSchool.service.ClazzcourseteacherService;
 import com.CloudSchool.service.TopicService;
 import com.CloudSchool.service.TopicTypeService;
+import com.CloudSchool.service.WorkMouldService;
 import com.alibaba.fastjson.JSON;
 
 @Controller
@@ -28,7 +32,11 @@ public class TopicWarehouseController {
 	TopicService topicService;
 	@Autowired
 	TopicTypeService topicTypeService;
-
+	@Autowired
+	WorkMouldService workMouldService;
+	
+	@Autowired
+	ClazzcourseteacherService clazzcourseteacherService;
 	// 添加题目
 	@RequestMapping("addTopic")
 	@ResponseBody
@@ -97,6 +105,33 @@ public class TopicWarehouseController {
 	@RequestMapping("toPublishWork")
 	public String toPublishWork() {
 		return "zjf/publishWork";
+	}
+	
+	//根据教员ID查询作业模板
+	@RequestMapping("queryByTidMould")
+	@ResponseBody
+	public PageBean queryByTidMould(Integer tid,Integer cur) {
+		Integer pagesize=2;
+		if(cur==null) {
+			cur=1;
+		}
+		return workMouldService.queryByTidMould(tid, cur, pagesize);
+	}
+	
+	//查询到教员管理的班级
+	@RequestMapping("queryByTidResultClass")
+	@ResponseBody
+	public List<Clazzcourseteacher> queryByTidResultClass(Integer tid){
+		return clazzcourseteacherService.queryByTidResultClass(tid);
+	}
+	
+	
+	//根据老师查询到管理的班级所有的学生
+	@RequestMapping("queryByTidAdminStuAll")
+	@ResponseBody
+	public List<TeacherAdminStu> queryByTidAdminStuAll(Integer tid) {
+		// TODO Auto-generated method stub
+		return workMouldService.queryByTidAdminStuAll(tid);
 	}
 	
 }

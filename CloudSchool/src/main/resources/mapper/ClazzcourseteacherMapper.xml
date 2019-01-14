@@ -12,6 +12,11 @@
     <result column="isMaster" jdbcType="INTEGER" property="ismaster" />
     <result column="isTeacher" jdbcType="INTEGER" property="isteacher" />
   </resultMap>
+  <resultMap type="com.CloudSchool.domain.Clazzcourseteacher" id="queryGreadNameTid">
+  	<id column="id" property="id"/>
+  	<result column="grade_name" property="greaName"/>
+  	<result column="cname" property="cname"/>
+  </resultMap>
   <sql id="Base_Column_List">
     id, clazzid, courseid, tid, starttime, endtime, status, isMaster, isTeacher
   </sql>
@@ -144,4 +149,13 @@
     	(0,#{id},#{t.courseid},#{t.tid},DATE(now()),null,0,#{t.ismaster},#{t.isteacher})
     </foreach>
   </insert>
+  
+  <!-- 根据教员查询管理的班级 -->
+  <select id="queryByTidResultClass" resultMap="queryGreadNameTid">
+  	SELECT clazz.`cname`,zzy_grade.`grade_name`,clazz.`id` FROM clazzcourseteacher
+	INNER JOIN clazz ON clazzcourseteacher.`clazzid`=clazz.`id`
+	INNER JOIN zzy_grade ON zzy_grade.`gid`=clazz.`gid` 
+	AND clazzcourseteacher.`status`=0 AND clazz.`status`=0 AND zzy_grade.state=0
+	AND clazzcourseteacher.`tid`=1
+  </select>
 </mapper>
