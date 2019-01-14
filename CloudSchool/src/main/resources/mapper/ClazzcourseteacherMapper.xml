@@ -158,4 +158,14 @@
 	AND clazzcourseteacher.`status`=0 AND clazz.`status`=0 AND zzy_grade.state=0
 	AND clazzcourseteacher.`tid`=1
   </select>
+  
+  <resultMap type="com.CloudSchool.domain.Clazzcourseteacher" id="result" extends="BaseResultMap">
+		<association property="teacher" column="tid" javaType="com.CloudSchool.domain.CqjStaff" select="com.CloudSchool.dao.CqjStaffMapper.queryBytid"></association>
+		<association property="zzycourse" column="courseid" javaType="com.CloudSchool.domain.ZzyCourse" select="com.CloudSchool.dao.ZzyCourseMapper.queryBycid"></association>
+	</resultMap>
+  
+  <!--  根据班级id查询班级所有教员 以及所教课程-->
+  <select id="queryByclazzid" resultMap="result">
+  		SELECT * FROM `clazzcourseteacher` WHERE clazzid =#{clazzid} AND isTeacher=1
+  </select>
 </mapper>

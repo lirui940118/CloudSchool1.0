@@ -22,4 +22,7 @@ public interface ClazzcourseteacherMapper {
     
    /* 根据教员查询管理的班级*/
     List<Clazzcourseteacher> queryByTidResultClass(Integer tid);
+    
+    //根据班级id查询班级所有教员
+    public List<Clazzcourseteacher> queryByclazzid(Integer clazzid);
 }
