@@ -28,7 +28,6 @@ public class CqjUserController {
 		}else {
 			System.out.println("登录失败");
 		}
-		CqjUser cc=(CqjUser)session.getAttribute("user");
 		return "redirect:goIndex";
 	}
 	

@@ -10,10 +10,13 @@ import com.CloudSchool.domain.CqjUser;
 public interface CqjMoudelService {
 	CqjUser queryByRoleidandPositionid(CqjUser userinfo, Integer roleid, Integer positionid);
 
-	List<CqjModule> queryAllModule(Integer roleid);
+	List<CqjModule> queryAllModuleByRoleid(Integer roleid);
 
-	List<CqjModule> queryAllInfoModule(Integer positionid);
+	List<CqjModule> queryAllInfoModuleByPositionid(Integer positionid);
 
-	List<CqjModule> queryInfoModule(Integer positionid);
+	List<CqjModule> queryInfoModuleByPositionid(Integer positionid);
+	
+    List<CqjModule> queryModule();
+    List<CqjModule> queryInfoModule();
 
 }

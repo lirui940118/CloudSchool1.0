@@ -11,7 +11,8 @@
 <link rel="stylesheet" th:href="@{/static/css/ready.css}">
 <link rel="stylesheet" th:href="@{/static/css/demo.css}">
 <link rel="StyleSheet" th:href="@{/static/css/dtree.css}"
-	type="text/css" />
+	type="text/css" >
+<link rel="stylesheet" th:href="@{/static/css/load.css}">
 <script type="text/javascript" th:src="@{/static/js/dtree.js}"></script>
 <script th:src="@{/static/js/core/jquery.min.js}"></script>
 <script th:src="@{/static/js/core/vue.js}" type="text/javascript"
@@ -34,16 +35,52 @@
 <script
 	th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
 <script th:src="@{/static/js/ready.min.js}"></script>
+<script th:src="@{/static/js/cqj_infoBut.js}"></script>
+
 
 <style type="text/css">
 .card {
 	margin-bottom: 10px;
 }
+
+#hezi {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: #f2f3f8;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+}
+
 </style>
 </head>
 
 <body>
 	<div class="main-panel">
+		<div id="hezi">
+			<div class="spinner">
+				<div class="spinner-container container1">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+				<div class="spinner-container container2">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+				<div class="spinner-container container3">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+			</div>
+		</div>
+	
 		<div class="content">
 			<div class="container-fluid">
 				<h4 class="page-title">职位设置</h4>
@@ -53,7 +90,7 @@
 						<div class="card">
 							<div class="card-body">
 								<p class="demo">
-									<button name="goInsertPosition" class="btn btn-success">创建职位</button>
+									<button infoBut moduleUrl="position/insert" name="goInsertPosition" class="btn btn-success">创建职位</button>
 								</p>
 							</div>
 						</div>
@@ -77,7 +114,7 @@
 							<div class="card-header">
 								<h4 class="card-title">权限</h4>
 								<p style="float: right;" class="demo">
-									<button name="baochun" class="btn btn-success">保存</button>
+									<button infoBut moduleUrl="position/update" name="baochun" class="btn btn-success">保存</button>
 								</p>
 							</div>
 
@@ -96,6 +133,7 @@
 
 </body>
 <script type="text/javascript">
+
 Vue.component('tree', {
     name:"tree",
     template:`<ul>
@@ -126,8 +164,10 @@ var v = new Vue({
         console.log(this.trees);
     }
 });
-
+	var count = 0;
+	var sumCount=2;
 	$(function() {
+		infoBut.ccc();
 		getPosition();
 		//点击进入子模块修改
 		$('[name="goUpdateModule"]').click(function() {
@@ -185,6 +225,7 @@ var v = new Vue({
 				dataType : "json",
 				success : function(data) {
 					v.position=data;
+					infoBut.fadeOut();
 				}
 			})
 		}

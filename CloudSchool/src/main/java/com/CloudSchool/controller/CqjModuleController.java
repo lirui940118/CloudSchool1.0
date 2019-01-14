@@ -25,21 +25,21 @@ public class CqjModuleController {
 
 	@RequestMapping("getModule")
 	@ResponseBody
-	public List<CqjModule> getModule(Integer roleid) {
-		return cms.queryAllModule(roleid);
+	public List<CqjModule> getAllModule(Integer roleid) {
+		return cms.queryAllModuleByRoleid(roleid);
 	}
 	
 	@RequestMapping("getPositionInfoModule")
 	@ResponseBody
 	public List<CqjModule> getPositionInfoModule(Integer positionid) {
-		List<CqjModule> c=cms.queryAllInfoModule(positionid);
+		List<CqjModule> c=cms.queryAllInfoModuleByPositionid(positionid);
 		return c;
 	}
 	
 	@RequestMapping("getRoleAllModule")
 	@ResponseBody
 	public List<CqjModule> getRoleAllModule(Integer roleid) {
-		List<CqjModule> c=cms.queryAllModule(roleid);
+		List<CqjModule> c=cms.queryAllModuleByRoleid(roleid);
 		return c;
 	}
 	
@@ -47,7 +47,17 @@ public class CqjModuleController {
 	@ResponseBody
 	public List<CqjModule> getInfoModule(HttpSession session) {
 		CqjUser user=(CqjUser)session.getAttribute("user");
-		return cms.queryInfoModule(user.getPositionid());
+		return cms.queryInfoModuleByPositionid(user.getPositionid());
 	}
 	
+	@RequestMapping("getaddModule")
+	@ResponseBody
+	public List<CqjModule> getaddModule(){
+		return cms.queryModule();
+	}
+	@RequestMapping("getaddInfoModule")
+	@ResponseBody
+	public List<CqjModule> getaddInfoModule(){
+		return cms.queryInfoModule();
+	}
 }
