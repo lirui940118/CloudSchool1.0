@@ -52,16 +52,16 @@ public class CqjModuleServiceImpl implements CqjMoudelService{
 	}
 
 	@Override
-	public List<CqjModule> queryAllModule(Integer roleid) {
+	public List<CqjModule> queryAllModuleByRoleid(Integer roleid) {
 		// TODO Auto-generated method stub
 		CqjModule allModule = new CqjModule();
 		allModule.setModuleid(0);
-		allModule = digui(allModule, cmm.queryAllModule(roleid));
+		allModule = digui(allModule, cmm.queryAllModuleByRoleid(roleid));
 		return allModule.getMlist();
 	}
 
 	@Override
-	public List<CqjModule> queryAllInfoModule(Integer positionid) {
+	public List<CqjModule> queryAllInfoModuleByPositionid(Integer positionid) {
 		// TODO Auto-generated method stub
 		/*List<CqjModule> alllist =cmm.queryAllInfoModule(positionid);
 		List<CqjModule> infoModule=new ArrayList<CqjModule>();
@@ -86,7 +86,7 @@ public class CqjModuleServiceImpl implements CqjMoudelService{
 		System.out.println(infoModule);*/
 		CqjModule allModule = new CqjModule();
 		allModule.setModuleid(0);
-		allModule = digui(allModule, cmm.queryAllInfoModule(positionid));
+		allModule = digui(allModule, cmm.queryAllInfoModuleByPositionid(positionid));
 		return allModule.getMlist();
 	}
 
@@ -101,9 +101,21 @@ public class CqjModuleServiceImpl implements CqjMoudelService{
 	}
 
 	@Override
-	public List<CqjModule> queryInfoModule(Integer positionid) {
+	public List<CqjModule> queryInfoModuleByPositionid(Integer positionid) {
 		// TODO Auto-generated method stub
-		return cmm.queryInfoModule(positionid);
+		return cmm.queryInfoModuleByPositionid(positionid);
+	}
+
+	@Override
+	public List<CqjModule> queryModule() {
+		// TODO Auto-generated method stub
+		return cmm.queryModule();
+	}
+
+	@Override
+	public List<CqjModule> queryInfoModule() {
+		// TODO Auto-generated method stub
+		return cmm.queryInfoModule();
 	}
 	
 

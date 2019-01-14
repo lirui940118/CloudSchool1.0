@@ -41,7 +41,8 @@
       #{standby3,jdbcType=VARCHAR}, #{standby4,jdbcType=VARCHAR}, #{standby5,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.CloudSchool.domain.CqjRole">
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.CqjRole" useGeneratedKeys="true"
+		keyProperty="roleid">
     insert into cqj_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="roleid != null">
@@ -177,4 +178,7 @@
   <select id="queryAllRole" resultMap="BaseResultMap">
   	SELECT * FROM cqj_role WHERE `status`=0
   </select>
+  <insert id="addRole">
+  	insert into Cqj_role(rolename,uid,remark) value(#{rolename},#{uid},#{remark}); 
+  </insert>
 </mapper>

@@ -228,17 +228,26 @@
 		LEFT JOIN cqj_module cm ON cm.`moduleid`=cpm.`moduleid` AND
 		cm.`leftmenu`=2 and cm.`status`=0
 	</select>
-	<select id="queryAllModule" resultMap="BaseResultMap">
+	<select id="queryAllModuleByRoleid" resultMap="BaseResultMap">
 		SELECT 	cm.`moduleid`,cm.`modulename`,cm.`groupname`,cm.`pid`,crm.`status`,cm.`leftmenu`
 		FROM cqj_module cm 
 		 LEFT JOIN   cqj_role_module crm ON cm.`leftmenu`!=2 AND  cm.`moduleid`=crm.`moduleid` AND crm.`roleid`=#{roleid}
 		 WHERE cm.`leftmenu`!=2
 	</select>
-	<select id="queryAllInfoModule" resultMap="BaseResultMap">
+	<select id="queryAllInfoModuleByPositionid" resultMap="BaseResultMap">
 		SELECT 	cm.`moduleid`,cm.`modulename`,cm.`groupname`,cm.`pid`,cpm.`status`,cm.`leftmenu`
 		FROM cqj_module cm LEFT JOIN cqj_position_module cpm ON cm.`moduleid`=cpm.`moduleid` AND cpm.`positionid`=#{positionid}
 	</select>
-	<select id="queryInfoModule" resultMap="BaseResultMap">
+	<select id="queryInfoModuleByPositionid" resultMap="BaseResultMap">
 		SELECT cm.* FROM cqj_position_module cpm INNER JOIN cqj_module cm ON cpm.`moduleid`=cm.`moduleid` AND cpm.`positionid`=#{positionid} AND cm.`status`=0 AND cpm.`status`=0
 	</select>
+	
+	<select id="queryModule" resultMap="BaseResultMap">
+		SELECT * FROM cqj_module cm WHERE cm.`status`=0 AND cm.`leftmenu`!=2
+	</select>
+	
+	<select id="queryInfoModule" resultMap="BaseResultMap">
+		SELECT * FROM cqj_module cm WHERE cm.`status`=0
+	</select>
+	
 </mapper>

@@ -20,7 +20,9 @@ public interface CqjModuleMapper {
     int updateByPrimaryKey(CqjModule record);
     
     List<CqjModule> queryByRoleidandPositionid(@Param("roleid")Integer roleid,@Param("positionid")Integer positionid);
-    List<CqjModule> queryAllModule(Integer roleid);
-    List<CqjModule> queryAllInfoModule(Integer positionid);
-    List<CqjModule> queryInfoModule(Integer positionid);
+    List<CqjModule> queryAllModuleByRoleid(Integer roleid);
+    List<CqjModule> queryAllInfoModuleByPositionid(Integer positionid);
+    List<CqjModule> queryInfoModuleByPositionid(Integer positionid);
+    List<CqjModule> queryModule();
+    List<CqjModule> queryInfoModule();
 }
