@@ -39,15 +39,30 @@ public class StatisticsController {
 	 */
 	/*打开学员首页*/
 	@RequestMapping("/gotoStudent")
-	public String aa() {
+	public String gotoStudent() {
 		return "statistics/student";
+	}
+	/*打开考试详细分析*/
+	@RequestMapping("/gotoStudentText")
+	public String gotoStudentText(Integer sId,Integer tId,HttpSession session) {//textGrade.Id
+		//當前登陸賬號信息
+		CqjUser cqjUser = (CqjUser)session.getAttribute("user");
+		if(sId !=null) {//查其他学员
+					
+		}else {//查本人（学员）
+			sId = cqjUser.getUsertypeid();//doto session获取登陆学员的id
+		}
+		//保存至session
+		session.setAttribute("lr_textGradeId", tId);
+		session.setAttribute("lr_sId", sId);
+		return "statistics/studentText";
 	}
 	
 	
 	
 	
-	
 	/*查询数据*/
+	//============================个人=====================================
 	/*查询该学员个人信息*/
 	@RequestMapping("/queryStudentInfoBySid")
 	@ResponseBody
@@ -111,4 +126,18 @@ public class StatisticsController {
 		List<GkKaoqinState> list = gkKaoqinStateService.queryKqTotalInfoBySidAndGid(sId, gId);
 		return list;
 	}
+	//=============================考试==========================================
+	/*查询考试详细分析数据*/
+	@RequestMapping("/getDataAboutTextInfo")
+	@ResponseBody
+	public String getDataAboutTextInfo(HttpSession session) {
+		/*session.setAttribute("lr_textGradeId", tId);
+		session.setAttribute("lr_sId", sId);*/
+		//获取需要查询的数据id
+		Integer sId = Integer.parseInt(session.getAttribute("lr_sId").toString());
+		Integer tId = Integer.parseInt(session.getAttribute("lr_textGradeId").toString());//testGrade.id
+		
+		return "";
+	}
+	
 }
