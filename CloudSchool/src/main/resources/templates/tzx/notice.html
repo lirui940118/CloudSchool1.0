@@ -23,10 +23,10 @@
 									<span style=""><label>时间：</label><input type="date" class=""  name="time" placeholder="选择时间" value=""></span>
 									<span style="">
 										<label>快速查询</label>
-										<input type="text" />
-										<button class="btn btn-primary btn-xs">查询</button>
+										<input type="text" name="str" />
+										<button class="btn btn-primary btn-xs" onclick="btnQuery()">查询</button>
 									</span>
-									<button class="btn btn-primary btn-xs">添加学生</button>
+									<button class="btn btn-primary btn-xs" onclick="addnotice()">添加通知</button>
 								</p>
 								<table class="table table-hover">
 									<thead>
@@ -90,11 +90,32 @@
 			}
 		})
 		$(function(){
-			$.post("noticeList","",function(result){
-// 				alert(result)
-				console.log(result)
-				v.aa=result
-			})
+			query(null,null)
 		})
+		function query(time,str){
+			var data=""
+				if(time!=null||time!=''){
+					data+="time="+time
+				}else if(str!=null||str!=''){
+					data+="&str="+str
+				}
+				if(str!=null||str!=''){
+					data+="str="+str
+				}
+				alert(data)
+				$.post("noticeList",data,function(result){
+//	 				alert(result)
+					console.log(result)
+					v.aa=result
+				})
+		}
+		function btnQuery(){
+			var time= $("[name=time]").val()
+			var str= $("[name=str]").val()
+			query(time,str)
+		}
+		function addnotice(){
+			location.href="addnotice"
+		}
 	</script>
 </html>
