@@ -58,79 +58,77 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12">
+					<div class="col-md-2">
 						<div class="card">
 							<div class="card-header">
 								<h4 class="card-title">职位列表</h4>
 							</div>
 							<div class="card-body">
 								<p class="demo">
-									<button class="btn btn-primary">角色1</button>
-									<button class="btn btn-info">角色2</button>
-									<button class="btn btn-info">角色3</button>
-									<button class="btn btn-info">角色3</button>
-									<button class="btn btn-info">角色3</button>
+									<button style="margin-right: 10px;"
+										v-for="(p,index) in position" class="btn btn-info position"
+										onclick="positionClick(this)" v-bind:positionid="p.positionid">{{p.positionname}}</button>
 								</p>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12">
+					<div class="col-md-8">
 						<div class="card">
 							<div class="card-header">
 								<h4 class="card-title">权限</h4>
-							</div>
-							<div class="card-body dtree" id="dtree_div">
-								 
-								<p class="demo">
-									<button class="btn btn-info" onclick="d.closeAll()">展开</button>
-									<button class="btn btn-info" onclick="d.openAll()">收回</button>
+								<p style="float: right;" class="demo">
+									<button name="baochun" class="btn btn-success">保存</button>
 								</p>
-								<script type="text/javascript">
-									var infoModule={};
-									$.ajax({
-												url : "/module/getInfoModule?positionid=-1",
-												data : null,
-												type : "post",
-												dataType : "json",
-												async:false,
-												success : function(data) {
-													 infoModule = data;
-												}
-									})
-									/* d = new dTree('d', true); //参数一: 树名称。参数二：单选多选 true多选  false单选  默认单选               
-									d.add(0, -1, '权限管理');			
-									 for (var i = 0; i < infoModule.length; i++) {
-										 d.add(infoModule[i].moduleid,
-											infoModule[i].pid,
-											infoModule[i].groupname,
-											infoModule[i].moduleid,
-											infoModule[i].modulename,
-											infoModule[i].leftmenu==2? true
-													: false,
-													infoModule[i].leftmenu!=2? true
-															: false, false);
-										 if(i==infoModule.length-1){
-											 document.write(d);
-												d.openAll();
-										 }
-									} */
-								</script>
+							</div>
+
+							<div style="height: 800px" class="card-body dtree "
+								id="dtree_div">
+								<div id="app">
+									<tree :folder="infoModule" :select="select"></tree>
+								</div>
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
 	</div>
 
 </body>
-
-
 <script type="text/javascript">
-
+Vue.component('tree', {
+    name:"tree",
+    template:`<ul>
+                <li style="margin-left: 40px;"  v-for = "item in folder">
+	                <label class="form-check-label">
+	                <input @click = "select(item)" v-if = "item.leftmenu==2&&item.status==0" checked class="form-check-input" type="checkbox" v-bind:value="item.moduleid"> 
+	                <input @click = "select(item)" v-else-if = "item.leftmenu==2" class="form-check-input" type="checkbox" v-bind:value="item.moduleid" > 	
+	                	<span class="form-check-sign" @click = "select(item)">{{item.modulename}}</span>
+					</label>
+                    <tree v-if = "item.mlist" :folder = "item.mlist" :select = "select"></tree>
+                </li>
+            </ul>`,
+    props:["folder","select"],
+})
+var v = new Vue({
+	el: ".content",
+	data: {
+		infoModule:{},
+		position:{}
+	},
+    methods:{
+        clickHandler(){
+        },
+        select(data){
+        }
+    },
+    mounted(){
+        console.log(this.trees);
+    }
+});
 
 	$(function() {
+		getPosition();
 		//点击进入子模块修改
 		$('[name="goUpdateModule"]').click(function() {
 			window.location.href = "setting-role_updateModule.html?id=10"
@@ -141,7 +139,71 @@
 						function() {
 							window.location.href = "/user/goUrl?url=cqj_setting/setting-position_insertPosition"
 						});
+		//点击保存
+		$('[name="baochun"]')
+				.click(
+						function() {
+							var positionid=$(".positionKey").attr("positionid");
+							console.log(positionid);
+							var json={};
+							json.modules="";
+							 $.each($('input:checkbox:checked'),function(index,element){
+								 json.modules+=$(this).val()+",";
+					         }); 
+							json.positionid=positionid;
+							console.log(JSON.stringify(json) + "我传过来的");
+							$.ajax({
+								url:"/position/update",
+								data:json,
+								type:"post",
+								dataType:"json",
+								//contentType: "application/json",
+								success:function(data){
+									
+								}
+							});		
+						});
 	})
+	
+		//点击职位事件，更改样式，添加positionKey识别类
+		function positionClick(th){
+			$(".positionKey").removeClass("btn-primary positionKey");
+			$(".position").addClass("btn-info");
+			th.classList.remove("btn-info");
+			th.classList.add("btn-primary");
+			th.classList.add("positionKey");
+			var positionid=th.getAttribute("positionid");
+			v.infoModule={};
+			getInfoModule(positionid);
+		}
+		//获取所有status为0的职位	
+		function getPosition(){
+			$.ajax({
+				url : "/position/getPosition",
+				data : null,
+				type : "post",
+				dataType : "json",
+				success : function(data) {
+					v.position=data;
+				}
+			})
+		}
+		//通过传值获取模块信息
+		function getInfoModule(i){
+			$.ajax({
+				url : "/module/getPositionInfoModule?positionid="+i,
+				data : null,
+				type : "post",
+				dataType : "json",
+				success : function(data) {
+					console.log(data);
+					v.infoModule = data;
+				}
+		})
+		}
+
 </script>
+
+
 
 </html>

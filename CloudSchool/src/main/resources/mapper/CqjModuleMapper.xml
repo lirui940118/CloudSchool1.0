@@ -232,9 +232,13 @@
 		SELECT 	cm.`moduleid`,cm.`modulename`,cm.`groupname`,cm.`pid`,crm.`status`,cm.`leftmenu`
 		FROM cqj_module cm 
 		 LEFT JOIN   cqj_role_module crm ON cm.`leftmenu`!=2 AND  cm.`moduleid`=crm.`moduleid` AND crm.`roleid`=#{roleid}
+		 WHERE cm.`leftmenu`!=2
 	</select>
 	<select id="queryAllInfoModule" resultMap="BaseResultMap">
-		SELECT 	cm.`moduleid`,cm.`modulename`,cm.`groupname`,cm.`pid`,cpm.`status`
+		SELECT 	cm.`moduleid`,cm.`modulename`,cm.`groupname`,cm.`pid`,cpm.`status`,cm.`leftmenu`
 		FROM cqj_module cm LEFT JOIN cqj_position_module cpm ON cm.`moduleid`=cpm.`moduleid` AND cpm.`positionid`=#{positionid}
+	</select>
+	<select id="queryInfoModule" resultMap="BaseResultMap">
+		SELECT cm.* FROM cqj_position_module cpm INNER JOIN cqj_module cm ON cpm.`moduleid`=cm.`moduleid` AND cpm.`positionid`=#{positionid} AND cm.`status`=0 AND cpm.`status`=0
 	</select>
 </mapper>

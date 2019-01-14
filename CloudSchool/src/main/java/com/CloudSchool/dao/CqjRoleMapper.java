@@ -1,5 +1,7 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
+
 import com.CloudSchool.domain.CqjRole;
 
 public interface CqjRoleMapper {
@@ -14,4 +16,6 @@ public interface CqjRoleMapper {
     int updateByPrimaryKeySelective(CqjRole record);
 
     int updateByPrimaryKey(CqjRole record);
+    
+    List<CqjRole> queryAllRole();
 }

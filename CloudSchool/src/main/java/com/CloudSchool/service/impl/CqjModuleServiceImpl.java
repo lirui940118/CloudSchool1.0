@@ -54,16 +54,16 @@ public class CqjModuleServiceImpl implements CqjMoudelService{
 	@Override
 	public List<CqjModule> queryAllModule(Integer roleid) {
 		// TODO Auto-generated method stub
-		
-		
-		
-		return cmm.queryAllModule(roleid);
+		CqjModule allModule = new CqjModule();
+		allModule.setModuleid(0);
+		allModule = digui(allModule, cmm.queryAllModule(roleid));
+		return allModule.getMlist();
 	}
 
 	@Override
 	public List<CqjModule> queryAllInfoModule(Integer positionid) {
 		// TODO Auto-generated method stub
-		List<CqjModule> alllist =cmm.queryAllInfoModule(positionid);
+		/*List<CqjModule> alllist =cmm.queryAllInfoModule(positionid);
 		List<CqjModule> infoModule=new ArrayList<CqjModule>();
 		for (CqjModule list : alllist) {
 			//判断父级0
@@ -79,16 +79,33 @@ public class CqjModuleServiceImpl implements CqjMoudelService{
 						}	
 					}
 				}
+				infoModule.add(list);
 			}
+			
 		}
-		System.out.println(infoModule);
-		return infoModule;
+		System.out.println(infoModule);*/
+		CqjModule allModule = new CqjModule();
+		allModule.setModuleid(0);
+		allModule = digui(allModule, cmm.queryAllInfoModule(positionid));
+		return allModule.getMlist();
+	}
+
+	public CqjModule digui(CqjModule cqjModule,List<CqjModule> alllist){
+		for (CqjModule ccm : alllist) {
+			if(ccm.getPid()==cqjModule.getModuleid()) {
+				ccm = digui(ccm, alllist);
+				cqjModule.getMlist().add(ccm);
+			}		
+		}
+		return cqjModule;
+	}
+
+	@Override
+	public List<CqjModule> queryInfoModule(Integer positionid) {
+		// TODO Auto-generated method stub
+		return cmm.queryInfoModule(positionid);
 	}
 	
-	public List<CqjModule> mm(List<CqjModule> list1,List<CqjModule> list2){
-		
-		return null;
-	}
 
 	
 
