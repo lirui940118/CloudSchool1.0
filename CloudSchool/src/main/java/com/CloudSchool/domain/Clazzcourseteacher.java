@@ -16,12 +16,34 @@ public class Clazzcourseteacher {
     private Date endtime;
 
     private Integer status;
-
+    
     private Integer ismaster;
 
     private Integer isteacher;
+    
+    /*年级名称*/
+    private String greaName;
+    public String getGreaName() {
+		return greaName;
+	}
+    /**
+     * 班级名称
+     * @param greaName
+     */
+    private String cname;
+	public String getCname() {
+		return cname;
+	}
 
-    public Integer getId() {
+	public void setCname(String cname) {
+		this.cname = cname;
+	}
+
+	public void setGreaName(String greaName) {
+		this.greaName = greaName;
+	}
+
+	public Integer getId() {
         return id;
     }
 

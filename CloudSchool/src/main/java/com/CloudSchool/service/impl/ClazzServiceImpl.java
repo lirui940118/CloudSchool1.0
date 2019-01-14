@@ -1,5 +1,7 @@
 package com.CloudSchool.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +10,7 @@ import com.CloudSchool.dao.ClazzMapper;
 import com.CloudSchool.dao.ClazzcourseteacherMapper;
 import com.CloudSchool.dao.ClazzstudentMapper;
 import com.CloudSchool.domain.ClazzInfo;
+import com.CloudSchool.domain.Clazzcourseteacher;
 import com.CloudSchool.domain.Clazzstudent;
 import com.CloudSchool.service.ClazzService;
 @Service
@@ -19,6 +22,8 @@ public class ClazzServiceImpl implements ClazzService {
 	ClazzstudentMapper csm;
 	@Autowired
 	ClazzcourseteacherMapper cctm;
+	
+	
 	@Override
 	public int CreateClass(ClazzInfo c) {
 		int jg=cm.insert(c);

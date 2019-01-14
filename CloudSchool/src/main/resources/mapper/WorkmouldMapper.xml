@@ -1,214 +1,274 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.CloudSchool.dao.WorkmouldMapper">
-  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.Workmould">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="tid" jdbcType="INTEGER" property="tid" />
-    <result column="wType" jdbcType="INTEGER" property="wtype" />
-    <result column="tCount" jdbcType="INTEGER" property="tcount" />
-    <result column="score" jdbcType="INTEGER" property="score" />
-    <result column="count" jdbcType="INTEGER" property="count" />
-    <result column="time" jdbcType="TIMESTAMP" property="time" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="user1" jdbcType="VARCHAR" property="user1" />
-    <result column="user2" jdbcType="VARCHAR" property="user2" />
-    <result column="user3" jdbcType="VARCHAR" property="user3" />
-    <result column="user4" jdbcType="VARCHAR" property="user4" />
-    <result column="user5" jdbcType="VARCHAR" property="user5" />
-  </resultMap>
-  <!-- <resultMap type="com.CloudSchool.domain.Workmould" id="setArrayValue">
-  	<collection property="workTypeList" column="examdot" javaType="java.lang.Integer">
-  		<
-  	</collection>
-  </resultMap> -->
-  <sql id="Base_Column_List">
-    id, name, tid, wType, tCount, score, count, time, status, user1, user2, user3, user4, 
-    user5
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from workMould
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from workMould
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.CloudSchool.domain.Workmould">
-    insert into workMould (id, name, tid, 
-      wType, tCount, score, 
-      count, time, status, 
-      user1, user2, user3, 
-      user4, user5)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{tid,jdbcType=INTEGER}, 
-      #{wtype,jdbcType=INTEGER}, #{tcount,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, 
-      #{count,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, #{user3,jdbcType=VARCHAR}, 
-      #{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.CloudSchool.domain.Workmould" useGeneratedKeys="true" keyProperty="id">
-    insert into workMould
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="tid != null">
-        tid,
-      </if>
-      <if test="wtype != null">
-        wType,
-      </if>
-      <if test="tcount != null">
-        tCount,
-      </if>
-      <if test="score != null">
-        score,
-      </if>
-      <if test="count != null">
-        count,
-      </if>
-      <if test="time != null">
-        time,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="user1 != null">
-        user1,
-      </if>
-      <if test="user2 != null">
-        user2,
-      </if>
-      <if test="user3 != null">
-        user3,
-      </if>
-      <if test="user4 != null">
-        user4,
-      </if>
-      <if test="user5 != null">
-        user5,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="tid != null">
-        #{tid,jdbcType=INTEGER},
-      </if>
-      <if test="wtype != null">
-        #{wtype,jdbcType=INTEGER},
-      </if>
-      <if test="tcount != null">
-        #{tcount,jdbcType=INTEGER},
-      </if>
-      <if test="score != null">
-        #{score,jdbcType=INTEGER},
-      </if>
-      <if test="count != null">
-        #{count,jdbcType=INTEGER},
-      </if>
-      <if test="time != null">
-        #{time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="user1 != null">
-        #{user1,jdbcType=VARCHAR},
-      </if>
-      <if test="user2 != null">
-        #{user2,jdbcType=VARCHAR},
-      </if>
-      <if test="user3 != null">
-        #{user3,jdbcType=VARCHAR},
-      </if>
-      <if test="user4 != null">
-        #{user4,jdbcType=VARCHAR},
-      </if>
-      <if test="user5 != null">
-        #{user5,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.Workmould">
-    update workMould
-    <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="tid != null">
-        tid = #{tid,jdbcType=INTEGER},
-      </if>
-      <if test="wtype != null">
-        wType = #{wtype,jdbcType=INTEGER},
-      </if>
-      <if test="tcount != null">
-        tCount = #{tcount,jdbcType=INTEGER},
-      </if>
-      <if test="score != null">
-        score = #{score,jdbcType=INTEGER},
-      </if>
-      <if test="count != null">
-        count = #{count,jdbcType=INTEGER},
-      </if>
-      <if test="time != null">
-        time = #{time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="user1 != null">
-        user1 = #{user1,jdbcType=VARCHAR},
-      </if>
-      <if test="user2 != null">
-        user2 = #{user2,jdbcType=VARCHAR},
-      </if>
-      <if test="user3 != null">
-        user3 = #{user3,jdbcType=VARCHAR},
-      </if>
-      <if test="user4 != null">
-        user4 = #{user4,jdbcType=VARCHAR},
-      </if>
-      <if test="user5 != null">
-        user5 = #{user5,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.Workmould">
-    update workMould
-    set name = #{name,jdbcType=VARCHAR},
-      tid = #{tid,jdbcType=INTEGER},
-      wType = #{wtype,jdbcType=INTEGER},
-      tCount = #{tcount,jdbcType=INTEGER},
-      score = #{score,jdbcType=INTEGER},
-      count = #{count,jdbcType=INTEGER},
-      time = #{time,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
-      user1 = #{user1,jdbcType=VARCHAR},
-      user2 = #{user2,jdbcType=VARCHAR},
-      user3 = #{user3,jdbcType=VARCHAR},
-      user4 = #{user4,jdbcType=VARCHAR},
-      user5 = #{user5,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <!-- 作业模板 类型 -->
-  <select id="queryWorkMouldType" resultType="int">
-  	SELECT examdot FROM topic WHERE id 
-  	IN(
-  	<foreach collection="ids" separator="," item="obj">
-  		#{obj}
-  	</foreach>
-  	) 
-  	GROUP BY examdot
-  </select>
+	<resultMap id="BaseResultMap"
+		type="com.CloudSchool.domain.Workmould">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="tid" jdbcType="INTEGER" property="tid" />
+		<result column="wType" jdbcType="INTEGER" property="wtype" />
+		<result column="tCount" jdbcType="INTEGER" property="tcount" />
+		<result column="score" jdbcType="INTEGER" property="score" />
+		<result column="count" jdbcType="INTEGER" property="count" />
+		<result column="time" jdbcType="TIMESTAMP" property="time" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="user1" jdbcType="VARCHAR" property="user1" />
+		<result column="user2" jdbcType="VARCHAR" property="user2" />
+		<result column="user3" jdbcType="VARCHAR" property="user3" />
+		<result column="user4" jdbcType="VARCHAR" property="user4" />
+		<result column="user5" jdbcType="VARCHAR" property="user5" />
+	</resultMap>
+	<!-- <resultMap type="com.CloudSchool.domain.Workmould" id="setArrayValue"> 
+		<collection property="workTypeList" column="examdot" javaType="java.lang.Integer"> 
+		< </collection> </resultMap> -->
+	<sql id="Base_Column_List">
+		id, name, tid, wType, tCount, score, count, time, status,
+		user1, user2,
+		user3, user4,
+		user5
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from workMould
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from workMould
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.CloudSchool.domain.Workmould">
+		insert into workMould (id, name, tid,
+		wType, tCount,
+		score,
+		count, time, status,
+		user1, user2, user3,
+		user4, user5)
+		values
+		(#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{tid,jdbcType=INTEGER},
+		#{wtype,jdbcType=INTEGER},
+		#{tcount,jdbcType=INTEGER}, #{score,jdbcType=INTEGER},
+		#{count,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{user1,jdbcType=VARCHAR},
+		#{user2,jdbcType=VARCHAR}, #{user3,jdbcType=VARCHAR},
+		#{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.CloudSchool.domain.Workmould"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into workMould
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="tid != null">
+				tid,
+			</if>
+			<if test="wtype != null">
+				wType,
+			</if>
+			<if test="tcount != null">
+				tCount,
+			</if>
+			<if test="score != null">
+				score,
+			</if>
+			<if test="count != null || count==null">
+				count,
+			</if>
+			<if test="time != null || time==null">
+				time,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="user1 != null">
+				user1,
+			</if>
+			<if test="user2 != null">
+				user2,
+			</if>
+			<if test="user3 != null">
+				user3,
+			</if>
+			<if test="user4 != null">
+				user4,
+			</if>
+			<if test="user5 != null">
+				user5,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="tid != null">
+				#{tid,jdbcType=INTEGER},
+			</if>
+			<if test="wtype != null">
+				#{wtype,jdbcType=INTEGER},
+			</if>
+			<if test="tcount != null">
+				#{tcount,jdbcType=INTEGER},
+			</if>
+			<if test="score != null">
+				#{score,jdbcType=INTEGER},
+			</if>
+			<if test="count != null || count==null">
+				0,
+			</if>
+			<if test="time != null || time==null">
+				now(),
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="user1 != null">
+				#{user1,jdbcType=VARCHAR},
+			</if>
+			<if test="user2 != null">
+				#{user2,jdbcType=VARCHAR},
+			</if>
+			<if test="user3 != null">
+				#{user3,jdbcType=VARCHAR},
+			</if>
+			<if test="user4 != null">
+				#{user4,jdbcType=VARCHAR},
+			</if>
+			<if test="user5 != null">
+				#{user5,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.CloudSchool.domain.Workmould">
+		update workMould
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="tid != null">
+				tid = #{tid,jdbcType=INTEGER},
+			</if>
+			<if test="wtype != null">
+				wType = #{wtype,jdbcType=INTEGER},
+			</if>
+			<if test="tcount != null">
+				tCount = #{tcount,jdbcType=INTEGER},
+			</if>
+			<if test="score != null">
+				score = #{score,jdbcType=INTEGER},
+			</if>
+			<if test="count != null">
+				count = #{count,jdbcType=INTEGER},
+			</if>
+			<if test="time != null">
+				time = #{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="user1 != null">
+				user1 = #{user1,jdbcType=VARCHAR},
+			</if>
+			<if test="user2 != null">
+				user2 = #{user2,jdbcType=VARCHAR},
+			</if>
+			<if test="user3 != null">
+				user3 = #{user3,jdbcType=VARCHAR},
+			</if>
+			<if test="user4 != null">
+				user4 = #{user4,jdbcType=VARCHAR},
+			</if>
+			<if test="user5 != null">
+				user5 = #{user5,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.CloudSchool.domain.Workmould">
+		update workMould
+		set name = #{name,jdbcType=VARCHAR},
+		tid
+		= #{tid,jdbcType=INTEGER},
+		wType = #{wtype,jdbcType=INTEGER},
+		tCount =
+		#{tcount,jdbcType=INTEGER},
+		score = #{score,jdbcType=INTEGER},
+		count =
+		#{count,jdbcType=INTEGER},
+		time = #{time,jdbcType=TIMESTAMP},
+		status =
+		#{status,jdbcType=INTEGER},
+		user1 = #{user1,jdbcType=VARCHAR},
+		user2 =
+		#{user2,jdbcType=VARCHAR},
+		user3 = #{user3,jdbcType=VARCHAR},
+		user4 =
+		#{user4,jdbcType=VARCHAR},
+		user5 = #{user5,jdbcType=VARCHAR}
+		where id =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<!-- 作业模板 类型 -->
+	<select id="queryWorkMouldType" resultType="int">
+		SELECT tid FROM topic WHERE id
+		IN(
+		<foreach collection="ids" separator="," item="obj">
+			#{obj}
+		</foreach>
+		) and status=0
+		GROUP BY tid
+	</select>
+	<!-- 根据教员id查询作业模板 -->
+	<select id="queryByTidMould" resultMap="BaseResultMap">
+		SELECT * FROM workMould
+		WHERE `status`=0 and tid=#{tid} ORDER BY `time` DESC
+		LIMIT
+		#{cur},#{pagesize}
+	</select>
+	<!-- 根据教员id查询作业模板count(*) -->
+	<select id="queryByTidMouldCount" resultType="int">
+		SELECT count(*)
+		FROM workMould WHERE `status`=0 and tid=#{tid}
+	</select>
+
+	<resultMap
+		type="com.CloudSchool.domain.zjfvo.TeacherAdminStu"
+		id="TeacherAdminStuMap">
+		<id column="cid" property="cid"/>
+		<result column="cname" property="cname" />
+		<collection property="list"
+			ofType="com.CloudSchool.domain.CqjStudent">
+			<id column="studentid" jdbcType="INTEGER" property="studentid" />
+			<result column="studentname" jdbcType="VARCHAR"
+				property="studentname" />
+		</collection>
+	</resultMap>
+	<!-- 根据老师查询到管理的班级所有的学生 -->
+	<select id="queryByTidAdminStuAll" resultMap="TeacherAdminStuMap">
+		SELECT
+		clazzstudent.`id` AS studentid,clazz.`cname`,cqj_student.`studentname`,clazz.`id` AS cid
+		FROM clazzcourseteacher
+		INNER JOIN clazz ON clazzcourseteacher.`clazzid`=clazz.`id`
+		INNER JOIN zzy_grade ON zzy_grade.`gid`=clazz.`gid`
+		INNER JOIN clazzstudent ON clazzstudent.`cid`=clazz.`id`
+		INNER JOIN cqj_student ON cqj_student.`studentid`=clazzstudent.`sid`
+		AND clazzcourseteacher.`status`=0 AND clazz.`status`=0 AND
+		zzy_grade.state=0
+		AND clazzstudent.`status`=0
+		AND clazzstudent.`status`=0 AND clazzcourseteacher.`tid`=#{tid}
+	</select>
 </mapper>
