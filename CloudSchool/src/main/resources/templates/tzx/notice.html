@@ -93,16 +93,19 @@
 			query(null,null)
 		})
 		function query(time,str){
-			var data=""
+			var data={}
 				if(time!=null||time!=''){
-					data+="time="+time
-				}else if(str!=null||str!=''){
-					data+="&str="+str
+					if(str!=null||str!=''){
+						data={"time":time,"str":str}
+					}else{
+						data={"time":time}
+					}
+				}else{
+					if(str!=null||str!=''){
+						data={"str":str}
+					}
 				}
-				if(str!=null||str!=''){
-					data+="str="+str
-				}
-				alert(data)
+				alert("----"+data)
 				$.post("noticeList",data,function(result){
 //	 				alert(result)
 					console.log(result)
@@ -110,8 +113,10 @@
 				})
 		}
 		function btnQuery(){
+			alert(1)
 			var time= $("[name=time]").val()
 			var str= $("[name=str]").val()
+			alert(time+str)
 			query(time,str)
 		}
 		function addnotice(){

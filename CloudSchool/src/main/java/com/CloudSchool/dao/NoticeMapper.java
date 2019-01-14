@@ -2,6 +2,8 @@ package com.CloudSchool.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.Notice;
 
@@ -23,5 +25,5 @@ public interface NoticeMapper {
     List<Notice> query();
     CqjUser querpersonerInfo(Integer uid);
 
-	List<Notice> query(String time, String str);
+	List<Notice> query(@Param("time")String time, @Param("str")String str);
 }
