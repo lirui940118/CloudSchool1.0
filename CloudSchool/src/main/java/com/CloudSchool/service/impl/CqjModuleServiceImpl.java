@@ -63,27 +63,6 @@ public class CqjModuleServiceImpl implements CqjMoudelService{
 	@Override
 	public List<CqjModule> queryAllInfoModuleByPositionid(Integer positionid) {
 		// TODO Auto-generated method stub
-		/*List<CqjModule> alllist =cmm.queryAllInfoModule(positionid);
-		List<CqjModule> infoModule=new ArrayList<CqjModule>();
-		for (CqjModule list : alllist) {
-			//判断父级0
-			if (list.getPid() == 0) {
-				for (CqjModule clist : alllist) {
-					//将不为0的查出，并且父级节点是上一级的
-					if(clist.getPid()!=0&&clist.getPid()==list.getModuleid()) {
-						list.getMlist().add(clist);
-						for (CqjModule cclist : alllist) {
-							if(cclist.getPid()!=0&&cclist.getPid()==clist.getModuleid()) {
-								clist.getMlist().add(cclist);
-							}		
-						}	
-					}
-				}
-				infoModule.add(list);
-			}
-			
-		}
-		System.out.println(infoModule);*/
 		CqjModule allModule = new CqjModule();
 		allModule.setModuleid(0);
 		allModule = digui(allModule, cmm.queryAllInfoModuleByPositionid(positionid));
@@ -109,13 +88,21 @@ public class CqjModuleServiceImpl implements CqjMoudelService{
 	@Override
 	public List<CqjModule> queryModule() {
 		// TODO Auto-generated method stub
-		return cmm.queryModule();
+		
+		CqjModule allModule = new CqjModule();
+		allModule.setModuleid(0);
+		allModule = digui(allModule, cmm.queryModule());
+		return allModule.getMlist();
+		
 	}
 
 	@Override
 	public List<CqjModule> queryInfoModule() {
 		// TODO Auto-generated method stub
-		return cmm.queryInfoModule();
+		CqjModule allModule = new CqjModule();
+		allModule.setModuleid(0);
+		allModule = digui(allModule, cmm.queryInfoModule());
+		return allModule.getMlist();
 	}
 	
 

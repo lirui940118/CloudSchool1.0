@@ -32,7 +32,7 @@
 								<div class="form-group">
 									<label for="squareSelect">上级</label> <select
 										class="form-control input-square" id="squareSelect">
-										<option>1</option>
+										<option v-for="(p,index) in position" v-bind:value="p.positionid">{{p.positionname}}</option>
 										<option>2</option>
 										<option>3</option>
 										<option>4</option>
@@ -45,7 +45,7 @@
 								</div>
 							</div>
 						</div>
-
+						
 					</div>
 					<div class="col-md-12">
 						<div class="card">
@@ -53,10 +53,17 @@
 							<div class="card-body">
 
 								<p style="float: right;" class="demo">
+								
 									<button class="btn btn-success">保存修改</button>
 									<button class="btn btn-success"
 										onclick="javascript:history.back(-1);">返回</button>
 								</p>
+									<div style="height: 800px" class="card-body dtree "
+									id="dtree_div">
+									<div id="app">
+										<tree :folder="infoModule" :select="select"></tree>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -66,32 +73,80 @@
 	</div>
 
 </body>
-<script src="../js/core/jquery.min.js"></script>
-<script src="../js/core/vue.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<script src="../js/core/popper.min.js"></script>
-<script src="../js/core/bootstrap.min.js"></script>
-<script src="../js/plugin/chartist/chartist.min.js"></script>
+<script th:src="@{/static/js/core/jquery.min.js}"></script>
+<script th:src="@{/static/js/core/vue.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+<script th:src="@{/static/js/core/popper.min.js}"></script>
+<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
 <script
-	src="../js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
-<script src="../js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-<script src="../js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-<script src="../js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
-<script src="../js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
-<script src="../js/plugin/chart-circle/circles.min.js"></script>
-<script src="../js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-<script src="../js/ready.min.js"></script>
+	th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+<script th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+<script th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+<script th:src="@{/static/js/ready.min.js}"></script>
 
 <script type="text/javascript">
+Vue.component('tree', {
+    name:"tree",
+    template:`<ul>
+                <li style="margin-left: 40px;"  v-for = "item in folder">
+	                <label class="form-check-label"> 
+	                <input @click = "select(item)" v-if="item.leftmenu==2"  class="form-check-input" type="checkbox" v-bind:value="item.moduleid" > 	
+	                	<span class="form-check-sign" @click = "select(item)">{{item.modulename}}</span>
+					</label>
+                    <tree v-if = "item.mlist" :folder = "item.mlist" :select = "select"></tree>
+                </li>
+            </ul>`,
+    props:["folder","select"],
+})
 	var v = new Vue({
 		el : ".content",
 		data : {
-			infoModule:{}
-		}
+			infoModule:{},
+			position:{}
+		},
+	    methods:{
+	        clickHandler(){
+	        },
+	        select(data){
+	        }
+	    },
+	    mounted(){
+	        console.log(this.trees);
+	    }
 	});
 	$(function() {
-
+		getPosition();
+		getInfoModule();
 	})
+	//获取所有status为0的职位	
+		function getPosition(){
+			$.ajax({
+				url : "/position/getPosition",
+				data : null,
+				type : "post",
+				dataType : "json",
+				success : function(data) {
+					v.position=data;
+				}
+			})
+		}
+		//通过传值获取模块信息
+		function getInfoModule(){
+			$.ajax({
+				url : "/module/getaddInfoModule",
+				data : null,
+				type : "post",
+				dataType : "json",
+				success : function(data) {
+					v.infoModule = data;
+				}
+			})
+		}
 </script>
 
 </html>
