@@ -120,18 +120,19 @@
 	<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
 	<script th:src="@{/static/js/ready.min.js}"></script>
 	<script type="text/javascript">
+	var v=new Vue({
+		el:'.main-panel',
+		data:{
+			list:null,
+			list2:null,
+			list3:null,
+		}
+	})
 		$(function(){
-			v=new Vue({
-				el:'.main-panel',
-				data:{
-					list:null,
-					list2:null,
-					list3:null,
-				}
-			})
+			
 			//查询所有版本
 			$.ajax({
-				url:'AjaxqueryAllVersion',
+				url:'/AjaxqueryAllVersion',
 				type:'POST',
 				dataType:'json',
 				success:function(data){

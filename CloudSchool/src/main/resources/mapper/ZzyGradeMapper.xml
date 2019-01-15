@@ -243,11 +243,15 @@
 		</collection>
 	</resultMap>
 	
-	<!-- 根据id查询年级 -->
+	<!-- 根据版本id查询年级 -->
 	<select id="queryByvid" resultMap="resultMapGraAndCla">
-		select * from `zzy_grade` where vid=#{vid}
+		select * from `zzy_grade`  where vid=#{vid}
 	</select>
 	
+	<!-- 查询所有年级 -->
+	<select id="queryAll" resultMap="BaseResultMap">
+		select * from `zzy_grade`
+	</select>
 	
 	<!-- 一对多查询年级以及年级里面的课程 -->
   <resultMap type="com.CloudSchool.domain.ZzyGrade" id="resultMapGraAndCou" extends="BaseResultMap">

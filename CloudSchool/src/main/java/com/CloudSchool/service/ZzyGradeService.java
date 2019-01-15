@@ -11,4 +11,6 @@ public interface ZzyGradeService {
 	public ZzyGrade queryCurrentGradeBySid(Integer sId);
 	//根据版本id查询年级
 	public List<ZzyGrade> queryByvid(Integer vid);
+	//查询所有年级
+	public List<ZzyGrade> queryAll();
 }

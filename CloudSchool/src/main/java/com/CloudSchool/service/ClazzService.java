@@ -13,4 +13,7 @@ public interface ClazzService {
 
 	 //根据班级id集合 查询班级数据
 	public List<Clazz> queryListid(List<String> list);
+	
+	//根据班级id查询班级 以及查询班主任对象以及教员集合
+	public Clazz queryByid(Integer id);
 }

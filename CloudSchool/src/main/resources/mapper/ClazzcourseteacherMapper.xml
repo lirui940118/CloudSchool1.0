@@ -166,6 +166,6 @@
   
   <!--  根据班级id查询班级所有教员 以及所教课程-->
   <select id="queryByclazzid" resultMap="result">
-  		SELECT * FROM `clazzcourseteacher` WHERE clazzid =#{clazzid} AND isTeacher=1
+  		SELECT * FROM `clazzcourseteacher` WHERE clazzid =#{id} AND isTeacher=1
   </select>
 </mapper>

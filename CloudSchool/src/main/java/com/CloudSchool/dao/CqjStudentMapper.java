@@ -19,4 +19,7 @@ public interface CqjStudentMapper {
     int updateByPrimaryKeySelective(CqjStudent record);
 
     int updateByPrimaryKey(CqjStudent record);
+    
+    //根据学员id查询学员对象
+    public CqjStudent queryBysid(Integer cid);
 }

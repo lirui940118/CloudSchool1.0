@@ -1,6 +1,7 @@
 package com.CloudSchool.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 @Mapper
@@ -16,8 +17,21 @@ public class Clazzstudent {
     private Date endtime;
 
     private Integer status;
+    
+    //学生对象
+    private CqjStudent stu;
+   
 
-    public Integer getId() {
+
+    public CqjStudent getStu() {
+		return stu;
+	}
+
+	public void setStu(CqjStudent stu) {
+		this.stu = stu;
+	}
+
+	public Integer getId() {
         return id;
     }
 

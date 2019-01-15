@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>123</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<style type="text/css">
+				ul{
+					list-style: none;
+				}
+				ul li{
+					display: inline-block;
+				}
+				.clicknone{
+					display: none;
+				}
+				.clickblock{
+					display: table;
+				}
+				.tuchu{
+					padding:5px 30px
+				}
+				#anniuz ul li{
+					margin-left: -4.5px; padding:4px 20px 5.5px 20px;font-size: 0.8em;	
+				}
+				.tuchu{
+					padding:5px 30px
+				}
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid row">
+					<h4 class="page-titl1e col-lg-12">班级详情</h4>
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">
+								<div style="margin-bottom: -1px;">
+									<span style="background-color:#36A9CE ;padding:5px 30px; ">{{clazz.cname}}</span>
+									<span style="background-color:#34CE57 ; margin-left: -5px; padding:4px 20px 6px 20px;font-size: 0.8em;" v-if="clazz.status==2">正常</span>
+								</div>
+								<div class="card-sub">		
+									<h6>基本信息:</h6> 
+									<ul class="row">
+										<li class="col-lg-3">开班日期:{{clazz.startdate}}</li>
+										<li class="col-lg-3">班级人数:{{clazz.normalCount}}/{{clazz.count}}</li>
+										<li class="col-lg-3">班主任:{{clazz.master.staffname}}</li>
+										<li class="col-lg-3">出勤率:95%</li>
+									</ul>
+									<h6>任课教员:</h6>
+									<ul class="row">
+										<li class="col-lg-3" v-for="l in clazz.list">{{l.zzycourse.courseName}}:{{l.teacher.staffname}}</li>
+									</ul>
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="row">
+											<div class="col-md-12">
+												<span style="font-size: 12px;">java1:唐勇(80/80)</span>
+												<p class="demo">
+													</p>
+														<div class="progress">
+															<div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+														</div>
+													<p>
+														
+												</p>
+												<span style="font-size: 12px;">java1:唐勇(80/80)</span>
+												<p class="demo">
+													</p><div class="progress">
+														<div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+													</div>
+												<p></p>
+												<span style="font-size: 12px;">java1:唐勇(80/80)</span>
+												<p class="demo">
+													</p><div class="progress">
+														<div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+													</div>
+												<p></p>
+												<span style="font-size: 12px;">java1:唐勇(80/80)</span>
+												<p class="demo">
+													</p><div class="progress">
+														<div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+													</div>
+												<p></p>
+											</div>
+										</div>
+							</div>
+							<div class="footer">
+								<div id="anniuz" style="margin-bottom: -16px;margin-left: 15px;">
+										<button id="cli1" class="btn btn-success" >学员</button>
+										<button id="cli2" class="btn btn-danger" style="margin-left: -6.5px;">课表</button>
+										<button id="cli3" class="btn btn-warning" style="margin-left: -6.5px;">成绩</button>
+										<button id="cli4" class="btn btn-info" style="margin-left: -6.5px;">作业</button>
+										<button id="cli5" class="btn btn-default" style="margin-left: -6.5px;">上课记录</button>
+								</div>
+							<div id="tabz" class="card-body col-sm-12 ">
+								<table id="tab1" class="table table-head-bg-success clickblock">
+												<thead>
+													<tr>
+														<th scope="col">#</th>
+														<th scope="col">学号</th>
+														<th scope="col">姓名</th>
+														<th scope="col">性别</th>
+														<th scope="col">年龄</th>
+														<th scope="col">手机</th>
+														<th scope="col">生日</th>
+														<th scope="col">地址</th>
+														<th scope="col">邮箱</th>
+														<th scope="col">状态</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr v-for="stul in stulist">
+														<td>1</td>
+														<td>{{stul.stu.studentnub}}</td>
+														<td>{{stul.stu.studentname}}</td>
+														<td v-if="stul.stu.sex==1">男</td>
+														<td v-if="stul.stu.sex==0">女</td>
+														<td>{{stul.stu.age}}</td>
+														<td>{{stul.stu.phone}}</td>
+														<td>{{stul.stu.birthday}}</td>
+														<td>{{stul.stu.address}}</td>
+														<td>{{stul.stu.email}}</td>
+														<td>{{stul.stu.standby1}}</td>
+													</tr>
+												</tbody>
+											</table>
+								<table id="tab2" class="table table-head-bg-danger clicknone" >
+												<thead>
+													<tr>
+														<th scope="col">#</th>
+														<th scope="col">班级名称</th>
+														<th scope="col">年级</th>
+														<th scope="col">专业</th>
+														<th scope="col">当前人数/开班人数</th>
+														<th scope="col">班主任</th>
+														<th scope="col">课程进度</th>
+														<th scope="col">开班日期</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>1</td>
+														<td>java20</td>
+														<td>Y2</td>
+														<td>java</td>
+														<td>25/30</td>
+														<td>申蒙</td>
+														<td>MVC</td>
+														<td>2818/12/12</td>
+													</tr>
+													<tr>
+														<td>2</td>
+														<td>java20</td>
+														<td>Y2</td>
+														<td>java</td>
+														<td>25/30</td>
+														<td>申蒙</td>
+														<td>MVC</td>
+														<td>2818/12/12</td>
+													</tr>
+													<tr>
+														<td>3</td>
+														<td>java20</td>
+														<td>Y2</td>
+														<td>java</td>
+														<td>25/30</td>
+														<td>申蒙</td>
+														<td>MVC</td>
+														<td>2818/12/12</td>
+													</tr>
+													
+												</tbody>
+											</table>
+
+							</div>
+						
+							</div>
+						</div>
+						</div>
+				</div>
+		</div>
+			</div> 
+		</div>
+	</body>
+	<script th:src="@{/static/js/echarts.js}"></script>
+	<script th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
+	<script th:src="@{/static/js/core/vue.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+	<script th:src="@{/static/js/core/popper.min.js}"></script>
+	<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+	<script th:src="@{/static/js/ready.min.js}"></script>
+	
+</html>
+<script type="text/javascript">
+		$(function(){
+			var v =new Vue({
+				el:'.main-panel',
+				data:{
+					clazz:null,
+					stulist:null,
+				}
+			})
+			var id=[[${id}]];
+			//使用Ajax查询班级信息
+			//Ajax查询班级信息
+			$.ajax({
+				url:'queryByclazzid?id='+id,
+				type:'POST',
+				dataType:'json',
+				success:function(data){
+					console.log(data);
+					v.clazz=data;
+				}
+			})
+			//AJax查询班级学员信息
+				$.ajax({
+				url:'queryByMo?id='+id,
+				type:'POST',
+				dataType:'json',
+				success:function(data){
+					v.stulist=data;
+				}
+			})
+			$("body").on("click","#cli1",function(){
+				$(".clickblock").addClass("clicknone").removeClass("clickblock");
+				$("#tab1").addClass("clickblock");
+			})
+			$("body").on("click","#cli2",function(){
+				$(".clickblock").addClass("clicknone").removeClass("clickblock");
+				$("#tab2").addClass("clickblock");
+			})
+			
+	
+			$("#cli3").click(function(){
+				$(".clickblock").addClass("clicknone").removeClass("clickblock");
+				$("#tab1").addClass("clickblock");
+			})
+			
+			$("#cli4").click(function(){
+				$(".clickblock").addClass("clicknone").removeClass("clickblock");
+				$("#tab2").addClass("clickblock");
+			})
+			$("#cli5").click(function(){
+				$(".clickblock").addClass("clicknone").removeClass("clickblock");
+				$("#tab2").addClass("clickblock");
+			})
+			
+			
+			
+			
+		})
+</script>

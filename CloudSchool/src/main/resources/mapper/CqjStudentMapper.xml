@@ -237,4 +237,9 @@
 	INNER JOIN img ON img.`id` = cqj_student.studentid
 	WHERE `cqj_student`.`studentid` = #{sId} AND  img.`style` = 0 ORDER BY clazzstudent.`starttime` DESC LIMIT 1
   </select>
+  
+  <!-- 根据学员id查询个人信息 -->
+  <select id="queryBysid" resultMap="BaseResultMap">
+  		SELECT * FROM `cqj_student` WHERE studentid=#{sid}
+  </select>
 </mapper>
