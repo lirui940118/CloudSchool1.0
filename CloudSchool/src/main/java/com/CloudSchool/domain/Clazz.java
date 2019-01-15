@@ -3,6 +3,8 @@ package com.CloudSchool.domain;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Clazz {
     private Integer id;
 
@@ -11,8 +13,9 @@ public class Clazz {
     private Integer gid;
 
     private Integer mid;
-
-    private Date startdate;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss") 
+    private String startdate;
 
     private Integer count;
 
@@ -27,8 +30,31 @@ public class Clazz {
     
     //班级中任课教员集合
     private List<Clazzcourseteacher> list;
+    
+    //班级中目前正常学员的人数
+    private Integer normalCount;
+    
+    //学员集合
+    private List<CqjStudent> list2;
 
-    public CqjStaff getMaster() {
+  
+	public List<CqjStudent> getList2() {
+		return list2;
+	}
+
+	public void setList2(List<CqjStudent> list2) {
+		this.list2 = list2;
+	}
+
+	public Integer getNormalCount() {
+		return normalCount;
+	}
+
+	public void setNormalCount(Integer normalCount) {
+		this.normalCount = normalCount;
+	}
+
+	public CqjStaff getMaster() {
 		return master;
 	}
 
@@ -76,11 +102,11 @@ public class Clazz {
         this.mid = mid;
     }
 
-    public Date getStartdate() {
+    public String getStartdate() {
         return startdate;
     }
 
-    public void setStartdate(Date startdate) {
+    public void setStartdate(String startdate) {
         this.startdate = startdate;
     }
 

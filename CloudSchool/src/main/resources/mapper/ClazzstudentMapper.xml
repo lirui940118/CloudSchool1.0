@@ -109,5 +109,12 @@
     	(0,#{id},#{s.sid},DATE(now()),null,0)
     </foreach>
   </insert>
-  <!-- 根据班级id查询 -->
+ <!-- 根据班级id查询班级学生中间  获得一个班级中学生的id -->
+	<resultMap type="com.CloudSchool.domain.Clazzstudent" id="result" extends="BaseResultMap">
+						<association property="stu" column="sid" javaType="com.CloudSchool.domain.CqjStudent" select="com.CloudSchool.dao.CqjStudentMapper.queryBysid"></association>
+	</resultMap>
+ 
+ <select id="queryByMo" resultMap="result">
+ 		SELECT * FROM `clazzstudent` WHERE cid=#{cid}
+ </select>
 </mapper>

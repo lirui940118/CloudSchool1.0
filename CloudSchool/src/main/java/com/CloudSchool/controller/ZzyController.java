@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.CloudSchool.domain.Clazz;
+import com.CloudSchool.domain.Clazzstudent;
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.ZzyCourse;
 import com.CloudSchool.domain.ZzyGrade;
 import com.CloudSchool.domain.ZzyMajor;
 import com.CloudSchool.domain.ZzyVersion;
+import com.CloudSchool.service.ClassStudentService;
 import com.CloudSchool.service.ClazzService;
 import com.CloudSchool.service.ZzyCourseService;
 import com.CloudSchool.service.ZzyGradeService;
@@ -41,6 +43,9 @@ public class ZzyController {
 	
 	@Autowired
 	ClazzService clas;
+	
+	@Autowired
+	ClassStudentService clss;
 	
 	//查询所有版本
 	@RequestMapping("/queryAllversion")
@@ -85,6 +90,13 @@ public class ZzyController {
 		return vers.queryAll();
 	}
 	
+	//使用Ajax查询所有年级
+	@RequestMapping("queryGradeAll")
+	@ResponseBody
+	public List<ZzyGrade> queryGradeAll(){
+		return gras.queryAll();
+	}
+	
 	//使用Ajax根据版本id查询所属年级
 	@RequestMapping("/queryByvid")
 	@ResponseBody
@@ -125,6 +137,7 @@ public class ZzyController {
 	@RequestMapping("/VerAndGrade2")
 	@ResponseBody
 	public ZzyVersion VerAndGrade2(Integer vid) {
+		System.out.println(vid);
 		return vers.VerAndGrade2(vid); 
 	}
 	
@@ -139,7 +152,37 @@ public class ZzyController {
 		list.add("5");
 		list.add("6");
 		List<Clazz> list2=clas.queryListid(list);
-		
 		return list2;
 	}
+	
+	//进入班级管理页面
+	@RequestMapping("classManage")
+	public String classManage() {
+		return "zzy/class.html";
+	}
+	
+	//进入班级详情页面
+	@RequestMapping("class_details")
+	public String class_details(Integer id,Model model) {
+		model.addAttribute("id", id);
+		return "zzy/class_details.html";
+	}
+	
+	//使用Ajax根据班级id查询班级详情
+	@RequestMapping("queryByclazzid")
+	@ResponseBody
+	public Clazz queryByclazzid(Integer id) {
+		System.out.println(id);
+		return clas.queryByid(id);
+	}
+	
+	//使用Ajax根据班级id查询班级学员
+	@RequestMapping("queryByMo")
+	@ResponseBody
+	public List<Clazzstudent> queryByMo(Integer id){
+		return clss.queryByMo(id);
+	}
+	
+	
+	
 }

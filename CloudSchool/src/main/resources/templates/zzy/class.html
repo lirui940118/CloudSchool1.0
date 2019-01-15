@@ -14,17 +14,12 @@
 
 	<body>
 		<div class="main-panel">
-			<div class="content row">
+			<div class="content">
 				<div class="container-fluid row">
 					<h4 class="page-titl1e col-lg-12">班级管理</h4>
 					<div class="col-lg-12">
 						<div class="card">
-							<div class="card-body">
-								<div class="card-sub">									
-									当前结果: 共计<span style="color: red;">10</span>个班级   
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共计在读学员<span style="color: red;">10</span>名  游离学员共计 <span style="color: red;">10</span>名
-								</div>
-							</div>
+							
 							<div class="card-body col-sm-12">
 								<table class="table table-head-bg-success">
 												<thead>
@@ -39,32 +34,14 @@
 													</tr>
 												</thead>
 												<tbody>
-													<tr>
-														<td>1</td>
-														<td>java20</td>
-														<td>Y2</td>
-														<td>java</td>
-														<td>25/30</td>
-														<td>申蒙</td>
-														<td>2818/12/12</td>
-													</tr>
-													<tr>
-														<td>2</td>
-														<td>java20</td>
-														<td>Y2</td>
-														<td>java</td>
-														<td>25/30</td>
-														<td>MVC</td>
-														<td>2818/12/12</td>
-													</tr>
-													<tr>
-														<td>3</td>
-														<td>java20</td>
-														<td>Y2</td>
-														<td>java</td>
-														<td>25/30</td>
-														<td>MVC</td>
-														<td>2818/12/12</td>
+													<tr v-for="(l,index) in list" v-bind:data-id="l.id">
+														<td>{{index+1}}</td>
+														<td>{{l.cname}}</td>
+														<td v-for="l2 in list2" v-if="l.gid==l2.gid">{{l2.gradeName }}</td>
+														<td  v-for="l3 in list3" v-if="l.mid==l3.mid">{{l3.majorName }}</td>
+														<td>{{l.normalCount}}/{{l.count}}</td>
+														<td>{{l.master.staffname}}</td>
+														<td>{{l.startdate}}</td>
 													</tr>
 													
 												</tbody>
@@ -93,5 +70,48 @@
 	<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
 	<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
 	<script th:src="@{/static/js/ready.min.js}"></script>
-
+	<script type="text/javascript">
+		$(function(){
+				v=new Vue({
+					el:'.main-panel',
+					data:{
+						list:null,
+						list2:null,
+						list3:null,
+					}
+				})
+			//Ajax查询班级信息
+			$.ajax({
+				url:'zz',
+				type:'POST',
+				dataType:'json',
+				success:function(data){
+					v.list=data;
+				}
+			})
+			//Ajax查询所有年级信息
+			$.ajax({
+				url:'queryGradeAll',
+				type:'POST',
+				dataType:'json',
+				success:function(data){
+					console.log(data);
+					v.list2=data;
+				}
+			})
+			//Ajax查询所有专业信息
+			$.ajax({
+				url:'queryMajorAll',
+				type:'POST',
+				dataType:'json',
+				success:function(data){
+					v.list3=data;
+				}
+			})
+		})
+		$("body").on("click","tbody tr",function(){
+			var id=$(this).attr("data-id");
+			location.href="class_details?id="+id;
+		})
+	</script>
 </html>

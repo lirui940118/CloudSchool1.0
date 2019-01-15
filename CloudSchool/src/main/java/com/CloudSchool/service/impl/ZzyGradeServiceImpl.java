@@ -25,5 +25,10 @@ public class ZzyGradeServiceImpl implements ZzyGradeService{
 	public List<ZzyGrade> queryByvid(Integer vid) {
 		return zzyGradeMapper.queryByvid(vid);
 	}
+	@Override
+	public List<ZzyGrade> queryAll() {
+		// TODO Auto-generated method stub
+		return zzyGradeMapper.queryAll();
+	}
 
 }

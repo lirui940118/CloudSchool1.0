@@ -51,4 +51,9 @@ public class ClazzServiceImpl implements ClazzService {
 		// TODO Auto-generated method stub
 		return cm.queryListid(list);
 	}
+	@Override
+	public Clazz queryByid(Integer id) {
+		// TODO Auto-generated method stub
+		return cm.queryByid(id);
+	}
 }
