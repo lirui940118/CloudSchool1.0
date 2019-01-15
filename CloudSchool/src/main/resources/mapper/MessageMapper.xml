@@ -29,12 +29,12 @@
     delete from message
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.CloudSchool.domain.Message">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.CloudSchool.domain.Message">
     insert into message (id, title, sender, 
       url, time, content
       )
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{sender,jdbcType=INTEGER}, 
-      #{url,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
+    values (0, #{title,jdbcType=VARCHAR}, #{sender,jdbcType=INTEGER}, 
+      #{url,jdbcType=VARCHAR}, now(), #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.CloudSchool.domain.Message">
