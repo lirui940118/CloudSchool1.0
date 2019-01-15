@@ -1,188 +1,242 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.CloudSchool.dao.WorkinstanceMapper">
-  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.Workinstance">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="wid" jdbcType="INTEGER" property="wid" />
-    <result column="startTime" jdbcType="TIMESTAMP" property="starttime" />
-    <result column="endTime" jdbcType="TIMESTAMP" property="endtime" />
-    <result column="message" jdbcType="VARCHAR" property="message" />
-    <result column="tid" jdbcType="INTEGER" property="tid" />
-    <result column="time" jdbcType="TIMESTAMP" property="time" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="user1" jdbcType="VARCHAR" property="user1" />
-    <result column="user2" jdbcType="VARCHAR" property="user2" />
-    <result column="user3" jdbcType="VARCHAR" property="user3" />
-    <result column="user4" jdbcType="VARCHAR" property="user4" />
-    <result column="user5" jdbcType="VARCHAR" property="user5" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, wid, startTime, endTime, message, tid, time, status, user1, user2, user3, user4, 
-    user5
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from workInstance
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from workInstance
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.CloudSchool.domain.Workinstance">
-    insert into workInstance (id, wid, startTime, 
-      endTime, message, tid, 
-      time, status, user1, 
-      user2, user3, user4, 
-      user5)
-    values (#{id,jdbcType=INTEGER}, #{wid,jdbcType=INTEGER}, #{starttime,jdbcType=TIMESTAMP}, 
-      #{endtime,jdbcType=TIMESTAMP}, #{message,jdbcType=VARCHAR}, #{tid,jdbcType=INTEGER}, 
-      #{time,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{user1,jdbcType=VARCHAR}, 
-      #{user2,jdbcType=VARCHAR}, #{user3,jdbcType=VARCHAR}, #{user4,jdbcType=VARCHAR}, 
-      #{user5,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.CloudSchool.domain.Workinstance">
-    insert into workInstance
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="wid != null">
-        wid,
-      </if>
-      <if test="starttime != null">
-        startTime,
-      </if>
-      <if test="endtime != null">
-        endTime,
-      </if>
-      <if test="message != null">
-        message,
-      </if>
-      <if test="tid != null">
-        tid,
-      </if>
-      <if test="time != null">
-        time,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="user1 != null">
-        user1,
-      </if>
-      <if test="user2 != null">
-        user2,
-      </if>
-      <if test="user3 != null">
-        user3,
-      </if>
-      <if test="user4 != null">
-        user4,
-      </if>
-      <if test="user5 != null">
-        user5,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="wid != null">
-        #{wid,jdbcType=INTEGER},
-      </if>
-      <if test="starttime != null">
-        #{starttime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endtime != null">
-        #{endtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="message != null">
-        #{message,jdbcType=VARCHAR},
-      </if>
-      <if test="tid != null">
-        #{tid,jdbcType=INTEGER},
-      </if>
-      <if test="time != null">
-        #{time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="user1 != null">
-        #{user1,jdbcType=VARCHAR},
-      </if>
-      <if test="user2 != null">
-        #{user2,jdbcType=VARCHAR},
-      </if>
-      <if test="user3 != null">
-        #{user3,jdbcType=VARCHAR},
-      </if>
-      <if test="user4 != null">
-        #{user4,jdbcType=VARCHAR},
-      </if>
-      <if test="user5 != null">
-        #{user5,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.Workinstance">
-    update workInstance
-    <set>
-      <if test="wid != null">
-        wid = #{wid,jdbcType=INTEGER},
-      </if>
-      <if test="starttime != null">
-        startTime = #{starttime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endtime != null">
-        endTime = #{endtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="message != null">
-        message = #{message,jdbcType=VARCHAR},
-      </if>
-      <if test="tid != null">
-        tid = #{tid,jdbcType=INTEGER},
-      </if>
-      <if test="time != null">
-        time = #{time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="user1 != null">
-        user1 = #{user1,jdbcType=VARCHAR},
-      </if>
-      <if test="user2 != null">
-        user2 = #{user2,jdbcType=VARCHAR},
-      </if>
-      <if test="user3 != null">
-        user3 = #{user3,jdbcType=VARCHAR},
-      </if>
-      <if test="user4 != null">
-        user4 = #{user4,jdbcType=VARCHAR},
-      </if>
-      <if test="user5 != null">
-        user5 = #{user5,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.Workinstance">
-    update workInstance
-    set wid = #{wid,jdbcType=INTEGER},
-      startTime = #{starttime,jdbcType=TIMESTAMP},
-      endTime = #{endtime,jdbcType=TIMESTAMP},
-      message = #{message,jdbcType=VARCHAR},
-      tid = #{tid,jdbcType=INTEGER},
-      time = #{time,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
-      user1 = #{user1,jdbcType=VARCHAR},
-      user2 = #{user2,jdbcType=VARCHAR},
-      user3 = #{user3,jdbcType=VARCHAR},
-      user4 = #{user4,jdbcType=VARCHAR},
-      user5 = #{user5,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+	<resultMap id="BaseResultMap"
+		type="com.CloudSchool.domain.Workinstance">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="wid" jdbcType="INTEGER" property="wid" />
+		<result column="startTime" jdbcType="TIMESTAMP"
+			property="starttime" />
+		<result column="endTime" jdbcType="TIMESTAMP"
+			property="endtime" />
+		<result column="message" jdbcType="VARCHAR" property="message" />
+		<result column="tid" jdbcType="INTEGER" property="tid" />
+		<result column="time" jdbcType="TIMESTAMP" property="time" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="user1" jdbcType="VARCHAR" property="user1" />
+		<result column="user2" jdbcType="VARCHAR" property="user2" />
+		<result column="user3" jdbcType="VARCHAR" property="user3" />
+		<result column="user4" jdbcType="VARCHAR" property="user4" />
+		<result column="user5" jdbcType="VARCHAR" property="user5" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, wid, startTime, endTime, message, tid, time, status, user1, user2,
+		user3, user4,
+		user5
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from workInstance
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from workInstance
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.CloudSchool.domain.Workinstance">
+		insert into workInstance (id, wid, startTime,
+		endTime, message, tid,
+		time, status, user1,
+		user2, user3, user4,
+		user5)
+		values (#{id,jdbcType=INTEGER}, #{wid,jdbcType=INTEGER},
+		#{starttime,jdbcType=TIMESTAMP},
+		#{endtime,jdbcType=TIMESTAMP}, #{message,jdbcType=VARCHAR}, #{tid,jdbcType=INTEGER},
+		#{time,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
+		#{user1,jdbcType=VARCHAR},
+		#{user2,jdbcType=VARCHAR}, #{user3,jdbcType=VARCHAR}, #{user4,jdbcType=VARCHAR},
+		#{user5,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.CloudSchool.domain.Workinstance"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into workInstance
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="wid != null">
+				wid,
+			</if>
+			<if test="starttime != null">
+				startTime,
+			</if>
+			<if test="endtime != null">
+				endTime,
+			</if>
+			<if test="message != null">
+				message,
+			</if>
+			<if test="tid != null">
+				tid,
+			</if>
+			<if test="time != null || time == null">
+				time,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="user1 != null">
+				user1,
+			</if>
+			<if test="user2 != null">
+				user2,
+			</if>
+			<if test="user3 != null">
+				user3,
+			</if>
+			<if test="user4 != null">
+				user4,
+			</if>
+			<if test="user5 != null">
+				user5,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="wid != null">
+				#{wid,jdbcType=INTEGER},
+			</if>
+			<if test="starttime != null">
+				#{starttime},
+			</if>
+			<if test="endtime != null">
+				#{endtime},
+			</if>
+			<if test="message != null">
+				#{message,jdbcType=VARCHAR},
+			</if>
+			<if test="tid != null">
+				#{tid,jdbcType=INTEGER},
+			</if>
+			<if test="time != null || time == null">
+				now(),
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="user1 != null">
+				#{user1,jdbcType=VARCHAR},
+			</if>
+			<if test="user2 != null">
+				#{user2,jdbcType=VARCHAR},
+			</if>
+			<if test="user3 != null">
+				#{user3,jdbcType=VARCHAR},
+			</if>
+			<if test="user4 != null">
+				#{user4,jdbcType=VARCHAR},
+			</if>
+			<if test="user5 != null">
+				#{user5,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.CloudSchool.domain.Workinstance">
+		update workInstance
+		<set>
+			<if test="wid != null">
+				wid = #{wid,jdbcType=INTEGER},
+			</if>
+			<if test="starttime != null">
+				startTime = #{starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endtime != null">
+				endTime = #{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="message != null">
+				message = #{message,jdbcType=VARCHAR},
+			</if>
+			<if test="tid != null">
+				tid = #{tid,jdbcType=INTEGER},
+			</if>
+			<if test="time != null">
+				time = #{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="user1 != null">
+				user1 = #{user1,jdbcType=VARCHAR},
+			</if>
+			<if test="user2 != null">
+				user2 = #{user2,jdbcType=VARCHAR},
+			</if>
+			<if test="user3 != null">
+				user3 = #{user3,jdbcType=VARCHAR},
+			</if>
+			<if test="user4 != null">
+				user4 = #{user4,jdbcType=VARCHAR},
+			</if>
+			<if test="user5 != null">
+				user5 = #{user5,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.CloudSchool.domain.Workinstance">
+		update workInstance
+		set wid = #{wid,jdbcType=INTEGER},
+		startTime = #{starttime,jdbcType=TIMESTAMP},
+		endTime = #{endtime,jdbcType=TIMESTAMP},
+		message = #{message,jdbcType=VARCHAR},
+		tid = #{tid,jdbcType=INTEGER},
+		time = #{time,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		user1 = #{user1,jdbcType=VARCHAR},
+		user2 = #{user2,jdbcType=VARCHAR},
+		user3 = #{user3,jdbcType=VARCHAR},
+		user4 = #{user4,jdbcType=VARCHAR},
+		user5 = #{user5,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<resultMap type="com.CloudSchool.domain.zjfvo.PublishWorkInfo" id="queryPublishWorkByTidMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="startTime" property="startTime"/>
+		<result column="endTime" property="endTime"/>
+		<result column="cName" property="cName"/>
+		<result column="wStatus" property="wStatus"/>
+		<result column="wType" property="wType"/>
+	</resultMap> 
+	<select id="queryPublishWorkByTidCount" resultType="int">
+		SELECT
+		count(*)
+		FROM workinstance
+		INNER JOIN workmould ON workmould.`id`=workinstance.`wid`
+		INNER JOIN participationworkclass ON
+		workinstance.`id`=participationworkclass.`wId`
+		INNER JOIN clazz ON clazz.`id`=participationworkclass.cid
+		AND workinstance.`tid`=#{tid} AND workinstance.`status`=0
+		<where>
+			<if test="wStatus!=null">
+				and participationworkclass.`wStatus`=#{wStatus}
+			</if>
+		</where>
+	</select>
+	<!-- 根据教师id查询发布的作业 -->
+	<select id="queryPublishWorkByTid" resultMap="queryPublishWorkByTidMap">
+		SELECT
+		workinstance.`id`,workmould.`name`,workinstance.`startTime`,workinstance.`endTime`,clazz.`cname`,participationworkclass.`wStatus`,workmould.`wType`
+		FROM workinstance
+		INNER JOIN workmould ON workmould.`id`=workinstance.`wid`
+		INNER JOIN participationworkclass ON
+		workinstance.`id`=participationworkclass.`wId`
+		INNER JOIN clazz ON clazz.`id`=participationworkclass.cid
+		AND workinstance.`tid`=#{tid} AND workinstance.`status`=0
+		<where>
+			<if test="wStatus!=null">
+				and participationworkclass.`wStatus`=#{wStatus}
+			</if>
+		</where>
+		GROUP BY participationworkclass.`id` ORDER BY workinstance.`endTime` ASC LIMIT #{cur},#{pageSize}
+	</select>
 </mapper>

@@ -1,21 +1,22 @@
 package com.CloudSchool.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Workinstance {
     private Integer id;
 
     private Integer wid;
 
-    private Date starttime;
+    private String starttime;
 
-    private Date endtime;
+    private String endtime;
 
     private String message;
 
     private Integer tid;
 
-    private Date time;
+    private String time;
 
     private Integer status;
 
@@ -28,12 +29,11 @@ public class Workinstance {
     private String user4;
 
     private String user5;
-
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+	public void setId(Integer id) {
         this.id = id;
     }
 
@@ -45,21 +45,7 @@ public class Workinstance {
         this.wid = wid;
     }
 
-    public Date getStarttime() {
-        return starttime;
-    }
-
-    public void setStarttime(Date starttime) {
-        this.starttime = starttime;
-    }
-
-    public Date getEndtime() {
-        return endtime;
-    }
-
-    public void setEndtime(Date endtime) {
-        this.endtime = endtime;
-    }
+  
 
     public String getMessage() {
         return message;
@@ -77,15 +63,33 @@ public class Workinstance {
         this.tid = tid;
     }
 
-    public Date getTime() {
-        return time;
-    }
+ 
 
-    public void setTime(Date time) {
-        this.time = time;
-    }
+    public String getStarttime() {
+		return starttime;
+	}
 
-    public Integer getStatus() {
+	public void setStarttime(String starttime) {
+		this.starttime = starttime;
+	}
+
+	public String getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(String endtime) {
+		this.endtime = endtime;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public Integer getStatus() {
         return status;
     }
 

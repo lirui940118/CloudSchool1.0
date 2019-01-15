@@ -183,19 +183,21 @@ ul,
 									<input type="hidden"
 										 class="form-control" name="wid">
 									<input type="text"
-										 class="form-control" name="workname">
+										 class="form-control" name="workname" readonly="readonly">
 								</div>
 								<div class="form-group has-success">
-									<label for="successInput">开始时间</label> <input type="text"
-										id="successInput" class="form-control">
+									<label for="successInput">开始时间</label> <!-- <input type="text"
+										id="successInput" class="form-control" name="starttime"> -->
+										<input type="date" id="successInput" class="form-control"  name="starttime"/>
 								</div>
 								<div class="form-group has-success">
-									<label for="successInput">结束时间</label> <input type="text"
-										id="successInput" class="form-control">
+									<label for="successInput">结束时间</label><!--  <input type="text"
+										id="successInput" class="form-control" name="endtime"> -->
+										<input type="date" id="successInput" class="form-control"  name="endtime"/>
 								</div>
 								<div class="form-group">
 									<label for="comment">备注</label>
-									<textarea class="form-control" id="comment" rows="5">
+									<textarea class="form-control" id="comment" rows="5" name="message">
 
 										</textarea>
 								</div>
@@ -283,7 +285,7 @@ ul,
 												<li style="display: flex; justify-content: space-around" v-for="(obj,index) in obj.list">
 													<div>
 														<label class="form-check-label"> <input
-															class="stuinput" type="checkbox" value="">
+															class="stuinput" type="checkbox" value="" v-bind:data-id="obj.studentid">
 															<span class="form-check-sign"></span>
 														</label>
 													</div>
@@ -399,7 +401,6 @@ ul,
 					/* 暂时死值 tid教员id */
 			},
 			success : function(data) {
-				console.log(JSON.stringify(data))
 				listStu.list=data;
 			}
 		})
@@ -407,7 +408,6 @@ ul,
 		$("body").on("click",".clazzInput",function(){
 				var id=$(this).attr("data-id")
 				var li=$("#list").find(".lis[data-id="+id+"]")
-				alert(li.length)
 			if($(this).is(":checked")){
 				$(li).find("input[type=checkbox]").attr("checked","checked");
 			}else{
@@ -432,7 +432,50 @@ ul,
 		})
 		
 		$("#publish").click(function(){
-			alert("123")
+			var obj={}
+			var temp=[]
+			if($("[name=wid]").val().trim()!="" && $("[name=workname]").val()!=""){
+				$.each($(".clazzInput[type=checkbox]:checked"),function(){
+					var obj={}
+					obj.cid=$(this).attr("data-id")
+					temp.push(obj)
+				})
+				for(var i=0 ;i<temp.length;i++){
+						var list=[]
+					$.each($(".stuinput[type=checkbox]:checked"),function(){
+						if(temp[i].cid==$(this).parents(".lis").attr("data-id")){
+							list.push($(this).attr("data-id"))
+						}
+					})
+					temp[i].stus=list
+				}
+				var Workinstance={}
+				Workinstance.starttime=$("[name=starttime]").val().trim()
+				Workinstance.endtime=$("[name=endtime]").val().trim()
+				Workinstance.message=$("[name=message]").val().trim()
+				Workinstance.wid=$("[name=wid]").val()
+				Workinstance.tid=1		//暂时死值
+				obj.obj=Workinstance
+				obj.list=temp;
+				console.log(JSON.stringify(obj))
+				$.ajax({
+					type : "post",
+					url : "http://127.0.0.1:8080/topicWarehouseController/WorkPublishParam",
+					data :JSON.stringify(obj),
+					contentType: 'application/json',
+					success : function(data) {
+						if(data>0){
+							alert("作业发布成功！")
+						}
+	
+					}
+				})
+			}else{
+				alert("请选择试卷模板")
+			}
+			
+			
+			
 		})
 	})
 </script>
