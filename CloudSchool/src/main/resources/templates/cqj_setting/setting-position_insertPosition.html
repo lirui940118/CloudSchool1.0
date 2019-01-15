@@ -10,6 +10,7 @@
 <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/static/css/ready.css}">
 <link rel="stylesheet" th:href="@{/static/css/demo.css}">
+<link rel="stylesheet" th:href="@{/static/css/load.css}">
 <link rel="StyleSheet" th:href="@{/static/css/dtree.css}" type="text/css" />
 <script type="text/javascript" th:src="@{/static/js/dtree.js}"></script>
 <style type="text/css">
@@ -21,8 +22,29 @@
 
 <body>
 	<div class="main-panel">
+	<div style="position: absolute;left: 0;top: 0;background: #f2f3f8;width: 100%;height: 100%;z-index: 9999;" id="hezi">
+			<div class="spinner">
+				<div class="spinner-container container1">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+				<div class="spinner-container container2">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+				<div class="spinner-container container3">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+			</div>
+		</div>
 		<div class="content">
-		
 			<div class="container-fluid">
 				<h4 class="page-title">增加职位</h4>
 				<div class="row">
@@ -33,15 +55,11 @@
 									<label for="squareSelect">上级</label> <select
 										class="form-control input-square" id="squareSelect">
 										<option v-for="(p,index) in position" v-bind:value="p.positionid">{{p.positionname}}</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="email">职位名称</label> <input type="email"
-										class="form-control" id="email" placeholder="职位名称">
+									<label for="email">职位名称</label> <input type="text" 
+										class="form-control" id="positionname" placeholder="职位名称">
 								</div>
 							</div>
 						</div>
@@ -54,7 +72,7 @@
 
 								<p style="float: right;" class="demo">
 								
-									<button class="btn btn-success">保存修改</button>
+									<button class="btn btn-success" onclick="addAjax()">保存修改</button>
 									<button class="btn btn-success"
 										onclick="javascript:history.back(-1);">返回</button>
 								</p>
@@ -71,7 +89,6 @@
 			</div>
 		</div>
 	</div>
-
 </body>
 <script th:src="@{/static/js/core/jquery.min.js}"></script>
 <script th:src="@{/static/js/core/vue.js}" type="text/javascript" charset="utf-8"></script>
@@ -88,7 +105,7 @@
 <script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
 <script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
 <script th:src="@{/static/js/ready.min.js}"></script>
-
+<script th:src="@{/static/js/cqj_infoBut.js}"></script>
 <script type="text/javascript">
 Vue.component('tree', {
     name:"tree",
@@ -102,7 +119,7 @@ Vue.component('tree', {
                 </li>
             </ul>`,
     props:["folder","select"],
-})
+	})
 	var v = new Vue({
 		el : ".content",
 		data : {
@@ -119,7 +136,10 @@ Vue.component('tree', {
 	        console.log(this.trees);
 	    }
 	});
+	var count = 0;
+	var sumCount=3;
 	$(function() {
+		infoBut.ccc();
 		getPosition();
 		getInfoModule();
 	})
@@ -132,6 +152,7 @@ Vue.component('tree', {
 				dataType : "json",
 				success : function(data) {
 					v.position=data;
+					infoBut.fadeOut();
 				}
 			})
 		}
@@ -144,8 +165,30 @@ Vue.component('tree', {
 				dataType : "json",
 				success : function(data) {
 					v.infoModule = data;
+					infoBut.fadeOut();
 				}
 			})
+		}
+		
+		//保存事件
+		function addAjax(){
+			var json={};
+			json.positionname=$("#positionname").val();
+			json.pid=$("#squareSelect option:selected").val();
+			json.modules="";
+			 $.each($('input:checkbox:checked'),function(index,element){
+				 json.modules+=$(this).val()+",";
+	         }); 
+			 console.log(JSON.stringify(json))
+			 $.ajax({
+				url : "/position/insert",
+				data : json,
+				type : "post",
+				dataType : "json",
+				success : function(data) {
+					history.back(-1);
+				}
+			}) 
 		}
 </script>
 

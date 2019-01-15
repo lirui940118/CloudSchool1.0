@@ -38,7 +38,8 @@ public class CqjRoleServiceImpl implements CqjRoleService {
 
 	@Override
 	public int addRole(CqjRole record, String[] arry) {
-		if(crm.insertSelective(record)>0) {
+		crm.insertSelective(record);
+		if(arry.length>0) {
 			crmm.addByRoleIdAndModuleid(record.getRoleid(), arry);
 		}
 		return 0;

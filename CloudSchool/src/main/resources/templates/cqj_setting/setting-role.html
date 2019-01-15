@@ -67,7 +67,7 @@
 						<div class="card">
 							<div class="card-body">
 								<p class="demo">
-									<button infoBut moduleUrl="role/insert" name="goInsertRole"
+									<button infoBut moduleUrl="/role/insert" name="goInsertRole"
 										class="btn btn-success">创建角色</button>
 								</p>
 							</div>
@@ -93,7 +93,7 @@
 							<div class="card-header">
 								<h4 class="card-title">权限</h4>
 								<p style="float: right;" class="demo">
-									<button  infoBut moduleUrl="role/update"  name="baochun" class="btn btn-success">保存</button>
+									<button  infoBut moduleUrl="/role/update"  name="baochun" class="btn btn-success">保存</button>
 								</p>
 							</div>
 
@@ -169,14 +169,11 @@
 		$(function() {
 			infoBut.ccc();
 			getRole();
+			
 			console.log(count)
-			//点击进入子模块修改
-			$('[name="goUpdateModule"]').click(function(){
-				window.location.href="setting-role_updateModule.html?id=10"				
-			});
 			//点击创建角色
 			$('[name="goInsertRole"]').click(function(){
-				window.location.href="goUrl?url=cqj_setting/setting-role_insertRole"	;
+				window.location.href="/role/insert";
 			});
 			
 			
@@ -192,7 +189,6 @@
 									 json.modules+=$(this).val()+",";
 						         }); 
 								json.roleid=roleid;
-								console.log(JSON.stringify(json) + "我传过来的");
 								$.ajax({
 									url:"/role/update",
 									data:json,
@@ -215,7 +211,9 @@
 				type : "post",
 				dataType : "json",
 				success : function(data) {
-					v.role=data;
+					if(data!="404"){
+						v.role=data;
+					}
 					infoBut.fadeOut();
 				}
 			})
@@ -231,7 +229,6 @@
 				v.infoModule={};
 				getInfoModule(roleid);
 			}
-		
 		//通过传值获取模块信息
 		function getInfoModule(i){
 			$.ajax({

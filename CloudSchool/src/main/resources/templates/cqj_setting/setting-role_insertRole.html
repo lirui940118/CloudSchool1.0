@@ -10,24 +10,38 @@
 <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/static/css/ready.css}">
 <link rel="stylesheet" th:href="@{/static/css/demo.css}">
+<link rel="stylesheet" th:href="@{/static/css/load.css}">
+<script th:src="@{/static/js/cqj_infoBut.js}"></script>
 <style type="text/css">
 .card {
 	margin-bottom: 10px;
-}
-
-#hezi {
-	position: absolute;
-	left: 0;
-	top: 0;
-	background: #f2f3f8;
-	width: 100%;
-	height: 100%;
-	z-index: 9999;
 }
 </style>
 </head>
 <body>
 	<div class="main-panel">
+	<div style="position: absolute;left: 0;top: 0;background: #f2f3f8;width: 100%;height: 100%;z-index: 9999;" id="hezi">
+			<div class="spinner">
+				<div class="spinner-container container1">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+				<div class="spinner-container container2">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+				<div class="spinner-container container3">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+			</div>
+		</div>
 		<div class="content">
 			<div class="container-fluid">
 				<h4 class="page-title">增加角色</h4>
@@ -111,7 +125,10 @@
 		        console.log(this.trees);
 		    }
 		});
+	var count = 0;
+	var sumCount=2;
 		$(function() {
+			infoBut.ccc();
 			getInfoModule();
 		
 		})
@@ -124,8 +141,10 @@
 				type : "post",
 				dataType : "json",
 				success : function(data) {
-					console.log(data);
-					v.Module = data;
+					if(data!="404"){
+						v.Module = data;
+					}
+					infoBut.fadeOut();
 				}
 			})
 		}
@@ -137,12 +156,14 @@
 			 $.each($('input:checkbox:checked'),function(index,element){
 				 json.modules+=$(this).val()+",";
 	         }); 
+			 console.log(1);
 			$.ajax({
-				url : "/role/addRole",
+				url : "/role/insert",
 				data : json,
 				type : "post",
 				dataType : "json",
 				success : function(data) {
+					history.back(-1);
 				}
 			})
 		}

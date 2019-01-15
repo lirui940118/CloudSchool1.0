@@ -18,7 +18,7 @@ public class CqjModuleServiceImpl implements CqjMoudelService{
 	CqjModuleMapper cmm;
 
 	@Override
-	public CqjUser queryByRoleidandPositionid(CqjUser userinfo, Integer roleid, Integer positionid) {
+	public CqjUser queryByUser(CqjUser userinfo) {
 		// TODO Auto-generated method stub
 		List<CqjModule> alllist = cmm.queryByRoleidandPositionid(userinfo.getRoleid(), userinfo.getPositionid());
 		List<CqjModule> moduleSettingList = new ArrayList<CqjModule>();
@@ -103,6 +103,12 @@ public class CqjModuleServiceImpl implements CqjMoudelService{
 		allModule.setModuleid(0);
 		allModule = digui(allModule, cmm.queryInfoModule());
 		return allModule.getMlist();
+	}
+
+	@Override
+	public List<CqjModule> queryByRoleidandPositionid(Integer roleid, Integer positionid) {
+		// TODO Auto-generated method stub
+		return cmm.queryByRoleidandPositionid(roleid, positionid);
 	}
 	
 

@@ -39,5 +39,4 @@ var infoBut = {
 		}
 		infoBut.fadeOut();
 	}
-	
 }

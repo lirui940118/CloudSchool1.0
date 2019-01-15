@@ -36,4 +36,14 @@ public class CqjPositionServiceImpl implements CqjPositionService{
 		return 0;
 	}
 
+	@Override
+	public int addPosition(CqjPosition p, String[] result) {
+		// TODO Auto-generated method stub
+		cpm.insertSelective(p);
+		if(result.length>0) {
+			cpmm.addByPositionIdAndModuleid(p.getPositionid(), result);
+		}
+		return 0;
+	}
+
 }
