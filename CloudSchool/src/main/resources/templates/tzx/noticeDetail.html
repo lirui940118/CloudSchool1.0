@@ -243,7 +243,7 @@
 		}
 	})
 	ue.ready(function(){
-		setContent()
+// 		setContent()
 		UE.getEditor('editor').setDisabled('fullscreen');
 		UE.getEditor('editor').setHeight(300)
 	});
@@ -254,7 +254,7 @@
 		$.post("noticeInfo","",function(result){
 			console.log(result)
 			v.n=result
-			//setContent(111111)
+			setContent()
 		})
 	}
 	function closeandback(){
