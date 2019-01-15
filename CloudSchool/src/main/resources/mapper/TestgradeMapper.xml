@@ -176,4 +176,13 @@
 	</if>
 	ORDER BY testInstance.`startTime` ASC
   </select>
+  <!-- 查询一次考试详情（关于知识点等信息） -->
+  <select id="queryAllKnowledagePointBySidAndtId" resultType="com.CloudSchool.domain.statistics.TopicVo">
+  	CALL getTestInfoBySidAndTid(#{sId},#{tId});
+  </select>
+  <!-- 查询一次考试基本信息 -->
+  <select id="queryTestBaseInfoBySidAndtId" resultType="com.CloudSchool.domain.statistics.testBaseInfo">
+  	CALL getTestBaseInfoBySidAndTid(#{sId},#{tId});
+  </select>
+  
 </mapper>

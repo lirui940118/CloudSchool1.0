@@ -5,8 +5,8 @@
 		<meta charset="UTF-8">
 		<title>学员考试统计</title>
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-		<link rel="stylesheet" href="../css/bootstrap.min.css">
-		<link rel="stylesheet" th:href="../css/ready.css">
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
 		<style type="text/css">
 			.card{
 				border-radius: 0px;
@@ -28,25 +28,29 @@
 					<div class="row">
 						<!--单次考试统计-->
 						<div class="card col-lg-12">
-							<div class="card-header">
+							<div id="testBaseInfoSec"  class="card-header">
 								<h4 class="card-title">
 									学员考试得分情况
 								</h4>
 								<p class="card-category">
-									<p>考生学号：<span>20170001</span></p>
-									<p>考生名称：<span>张泽阳</span></p>
-									<p>试卷名称：<span>JAVAOOP测试</span></p>
-									<p>考试时间：<span>2018/12/12 8:00-9:00</span></p>
+									<p>考生学号：<span>{{testBaseInfo.studentNo}}</span></p>
+									<p>考生名称：<span>{{testBaseInfo.studentName}}</span></p>
+									<p>试卷名称：<span>{{testBaseInfo.testName}}</span></p>
+									<p>考试时间：<span>{{testBaseInfo.startTime}}-{{testBaseInfo.endTime}}</span></p>
+									<p>年级：<span>{{testBaseInfo.gradeName}}</span></p>
+									<p>班级：<span>{{testBaseInfo.clazzName}}</span></p>
+									<p>教室：<span>{{testBaseInfo.classroomName}}</span></p>
+									<p>考试得分：<span>{{testBaseInfo.testScore}}</span>分</p>
+									<p>考试总分：<span>{{testBaseInfo.testTotalScore}}</span>分</p>
 								</p>
 							</div>
 							<div class="card-body">
-								<table class="table table-bordered mt-1" style="text-align: center;">
+								<table id="knowledgePointSec" class="table table-bordered mt-1" style="text-align: center;">
 									<thead>
 										<tr>
 											<th scope="col" rowspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">题目类别/知识点</font></font></th>
 											<th scope="col" colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">识记</font></font></th>
 											<th scope="col" colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">理解</font></font></th>
-											<th scope="col" rowspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">应用上机</font></font></th>
 											<th scope="col" rowspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">总得分</font></font></th>
 											<th scope="col" rowspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">总得分率</font></font></th>
 										</tr>
@@ -58,62 +62,82 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">javaOOP</font></font></td>
+										<tr v-for="(item,index) in knowledgePointList">
+											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.topicList[0].knowledagePointName}}</font></font></td>
+											<!-- 识记分布和得分 -->
 											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-												<button class="btn btn-primary btn-xs">1</button>
-												<button class="btn btn-primary btn-xs">2</button>
+												<button v-show="topicItems.topicRate>=goodRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-if="topicItems.topicExamdotId==0" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-success btn-xs">T:{{topicItems.topicNo}}<br/>{{topicItems.topicScore}}/{{topicItems.topicTotalScore}}</button>
+												<button v-show="topicItems.topicRate<goodRate && topicItems.topicRate>=badRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-if="topicItems.topicExamdotId==0" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-default btn-xs">T:{{topicItems.topicNo}}<br/>{{topicItems.topicScore}}/{{topicItems.topicTotalScore}}</button>
+												<button v-show="topicItems.topicRate<badRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-if="topicItems.topicExamdotId==0" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-danger btn-xs">T:{{topicItems.topicNo}}<br/>{{topicItems.topicScore}}/{{topicItems.topicTotalScore}}</button>
 											</font></font></td>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4/6</font></font></td>
+											
+											<td>
+												<font v-bind:value="item.understandTopicScore" v-bind:totalValue="item.understandTopicTotalScore" class="understandKnowledgePointTotal" style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.understandTopicScore}}/{{item.understandTopicTotalScore}}</font></font>
+											</td>
+											<!-- 理解分布和得分 -->
 											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-												<button class="btn btn-primary btn-xs">1</button>
-												<button class="btn btn-primary btn-xs">2</button>
+												<button v-show="topicItems.topicRate>=goodRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-if="topicItems.topicExamdotId==1" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-success btn-xs">T:{{topicItems.topicNo}}<br/>{{topicItems.topicScore}}/{{topicItems.topicTotalScore}}</button>
+												<button v-show="topicItems.topicRate<goodRate && topicItems.topicRate>=badRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-if="topicItems.topicExamdotId==0" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-default btn-xs">T:{{topicItems.topicNo}}<br/>{{topicItems.topicScore}}/{{topicItems.topicTotalScore}}</button>
+												<button v-show="topicItems.topicRate<badRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-if="topicItems.topicExamdotId==1" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-danger btn-xs">T:{{topicItems.topicNo}}<br/>{{topicItems.topicScore}}/{{topicItems.topicTotalScore}}</button>
 											</font></font></td>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4/6</font></font></td>
-											<td rowspan="100"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4/4</font></font></td>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4/4</font></font></td>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">30%</font></font></td>
-										</tr>
-										<tr>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">JS节点</font></font></td>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-												<button class="btn btn-primary btn-xs">1</button>
-												<button class="btn btn-primary btn-xs">2</button>
-											</font></font></td>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4/4</font></font></td>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-												<button class="btn btn-primary btn-xs">1</button>
-												<button class="btn btn-primary btn-xs">2</button>
-											</font></font></td>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4/4</font></font></td>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4/4</font></font></td>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">20%</font></font></td>
+											
+											<td>
+												<font v-bind:value="item.memorizationTopicScore" v-bind:totalValue="item.memorizationTopicTotalScore" class="memorizationKnowledgePointTotal" style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.memorizationTopicScore}}/{{item.memorizationTopicTotalScore}}</font></font>
+											</td>
+											
+											<!-- 知识点合计 -->
+											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.knowledagePointTopicScore}}/{{item.knowledagePointTopicTotalScore}}</font></font></td><!-- 知識點合計 -->
+											
+											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{(item.knowledagePointTopicScore/item.knowledagePointTopicTotalScore).toFixed(3)*100}}%</font></font></td>
 										</tr>
 										
-										
+										<!-- 总合計 -->
 										<tr>
 											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">得分率</font></font></td>
-											<td colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">40%</font></font></td>
-											<td colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">40%</font></font></td>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4/4</font></font></td>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">30%</font></font></td>
+											<td colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" id="understandRateValue">40%</font></font></td>
+											<td colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" id="memorizationRateValue">40%</font></font></td>
+											<td colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" id="totalRate">123</font></font></td>
 										</tr>
 										<tr>
 											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">总分</font></font></td>
-											<td colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">20/40</font></font></td>
-											<td colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">20/40</font></font></td>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">4/4</font></font></td>
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">20%</font></font></td>
+											<td colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" id="understandValue">20/40</font></font></td>
+											<td colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" id="memorizationValue">20/40</font></font></td>
+											<td colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;" id="totalValue">456</font></font></td>
 										</tr>
 										
 									</tbody>
 								</table>
+								<!--应用-->
+								<table id="applicationSec" v-if="applicationTopicList" class="table table-bordered mt-1" style="text-align: center;">
+									<thead>
+										<tr>
+											<th scope="col"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">名称</font></font></th>
+											<th scope="col" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">得分</font></font></th>
+											<th scope="col" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">总分</font></font></th>
+											<th scope="col" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">题号</font></font></th>
+										</tr>
+										<tr v-for="item in applicationTopicList">
+											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.topicName}}</font></font></td>
+											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.topicScore}}</font>分</font></td>
+											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.topicTotalScore}}</font>分</font></td>
+											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+												<button v-if="item.topicRate>=goodRate" class="btn btn-default btn-xs" v-bind:topicId="item.tId" v-bind:recordId="item.recordId" >T:{{item.topicNo}}</button>
+												<button v-if="item.topicRate<goodRate && item.topicRate>=badRate" class="btn btn-success btn-xs" v-bind:topicId="item.tId" v-bind:recordId="item.recordId" >T:{{item.topicNo}}</button>
+												<button v-if="item.topicRate<badRate" class="btn btn-danger btn-xs" v-bind:topicId="item.tId" v-bind:recordId="item.recordId" >T:{{item.topicNo}}</button>
+											</font></font></td>
+										</tr>
+									</thead>
+								</table>
 							</div>
 							<div class="card-footer">
-								<i class="la la-circle text-primary"></i>
-									 查看详情
+								说明：
+								<button class="btn btn-success btn-xs">优</button>
+							    <button class="btn btn-default btn-xs" >一般</button>
+								<button class="btn btn-danger btn-xs">差</button>
 							</div>
-							
+							<div class="card-footer">
+								<i class="la la-circle text-primary">查看详情</i>
+							</div>
 						</div>
 						<!--试卷分析-->
 						<div class="card col-lg-12">
@@ -130,6 +154,91 @@
 				</div>
 			</div>
 		</div>
-	</body>
-
+	</body><script type="text/javascript" th:src="@{/static/js/core/vue.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
+	<script type="text/javascript">
+	<!--读取配置 -->
+	var goodRate = 0.8;
+	var badRate = 0.6;
+	<!--读取配置 -->
+	 $(function(){
+		 initData();
+		 
+	 })
+	 function initData(){
+		 $.ajax({
+				type : "post",
+				url : adress.url + "/statistics/getDataAboutTextInfo",
+				data : {
+					
+				},
+				success:function(data){
+					var vue = new Vue({
+						el:"#applicationSec",
+						data:{
+							applicationTopicList:data.applicationTopicList,
+							goodRate:goodRate,
+							badRate:badRate
+						}
+					})
+					var vue1 = new Vue({
+						el:"#knowledgePointSec",
+						data:{
+							knowledgePointList:data.knowledgePointList,
+							goodRate:goodRate,
+							badRate:badRate
+						}
+					})
+					//console.log(JSON.stringify(data));
+					//计算合计
+					countTotalValue();
+				}
+		 });
+		 $.ajax({
+				type : "post",
+				url : adress.url + "/statistics/getDataAboutTestBase",
+				data : {
+					
+				},
+				success:function(data){
+					var vue2 = new Vue({
+						el:"#testBaseInfoSec",
+						data:{
+							testBaseInfo:data
+						}
+					})
+					console.log(JSON.stringify(data));
+				}
+		 });
+	 }
+	 //计算合计
+	 function countTotalValue(){
+		 understandRateValue
+		 //理解部分合计
+		 var understandKnowledgePointTotalArr = $(".understandKnowledgePointTotal");
+		 var understandFinnalScore = 0.0;
+		 var understandFinnalTotalScore = 0.0;
+		 for(var i=0;i<understandKnowledgePointTotalArr.length;i++){
+			 understandFinnalScore = understandFinnalScore+Number(understandKnowledgePointTotalArr.get(i).getAttribute("value"));
+			 understandFinnalTotalScore = understandFinnalTotalScore+Number(understandKnowledgePointTotalArr.get(i).getAttribute("totalValue"));
+		 }
+		 $("#understandValue").html(""+understandFinnalScore+"/"+understandFinnalTotalScore);
+		 $("#understandRateValue").html(""+understandFinnalScore/understandFinnalTotalScore.toFixed(3)*100+"%");
+		 //识记部分
+		 var memorizationKnowledgePointTotalArr = $(".memorizationKnowledgePointTotal");
+		 var memorizationFinnalScore = 0.0;
+		 var memorizationFinnalTotalScore = 0.0;
+		 for(var i=0;i<memorizationKnowledgePointTotalArr.length;i++){
+			 memorizationFinnalScore = memorizationFinnalScore+Number(memorizationKnowledgePointTotalArr.get(i).getAttribute("value"));
+			 memorizationFinnalTotalScore = memorizationFinnalTotalScore+Number(memorizationKnowledgePointTotalArr.get(i).getAttribute("totalValue"));
+		 }
+		 $("#memorizationValue").html(""+memorizationFinnalScore+"/"+memorizationFinnalTotalScore);
+		 $("#memorizationRateValue").html(""+memorizationFinnalScore/memorizationFinnalTotalScore.toFixed(3)*100+"%");
+		 //总合计
+		 $("#totalValue").html(understandFinnalScore+memorizationFinnalScore+"/"+(understandFinnalTotalScore+memorizationFinnalTotalScore));
+		 $("#totalRate").html(((understandFinnalScore+memorizationFinnalScore)/(understandFinnalTotalScore+memorizationFinnalTotalScore)).toFixed(3)*100+"%");
+	 
+	 }
+	</script>
 </html>

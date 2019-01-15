@@ -411,23 +411,22 @@ img {
 					myChar1.getZr().on('click',function (params) {
 					  	const pointInPixel= [params.offsetX, params.offsetY];
 					    if (myChar1.containPixel('grid',pointInPixel)) {
-						var pointInGrid=myChar1.convertFromPixel({seriesIndex:0},pointInPixel);
-				        //X轴序号
-				        var xIndex=pointInGrid[0];
-			 
-			            //获取当前图表的option
-				        var op=myChar1.getOption();
-			 
-			            //获得图表中我们想要的数据
-				        var month=op.xAxis[0].data[xIndex];
-			            //获取标题中的隐藏字段（id集合 考试id）
-			            //console.log(op.title[0].text);
-			            var ids = op.title[0].text.split(",");
-			            console.log(ids[xIndex]);
-			            alert(op.series[0].data[xIndex]);
-			            
-			            //跳转查询具体某场考试分析
-			            
+							var pointInGrid=myChar1.convertFromPixel({seriesIndex:0},pointInPixel);
+					        //X轴序号
+					        var xIndex=pointInGrid[0];
+				 
+				            //获取当前图表的option
+					        var op=myChar1.getOption();
+				 
+				            //获得图表中我们想要的数据
+					        var month=op.xAxis[0].data[xIndex];
+				            //获取标题中的隐藏字段（id集合 考试id）
+				            //console.log(op.title[0].text);
+				            var ids = op.title[0].text.split(",");
+				            
+				            //跳转查询具体某场考试分析
+				            //window.location.href=adress.url+"/statistics/gotoStudentText?sId="+sId+"&tId="+ids[xIndex];
+				            window.location.href=adress.url+"/statistics/gotoStudentText?sId="+1+"&tId="+1;
 						}
 					});
 				}else{
@@ -539,20 +538,6 @@ img {
 	
 	
 	
-	//=========================跳转=======================================
-	function gotoGradeInfo(){
-		$.ajax({
-			type : "post",
-			url : adress.url + "/statistics/gotoStudentText",
-			data : {
-				sId:sId,
-				tId:tId
-			},
-			success : function(data) {
-				
-			}
-		})
-	}
 </script>
 
 </html>
