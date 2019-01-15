@@ -16,6 +16,57 @@
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
+  
+  <!-- 查询所有员工考勤 -->
+  <select id="queryAllKaoQinYuanGong" resultMap="BaseResultMap">
+	  SELECT * FROM `yuangongkaoqin`
+	  <where>
+	  	status=0
+  		<if test="positionname">
+  			AND positionname LIKE concat('%',#{positionname},'%')
+  		</if>
+  		<if test="staffname">
+  		 	AND staffname LIKE concat('%',#{staffname},'%')
+  		</if>
+		<if test="starttime and endtime">
+			AND creationtime BETWEEN  #{startStr} AND #{endStr}
+		</if>
+		<if test="starttime and endtime==null">
+			AND creationtime BETWEEN  #{startStr} AND NOW()
+		</if>
+		<if test="starttime==null and endtime">
+			AND creationtime &lt;= #{endStr}
+		</if>
+		</where>
+	LIMIT #{currentPage},#{pageSize}
+  </select>
+  <!-- 查询所有员工考勤行数 -->
+  <select id="queryAllKaoQinYuanGongCount" resultType="int">
+  	SELECT COUNT(*) FROM `yuangongkaoqin`
+	  <where>
+	  	status=0
+  		<if test="positionname">
+  			AND positionname LIKE concat('%',#{positionname},'%')
+  		</if>
+  		<if test="staffname">
+  		 	AND staffname LIKE concat('%',#{staffname},'%')
+  		</if>
+		<if test="starttime and endtime">
+			AND creationtime BETWEEN  #{startStr} AND #{endStr}
+		</if>
+		<if test="starttime and endtime==null">
+			AND creationtime BETWEEN  #{startStr} AND NOW()
+		</if>
+		<if test="starttime==null and endtime">
+			AND creationtime &lt;= #{endStr}
+		</if>
+		</where>
+  </select>
+  
+  
+  
+  
+  
   <sql id="Base_Column_List">
     kq_id, uid, kq_time, kq_state_id, creation_time, update_time, founder, status, by1, 
     by2, by3, by4, by5
