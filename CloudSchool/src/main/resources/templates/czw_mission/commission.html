@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.arg">
 <html>
 
 	<head>
 		<meta charset="UTF-8">
 		<title>我的待办</title>
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-		<link rel="stylesheet" th:href="${static/css/bootstrap.min.css}">
-		<link rel="stylesheet" th:href="${static/css/ready.css}">
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
 		<style>
 			.card-footer div{
 				float: right;
@@ -31,29 +32,24 @@
 									<tr>
 										<th scope="col">待办名称</th>
 										<th scope="col">发布人</th>
-										<th scope="col">收件人</th>
-										<th scope="col">描述</th>
 										<th scope="col">附件</th>
-										<th scope="col">操作</th>
+										<th scope="col">接收人</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
-										<td>12.1-月考</td>
-										<td>唐勇</td>
-										<td>唐勇</td>
-										<td>1801的12月考试</td>
-										<td></td>
-										<td><a href="insertclassroom.html">删除</a><a href="updateclassroom.html">修改</a></td>
+								<tbody>	
+									<tr th:each="m:${list}">
+										<td th:text="${m.describe}"></td>
+										<td th:text="${m.tid}"></td>
+										<td th:text="${m.accessory}"></td>
+										<td th:text="${m.cid}"></td>
 									</tr>
-									<tr>
+									<!-- <tr>
 										<td>学生管理系统</td>
-										<td>唐勇</td>
 										<td>唐勇</td>
 										<td>针对学生的管理系统</td>
 										<td><a>下载附件</a></td>
-										<td><a href="insertclassroom.html">删除</a><a href="updateclassroom.html">修改</a></td>
-									</tr>
+										<td>唐勇</td>
+									</tr> -->
 								</tbody>
 							</table>
 						</div>

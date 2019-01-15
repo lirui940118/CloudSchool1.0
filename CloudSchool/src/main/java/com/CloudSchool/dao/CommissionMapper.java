@@ -1,8 +1,14 @@
 package com.CloudSchool.dao;
 
-import com.CloudSchool.domain.Commission;
+import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.CloudSchool.domain.Commission;
+@Mapper
 public interface CommissionMapper {
+	List<Commission> query();
+	
     int deleteByPrimaryKey(Integer id);
 
     int insert(Commission record);

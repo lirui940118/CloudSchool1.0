@@ -14,7 +14,8 @@ public class Message {
     private Date time;
 
     private String content;
-
+    //接收者数组
+    private int[] receiver; 
     public Integer getId() {
         return id;
     }
@@ -62,4 +63,12 @@ public class Message {
     public void setContent(String content) {
         this.content = content;
     }
+
+	public int[] getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(int[] receiver) {
+		this.receiver = receiver;
+	}
 }
