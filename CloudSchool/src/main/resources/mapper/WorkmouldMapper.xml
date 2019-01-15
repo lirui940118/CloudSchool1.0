@@ -271,4 +271,9 @@
 		AND clazzstudent.`status`=0
 		AND clazzstudent.`status`=0 AND clazzcourseteacher.`tid`=#{tid}
 	</select>
+	
+	<!-- 根据id修改使用次数 -->
+	<update id="updateCountByid" parameterType="com.CloudSchool.domain.Workmould">
+		update workMould set count=count+1 where id=#{id}
+	</update>
 </mapper>

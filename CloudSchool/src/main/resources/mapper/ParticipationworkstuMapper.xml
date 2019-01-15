@@ -173,4 +173,12 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <!--参加这次考试的学生  -->
+  <insert id="insertList">
+  	insert into participationWorkStu(id, wId, sId,isCorrect,user1) values
+  	<foreach collection="list" separator="," item="obj">
+  		(0,#{wid},#{obj},0,#{user1})
+  	</foreach>
+  </insert>
 </mapper>

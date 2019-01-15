@@ -160,4 +160,19 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!-- 发布作业添加参与班级 -->
+  <insert id="insertObjList">
+  	insert into participationWorkClass(id, wId, cId,wStatus, time) values
+  	<foreach collection="list" separator="," item="obj">
+  		(0,#{wid},#{obj},0,now())
+  	</foreach>
+  </insert>
+  
+  <insert id="insertObj" useGeneratedKeys="true" keyProperty="id">
+  	insert into participationWorkClass(id, wId, cId,wStatus, time) values(0,#{wid},#{cid},0,now())
+  </insert>
+  
+  
+  
+  
 </mapper>
