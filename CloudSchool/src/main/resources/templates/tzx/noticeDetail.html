@@ -251,14 +251,14 @@
 		query()
 	})
 	function query(){
-		$.post("noticeInfo","",function(result){
+		$.post("/noticeInfo","",function(result){
 			console.log(result)
 			v.n=result
 			setContent()
 		})
 	}
 	function closeandback(){
-		location.href="notice";
+		location.href="/notice";
 	}
 </script>
 </body>

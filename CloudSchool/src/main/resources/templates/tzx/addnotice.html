@@ -7,6 +7,8 @@
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 		<link rel="stylesheet" href="/static/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/static/css/ready.css">
+		<link rel="stylesheet" th:href="@{/static/css/load.css}">
+		<script th:src="@{/static/js/cqj_infoBut.js}"></script>
     <script type="text/javascript" charset="utf-8" src="/static/js/plugin/utf8-jsp/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="/static/js/plugin/utf8-jsp/ueditor.all.min.js"> </script>
     <script type="text/javascript" charset="utf-8" src="/static/js/plugin/utf8-jsp/lang/zh-cn/zh-cn.js"></script>
@@ -111,7 +113,7 @@
 							</div>
 						</div>
 						<p class="demo">
-							<button class="btn btn-success btn-lg" onclick="addnotice()">发布</button>
+							<button infoBut moduleUrl="notice/insert" class="btn btn-success btn-lg" onclick="addnotice()">发布</button>
 							<button class="btn btn-link" disabled style="color: red;">放弃</button>
 						</p>
 					</div>
@@ -230,9 +232,11 @@
 	ue.ready(function(){
 		UE.getEditor('editor').setHeight(300)
 	});
+	var count = 0;
+	var sumCount=2;
 	$(function(){
-		
-		querpersonerInfo()
+		infoBut.ccc();	//开始处理按钮权限
+		querpersonerInfo();
 	})
 //发布通知
 function addnotice(){
@@ -244,12 +248,15 @@ function addnotice(){
 	alert(data)
 	console.log(data)
 		$.post("addnotice",data,function(result){
-		alert(result)
+// 		alert(result)
 		console.log("结果："+result)
 		if(result==0){
 			console.log("失败！")
+			alert("发布失败！")
 		}else{
 			console.log("成功！")
+			alert("发布成功！")
+			location.href="/notice"
 		}
 	})
 }
@@ -258,7 +265,8 @@ function querpersonerInfo(){
 		console.log(result)
 		$(".sendername").text(result.standby1)
 		$(".sendtime").text()
-		alert(result.standby1)
+// 		alert(result.standby1)
+		infoBut.fadeOut();	//结束处理按钮权限
 	})
 }
 </script>
