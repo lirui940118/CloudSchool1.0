@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.CloudSchool.domain.CqjUser;
@@ -15,9 +16,14 @@ import com.CloudSchool.service.MessageService;
 public class MessageController {
 	@Autowired
 	MessageService ms;
-	@RequestMapping("/message")
+	@RequestMapping(value="/message",method=RequestMethod.GET)
 	public String toMessage() {
-		System.out.println("1111111111111111111111111111111111");
+		System.out.println("跳转-消息");
+		return "tzx/message";
+	}
+	@RequestMapping(value="/message",method=RequestMethod.POST)
+	public String Message() {
+		System.out.println("查询-消息");
 		return "tzx/message";
 	}
 	@ResponseBody

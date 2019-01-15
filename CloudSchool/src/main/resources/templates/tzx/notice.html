@@ -5,10 +5,10 @@
 		<meta charset="UTF-8">
 		<title>通知公告</title>
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-		<link rel="stylesheet" href="static/css/bootstrap.min.css">
-		<link rel="stylesheet" href="static/css/ready.css">
-		<script src="static/js/core/jquery.3.2.1.min.js"></script>
-		<script src="static/js/core/vue.js"></script>
+		<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../static/css/ready.css">
+		<script src="../static/js/core/jquery.3.2.1.min.js"></script>
+		<script src="../static/js/core/vue.js"></script>
 	</head>
 
 	<body>
@@ -26,7 +26,7 @@
 										<input type="text" name="str" />
 										<button class="btn btn-primary btn-xs" onclick="btnQuery()">查询</button>
 									</span>
-									<button class="btn btn-primary btn-xs" onclick="addnotice()">添加通知</button>
+									<button infoBut moduleUrl="notice/toinsert" class="btn btn-primary btn-xs" onclick="addnotice()">添加通知</button>
 								</p>
 								<table class="table table-hover">
 									<thead>
@@ -40,19 +40,6 @@
 										</tr>
 									</thead>
 									<tbody>
-<!-- 										<tr> -->
-<!-- 											<td>1</td> -->
-<!-- 											<td>改革春风</td> -->
-<!-- 											<td>老王</td> -->
-<!-- 											<td>2018-1-1</td> -->
-<!-- 											<td>已发布</td> -->
-<!-- 											<td>删除</td> -->
-<!-- 											<td><button class="btn btn-primary btn-xs">编辑</button></td> -->
-<!-- 										</tr> -->
-<!-- 										<tr> -->
-<!-- 											<td>1</td><td>国庆放假通知</td><td>老校长</td><td>2018-9-12</td><td>已发布</td> -->
-<!-- 											<td>删除</td><td><button class="btn btn-primary btn-xs" onclick="edit(1)">编辑</button></td> -->
-<!-- 										</tr> -->
 										<tr v-for="obj,index in aa" v-bind:nid="obj.id">
 											<td>{{obj.id}}</td><td>{{obj.title}}</td><td>{{obj.sendername}}</td><td>{{obj.time}}</td><td>已发布</td>
 											<td>删除</td><td><button class="btn btn-primary btn-xs" v-on:click="jump(obj.id)">编辑</button></td>
@@ -63,10 +50,8 @@
 
 							</div>
 						</div>
-						<p class="demo">
-							<button class="btn btn-success btn-lg">马上开班</button>
-							<button class="btn btn-link" disabled style="color: red;">放弃</button>
-						</p>
+<!-- 						<p class="demo"><button class="btn btn-success btn-lg">马上开班</button> -->
+<!-- 							<button class="btn btn-link" disabled style="color: red;">放弃</button></p> -->
 					</div>
 				</div>
 			</div>
@@ -85,7 +70,7 @@
 			},
 			methods:{
 				jump:function(nid){
-					location.href="noticeDetail?nid="+nid;
+					location.href="/noticeDetail?nid="+nid;
 				}
 			}
 		})
@@ -105,22 +90,22 @@
 						data={"str":str}
 					}
 				}
-				alert("----"+data)
-				$.post("noticeList",data,function(result){
+// 				alert("----"+data)
+				$.post("/noticeList",data,function(result){
 //	 				alert(result)
 					console.log(result)
 					v.aa=result
 				})
 		}
 		function btnQuery(){
-			alert(1)
+// 			alert(1)
 			var time= $("[name=time]").val()
 			var str= $("[name=str]").val()
-			alert(time+str)
+// 			alert(time+str)
 			query(time,str)
 		}
 		function addnotice(){
-			location.href="addnotice"
+			location.href="/addnotice"
 		}
 	</script>
 </html>
