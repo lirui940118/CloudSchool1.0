@@ -7,7 +7,8 @@ import com.CloudSchool.domain.Workmould;
 import com.CloudSchool.domain.zjfvo.TeacherAdminStu;
 
 public interface WorkMouldService {
-	PageBean queryByTidMould(Integer tid,Integer cur,Integer pagesize);
+	  PageBean queryByTidMould(Integer tid,Integer cur,Integer pagesize);
 	
 	  List<TeacherAdminStu> queryByTidAdminStuAll(Integer tid);
+	  
 }

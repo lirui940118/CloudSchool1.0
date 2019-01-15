@@ -28,4 +28,6 @@ public interface WorkmouldMapper {
     
    //根据老师查询到管理的班级所有的学生
     List<TeacherAdminStu> queryByTidAdminStuAll(Integer tid);
+    
+    int updateCountByid(Integer id);
 }

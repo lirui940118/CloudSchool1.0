@@ -1,5 +1,9 @@
 package com.CloudSchool.dao;
 
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.CloudSchool.domain.Participationworkclass;
 
 public interface ParticipationworkclassMapper {
@@ -14,4 +18,8 @@ public interface ParticipationworkclassMapper {
     int updateByPrimaryKeySelective(Participationworkclass record);
 
     int updateByPrimaryKey(Participationworkclass record);
+    
+    int insertObjList(Map<String, Object> obj);
+    
+    int insertObj(Participationworkclass wid);
 }

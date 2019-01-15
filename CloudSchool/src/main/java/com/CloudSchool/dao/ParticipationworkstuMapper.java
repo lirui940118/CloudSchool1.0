@@ -1,5 +1,7 @@
 package com.CloudSchool.dao;
 
+import java.util.Map;
+
 import com.CloudSchool.domain.Participationworkstu;
 
 public interface ParticipationworkstuMapper {
@@ -14,4 +16,6 @@ public interface ParticipationworkstuMapper {
     int updateByPrimaryKeySelective(Participationworkstu record);
 
     int updateByPrimaryKey(Participationworkstu record);
+    
+    int insertList(Map<String, Object> map);
 }

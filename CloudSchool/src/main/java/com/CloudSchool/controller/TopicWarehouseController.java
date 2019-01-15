@@ -17,12 +17,15 @@ import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.Topic;
 import com.CloudSchool.domain.TopicWithBLOBs;
 import com.CloudSchool.domain.Topictype;
+import com.CloudSchool.domain.Workinstance;
 import com.CloudSchool.domain.Workmould;
 import com.CloudSchool.domain.zjfvo.TeacherAdminStu;
+import com.CloudSchool.domain.zjfvo.WorkPublishParam;
 import com.CloudSchool.service.ClazzcourseteacherService;
 import com.CloudSchool.service.TopicService;
 import com.CloudSchool.service.TopicTypeService;
 import com.CloudSchool.service.WorkMouldService;
+import com.CloudSchool.service.WorkinStanceService;
 import com.alibaba.fastjson.JSON;
 
 @Controller
@@ -37,6 +40,9 @@ public class TopicWarehouseController {
 	
 	@Autowired
 	ClazzcourseteacherService clazzcourseteacherService;
+	
+	@Autowired
+	WorkinStanceService workinStanceService;
 	// 添加题目
 	@RequestMapping("addTopic")
 	@ResponseBody
@@ -132,6 +138,11 @@ public class TopicWarehouseController {
 	public List<TeacherAdminStu> queryByTidAdminStuAll(Integer tid) {
 		// TODO Auto-generated method stub
 		return workMouldService.queryByTidAdminStuAll(tid);
+	}
+	@RequestMapping("WorkPublishParam")
+	@ResponseBody
+	public int publishWork(@RequestBody WorkPublishParam obj) {
+		return workinStanceService.publishWork(obj);
 	}
 	
 }
