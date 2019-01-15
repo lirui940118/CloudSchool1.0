@@ -14,7 +14,9 @@ public interface GkInterviewMapper {
 	//查询所有访谈记录行数
 	int queryAllFangTanCount(GkFangTan ft);
 	//通过访谈id查询访谈详情
-	GkInterview queryFangTanDetailsByftid(Integer ftid);
+	GkInterview queryFangTanDetailsByftid(Integer ftId);
+	//通过访谈id删除访谈
+	int deleteFangTanByftId(int[] shuzu);
 	
     int deleteByPrimaryKey(Integer ftId);
 

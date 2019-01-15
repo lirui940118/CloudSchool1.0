@@ -1,5 +1,6 @@
 package com.CloudSchool.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class GkInterview {
@@ -40,10 +41,23 @@ public class GkInterview {
     private String peoplename;
     private String objectname;
     private Integer userid;
-
+    private String startStr;
+	private String endStr;
     
-    
-    
+	public String getStartStr() {
+		return startStr;
+	}
+	public void setStartStr(String startStr) {
+		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		this.startStr = startStr;
+	}
+	public String getEndStr() {
+		return endStr;
+	}
+	public void setEndStr(String endStr) {
+		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		this.endStr = endStr;
+	}
     public String getPeoplename() {
 		return peoplename;
 	}
@@ -92,8 +106,8 @@ public class GkInterview {
         this.ftObject = ftObject;
     }
 
-    public Date getFtStarttime() {
-        return ftStarttime;
+    public String getFtStarttime() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ftStarttime);
     }
 
     public void setFtStarttime(Date ftStarttime) {
