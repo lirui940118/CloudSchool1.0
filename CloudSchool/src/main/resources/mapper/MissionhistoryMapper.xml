@@ -11,6 +11,9 @@
   <sql id="Base_Column_List">
     id, rid, tid, starttime, endtime
   </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+    select * FROM missionhistory m INNER JOIN `cqj_staff` c ON m.tid=c.staffid
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
