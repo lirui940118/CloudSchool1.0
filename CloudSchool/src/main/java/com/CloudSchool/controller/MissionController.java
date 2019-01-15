@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.CloudSchool.domain.Classroom;
 import com.CloudSchool.domain.Classtype;
+import com.CloudSchool.domain.Commission;
 import com.CloudSchool.service.ClassroomService;
 import com.CloudSchool.service.ClasstypeService;
+import com.CloudSchool.service.CommissionService;
 
 @Controller
 @RequestMapping("/mission")
@@ -20,7 +22,9 @@ public class MissionController {
 	ClassroomService cls;
 	@Autowired
 	ClasstypeService clt;
-	
+	@Autowired
+	CommissionService com;
+	String name="唐勇";
 	@RequestMapping("/queryClr")
 	public String aaa(Model model) {
 		List<Classroom> list=cls.query();
@@ -66,5 +70,11 @@ public class MissionController {
 			System.out.println("成功！");
 		}
 		return "修改成功！";
+	}
+	@RequestMapping("/toCommission")
+	public String toCommission(Model model) {
+		List<Commission> list=com.query();
+		model.addAttribute("list", list);
+		return "czw_mission/commission";
 	}
 }

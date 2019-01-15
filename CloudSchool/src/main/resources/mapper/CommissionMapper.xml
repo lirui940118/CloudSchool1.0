@@ -16,6 +16,9 @@
   <sql id="Base_Column_List">
     id, tid, describe, accessory, status, cid, user1, user2, user3, user4
   </sql>
+  <select id="query" resultMap="BaseResultMap">
+    select * from commission
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
