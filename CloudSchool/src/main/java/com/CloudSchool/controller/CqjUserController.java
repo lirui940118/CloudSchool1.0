@@ -37,7 +37,11 @@ public class CqjUserController {
 	}
 	
 	@RequestMapping("goIndex")
-	public String goIndex() {
+	public String goIndex(HttpSession session) {
+		CqjUser userinfo=(CqjUser)session.getAttribute("user");
+		if(userinfo==null) {
+			return "login";
+		}
 		return "index";
 	}
 	
@@ -55,7 +59,7 @@ public class CqjUserController {
 	@ResponseBody
 	public CqjUser getInfo(HttpSession session) {
 		CqjUser userinfo =(CqjUser)session.getAttribute("user");
-		cms.queryByRoleidandPositionid(userinfo, userinfo.getRoleid(), userinfo.getPositionid());
+		userinfo=cms.queryByUser(userinfo);
 		return userinfo;
 	}
 }

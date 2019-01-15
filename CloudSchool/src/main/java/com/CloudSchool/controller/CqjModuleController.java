@@ -23,7 +23,7 @@ public class CqjModuleController {
 	@Autowired
 	CqjMoudelService cms;
 
-	@RequestMapping("getModule")
+	@RequestMapping("getAllModule")
 	@ResponseBody
 	public List<CqjModule> getAllModule(Integer roleid) {
 		return cms.queryAllModuleByRoleid(roleid);
@@ -59,5 +59,11 @@ public class CqjModuleController {
 	@ResponseBody
 	public List<CqjModule> getaddInfoModule(){
 		return cms.queryInfoModule();
+	}
+	
+	@RequestMapping("getModuleByRoleidAndPosition")
+	@ResponseBody
+	public List<CqjModule> getModuleByRoleidAndPosition(Integer roleid,Integer positionid){
+		return cms.queryByRoleidandPositionid(roleid, positionid);
 	}
 }

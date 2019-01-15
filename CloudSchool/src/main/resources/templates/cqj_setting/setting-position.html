@@ -42,22 +42,12 @@
 	margin-bottom: 10px;
 }
 
-#hezi {
-	position: absolute;
-	left: 0;
-	top: 0;
-	background: #f2f3f8;
-	width: 100%;
-	height: 100%;
-	z-index: 9999;
-}
-
 </style>
 </head>
 
 <body>
 	<div class="main-panel">
-		<div id="hezi">
+		<div style="position: absolute;left: 0;top: 0;background: #f2f3f8;width: 100%;height: 100%;z-index: 9999;" id="hezi">
 			<div class="spinner">
 				<div class="spinner-container container1">
 					<div class="circle1"></div>
@@ -89,7 +79,7 @@
 						<div class="card">
 							<div class="card-body">
 								<p class="demo">
-									<button infoBut moduleUrl="position/insert" name="goInsertPosition" class="btn btn-success">创建职位</button>
+									<button infoBut moduleUrl="/position/insert" name="goInsertPosition" class="btn btn-success">创建职位</button>
 								</p>
 							</div>
 						</div>
@@ -113,10 +103,9 @@
 							<div class="card-header">
 								<h4 class="card-title">权限</h4>
 								<p style="float: right;" class="demo">
-									<button infoBut moduleUrl="position/update" name="baochun" class="btn btn-success">保存</button>
+									<button infoBut moduleUrl="/position/update" name="baochun" class="btn btn-success">保存</button>
 								</p>
 							</div>
-
 							<div style="height: 800px" class="card-body dtree "
 								id="dtree_div">
 								<div id="app">
@@ -163,7 +152,7 @@ var v = new Vue({
         console.log(this.trees);
     }
 });
-	var count = 0;
+	var count = 1;
 	var sumCount=2;
 	$(function() {
 		infoBut.ccc();
@@ -176,7 +165,7 @@ var v = new Vue({
 		$('[name="goInsertPosition"]')
 				.click(
 						function() {
-							window.location.href = "/user/goUrl?url=cqj_setting/setting-position_insertPosition"
+							window.location.href = "/position/insert";
 						});
 		//点击保存
 		$('[name="baochun"]')
@@ -223,7 +212,9 @@ var v = new Vue({
 				type : "post",
 				dataType : "json",
 				success : function(data) {
-					v.position=data;
+					if(data!="404"){
+						v.position=data;
+					}
 					infoBut.fadeOut();
 				}
 			})

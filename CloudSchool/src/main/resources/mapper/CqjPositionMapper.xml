@@ -42,7 +42,8 @@
       #{standby2,jdbcType=VARCHAR}, #{standby3,jdbcType=VARCHAR}, #{standby4,jdbcType=VARCHAR}, 
       #{standby5,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.CloudSchool.domain.CqjPosition">
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.CqjPosition" useGeneratedKeys="true"
+		keyProperty="positionid">
     insert into cqj_position
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="positionid != null">
