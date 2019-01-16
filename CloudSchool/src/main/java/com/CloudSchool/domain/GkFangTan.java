@@ -10,18 +10,29 @@ public class GkFangTan {
 	private String endStr;
 	private Integer currentPage;//当前页
 	private Integer pageSize;	//每页显示行数
+	private String ftstartStr;
+	
+	
+	
+	public String getFtstartStr() {
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ftstartStr);
+	}
+	public void setFtstartStr(String ftstartStr) {
+//		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		this.ftstartStr = ftstartStr;
+	}
 	public String getStartStr() {
-		return startStr;
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startStr);
 	}
 	public void setStartStr(String startStr) {
-		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+//		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
 		this.startStr = startStr;
 	}
 	public String getEndStr() {
-		return endStr;
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endStr);
 	}
 	public void setEndStr(String endStr) {
-		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		//SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
 		this.endStr = endStr;
 	}
 	public String getPeoplename() {
@@ -59,7 +70,7 @@ public class GkFangTan {
 	public GkFangTan() {
 		// TODO Auto-generated constructor stub
 		this.currentPage=1;
-		this.pageSize=3;
+		this.pageSize=1;
 	}
 
 	

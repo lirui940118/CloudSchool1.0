@@ -3,6 +3,8 @@ package com.CloudSchool.controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,8 +60,6 @@ public class GkController {
 	@RequestMapping("queryAllFangTan")
 	@ResponseBody
 	public GkPageBean<GkInterview> queryAllFangTan(GkFangTan ft){
-		System.out.println(ft.getStartStr());
-		System.out.println(ft.getEndStr());
 		return gkFangTanService.queryAllFangTan(ft);
 	}
 	//去访谈页面
@@ -76,7 +76,15 @@ public class GkController {
 	//通过访谈id删除访谈
 	@RequestMapping("deleteFangTanByftId")
 	@ResponseBody
-	public int deleteFangTanByftId(int[] shuzu) {
+	public int deleteFangTanByftId(int[] shuzu,HttpSession session) {
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		user.getClazzidsList();
 		return gkFangTanService.deleteFangTanByftId(shuzu);
+	}
+	//去新增访谈
+	@RequestMapping("toNew_interview")
+	public String toNew_interview(Model model,HttpSession session) {
+		
+		return "gk/New_interview";
 	}
 }

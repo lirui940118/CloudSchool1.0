@@ -33,6 +33,7 @@ public class GkFangTanServiceImpl implements GkFangTanService{
 	@Override
 	public GkInterview queryFangTanDetailsByftid(Integer ftid) {
 		// TODO Auto-generated method stub
+		
 		return gkInterviewMapper.queryFangTanDetailsByftid(ftid);
 	}
 	@Override

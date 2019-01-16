@@ -23,7 +23,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		String requestURI=request.getRequestURI();  
+		/*String requestURI=request.getRequestURI();  
 		System.out.println("requestURI:"+requestURI+"<br>");  
 		HttpSession session = request.getSession();
 		CqjUser user=(CqjUser)session.getAttribute("user");
@@ -43,7 +43,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		if(!isE) {
 			response.getWriter().println("404");
 			return false;
-		}
+		}*/
 		return true;
 	}
 }
