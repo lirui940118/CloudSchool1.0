@@ -219,13 +219,13 @@
 		SELECT cm.* FROM cqj_role cr
 		INNER JOIN cqj_role_module crm ON crm.`roleid`=cr.`roleid` AND
 		cr.`roleid`=#{roleid} AND cr.`status`=0 AND crm.`status`=0
-		LEFT JOIN cqj_module cm ON cm.`moduleid`=crm.`moduleid` AND
+		INNER JOIN cqj_module cm ON cm.`moduleid`=crm.`moduleid` AND
 		cm.`leftmenu`!=2 and cm.`status`=0
 		UNION ALL
 		SELECT cm.* FROM `cqj_position` cp
 		INNER JOIN cqj_position_module cpm ON cpm.`positionid`=cp.`positionid` AND
 		cp.`positionid`=#{positionid} AND cp.`status`=0 AND cpm.`status`=0
-		LEFT JOIN cqj_module cm ON cm.`moduleid`=cpm.`moduleid` AND
+		INNER JOIN cqj_module cm ON cm.`moduleid`=cpm.`moduleid` AND
 		cm.`leftmenu`=2 and cm.`status`=0
 	</select>
 	<select id="queryAllModuleByRoleid" resultMap="BaseResultMap">
