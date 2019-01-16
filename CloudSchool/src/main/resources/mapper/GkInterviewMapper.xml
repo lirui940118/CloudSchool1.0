@@ -20,6 +20,10 @@
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
+  <!-- 新增访谈 -->
+  <insert id="insertFangTan">
+  	
+  </insert>
   <!-- 删除访谈信息 -->
   <delete id="deleteFangTanByftId" parameterType="java.lang.Integer">
   	UPDATE `gk_interview` SET `status`=-9
@@ -34,7 +38,7 @@
   <select id="queryAllFangTan" resultMap="BaseResultMap" >
   	SELECT * FROM ftinfo
   	<where>
-  		status=0
+  		status=0 and by1 = 1
   		<if test="peoplename">
   			AND peoplename LIKE concat('%',#{peoplename},'%')
   		</if>
@@ -57,7 +61,7 @@
   <select id="queryAllFangTanCount" resultType="int">
   	SELECT COUNT(*) FROM `ftinfo`
   	<where>
-  	 	status=0
+  	 	status=0 and by1 = 1
 	<if test="peoplename">
 		AND peoplename LIKE concat('%',#{peoplename},'%')
 	</if>

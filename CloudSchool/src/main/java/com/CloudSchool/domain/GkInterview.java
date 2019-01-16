@@ -38,24 +38,33 @@ public class GkInterview {
 
     private String by5;
     
+    private String ftstartStr;
+    
     private String peoplename;
     private String objectname;
     private Integer userid;
     private String startStr;
 	private String endStr;
     
+	
+	
+	public String getFtstartStr() {
+		
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ftstartStr);
+	}
+	public void setFtstartStr(String ftstartStr) {
+		this.ftstartStr = ftstartStr;
+	}
 	public String getStartStr() {
-		return startStr;
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startStr);
 	}
 	public void setStartStr(String startStr) {
-		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
 		this.startStr = startStr;
 	}
 	public String getEndStr() {
-		return endStr;
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endStr);
 	}
 	public void setEndStr(String endStr) {
-		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
 		this.endStr = endStr;
 	}
     public String getPeoplename() {
