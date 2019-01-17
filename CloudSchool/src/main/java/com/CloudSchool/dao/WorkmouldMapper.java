@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.CloudSchool.domain.Workinstance;
 import com.CloudSchool.domain.Workmould;
 import com.CloudSchool.domain.zjfvo.TeacherAdminStu;
 
@@ -22,7 +23,7 @@ public interface WorkmouldMapper {
     
     Integer[] queryWorkMouldType(Workmould obj);
     
-    List<Workmould> queryByTidMould(@Param("tid")Integer tid,@Param("cur")Integer cur,@Param("pagesize")Integer pagesize);
+    List<Workmould> queryByTidMould(@Param("tid")Integer tid,@Param("cur")Integer cur,@Param("pageSize")Integer pagesize);
     
     int queryByTidMouldCount(Integer tid);
     
@@ -30,4 +31,9 @@ public interface WorkmouldMapper {
     List<TeacherAdminStu> queryByTidAdminStuAll(Integer tid);
     
     int updateCountByid(Integer id);
+    
+    //根据作业id查询作业详情 
+    Workinstance queryWorkInfoById(@Param("id")Integer id);
+    //根据作业id查询作业count()
+    int queryWorkInfoByIdCount(Integer id);
 }

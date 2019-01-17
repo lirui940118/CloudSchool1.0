@@ -44,7 +44,7 @@
 						</div>
 						<div class="card-body">
 							<div class="row status">
-								<button class="btn btn-primary btn-lg col-md-2" data-status="">全部</button>	
+								<button class="btn btn-primary btn-lg col-md-2" data-status="4">全部</button>	
 								<button class="btn btn-primary btn-lg col-md-2"  data-status="0">未开始</button>
 								<button class="btn btn-primary btn-lg col-md-2"  data-status="1">未结束</button>
 								<button class="btn btn-primary btn-lg col-md-2" data-status="2">待批改</button>
@@ -56,7 +56,7 @@
 						<div class="card-header">
 							<h4 class="card-title">我布置的作业</h4>
 						</div>
-						<div class="card-body">
+						<div class="card-body workShow">
 							<div class="row">
 								<div class="col-md-12 inputbox">
 									<div class="form-group col-md-4">
@@ -71,7 +71,7 @@
 									</div>
 									<div class="form-group has-success col-md-4">
 										<label for="successInput">作业名称</label>
-										<input type="text" id="successInput" class="form-control">
+										<input type="text"  class="form-control" v-model="changValue">
 									</div>
 									</div>
 									
@@ -90,7 +90,7 @@
 												<th scope="col" style="text-align: center;">操作</th>
 											</tr>
 										</thead>
-										<tbody class="workShow">
+										<tbody>
 											<tr  v-for="(obj,index) in obj.list">
 												<td>{{obj.name}}</td>
 												<td>{{obj.startTime}}</td>
@@ -140,7 +140,7 @@
 									<p class="demo">
 										<ul class="pagination pg-primary">
 											<li class="page-item">
-												<a class="page-link" href="#" aria-label="Previous">
+												<a class="page-link" href="javascript:void(0)" id="previousPage"   aria-label="Previous">
 													<span aria-hidden="true">&laquo;</span>
 													<span class="sr-only">Previous</span>
 												</a>
@@ -155,7 +155,7 @@
 									 				<a class="page-link" href="#">3</a>
 											</li>
 											<li class="page-item">
-												<a class="page-link" href="#" aria-label="Next">
+												<a class="page-link" href="javascript:void(0)" id="nextPage"  aria-label="Next">
 													<span aria-hidden="true">&raquo;</span>
 													<span class="sr-only">Next</span>
 												</a>
@@ -179,6 +179,11 @@
 		el:".workShow",
 		data:{
 			obj:{}
+		},
+		watch:{
+			changValue:function(){
+				console.log(123)
+			}
 		}
 	})
 	/* 我布置的作业 */
@@ -188,6 +193,24 @@
 			url:"http://127.0.0.1:8080/WorkCorrection/queryPublishWorkByTid",
 			data:{tid:obj.tid,wStatus:obj.wStatus,cur:obj.cur},
 			success:function(data){
+				console.log(JSON.stringify(data))
+				if(data.list.length>0 && obj.wStatus!=4){
+					$("#previousPage").attr("data-status",data.list[0].wStatus)	//状态
+					$("#nextPage").attr("data-status",data.list[0].wStatus)//状态
+				}else{
+					/* 没有下一页时候*/
+					$("#previousPage").attr("data-status",-1)	//状态
+					$("#nextPage").attr("data-status",-1)		//状态
+				}
+				/* 查询全部 */
+				if(obj.wStatus==4){
+					$("#previousPage").attr("data-status",4)	//状态
+					$("#nextPage").attr("data-status",4)		//状态
+				}
+				$("#previousPage").attr("data-pre",data.prePage)	//页码
+				
+				$("#nextPage").attr("data-next",data.nextPage)	//页码
+				
 				v.obj=data;
 			}
 		})
@@ -195,16 +218,36 @@
 	$(function(){
 		var obj={}
 		obj.tid=1		//暂时死值
-		obj.wStatus=0
+		obj.wStatus=4
 		obj.cur=1
 		/* 我布置的作业 */
 		pageing(obj)
 		$("body").on("click",".status button",function(){
 			var object={}
-			object.tid=1
-			object.wStatus=$(this).attr("data-status")
+			object.tid=1	//暂时死值  教员id
+			object.wStatus=$(this).attr("data-status")		//状态
 			object.cur=1
 			pageing(object)
 		})
+		/*上一页*/
+		$("body").on("click","#previousPage",function(){
+			var object={}
+			object.cur=$(this).attr("data-pre")
+			object.tid=1;
+			object.wStatus=$(this).attr("data-status")
+			console.log($(this).attr("data-status"))
+			pageing(object)
+		})
+		/*下一页  */
+		$("body").on("click","#nextPage",function(){
+			var object={}
+			object.tid=1;
+			object.cur=$(this).attr("data-next")
+			object.wStatus=$(this).attr("data-status")
+			console.log($(this).attr("data-status"))
+			pageing(object)
+		})
+		
+		
 	})
 </script>

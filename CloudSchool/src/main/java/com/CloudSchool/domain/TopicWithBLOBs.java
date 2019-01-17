@@ -12,6 +12,26 @@ public class TopicWithBLOBs extends Topic {
     private String analysis;
     private List<Topicoption> list;
     private Topictype topicType;
+    
+    private List<Topicoption> topicoptionList;
+	public List<Topicoption> getTopicoptionList() {
+		return topicoptionList;
+	}
+	/*作业中题目编号*/
+	private Integer workid;
+	
+	public Integer getWorkid() {
+		return workid;
+	}
+
+	public void setWorkid(Integer workid) {
+		this.workid = workid+1;
+	}
+
+	public void setTopicoptionList(List<Topicoption> topicoptionList) {
+		this.topicoptionList = topicoptionList;
+	}
+
 	public Topictype getTopicType() {
 		return topicType;
 	}

@@ -151,9 +151,9 @@
   </update>
   <insert id="insertListByMap">
   	insert into workInfo(id, wId, tId, 
-      time) values
-      <foreach collection="ids" separator="," item="obj">
-      	(0,#{wid},#{obj},now())
+      time,user1) values
+      <foreach collection="ids" separator="," item="obj" index="i">
+      	(0,#{wid},#{obj},now(),#{i})
       </foreach>
   </insert>
 </mapper>

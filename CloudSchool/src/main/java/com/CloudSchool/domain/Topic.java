@@ -1,6 +1,7 @@
 package com.CloudSchool.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Topic {
     private Integer id;
@@ -32,8 +33,12 @@ public class Topic {
     private String user4;
 
     private String user5;
+   
 
-    public Integer getId() {
+ 
+
+
+	public Integer getId() {
         return id;
     }
 
