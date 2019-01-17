@@ -2,6 +2,7 @@ package com.CloudSchool.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -16,7 +17,7 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
 
 	@Override
 	protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+		registry.addResourceHandler("/static/**","/baidueditor/**").addResourceLocations("classpath:/static/","file:e:\\img\\");
 		super.addResourceHandlers(registry);
 	}
 
@@ -24,5 +25,10 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginInterceptor).addPathPatterns("/**").excludePathPatterns("/static/**",
 				"/user/login", "/user/goLogin","/user/goIndex","/user/goHome","/user/getInfo","/error","/module/getInfoModule");
+	}
+	@Override
+	protected void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**").allowedOrigins("*").allowedMethods("*").allowCredentials(true);
+		super.addCorsMappings(registry);
 	}
 }
