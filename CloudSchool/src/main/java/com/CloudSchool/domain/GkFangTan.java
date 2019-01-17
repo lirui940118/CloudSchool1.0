@@ -18,7 +18,7 @@ public class GkFangTan {
 		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ftstartStr);
 	}
 	public void setFtstartStr(String ftstartStr) {
-//		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
 		this.ftstartStr = ftstartStr;
 	}
 	public String getStartStr() {

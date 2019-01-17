@@ -75,6 +75,9 @@ public class GkKaoqin {
 	private Date endtime;		//结束时间
 	private Integer currentPage;//当前页
 	private Integer pageSize;	//每页显示行数
+	
+	
+	
 	public String getStartStr() {
 		return startStr;
 	}
@@ -82,7 +85,7 @@ public class GkKaoqin {
 		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
 		this.startStr = startStr;
 		try {
-			this.endtime=simpleDateFormat.parse(startStr);
+			this.starttime=simpleDateFormat.parse(startStr);
 		} catch (Exception e) {
 			// TODO: handle exception
 			this.startStr=null;

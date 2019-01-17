@@ -27,6 +27,7 @@
 
 	<body>
 		<div class="main-panel">
+		<!-- 遮掩层 -->
 		<div style="position: absolute;left: 0;top: 0;background: #f2f3f8;width: 100%;height: 100%;z-index: 9999;" id="hezi">
 			<div class="spinner">
 				<div class="spinner-container container1">
@@ -48,7 +49,11 @@
 					<div class="circle4"></div>
 				</div>
 			</div>
-		</div>
+		</div> 
+		
+		
+		
+		
 			<div class="content">
 				<div class="container-fluid">
 					<h4 class="page-title">查询访谈记录</h4>
@@ -129,7 +134,7 @@
 											<tr v-for="item in page.list">
 												<td name="访谈人"><span>{{item.peoplename}}</span></td>
 												<td name="访谈对象"><span>{{item.objectname}}</span></td>
-												<td name="访谈时间"><span>{{item.ftstartStr}}</span></td>
+												<td name="访谈时间"><span>{{item.ftStarttime}}</span></td>
 												<td name="访谈时长"><span>{{item.ftTime}}</span></td>
 												<td name="问题"><span>{{item.ftProblem}}</span></td>
 												<td name="查看详情"  infoBut moduleUrl="/queryFangTanDetailsByftid"  v-on:click="xiangqin(item.ftId)"  data-toggle="modal" data-target=".bs-example-modal-lg">查看详情</td>
@@ -364,14 +369,13 @@
 		  });
 		/* 查询所有访谈 */
 		function queryAllFangTan(currentPage,peoplename,objectname,startStr,endStr){			
-			alert("startStr:"+startStr);
-			alert("endStr:"+endStr);
 			var ft={};
 			ft.currentPage=currentPage;
 			ft.peoplename=peoplename;
 			ft.objectname=objectname;
 			ft.startStr=startStr;
 			ft.endStr=endStr;
+			console.log(ft);
 			$.ajax({
 				  url:"queryAllFangTan",
 				  type:"post",

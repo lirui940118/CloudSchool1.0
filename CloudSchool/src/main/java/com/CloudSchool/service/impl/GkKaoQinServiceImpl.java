@@ -22,7 +22,8 @@ public class GkKaoQinServiceImpl implements GkKaoQinService{
 	@Override
 	public GkPageBean<GkKaoqin> queryAllKaoQinYuanGong(GkKaoqin kq) {
 		// TODO Auto-generated method stub
-		
+		System.out.println(kq.getStartStr());
+		System.out.println(kq.getEndStr());
 		GkKaoqin kq2 = new GkKaoqin();
 		kq2.setCurrentPage((kq.getCurrentPage()-1)*kq.getPageSize());//下标
 		kq2.setPositionname(kq.getPositionname());
