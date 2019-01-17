@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.service.CqjMoudelService;
 import com.CloudSchool.service.CqjUserService;
+import com.CloudSchool.timer.DynamicTaskJobs;
+import com.CloudSchool.timer.ExamTaskJob;
 
 @Controller
 @RequestMapping("user")
@@ -18,12 +20,20 @@ public class CqjUserController {
 	CqjUserService cus;
 	@Autowired
 	CqjMoudelService cms;
+	@Autowired
+	DynamicTaskJobs dynamicTaskJobs;
+	@Autowired
+	ExamTaskJob examTaskJob;
 	
 	@RequestMapping("/login")
 	public String login(String username,String password,HttpSession session) {
 		CqjUser userinfo=cus.login(username, password);
 		if(userinfo!=null) {
 			System.out.println("登录成功");
+			examTaskJob.setI(20);
+			examTaskJob.setB("你好");
+			//dynamicTaskJobs.addTaskTimerJob(examTaskJob, "*/5 * * * * *");
+			//dynamicTaskJobs.addTaskJob(examTaskJob,"2019-01-17 08:49:10");
 			session.setAttribute("user", userinfo);
 		}else {
 			System.out.println("登录失败");
