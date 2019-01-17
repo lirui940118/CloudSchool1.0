@@ -19,48 +19,85 @@
   
   <!-- 查询所有员工考勤 -->
   <select id="queryAllKaoQinYuanGong" resultMap="BaseResultMap">
-	  SELECT * FROM `yuangongkaoqin`
-	  <where>
-	  	status=0
-  		<if test="positionname">
-  			AND positionname LIKE concat('%',#{positionname},'%')
-  		</if>
-  		<if test="staffname">
-  		 	AND staffname LIKE concat('%',#{staffname},'%')
-  		</if>
-		<if test="starttime and endtime">
-			AND creationtime BETWEEN  #{startStr} AND #{endStr}
+	  SELECT zw.`positionname`,yg.`staffname`,u.*, kq.*
+	FROM `cqj_user` AS u
+	JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	JOIN `cqj_position` AS zw ON (zw.`positionid` = yg.`positionid`)
+	RIGHT JOIN 
+	(
+	SELECT uid, SUM(IF(kq_state_id=1, 1, 0)) yi,
+	SUM(IF(kq_state_id=2, 1, 0)) er, 
+	SUM(IF(kq_state_id=3, 1, 0)) san, 
+	SUM(IF(kq_state_id=4, 1, 0)) si, 
+	SUM(IF(kq_state_id=5, 1, 0)) wu
+	FROM `gk_kaoqin` AS kq 
+		<if test="startStr==null and endStr==null">
+			GROUP BY kq.uid
 		</if>
-		<if test="starttime and endtime==null">
-			AND creationtime BETWEEN  #{startStr} AND NOW()
+	<where>
+		<if test="startStr!=null and endStr!=null">
+			AND kq_time BETWEEN  #{startStr} AND #{endStr} GROUP BY kq.uid
 		</if>
-		<if test="starttime==null and endtime">
-			AND creationtime &lt;= #{endStr}
+		<if test="startStr!=null and endStr==null">
+			AND kq_time BETWEEN  #{startStr} AND NOW() GROUP BY kq.uid
 		</if>
-		</where>
+		<if test="startStr==null and endStr!=null">
+			AND kq_time &lt;= #{endStr} GROUP BY kq.uid
+		</if>
+	</where>
+	) kq ON (u.userid = kq.uid) 
+	<where>
+		<if test="positionname!=null">
+			AND zw.`positionname` LIKE concat('%',#{positionname},'%')
+		</if>
+		<if test="staffname!=null">
+			AND yg.`staffname` LIKE concat('%',#{staffname},'%')
+		</if>
+	</where>
 	LIMIT #{currentPage},#{pageSize}
   </select>
+  
+  
+  
+  
+  
   <!-- 查询所有员工考勤行数 -->
   <select id="queryAllKaoQinYuanGongCount" resultType="int">
-  	SELECT COUNT(*) FROM `yuangongkaoqin`
-	  <where>
-	  	status=0
-  		<if test="positionname">
-  			AND positionname LIKE concat('%',#{positionname},'%')
-  		</if>
-  		<if test="staffname">
-  		 	AND staffname LIKE concat('%',#{staffname},'%')
-  		</if>
-		<if test="starttime and endtime">
-			AND creationtime BETWEEN  #{startStr} AND #{endStr}
+  	SELECT COUNT(*)
+	FROM `cqj_user` AS u
+	JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	JOIN `cqj_position` AS zw ON (zw.`positionid` = yg.`positionid`)
+	RIGHT JOIN 
+	(
+	SELECT uid, SUM(IF(kq_state_id=1, 1, 0)) yi,
+	SUM(IF(kq_state_id=2, 1, 0)) er, 
+	SUM(IF(kq_state_id=3, 1, 0)) san, 
+	SUM(IF(kq_state_id=4, 1, 0)) si, 
+	SUM(IF(kq_state_id=5, 1, 0)) wu
+	FROM `gk_kaoqin` AS kq 
+		<if test="startStr==null and endStr==null">
+			GROUP BY kq.uid
 		</if>
-		<if test="starttime and endtime==null">
-			AND creationtime BETWEEN  #{startStr} AND NOW()
+	<where>
+		<if test="startStr!=null and endStr!=null">
+			AND kq_time BETWEEN  #{startStr} AND #{endStr} GROUP BY kq.uid
 		</if>
-		<if test="starttime==null and endtime">
-			AND creationtime &lt;= #{endStr}
+		<if test="startStr!=null and endStr==null">
+			AND kq_time BETWEEN  #{startStr} AND NOW() GROUP BY kq.uid
 		</if>
-		</where>
+		<if test="startStr==null and endStr!=null">
+			AND kq_time &lt;= #{endStr} GROUP BY kq.uid
+		</if>
+	</where>
+	) kq ON (u.userid = kq.uid) 
+	<where>
+		<if test="positionname!=null">
+			AND zw.`positionname` LIKE concat('%',#{positionname},'%')
+		</if>
+		<if test="staffname!=null">
+			AND yg.`staffname` LIKE concat('%',#{staffname},'%')
+		</if>
+	</where>
   </select>
   
   

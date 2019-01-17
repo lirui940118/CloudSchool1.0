@@ -10,9 +10,11 @@ import com.CloudSchool.domain.GkPageBean;
 
 public interface GkFangTanService {
 	//查询所有访谈
-	GkPageBean<GkInterview> queryAllFangTan(GkFangTan ft);
+	GkPageBean<GkInterview> queryAllFangTan(GkInterview ft);
 	//同过访谈id查询访谈详情
 	GkInterview queryFangTanDetailsByftid(Integer ftid);
 	//通过访谈id删除访谈
 	int deleteFangTanByftId(int[] shuzu);
+	//新增访谈
+	int insertFangTan(GkInterview ft);
 }

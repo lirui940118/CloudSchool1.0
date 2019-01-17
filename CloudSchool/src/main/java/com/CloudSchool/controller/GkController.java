@@ -47,7 +47,6 @@ public class GkController {
 	@RequestMapping("queryAllKaoQinYuanGong")
 	@ResponseBody
 	public GkPageBean<GkKaoqin> queryAllKaoQinYuanGong(GkKaoqin kq){
-		
 		return gkKaoQinService.queryAllKaoQinYuanGong(kq);
 	}
 	
@@ -59,8 +58,15 @@ public class GkController {
 	//查询所有访谈
 	@RequestMapping("queryAllFangTan")
 	@ResponseBody
-	public GkPageBean<GkInterview> queryAllFangTan(GkFangTan ft){
-		return gkFangTanService.queryAllFangTan(ft);
+	public GkPageBean<GkInterview> queryAllFangTan(GkInterview ft){
+		GkPageBean<GkInterview> zz=null;
+		try {
+			zz=gkFangTanService.queryAllFangTan(ft);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+		return zz;
 	}
 	//去访谈页面
 	@RequestMapping("toInterview")
@@ -77,14 +83,13 @@ public class GkController {
 	@RequestMapping("deleteFangTanByftId")
 	@ResponseBody
 	public int deleteFangTanByftId(int[] shuzu,HttpSession session) {
-		CqjUser user=(CqjUser)session.getAttribute("user");
-		user.getClazzidsList();
 		return gkFangTanService.deleteFangTanByftId(shuzu);
 	}
 	//去新增访谈
 	@RequestMapping("toNew_interview")
 	public String toNew_interview(Model model,HttpSession session) {
-		
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		System.out.println(user.getClazzidsList());
 		return "gk/New_interview";
 	}
 }

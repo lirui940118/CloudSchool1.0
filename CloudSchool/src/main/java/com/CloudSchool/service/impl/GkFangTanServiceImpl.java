@@ -17,15 +17,15 @@ public class GkFangTanServiceImpl implements GkFangTanService{
 	@Autowired
 	GkInterviewMapper gkInterviewMapper;
 	//查询所有访谈
-	public GkPageBean<GkInterview> queryAllFangTan(GkFangTan ft) {
-		GkFangTan ft2 = new GkFangTan();
+	public GkPageBean<GkInterview> queryAllFangTan(GkInterview ft) {
+		GkInterview ft2 = new GkInterview();
 		ft2.setCurrentPage((ft.getCurrentPage()-1)*ft.getPageSize());//下标
 		ft2.setObjectname(ft.getObjectname());
 		ft2.setPageSize(ft.getPageSize());
 		ft2.setPeoplename(ft.getPeoplename());
 		ft2.setStartStr(ft.getStartStr());
 		ft2.setEndStr(ft.getEndStr());
-		List<GkInterview> list = gkInterviewMapper.queryAllFangTan(ft2);
+		List<GkInterview> list = gkInterviewMapper.queryAllFangTan(ft);
 		int totalSize = (int)gkInterviewMapper.queryAllFangTanCount(ft2);
 		GkPageBean<GkInterview> page = new GkPageBean<GkInterview>(ft.getCurrentPage(), ft.getPageSize(), totalSize, list);
 		return page;
@@ -40,5 +40,10 @@ public class GkFangTanServiceImpl implements GkFangTanService{
 	public int deleteFangTanByftId(int[] shuzu) {
 		// TODO Auto-generated method stub
 		return gkInterviewMapper.deleteFangTanByftId(shuzu);
+	}
+	@Override
+	public int insertFangTan(GkInterview ft) {
+		// TODO Auto-generated method stub
+		return gkInterviewMapper.insertFangTan(ft);
 	}
 }

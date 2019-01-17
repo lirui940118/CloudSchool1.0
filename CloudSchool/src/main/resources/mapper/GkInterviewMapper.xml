@@ -21,8 +21,9 @@
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
   <!-- 新增访谈 -->
-  <insert id="insertFangTan">
-  	
+  <insert id="insertFangTan"  parameterType="com.CloudSchool.domain.GkInterview">
+  	INSERT INTO `gk_interview`(`ft_people`,`ft_object`,`ft_starttime`,`ft_time`,`ft_problem`,`people_proposal`,`creation_time`,`update_time`)
+	VALUES(#{ftPeople},#{ftObject},#{ftStarttime},#{ftTime},#{ftProblem},#{peopleProposal},NOW(),NOW())
   </insert>
   <!-- 删除访谈信息 -->
   <delete id="deleteFangTanByftId" parameterType="java.lang.Integer">

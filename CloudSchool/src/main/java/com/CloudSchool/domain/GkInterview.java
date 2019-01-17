@@ -45,27 +45,72 @@ public class GkInterview {
     private Integer userid;
     private String startStr;
 	private String endStr;
+	private Integer currentPage;//当前页
+	private Integer pageSize;	//每页显示行数
+	private Date starttime;		//开始时间
+	private Date endtime;		//结束时间
     
 	
-	
+	public Date getStarttime() {
+		return starttime;
+	}
+	public void setStarttime(Date starttime) {
+		this.starttime = starttime;
+	}
+	public Date getEndtime() {
+		return endtime;
+	}
+	public void setEndtime(Date endtime) {
+		this.endtime = endtime;
+	}
+	public GkInterview() {
+		// TODO Auto-generated constructor stub
+		this.currentPage=1;
+		this.pageSize=1;
+	}
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
+	}
+	public Integer getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
 	public String getFtstartStr() {
-		
-		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ftstartStr);
+		return ftstartStr;
 	}
 	public void setFtstartStr(String ftstartStr) {
 		this.ftstartStr = ftstartStr;
 	}
 	public String getStartStr() {
-		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startStr);
+		return startStr;
 	}
 	public void setStartStr(String startStr) {
+		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
 		this.startStr = startStr;
+		try {
+			this.starttime=simpleDateFormat.parse(startStr);
+		} catch (Exception e) {
+			// TODO: handle exception
+			this.startStr=null;
+		}
 	}
 	public String getEndStr() {
-		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endStr);
+		return endStr;
 	}
 	public void setEndStr(String endStr) {
+		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
 		this.endStr = endStr;
+		try {
+			this.endtime=simpleDateFormat.parse(endStr);
+		} catch (Exception e) {
+			// TODO: handle exception
+			this.endStr=null;
+		}
 	}
     public String getPeoplename() {
 		return peoplename;
