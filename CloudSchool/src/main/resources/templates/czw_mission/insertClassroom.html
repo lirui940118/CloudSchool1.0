@@ -8,8 +8,19 @@
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
 		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<link rel="stylesheet" th:href="@{/static/css/load.css}">
 	</head>
-
+	<style>
+		#hezi {
+			position: absolute;
+			left: 0;
+			top: 0;
+			background: #f2f3f8;
+			width: 100%;
+			height: 100%;
+			z-index: 9999;
+		}
+	</style>
 	<body>
 		<div class="main-panel">
 			<div class="content">
@@ -51,21 +62,25 @@
 			</div>
 		</div>
 	</body>
-<script src="static/js/core/jquery.3.2.1.min.js"></script>
-<script src="static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<script src="static/js/core/popper.min.js"></script>
-<script src="static/js/core/bootstrap.min.js"></script>
-<script src="static/js/plugin/chartist/chartist.min.js"></script>
-<script src="static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
-<script src="static/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-<script src="static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-<script src="static/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
-<script src="static/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
-<script src="static/js/plugin/chart-circle/circles.min.js"></script>
-<script src="static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-<script src="static/js/ready.min.js"></script>
+<script th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+<script th:src="@{/static/js/core/popper.min.js}"></script>
+<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+<script th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+<script th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+<script th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+<script th:src="@{/static/js/ready.min.js}"></script>
+<script th:src="@{/static/js/cqj_infoBut.js}"></script>
 <script type="text/javascript">
+var count = 0;
+var sumCount=1;
 	$(function(){
+		infoBut.ccc();
         $(".btn").click(function(){
         	var objS = document.getElementById("largeSelect");
             var type = objS.options[objS.selectedIndex].value;

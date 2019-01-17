@@ -4,16 +4,26 @@
   <resultMap id="BaseResultMap" type="com.CloudSchool.domain.Missionhistory">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="rid" jdbcType="INTEGER" property="rid" />
+    <result column="mid" jdbcType="INTEGER" property="mid" />
     <result column="tid" jdbcType="INTEGER" property="tid" />
+    <result column="user1" jdbcType="VARCHAR" property="user1" />
+    <result column="user2" jdbcType="VARCHAR" property="user2" />
+    <result column="user3" jdbcType="VARCHAR" property="user3" />
     <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
     <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
   </resultMap>
   <sql id="Base_Column_List">
     id, rid, tid, starttime, endtime
   </sql>
-  <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap">
-    select * FROM missionhistory m INNER JOIN `cqj_staff` c ON m.tid=c.staffid
-  </select> -->
+  <select id="query" resultMap="BaseResultMap">
+    SELECT s.`mname` AS `user2`,c.staffname AS user3,s.starttime AS starttime,s.endtime AS endtime,stu.studentname AS user1 FROM missionhistory m INNER JOIN `cqj_staff` c
+	ON m.tid=c.staffid
+	INNER JOIN `studentmission` s
+	ON m.rid=s.id
+	INNER JOIN cqj_student stu
+	ON s.pid=stu.studentid
+	WHERE c.staffid=#{tid}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -2,6 +2,8 @@ package com.CloudSchool.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.CloudSchool.domain.Classroom;
 import com.CloudSchool.domain.Classtype;
 import com.CloudSchool.domain.Commission;
+import com.CloudSchool.domain.CqjUser;
+import com.CloudSchool.domain.Missionhistory;
 import com.CloudSchool.service.ClassroomService;
 import com.CloudSchool.service.ClasstypeService;
 import com.CloudSchool.service.CommissionService;
+import com.CloudSchool.service.MissionHistoryService;
 
 @Controller
 @RequestMapping("/mission")
@@ -24,7 +29,19 @@ public class MissionController {
 	ClasstypeService clt;
 	@Autowired
 	CommissionService com;
-	String name="唐勇";
+	@Autowired
+	MissionHistoryService miss;
+
+	@RequestMapping("/queryMissionhistory")
+	public String queryMissionhistory(Model model,HttpSession session) {
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		user.getUsertypeid();
+		user.getPositionid();
+		Integer rid=3;
+		List<Missionhistory> list=miss.query(rid);
+		model.addAttribute("list", list);
+		return "czw_mission/missionhistory";
+	}
 	@RequestMapping("/queryClr")
 	public String aaa(Model model) {
 		List<Classroom> list=cls.query();
