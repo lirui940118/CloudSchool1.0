@@ -8,17 +8,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.CloudSchool.dao.WorkmouldMapper;
 import com.CloudSchool.domain.PageBean;
+import com.CloudSchool.domain.Workinstance;
 import com.CloudSchool.domain.Workmould;
 import com.CloudSchool.domain.zjfvo.TeacherAdminStu;
 import com.CloudSchool.service.WorkMouldService;
+import com.alibaba.fastjson.JSON;
 @Service
 @Transactional
 public class WorkMouldServiceImpl implements WorkMouldService{
 	
 	@Autowired
 	WorkmouldMapper workmouldMapper;
-	
-	
+
 	//根据教员ID查询作业模板
 	@Override
 	public PageBean queryByTidMould(Integer tid,Integer cur,Integer pagesize) {
@@ -33,6 +34,12 @@ public class WorkMouldServiceImpl implements WorkMouldService{
 	public List<TeacherAdminStu> queryByTidAdminStuAll(Integer tid) {
 		// TODO Auto-generated method stub
 		return workmouldMapper.queryByTidAdminStuAll(tid);
+	}
+
+	 //根据作业id查询作业详情
+	@Override
+	public Workinstance queryWorkInfoById(Integer id) {
+		return workmouldMapper.queryWorkInfoById(id);
 	}
 
 }

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>事例</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../static/css/ready.css">
+		<style>
+			.workmodelhead{
+				/*margin-left: 50px;*/
+				display: flex;
+				justify-content: space-around;
+			}
+			.workcontent{
+				margin: 20px auto;
+				border: 1px solid #D0B9A0;
+				width: 80%;
+			}
+			.topic{
+				border: 1px solid beige;
+				width: 95%;
+				margin: 10px auto;
+				padding: 12px;
+			}
+			.analysis{
+				width: 95%;
+				margin: 20px auto;
+				padding: 12px;
+			}
+			.topicresult{
+				width: 95%;
+				margin: 5px auto;
+				padding: 12px;
+			}
+			.topicoption{
+				display: flex;
+				justify-content: inherit;
+			}
+			.option{
+				padding: 12px;
+				width: 25%;
+				margin-left: 5px;
+			}
+			
+			/*尾部分页 详情*/
+			#foot{
+				display: flex;
+				justify-content: space-around;
+			}
+			#testscore{
+				float: left;
+			}
+			#testscore button{
+				float: left;
+			}
+			#testscore button:nth-child(2){
+				margin-left: 10px;
+			}
+			
+			/*----------------*/
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title">作业模板</h4>
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">作业</h4>
+						</div>
+						<div class="card-body">
+							<div class="workmodelhead">
+								<div>作业名称：<span>{{workmould.name}}</span></div>
+								<div class="uptime">发布时间：<span>{{obj.time}}</span></div>
+								<div class="uptime">发布教员：<span>{{staff.staffname}}</span></div>
+							</div>
+								<!--阅读题-->
+								<div class="workcontent" v-for="(obj,index) in list">
+									<!--题目-->
+									<div class="topic">
+										{{obj.topicconten}}
+									</div>
+									<div class="topicresult" v-if="obj.result!=null">
+										<span>答案:{{obj.result}}</span>
+									</div>
+									<!--解析-->
+									<div class="analysis">
+										解析：{{obj.analysis}}
+									</div>
+									<div class="topicoption">
+										<div class="option" v-for="(obj1,index) in obj.topicoptionList">
+											{{obj1.option}}{{obj1.optionconten}}
+										</div>
+										<!-- <div class="option">
+											B:选中管理的班级,课程,出题章节,要发布的考试类型,显示该这些章节下的题目,右上角提供这
+											以往老师出的试卷,题目提供多参数
+										</div>
+										<div class="option">
+											C:选中管理的班级,课程,出题章节,要发布的考试类型,显示该这些章节下的题目,右上角提供这
+											以往老师出的试卷,题目提供多参数
+										</div>
+										<div class="option">
+											D:选中管理的班级,课程,出题章节,要发布的考试类型,显示该这些章节下的题目,右上角提供这
+											以往老师出的试卷,题目提供多参数
+										</div> -->
+									</div>
+								</div>
+								<!--选择题-->
+								<!-- <div class="workcontent">
+									题目
+									<div class="topic">
+										1.点击发布,设置考试的开始时间结束时间,考试信息推送学生,考试地点,是否推送给家长(系统有默认值)
+										点击发布,设置考试的开始时间结束时间,考试信息推送学生,考试地点,是否推送给家长(系统有默认值)
+									</div>
+									答案
+									<div class="topicresult">
+										答案：<span>A,B</span>
+									</div>
+									选项
+									<div class="topicoption">
+										<div class="option">
+											A:选中管理的班级,课程,出题章节,要发布的考试类型,显示该这些章节下的题目,右上角提供这
+											以往老师出的试卷,题目提供多参数
+										</div>
+										<div class="option">
+											B:选中管理的班级,课程,出题章节,要发布的考试类型,显示该这些章节下的题目,右上角提供这
+											以往老师出的试卷,题目提供多参数
+										</div>
+										<div class="option">
+											C:选中管理的班级,课程,出题章节,要发布的考试类型,显示该这些章节下的题目,右上角提供这
+											以往老师出的试卷,题目提供多参数
+										</div>
+										<div class="option">
+											D:选中管理的班级,课程,出题章节,要发布的考试类型,显示该这些章节下的题目,右上角提供这
+											以往老师出的试卷,题目提供多参数
+										</div>
+									</div>
+								</div> -->
+								<div id="foot">
+									<!--试卷分数-题目数量-->
+								<div id="topicinfo">
+									<button class="btn btn-default" disabled="disabled">题目数量</button>
+									<button class="btn btn-default" disabled="disabled">{{obj.tcount}}</button>
+									<button class="btn btn-default" disabled="disabled">总分</button>
+									<button class="btn btn-default" disabled="disabled">{{obj.score}}</button>	
+								</div>
+								<div id="testscore">
+									
+								</div>
+								<!--分页-->
+								<div id="pagebox">
+									<p class="demo">
+										<ul class="pagination pg-primary">
+											<li class="page-item">
+												<a class="page-link" href="javascript:void(0)" aria-label="Previous" id="prepage">
+													<span aria-hidden="true">&laquo;</span>
+													<span class="sr-only">Previous</span>
+												</a>
+											</li>
+											<li class="page-item active">
+												<a class="page-link" href="#">1</a>
+											</li>
+											<li class="page-item">
+												<a class="page-link" href="#">2</a>
+											</li>
+											<li class="page-item">
+									 				<a class="page-link" href="#">3</a>
+											</li>
+											<li class="page-item">
+												<a class="page-link" href="javascript:void(0)" aria-label="Next" id="nextpage">
+													<span aria-hidden="true">&raquo;</span>
+													<span class="sr-only">Next</span>
+												</a>
+											</li>
+										</ul>
+									</p>
+								</div>
+								</div>
+								
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
+<script src="../static/js/core/jquery.min.js"></script>
+<script src="../static/js/core/vue.js"></script>
+<script>
+	/* 题目渲染 */
+	var v=new Vue({
+		el:".card",
+		data:{
+			list:null,
+			workmould:{},
+			staff:{},
+			obj:{}
+		}
+	})
+	/* var nextpage=1;	//下一页
+	var prepage=0;	//上一页 */
+	var count=0;	//总条数
+	var pagesize=3;
+	var cur=1;
+	var pagecount;
+	function pagination(pageNo, pageSize, array) {
+		var offset;
+		/*第一页  */
+		if(pageNo<1){
+			offset=(1 - 1) * pageSize;
+			return (offset + pageSize >= array.length) ? array.slice(offset, array.length) : array.slice(offset, offset + pageSize);
+		}
+		if(pagecount>=array.length){
+			offset=(cur - 1) * pageSize;
+			return (offset + pageSize >= array.length) ? array.slice(offset, array.length) : array.slice(offset, offset + pageSize);
+		}
+		offset=(pageNo - 1) * pageSize;
+		return (offset + pageSize >= array.length) ? array.slice(offset, array.length) : array.slice(offset, offset + pageSize);
+	}
+	
+	
+	$(function(){
+		$.ajax({
+			type:"post",
+			url:"http://127.0.0.1:8080/WorkModel/queryWorkInfoById",
+			data:{id:22},
+			success:function(data){
+				console.log(JSON.stringify(data))
+				count=data.topicWithBLOBsList.length
+				var list=pagination(1,pagesize,data.topicWithBLOBsList)
+				v.list=list;				//题目
+				v.workmould=data.workmould;	//模板对象
+				v.staff=data.staff;			//教员对象
+				v.obj=data;					//作业对象
+			}
+		})
+		/* 上一页 */
+		$("body").on("click","#prepage",function(){
+			if(cur<=1){
+				cur=1
+			}else{
+				cur=cur-1
+			}
+			var list=pagination(cur,pagesize,v.obj.topicWithBLOBsList)
+			console.log(list)
+			v.list=list;
+		})
+		/* 下一页 */
+		$("body").on("click","#nextpage",function(){
+			nextpage=nextpage+1
+			cur=cur+1
+			pagecount=count%pagesize==0?count/pagecount:parseInt(count/pagesize)+1
+			/* if(nextpage>=pagecount){
+				nextpage=pagecount
+			} */
+			if(cur>=pagecount){
+				cur=pagecount
+			}
+			var list=pagination(cur,pagesize,v.obj.topicWithBLOBsList)
+			console.log(JSON.stringify(list))
+			v.list=list;
+		})
+	})
+</script>

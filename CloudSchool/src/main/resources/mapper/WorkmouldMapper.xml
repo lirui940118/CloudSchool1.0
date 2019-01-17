@@ -237,7 +237,7 @@
 		SELECT * FROM workMould
 		WHERE `status`=0 and tid=#{tid} ORDER BY `time` DESC
 		LIMIT
-		#{cur},#{pagesize}
+		#{cur},#{pageSize}
 	</select>
 	<!-- 根据教员id查询作业模板count(*) -->
 	<select id="queryByTidMouldCount" resultType="int">
@@ -248,7 +248,7 @@
 	<resultMap
 		type="com.CloudSchool.domain.zjfvo.TeacherAdminStu"
 		id="TeacherAdminStuMap">
-		<id column="cid" property="cid"/>
+		<id column="cid" property="cid" />
 		<result column="cname" property="cname" />
 		<collection property="list"
 			ofType="com.CloudSchool.domain.CqjStudent">
@@ -258,22 +258,131 @@
 		</collection>
 	</resultMap>
 	<!-- 根据老师查询到管理的班级所有的学生 -->
-	<select id="queryByTidAdminStuAll" resultMap="TeacherAdminStuMap">
+	<select id="queryByTidAdminStuAll"
+		resultMap="TeacherAdminStuMap">
 		SELECT
-		clazzstudent.`id` AS studentid,clazz.`cname`,cqj_student.`studentname`,clazz.`id` AS cid
+		clazzstudent.`id` AS
+		studentid,clazz.`cname`,cqj_student.`studentname`,clazz.`id` AS cid
 		FROM clazzcourseteacher
-		INNER JOIN clazz ON clazzcourseteacher.`clazzid`=clazz.`id`
-		INNER JOIN zzy_grade ON zzy_grade.`gid`=clazz.`gid`
-		INNER JOIN clazzstudent ON clazzstudent.`cid`=clazz.`id`
-		INNER JOIN cqj_student ON cqj_student.`studentid`=clazzstudent.`sid`
-		AND clazzcourseteacher.`status`=0 AND clazz.`status`=0 AND
+		INNER JOIN clazz ON
+		clazzcourseteacher.`clazzid`=clazz.`id`
+		INNER JOIN zzy_grade ON
+		zzy_grade.`gid`=clazz.`gid`
+		INNER JOIN clazzstudent ON
+		clazzstudent.`cid`=clazz.`id`
+		INNER JOIN cqj_student ON
+		cqj_student.`studentid`=clazzstudent.`sid`
+		AND
+		clazzcourseteacher.`status`=0 AND clazz.`status`=0 AND
 		zzy_grade.state=0
 		AND clazzstudent.`status`=0
-		AND clazzstudent.`status`=0 AND clazzcourseteacher.`tid`=#{tid}
+		AND
+		clazzstudent.`status`=0 AND clazzcourseteacher.`tid`=#{tid}
 	</select>
-	
+
 	<!-- 根据id修改使用次数 -->
-	<update id="updateCountByid" parameterType="com.CloudSchool.domain.Workmould">
+	<update id="updateCountByid"
+		parameterType="com.CloudSchool.domain.Workmould">
 		update workMould set count=count+1 where id=#{id}
 	</update>
+	
+	
+	<resultMap type="com.CloudSchool.domain.Workinstance" id="queryWorkInfoByIdMap">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="time" property="time"/>
+		<result column="tcount" property="tcount"/>
+		<result column="score" property="score"/>
+		<association property="workmould"
+			javaType="com.CloudSchool.domain.Workmould">
+			<id column="mid" property="id" />
+			<result column="mname" property="name" />
+		</association>
+		<association property="staff"
+			javaType="com.CloudSchool.domain.CqjStaff">
+			<id column="staffid" property="staffid" />
+			<result column="staffname" property="staffname" />
+		</association>
+		<!-- 题目 -->
+		<collection property="topicWithBLOBsList"
+			ofType="com.CloudSchool.domain.TopicWithBLOBs">
+			<id column="tid" property="id" />
+			<result column="url" property="url" />
+			<result column="user1" property="user1" />
+			<result column="result" property="result" />
+			<result column="topicconten" property="topicconten" />
+			<result column="analysis" property="analysis" />
+			<result column="typeid" property="tid"/>
+			<result column="workid" property="workid"/>
+			<!-- 题目选项 -->
+			<collection property="topicoptionList"
+				ofType="com.CloudSchool.domain.Topicoption">
+				<id column="oid" property="id" />
+				<result column="option" property="option" />
+				<result column="istrue" property="istrue" />
+				<result column="optionconten" property="optionconten" />
+			</collection>
+		</collection>
+
+	</resultMap>
+	<!-- 根据作业id查询作业详情 -->
+	<select id="queryWorkInfoById" resultMap="queryWorkInfoByIdMap">
+		SELECT
+		workinstance.`id`,workinstance.`time`,cqj_staff.`staffid`,cqj_staff.`staffname`,workmould.`id`
+		AS `mid`,workmould.`name` as mname,topic.`topicConten`,topic.`id` AS
+		tid,topic.`tId` AS typeid,topic.`user1`,topic.`url`,
+		topic.`analysis`,topic.`result`,workinfo.`user1` AS workid,topicoption.`id` AS
+		oid,topicoption.`option`,topicoption.`optionConten`,topicoption.`IsTrue`,c.tcount,c.score
+		FROM workinstance
+		INNER JOIN workmould ON workinstance.`wid`=workmould.`id` AND
+		workinstance.`id`=#{id} AND workinstance.`status`=0
+		INNER JOIN workinfo ON workmould.`id`=workinfo.`wId`
+		INNER JOIN topic ON topic.`id`=workinfo.`tId`
+		INNER JOIN cqj_staff ON cqj_staff.`staffid`=workinstance.`tid`
+		INNER JOIN
+		(
+		SELECT COUNT(*) AS tcount,SUM(topic.`user1`) AS score
+		FROM workinstance
+		INNER JOIN workmould ON workinstance.`wid`=workmould.`id` AND
+		workinstance.`id`=#{id} AND workinstance.`status`=0
+		INNER JOIN workinfo ON workmould.`id`=workinfo.`wId`
+		INNER JOIN topic ON topic.`id`=workinfo.`tId`
+		INNER JOIN cqj_staff ON cqj_staff.`staffid`=workinstance.`tid`
+
+		) AS c
+		LEFT JOIN topicoption ON topicoption.`tId`=topic.`id`
+		order by workinfo.`user1` asc 
+	</select>
+
+	<select id="queryWorkInfoByIdCount" resultType="int">
+		SELECT COUNT(*)
+		FROM workinstance
+		INNER JOIN workmould ON
+		workinstance.`wid`=workmould.`id` AND
+		workinstance.`id`=#{id} AND
+		workinstance.`status`=0
+		INNER JOIN workinfo ON
+		workmould.`id`=workinfo.`wId`
+		INNER JOIN topic ON
+		topic.`id`=workinfo.`tId`
+		INNER JOIN cqj_staff ON
+		cqj_staff.`staffid`=workinstance.`tid`
+		INNER JOIN
+		(
+		SELECT COUNT(*) AS
+		tcount,SUM(topic.`user1`) AS score
+		FROM workinstance
+		INNER JOIN
+		workmould ON workinstance.`wid`=workmould.`id` AND
+		workinstance.`id`=#{id} AND workinstance.`status`=0
+		INNER JOIN workinfo
+		ON workmould.`id`=workinfo.`wId`
+		INNER JOIN topic ON
+		topic.`id`=workinfo.`tId`
+		INNER JOIN cqj_staff ON
+		cqj_staff.`staffid`=workinstance.`tid`
+
+		) AS c
+		LEFT JOIN topicoption ON
+		topicoption.`tId`=topic.`id`
+	</select>
 </mapper>
