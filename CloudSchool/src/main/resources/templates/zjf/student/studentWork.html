@@ -71,10 +71,11 @@
 					<div class="card">
 						<div class="card-header">
 							<h4 class="card-title">我的作业</h4>
+							<button class="btn btn-success" style="float: right;" id="submitWork">提交</button>
 						</div>
 						<div class="card-body">
 							<div class="workmodelhead">
-								<div>作业名称：<span>{{workmould.name}}</span></div>
+								<div>作业名称：<span>{{workmould.mname}}</span></div>
 								<div class="uptime">发布时间：<span>{{obj.time}}</span></div>
 								<div class="uptime">发布教员：<span>{{staff.staffname}}</span></div>
 							</div>
@@ -112,32 +113,37 @@
 								</div> -->
 								</div>
 								<!--选择题-->
-								<div class="workcontent" v-for="(obj,index) in list" v-bind:data-id="obj.id">
+								<div class="workcontent" v-for="(obj,index) in list" v-bind:data-id="obj.id" v-bind:data-tid="obj.tid">
 									<!--题目-->
 									<div class="topic" style="display: flex;justify-content: space-between;">
 										{{obj.workid}}.{{obj.topicconten}}
 										<!-- 上机类型题目显示 -->
 										<button v-if="obj.tid==3" class="btn btn-success" style="float: right;">下载</button>
 									</div>
+									<span v-if="obj.wtrecord!=null" class="result" style="display: none">{{obj.wtrecord.result}}</span>
 									<div class="analysis" v-if="obj.tid==2">
 										<!-- 解析：点击发布,设置考试的开始时间结束时间,考试信息推送学生,考试地点,是否推送给家长(系统有默认值)
 										点击发布,设置考试的开始时间结束时间,考试信息推送学生,考试地点,是否推送给家长(系统有默认值) -->
 										<div class="form-group">
-										<label for="comment">解题：</label>
-										<textarea class="form-control" v-if="textarea(obj.result)"  rows="5">
-											{{obj.result}}
+										<label for="comment">解题：</label>						
+										<textarea class="form-control"  rows="5">
+											
 										</textarea>
 									</div>
 									</div>
 									<!-- 解析 -->
 									<div class="analysis" v-if="obj.tid==3" style="display: flex;justify-content: flex-end;">
-										<button  class="btn btn-success" onclick="javascript:$('#hiddenFile').click();">上传答案</button>
-										<form  enctype="multipart/form-data">
+										<button class="btn btn-success" onclick="javascript:$('#hiddenFile').click();">上传答案</button>
+										<form id="form-add" enctype="multipart/form-data">
 											 <input
-								type="file" class="form-control-file"
+								type="file"  class="form-control-file"
 								id="hiddenFile" name="file" style="display: none;">
 										</form>
-									
+									<!-- <form id="form-add" enctype="multipart/form-data">
+							<label for="exampleFormControlFile1">上传文档</label> <input
+								type="file" class="form-control-file"
+								id="exampleFormControlFile1" name="file">
+						</form> -->
 									</div>
 									<!--答案-->
 									<!--<div class="topicresult">
@@ -145,9 +151,9 @@
 									</div>-->
 									<!--选项-->
 									<div class="topicoption">
-										<div class="option" v-for="(obj1,index) in obj.topicoptionList" v-if="radio(obj.result)">
+										<div class="option" v-for="(obj1,index) in obj.topicoptionList">
 											<label class="form-radio-label">
-												<input class="form-radio-input" type="radio" name="optionsRadios" value="">
+												<input class="form-radio-input" type="radio" name="optionsRadios" value="" >
 												<span class="form-radio-sign">{{obj1.option}}</span>
 											</label>
 											{{obj1.optionconten}}
@@ -224,12 +230,14 @@
 				</div>
 			</div>
 		</div>
+		
 	</body>
 
 </html>
 <script src="../static/js/core/jquery.min.js"></script>
 <script src="../static/js/core/vue.js"></script>
 <script>
+	var pagelist=[]	//页面渲染
 	/* 题目渲染 */
 	var v=new Vue({
 		el:".card",
@@ -239,28 +247,56 @@
 			staff:{},
 			obj:{}
 		},methods: {
-			textarea: function(result) {
-		    	if(result==null){
-		    		$("textarea").val("")
-		    	}else{
-		    		$("textarea").val(result)
-		    	}
-		    	return true;
-		    },
-		    radio: function(result,th){
-		    	if(result==null){
-		    		$(this).remove()
-		    	}else{
-		    		$(this).find("[type=radio]").attr("checked",true)
-		    	}
-		    	return true;
-		    }
+			
+		},updated : function(){
+			var topicdiv=$(".workcontent")	//题目盒子
+			$("textarea").val("")
+			$("[type=radio]").attr("checked",false)
+			for(var i=0;i<topicdiv.length;i++){
+				var id=$(topicdiv[i]).attr("data-id")	//题目id
+				var tid=$(topicdiv[i]).attr("data-tid")	
+				if($(topicdiv[i]).find(".result").html()!=null && tid==2){
+					$(topicdiv[i]).find("textarea").val($(topicdiv[i]).find(".result").html())
+				}
+				if($(topicdiv[i]).find(".result").html()!=null && tid==1){
+					var topicctions=$(topicdiv[i]).find("[type=radio]");
+					for(var k=0;i<topicctions.length;k++){
+						var optionValue=$(topicctions[k]).next().html()
+						if(optionValue==$(topicdiv[i]).find(".result").html()){
+							/* $(topicctions[i]).attr("checked",true); */
+							topicctions[k].checked=true
+							break;
+						}
+					}
+				}
+				for(var j=0;j<pagelist.length;j++){
+					/*  阅读题*/
+					if(id==pagelist[j].id && tid==2){
+						$(topicdiv[i]).find("textarea").val(pagelist[j].result)
+						break;
+					}
+					/* 上机题 */
+					if(id==pagelist[j].id && tid==1){
+						var topicctions=$(topicdiv[i]).find("[type=radio]");
+						for(var k=0;i<topicctions.length;k++){
+							var optionValue=$(topicctions[k]).next().html()
+							if(optionValue==pagelist[j].result){
+								/* $(topicctions[i]).attr("checked",true); */
+								topicctions[k].checked=true
+								break;
+							}
+						}
+						break;
+					}
+				}
+			}
+			
 		}
 	})
 	/* var nextpage=1;	//下一页
 	var prepage=0;	//上一页 */
 	var count=0;	//总条数
-	var pagesize=3;
+	var pagesize=2;
 	var cur=1;
 	var pagecount;
 	function pagination(pageNo, pageSize, array) {
@@ -277,20 +313,46 @@
 		offset=(pageNo - 1) * pageSize;
 		return (offset + pageSize >= array.length) ? array.slice(offset, array.length) : array.slice(offset, offset + pageSize);
 	}
-	
-	function updateListBytid(id){
-		
+	/* 把做过的题目和编号存到对象数组中 */
+	function setOjb(id,result){
+		var obj={id:id,result:result}
+		if(pagelist.length==0){
+			pagelist.push(obj)
+			/* console.log(JSON.stringify(pagelist)) */
+			return;
+		}
+		for(var i=0;pagelist.length;i++){
+			if(pagelist[i].id==id){
+				pagelist[i].result=result
+				break;
+			}
+			if(pagelist.length-1==i){
+				pagelist.push(obj)
+				/* alert("创建1") */
+			}
+		}
 	}
-	
+	function closePage(){
+		$.ajax({
+			type:"post",
+			url:"http://127.0.0.1:8080/StudentWork/pageSaveClose",
+			data:JSON.stringify(v.obj),
+			contentType: "application/json; charset=utf-8",
+			success:function(data){
+				
+			}
+		})
+	}
 	$(function(){
 		$.ajax({
 			type:"post",
-			url:"http://127.0.0.1:8080/WorkModel/queryWorkInfoById",
-			data:{id:22},
+			url:"http://127.0.0.1:8080/StudentWork/queryStudentWork",
+			data:{wid:22,sid:7},
 			success:function(data){
-				/* console.log(JSON.stringify(data)) */
+				console.log(JSON.stringify(data))
 				count=data.topicWithBLOBsList.length
 				var list=pagination(1,pagesize,data.topicWithBLOBsList)
+				console.log(JSON.stringify(list))
 				v.list=list;				//题目
 				v.workmould=data.workmould;	//模板对象
 				v.staff=data.staff;			//教员对象
@@ -320,8 +382,8 @@
 				cur=pagecount
 			}
 			var list=pagination(cur,pagesize,v.obj.topicWithBLOBsList)
-			console.log(JSON.stringify(list))
-			v.list=list;
+			v.list = list;
+			console.log(JSON.stringify(v.obj))
 		})
 		
 		/*阅读题保存答案*/
@@ -331,11 +393,21 @@
 			var result=$(this).val().trim();
 			for(var i=0; i<list.length; i++){
 				if(list[i].id==id){
-					list[i].result=result
+					if(list[i].wtrecord==null){
+						var obj={}
+						obj.result=result
+						obj.tid=id
+						obj.wid=v.obj.id	//作业实例id
+						obj.sid=v.obj.stu.sid	//学生id
+						list[i].wtrecord=obj;
+					}
+					list[i].wtrecord.result=result
 					break;
 				}
 			}
-			var formData = new FormData($("#form-add")[0])
+			v.obj.topicWithBLOBsList=list
+			setOjb(id,result)	
+			console.log(JSON.stringify(pagelist))
 		})
 		
 		/*选择题保存答案*/
@@ -345,19 +417,65 @@
 			var result=$(this).parents(".option").find(".form-radio-sign").html().trim();
 			for(var i=0; i<list.length; i++){
 				if(list[i].id==id){
-					list[i].result=result
+					if(list[i].wtrecord==null){
+						var obj={}
+						obj.result=result
+						obj.tid=id
+						obj.wid=v.obj.id	//作业实例id
+						obj.sid=v.obj.stu.sid	//学生id
+						list[i].wtrecord=obj;
+					}
+					list[i].wtrecord.result=result
 					break;
 				}
 			}
-			console.log(JSON.stringify(list))
+			v.obj.topicWithBLOBsList=list
+			setOjb(id,result)
+			console.log(JSON.stringify(pagelist))
+			
 		})
 		
-		var listFormData=[]
 		/*上机题目保存答案*/
 		$("body").on("change","input[type=file]",function(){
-			var formData = new FormData($(this).parents("form"))
-			listFormData.push(formData)
-			console.log(JSON.stringify(listFormData))
+			var formData = new FormData($(this).parents("form")[0]);	//表单
+			var id=$(this).parents(".workcontent").attr("data-id");		//题目id
+			alert(id)
+			$.ajax({
+				type : "post",
+				url : "http://127.0.0.1:8080/StudentWork/fileUploads",
+				data :formData,
+				async: false,
+	            contentType: false,
+	            processData: false,
+				success : function(data) {
+					if(data!=null){
+						var list=v.obj.topicWithBLOBsList
+						/* 上机题目返回文件地址 */
+						for(var i=0; i<list.length;i++){
+							if(list[i].id==id){
+								if(list[i].wtrecord==null){
+									var obj={}
+									obj.user1=data
+									obj.tid=id
+									obj.wid=v.obj.id	//作业实例id
+									obj.sid=v.obj.stu.sid	//学生id
+									list[i].wtrecord=obj;
+								}
+								list[i].wtrecord.user1=data
+								break;
+							}
+						}
+					}
+				}
+			});
+		})
+		$("body").on("click","#submitWork",function(){
+			closePage();
 		})
 	})
+	
+	//浏览器关闭事件
+	$(window).unload(function(){
+   	 	closePage();
+	});
 </script>

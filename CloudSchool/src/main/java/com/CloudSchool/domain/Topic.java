@@ -33,10 +33,19 @@ public class Topic {
     private String user4;
 
     private String user5;
-   
+    
+    private Wtrecord wtrecord;
 
  
 
+
+	public Wtrecord getWtrecord() {
+		return wtrecord;
+	}
+
+	public void setWtrecord(Wtrecord wtrecord) {
+		this.wtrecord = wtrecord;
+	}
 
 	public Integer getId() {
         return id;

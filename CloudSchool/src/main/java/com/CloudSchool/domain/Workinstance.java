@@ -34,6 +34,18 @@ public class Workinstance {
 	/* 模板 */
 	private Workmould workmould;
 	/* 教员 */
+	/*参加作业学生*/
+	private Participationworkstu stu;
+	public Participationworkstu getStu() {
+		return stu;
+	}
+
+
+
+	public void setStu(Participationworkstu stu) {
+		this.stu = stu;
+	}
+
 	private CqjStaff staff;
 	private Integer tcount;
 	private Integer score;

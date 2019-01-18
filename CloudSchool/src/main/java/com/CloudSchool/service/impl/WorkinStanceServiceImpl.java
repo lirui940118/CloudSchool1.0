@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import com.CloudSchool.dao.WorkmouldMapper;
 import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.Participatetestclass;
 import com.CloudSchool.domain.Participationworkclass;
+import com.CloudSchool.domain.Workinstance;
 import com.CloudSchool.domain.zjfvo.ClazzAndStuParam;
 import com.CloudSchool.domain.zjfvo.PublishWorkInfo;
 import com.CloudSchool.domain.zjfvo.WorkPublishParam;
@@ -77,6 +79,12 @@ public class WorkinStanceServiceImpl implements WorkinStanceService{
 		List<PublishWorkInfo> list=workinstanceMapper.queryPublishWorkByTid(tid, wStatus,pageSize,(cur-1)*pageSize);
 		PageBean page=new PageBean(datas, pageSize, list, cur);
 		return page;
+	}
+
+	@Override
+	public Workinstance queryStudentWork(Integer wid, Integer sid) {
+		// TODO Auto-generated method stub
+		return workmouldMapper.queryStudentWork(wid, sid);
 	}
 
 }

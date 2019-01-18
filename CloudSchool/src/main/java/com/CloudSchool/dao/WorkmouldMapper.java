@@ -34,6 +34,12 @@ public interface WorkmouldMapper {
     
     //根据作业id查询作业详情 
     Workinstance queryWorkInfoById(@Param("id")Integer id);
-    //根据作业id查询作业count()
-    int queryWorkInfoByIdCount(Integer id);
+    
+    /**
+     * 根据学生id和作业id查询作业详情
+   * @param wid 作业id
+   * @param sid	学生id
+   * @return
+   */
+  Workinstance queryStudentWork(@Param("wid") Integer wid,@Param("sid") Integer sid);
 }
