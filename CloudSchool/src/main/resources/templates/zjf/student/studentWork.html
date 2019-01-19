@@ -75,7 +75,7 @@
 						</div>
 						<div class="card-body">
 							<div class="workmodelhead">
-								<div>作业名称：<span>{{workmould.mname}}</span></div>
+								<div>作业名称：<span>{{workmould.name}}</span></div>
 								<div class="uptime">发布时间：<span>{{obj.time}}</span></div>
 								<div class="uptime">发布教员：<span>{{staff.staffname}}</span></div>
 							</div>
@@ -133,7 +133,7 @@
 									</div>
 									<!-- 解析 -->
 									<div class="analysis" v-if="obj.tid==3" style="display: flex;justify-content: flex-end;">
-										<button class="btn btn-success" onclick="javascript:$('#hiddenFile').click();">上传答案</button>
+										<button class="btn btn-success" id="uplodeFileWork" onclick="javascript:$('#hiddenFile').click();" v-if="obj.wtrecord==null">上传答案</button>
 										<form id="form-add" enctype="multipart/form-data">
 											 <input
 								type="file"  class="form-control-file"
@@ -465,12 +465,16 @@
 								break;
 							}
 						}
+					}else{
+						alert("上传失败")
 					}
 				}
 			});
 		})
+		
+		//交作业
 		$("body").on("click","#submitWork",function(){
-			closePage();
+			
 		})
 	})
 	

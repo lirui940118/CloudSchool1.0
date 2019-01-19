@@ -23,7 +23,7 @@ public class WtrecordServiceImpl implements WtrecordService {
 	public int pageSaveClose( Workinstance obj) {
 		List<TopicWithBLOBs> topicList=obj.getTopicWithBLOBsList();	//所有题目对象
 		List<Wtrecord> list=new ArrayList<Wtrecord>();				//题目的所有记录
-		wtrecordMapper.deleteBySidAndWid(obj.getId(), obj.getStu().getSid());					//根据学生id和作业id删除记录
+		wtrecordMapper.deleteBySidAndWid(obj.getId(), obj.getStu().getSid());				//根据学生id和作业id删除记录
 		for (TopicWithBLOBs topicWithBLOBs : topicList) {	
 			Wtrecord wtrecord=new Wtrecord();
 			System.out.println(JSON.toJSONString(topicWithBLOBs));

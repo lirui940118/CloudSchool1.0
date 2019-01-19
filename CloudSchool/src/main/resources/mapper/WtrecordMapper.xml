@@ -228,6 +228,6 @@
   </insert>
   <!-- 根据学生id和作业实例id删除 -->
   <delete id="deleteBySidAndWid">
-  	delete from wtrecord where wid=#{wid} and sid=#{sid}
+  	delete from wtrecord where wid=#{wid} and sid=#{sid}  AND user1 IS NULL
   </delete>
 </mapper>

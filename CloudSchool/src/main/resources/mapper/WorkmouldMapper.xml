@@ -386,7 +386,7 @@
 	<select id="queryStudentWork" resultMap="queryStudentWorkMap">
 		SELECT
 		workinstance.`id`,workinstance.`time`,cqj_staff.`staffid`,cqj_staff.`staffname`,workmould.`id`
-		AS `mid`,workmould.`name`,topic.`topicConten`,topic.`id` AS
+		AS `mid`,workmould.`name` as mname,topic.`topicConten`,topic.`id` AS
 		tid,topic.`tId` AS typeid,
 		topic.`user1`,topic.`url`,topic.`analysis`,topic.`result`,workinfo.`user1`
 		AS workid,topicoption.`id` AS
