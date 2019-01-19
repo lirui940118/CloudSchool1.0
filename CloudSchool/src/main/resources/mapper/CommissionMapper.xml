@@ -17,7 +17,14 @@
     id, tid, describe, accessory, status, cid, user1, user2, user3, user4
   </sql>
   <select id="query" resultMap="BaseResultMap">
-    select * from commission
+    SELECT c.describe AS `describe`,sta.staffname AS user3,c.accessory AS accessory,stu.studentname AS user4 FROM commission c
+	INNER JOIN cqj_student stu
+	ON c.`cid`=stu.studentid
+	INNER JOIN clazzstudent z
+	ON stu.studentid=z.sid AND z.cid=c.`user1`
+	INNER JOIN cqj_staff sta
+	ON sta.staffid=c.tid
+	WHERE c.`cid`=#{id}
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
