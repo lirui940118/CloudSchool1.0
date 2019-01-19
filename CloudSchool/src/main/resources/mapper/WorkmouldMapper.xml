@@ -285,13 +285,14 @@
 		parameterType="com.CloudSchool.domain.Workmould">
 		update workMould set count=count+1 where id=#{id}
 	</update>
-	
-	
-	<resultMap type="com.CloudSchool.domain.Workinstance" id="queryWorkInfoByIdMap">
+
+
+	<resultMap type="com.CloudSchool.domain.Workinstance"
+		id="queryWorkInfoByIdMap">
 		<id column="id" jdbcType="INTEGER" property="id" />
-		<result column="time" property="time"/>
-		<result column="tcount" property="tcount"/>
-		<result column="score" property="score"/>
+		<result column="time" property="time" />
+		<result column="tcount" property="tcount" />
+		<result column="score" property="score" />
 		<association property="workmould"
 			javaType="com.CloudSchool.domain.Workmould">
 			<id column="mid" property="id" />
@@ -311,8 +312,17 @@
 			<result column="result" property="result" />
 			<result column="topicconten" property="topicconten" />
 			<result column="analysis" property="analysis" />
-			<result column="typeid" property="tid"/>
-			<result column="workid" property="workid"/>
+			<result column="typeid" property="tid" />
+			<result column="workid" property="workid" />
+			<!-- 题目答案 -->
+			<association property="wtrecord" javaType="com.CloudSchool.domain.Wtrecord">
+				<id column="wtrecordid" property="id"/>
+				<result column="wwId" property="wid"/>
+				<result column="wwtid" property="tid"/>
+				<result column="wwsId" property="sid"/>
+				<result column="wwresult" property="result"/>
+				<result column="type" property="type"/>
+		 	</association>
 			<!-- 题目选项 -->
 			<collection property="topicoptionList"
 				ofType="com.CloudSchool.domain.Topicoption">
@@ -330,31 +340,9 @@
 		workinstance.`id`,workinstance.`time`,cqj_staff.`staffid`,cqj_staff.`staffname`,workmould.`id`
 		AS `mid`,workmould.`name` as mname,topic.`topicConten`,topic.`id` AS
 		tid,topic.`tId` AS typeid,topic.`user1`,topic.`url`,
-		topic.`analysis`,topic.`result`,workinfo.`user1` AS workid,topicoption.`id` AS
+		topic.`analysis`,topic.`result`,workinfo.`user1` AS
+		workid,topicoption.`id` AS
 		oid,topicoption.`option`,topicoption.`optionConten`,topicoption.`IsTrue`,c.tcount,c.score
-		FROM workinstance
-		INNER JOIN workmould ON workinstance.`wid`=workmould.`id` AND
-		workinstance.`id`=#{id} AND workinstance.`status`=0
-		INNER JOIN workinfo ON workmould.`id`=workinfo.`wId`
-		INNER JOIN topic ON topic.`id`=workinfo.`tId`
-		INNER JOIN cqj_staff ON cqj_staff.`staffid`=workinstance.`tid`
-		INNER JOIN
-		(
-		SELECT COUNT(*) AS tcount,SUM(topic.`user1`) AS score
-		FROM workinstance
-		INNER JOIN workmould ON workinstance.`wid`=workmould.`id` AND
-		workinstance.`id`=#{id} AND workinstance.`status`=0
-		INNER JOIN workinfo ON workmould.`id`=workinfo.`wId`
-		INNER JOIN topic ON topic.`id`=workinfo.`tId`
-		INNER JOIN cqj_staff ON cqj_staff.`staffid`=workinstance.`tid`
-
-		) AS c
-		LEFT JOIN topicoption ON topicoption.`tId`=topic.`id`
-		order by workinfo.`user1` asc 
-	</select>
-
-	<select id="queryWorkInfoByIdCount" resultType="int">
-		SELECT COUNT(*)
 		FROM workinstance
 		INNER JOIN workmould ON
 		workinstance.`wid`=workmould.`id` AND
@@ -384,5 +372,49 @@
 		) AS c
 		LEFT JOIN topicoption ON
 		topicoption.`tId`=topic.`id`
+		order by workinfo.`user1` asc
 	</select>
+
+	<resultMap type="com.CloudSchool.domain.Workinstance" id="queryStudentWorkMap" extends="queryWorkInfoByIdMap">
+		<association property="stu" javaType="com.CloudSchool.domain.Participationworkstu">
+			<id column="pid" property="id"/>
+			<result column="sid" property="sid"/>
+		</association>
+		
+	</resultMap>
+	<!-- 根据学生id和作业id查询作业详情 -->
+	<select id="queryStudentWork" resultMap="queryStudentWorkMap">
+		SELECT
+		workinstance.`id`,workinstance.`time`,cqj_staff.`staffid`,cqj_staff.`staffname`,workmould.`id`
+		AS `mid`,workmould.`name` as mname,topic.`topicConten`,topic.`id` AS
+		tid,topic.`tId` AS typeid,
+		topic.`user1`,topic.`url`,topic.`analysis`,topic.`result`,workinfo.`user1`
+		AS workid,topicoption.`id` AS
+		oid,topicoption.`option`,topicoption.`optionConten`,topicoption.`IsTrue`,participationworkstu.`sId`,
+		wtrecord.`wId` AS wwid,wtrecord.`tId` AS wwtid,wtrecord.`sId` AS
+		wwsid,wtrecord.`result` AS wwresult,wtrecord.`type`,c.tcount,c.score
+		FROM workinstance
+		INNER JOIN workmould ON workinstance.`wid`=workmould.`id` AND
+		workinstance.`id`=#{wid} AND workinstance.`status`=0
+		INNER JOIN workinfo ON workmould.`id`=workinfo.`wId`
+		INNER JOIN topic ON topic.`id`=workinfo.`tId`
+		INNER JOIN cqj_staff ON cqj_staff.`staffid`=workinstance.`tid`
+		INNER JOIN participationworkstu ON
+		participationworkstu.wid=workinstance.`id` AND
+		participationworkstu.`sId`=#{sid}
+		INNER JOIN
+		(
+		SELECT COUNT(*) AS tcount,SUM(topic.`user1`) AS score
+		FROM workinstance
+		INNER JOIN workmould ON workinstance.`wid`=workmould.`id` AND
+		workinstance.`id`=#{wid} AND workinstance.`status`=0
+		INNER JOIN workinfo ON workmould.`id`=workinfo.`wId`
+		INNER JOIN topic ON topic.`id`=workinfo.`tId`
+		INNER JOIN cqj_staff ON cqj_staff.`staffid`=workinstance.`tid`
+		) AS c
+		LEFT JOIN wtrecord ON topic.`id`=wtrecord.`tId` and wtrecord.`type`=1
+		LEFT JOIN topicoption ON topicoption.`tId`=topic.`id`
+		ORDER BY workinfo.`user1` ASC
+	</select>
+
 </mapper>

@@ -218,4 +218,16 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <!-- 作业记录批量新增 -->
+  <insert id="insertWorkRecordList">
+  	insert into wTrecord (id, wId, tId, sId,result, score, type, time, status, user1) values
+  	<foreach collection="list" separator="," item="obj">
+  		(0,#{obj.wid},#{obj.tid},#{obj.sid},#{obj.result},#{obj.score},#{obj.type},#{obj.time},#{obj.status},#{obj.user1})
+  	</foreach>
+  </insert>
+  <!-- 根据学生id和作业实例id删除 -->
+  <delete id="deleteBySidAndWid">
+  	delete from wtrecord where wid=#{wid} and sid=#{sid}  AND user1 IS NULL
+  </delete>
 </mapper>

@@ -3,7 +3,8 @@ package com.CloudSchool.domain;
 import java.util.Date;
 
 public class Wtrecord {
-    private Integer id;
+
+	private Integer id;
 
     private Integer wid;
 
