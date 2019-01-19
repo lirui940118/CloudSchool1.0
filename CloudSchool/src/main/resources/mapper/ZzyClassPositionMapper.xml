@@ -120,4 +120,24 @@
       </if>
     </trim>
   </insert>
+  
+  <!-- 添加一个职位 并且返回添加的pid -->
+  <insert id="insertPos" useGeneratedKeys="true" keyProperty="pid">
+  	 insert into `zzy_class_position`(`job_title`,`clid`,`attendance`) value(#{jobTitle},#{clid},#{attendance})
+  </insert>
+  
+  	<!-- 一对一查询班级的职位 以及职位对应的班委对象  -->
+	<resultMap type="com.CloudSchool.domain.ZzyClassPosition" id="result" extends="BaseResultMap">
+					<association property="com" column="pid" javaType="com.CloudSchool.domain.ZzyClassCommittee" select="com.CloudSchool.dao.ZzyClassCommitteeMapper.queryBypid"></association>
+	</resultMap>
+  
+  <!-- 根据班级id 查询一个班级所有的职位 -->
+  <select id="queryByclid" resultMap="result">
+  		SELECT  * FROM `zzy_class_position` WHERE clid =#{clid}
+  </select>
+  
+  <!-- 根据id删除 职位 -->
+  <delete id="deleteBypid">
+  		delete from `zzy_class_position` where pid=#{pid}
+  </delete>
 </mapper>

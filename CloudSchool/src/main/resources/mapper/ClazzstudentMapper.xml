@@ -117,4 +117,28 @@
  <select id="queryByMo" resultMap="result">
  		SELECT * FROM `clazzstudent` WHERE cid=#{cid}
  </select>
+ 
+ 
+ <!-- 查询班级游离出去的学员的 学员对象 以及班级对象 -->
+ <resultMap type="com.CloudSchool.domain.Clazzstudent" id="zc" extends="BaseResultMap">
+		<association property="stu" column="sid" javaType="com.CloudSchool.domain.CqjStudent" select="com.CloudSchool.dao.CqjStudentMapper.queryBysid"></association>
+		<association property="cla" column="cid" javaType="com.CloudSchool.domain.Clazz" select="com.CloudSchool.dao.ClazzMapper.queryZcid"></association>
+</resultMap>
+ <!-- 根据班级id 获取从这个班级游离出去的学员 以及学员现在所在的班级 --> 
+ <select id="queryZc" resultMap="zc">
+ 		SELECT * FROM `clazzstudent` WHERE sid in (SELECT sid FROM `clazzstudent` WHERE cid=#{cid} AND `status`=4) AND `status`=0
+ </select>
+ <!-- 查询所有状态为游离未分配的学员 -->
+ <select id="queryBystatus" resultMap="zc">
+ 		SELECT * FROM `clazzstudent` WHERE `status` =3
+ </select>
+ 
+ <!-- 根据id 将状态改为4(游离已分配) -->
+ 		<update id="updateByid">
+ 				update  `clazzstudent` set `status`=4 where `id`=#{id};
+ 		</update>
+ <!-- 在一个班级中添加一个学员 -->
+ 		<insert id="insertOne">
+ 				insert into  `clazzstudent`(`cid`,`sid`,`status`) value(#{cid},#{sid},0)
+ 		</insert>
 </mapper>

@@ -72,7 +72,7 @@
 									//定义一个课程对象
 									var obj3={};
 									//赋值课程名字
-									obj3.name=obj2.courseName;
+									obj3.name=obj2.courseName+"("+obj2.period+")";
 									//定义一个课程里面章节的数组
 									var node3=[];
 									//循环课程里面的章节
@@ -80,7 +80,7 @@
 										//定义一个章节对象
 										var obj4={};
 										//赋值章节名字
-										obj4.name=obj3.sectionName;
+										obj4.name=obj3.sectionName+"("+obj3.period+")";
 										//将章节对象添加章节数组中
 										node3.push(obj4);
 									})

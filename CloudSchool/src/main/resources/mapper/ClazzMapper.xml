@@ -166,4 +166,10 @@
 	<select id="queryByid" resultMap="result">
 		select *,(SELECT COUNT(*) FROM `clazzstudent` WHERE `clazzstudent`.`cid`=`clazz`.`id` AND `clazzstudent`.`status`=0) AS normalCount  from clazz where id=#{id}
 	</select>
+	
+	<!-- 根据班级id查询班级 -->
+	<select id="queryZcid" resultMap="BaseResultMap">
+		select * from `clazz` where id=#{cid};
+	</select>
+	
 </mapper>

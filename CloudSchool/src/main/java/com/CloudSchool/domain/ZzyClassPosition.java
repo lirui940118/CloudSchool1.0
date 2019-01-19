@@ -30,8 +30,19 @@ public class ZzyClassPosition {
     private String user4;
 
     private String user5;
+    
+    //定义一个班委对象
+    private ZzyClassCommittee com;
 
-    public Integer getPid() {
+    public ZzyClassCommittee getCom() {
+		return com;
+	}
+
+	public void setCom(ZzyClassCommittee com) {
+		this.com = com;
+	}
+
+	public Integer getPid() {
         return pid;
     }
 
