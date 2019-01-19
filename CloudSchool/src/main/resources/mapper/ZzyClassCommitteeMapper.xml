@@ -120,4 +120,19 @@
       </if>
     </trim>
   </insert>
+  
+  <!-- 添加班委 -->
+  <insert id="insertCom">
+  		insert into zzy_class_committee(`sid`,`pdi`) value(#{sid},#{pdi})
+  </insert>
+  
+  <!-- 根据职位id 查询对应的班委对象 -->
+  <select id="queryBypid" resultMap="BaseResultMap">
+  		SELECT * FROM `zzy_class_committee` WHERE pdi=#{pid}
+  </select>
+  
+  <!-- 根据id删除班委 -->
+  <delete id="delteByccid">
+  		delete from zzy_class_committee where ccid=#{ccid}
+  </delete>
 </mapper>

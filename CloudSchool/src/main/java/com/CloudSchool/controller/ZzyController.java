@@ -12,15 +12,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.CloudSchool.dao.ZzyClassCommitteeMapper;
 import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.Clazzstudent;
 import com.CloudSchool.domain.CqjUser;
+import com.CloudSchool.domain.ZzyClassPosition;
 import com.CloudSchool.domain.ZzyCourse;
 import com.CloudSchool.domain.ZzyGrade;
 import com.CloudSchool.domain.ZzyMajor;
 import com.CloudSchool.domain.ZzyVersion;
 import com.CloudSchool.service.ClassStudentService;
 import com.CloudSchool.service.ClazzService;
+import com.CloudSchool.service.ZzyClassPositionService;
 import com.CloudSchool.service.ZzyCourseService;
 import com.CloudSchool.service.ZzyGradeService;
 import com.CloudSchool.service.ZzyMajorService;
@@ -46,6 +49,14 @@ public class ZzyController {
 	
 	@Autowired
 	ClassStudentService clss;
+	
+	@Autowired
+	ZzyClassPositionService poss;
+	
+	@Autowired
+	ZzyClassCommitteeMapper coms;
+	
+	List<ZzyClassPosition> deletelist=null;
 	
 	//查询所有版本
 	@RequestMapping("/queryAllversion")
@@ -182,6 +193,56 @@ public class ZzyController {
 	public List<Clazzstudent> queryByMo(Integer id){
 		return clss.queryByMo(id);
 	}
+	
+	
+	//使用Ajax添加职位以及班委
+	@RequestMapping("insertComAndPos")
+	@ResponseBody
+	public int insertComAndPos(@RequestBody List<ZzyClassPosition> comlist) {
+		for (ZzyClassPosition zzyClassPosition : deletelist) {
+			poss.deleteBypid(zzyClassPosition.getPid());
+			coms.delteByccid(zzyClassPosition.getCom().getCcid());
+		}
+		poss.insertPos(comlist);
+		return 1;
+	}
+	
+	
+	//根据班级id查询班级所有的职位
+	@RequestMapping("queryByclid")
+	@ResponseBody
+	public List<ZzyClassPosition> queryByclid(Integer id){
+		deletelist=poss.queryByclid(id);
+		return deletelist;
+	}
+	
+	
+	//根据班级id查询所有从这个班级游离出去的学员 以及他们现在所在的班级
+	@RequestMapping("queryZc")
+	@ResponseBody
+	public List<Clazzstudent> queryZc(Integer id){
+		return clss.queryZc(id);
+	}
+	
+	//查询所有状态为游离未分配的学员
+	@RequestMapping("queryBystatus")
+	@ResponseBody
+	public List<Clazzstudent> queryBystatus(){
+		return clss.queryBystatus();
+	}
+	
+	
+	//添加游离池中的学员加入本班级
+	@RequestMapping("addYl")
+	@ResponseBody
+	public int addYl(@RequestBody List<Clazzstudent> list){
+		for (Clazzstudent clazzstudent : list) {
+			clss.insertOne(clazzstudent);
+			clss.updateByid(clazzstudent);
+		}
+		return  1;
+	}
+	
 	
 	
 	

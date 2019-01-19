@@ -2,6 +2,8 @@ package com.CloudSchool.domain;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class CqjStudent {
 	
 	//write by lirui 
@@ -29,7 +31,8 @@ public class CqjStudent {
     private String phone;
 
     private String idcard;
-
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss") 
     private Date birthday;
 
     private String address;

@@ -30,4 +30,7 @@ public interface ClazzMapper {
     
     //根据班级id查询班级 以及查询班主任对象以及教员集合
     public Clazz queryByid(Integer id);
+    
+    //根据班级id 查询班级
+    public Clazz queryZcid(Integer cid);
 }

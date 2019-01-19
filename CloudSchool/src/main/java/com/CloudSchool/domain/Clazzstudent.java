@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.format.annotation.DateTimeFormat;
 @Mapper
 public class Clazzstudent {
     private Integer id;
@@ -12,6 +13,7 @@ public class Clazzstudent {
 
     private Integer sid;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss") 
     private Date starttime;
 
     private Date endtime;
@@ -20,10 +22,21 @@ public class Clazzstudent {
     
     //学生对象
     private CqjStudent stu;
+    
+    //班级对象
+    private Clazz cla;
    
 
 
-    public CqjStudent getStu() {
+    public Clazz getCla() {
+		return cla;
+	}
+
+	public void setCla(Clazz cla) {
+		this.cla = cla;
+	}
+
+	public CqjStudent getStu() {
 		return stu;
 	}
 

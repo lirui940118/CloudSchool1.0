@@ -29,6 +29,9 @@
 				.tuchu{
 					padding:5px 30px
 				}
+				.modal-dialog {
+    				max-width: 1000px;
+    				}
 		</style>
 	</head>
 
@@ -56,10 +59,17 @@
 									<ul class="row">
 										<li class="col-lg-3" v-for="l in clazz.list">{{l.zzycourse.courseName}}:{{l.teacher.staffname}}</li>
 									</ul>
+									
+								</div>
+								<div style="float:right">
+									<button class="btn btn-success" id="addbut">添加学员</button>
+									<button class="btn btn-warning" id="banwei">班委任免</button>
+									<button class="btn btn-danger">升学</button>
 								</div>
 							</div>
 							<div class="card-body">
 								<div class="row">
+								<h6 style="margin-left: 12px">课程进度</h6>
 											<div class="col-md-12">
 												<span style="font-size: 12px;">java1:唐勇(80/80)</span>
 												<p class="demo">
@@ -68,7 +78,6 @@
 															<div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 														</div>
 													<p>
-														
 												</p>
 												<span style="font-size: 12px;">java1:唐勇(80/80)</span>
 												<p class="demo">
@@ -98,6 +107,7 @@
 										<button id="cli3" class="btn btn-warning" style="margin-left: -6.5px;">成绩</button>
 										<button id="cli4" class="btn btn-info" style="margin-left: -6.5px;">作业</button>
 										<button id="cli5" class="btn btn-default" style="margin-left: -6.5px;">上课记录</button>
+									
 								</div>
 							<div id="tabz" class="card-body col-sm-12 ">
 								<table id="tab1" class="table table-head-bg-success clickblock">
@@ -127,7 +137,11 @@
 														<td>{{stul.stu.birthday}}</td>
 														<td>{{stul.stu.address}}</td>
 														<td>{{stul.stu.email}}</td>
-														<td>{{stul.stu.standby1}}</td>
+														<td v-if="stul.status==0">正常</td>
+														<td v-if="stul.status==1">退学</td>
+														<td v-if="stul.status==2">休学</td>
+														<td v-if="stul.status==3">游离未分配</td>
+														<td v-for="yl in yllist" v-if="stul.stu.studentid==yl.sid">游离已分配{{yl.cla.cname}}</td>
 													</tr>
 												</tbody>
 											</table>
@@ -186,8 +200,75 @@
 						</div>
 				</div>
 		</div>
-			</div> 
+			<div class="modal fade show" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro" style="display: none; padding-right: 16px;">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<h6 class="modal-title"> 班委任免</h6>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true" id="close">×</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">									
+					<div id="bwzh">
+						<div v-for="bb in bwlist" id="one" class="form-group has-error" style="padding: 3px 10px;">
+								<input v-bind:pid="bb.pid" v-bind:ccid="bb.com.ccid" style="width: 50%;display: inline;" type="text" id="successInput" v-bind:value="bb.jobTitle" class="form-control sectionName" placeholder="职位名">
+								<select  class="form-control input-square" style="width: 25%; display:inline;" v-bind:value="bb.com.sid">
+									<option v-for="stul in stulist" v-bind:value="stul.stu.studentid"v-if="stul.status==0" >{{stul.stu.studentname}}</option>
+								</select>
+								<input v-if="bb.attendance==1" type="checkbox" style="position: static;" checked="checked">
+								<input v-if="bb.attendance==0" type="checkbox" style="position: static;"><span>是否为考勤人员</span>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" class="jianZhiwei">×</span>
+								</button>
+						</div>
+						
+					</div>
+					
+					<div id="hhide" style="display: none">
+							<select  class="form-control input-square" style="width: 25%; display:inline;">
+									<option v-for="stul in stulist" v-bind:value="stul.stu.studentid" v-if="stul.status==0">{{stul.stu.studentname}}</option>
+							</select>
+						</div>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal" id="addBan">增加职位</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal" id="add">提交</button>
+				</div>
+			</div>
 		</div>
+	</div>
+		<!-- 添加游离学员 -->
+				<div class="modal fade show" id="as" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro" style="display: none; padding-right: 16px;">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<h6 class="modal-title">添加游离学员</h6>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true" id="closeadd">×</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">									
+					<div id="status">
+						<div v-for="sta in statuslist"  class="form-group has-error" style="padding: 3px 10px;">
+							<input type="text" disabled="disabled" v-bind:id="sta.id" v-bind:sid="sta.sid" v-bind:value="sta.stu.studentname" class="form-control" style="width: 80%;display: inline;">
+							<input type="checkbox" style="position: static; margin-left: 20px"><span>添加到本班级</span>
+						</div>
+
+					</div>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal" id="youli">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+			</div> 
+			
+		</div>
+		
 	</body>
 	<script th:src="@{/static/js/echarts.js}"></script>
 	<script th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
@@ -213,20 +294,32 @@
 				data:{
 					clazz:null,
 					stulist:null,
+					bwlist:null,
+					yllist:null,
+					statuslist:null,
 				}
 			})
 			var id=[[${id}]];
 			//使用Ajax查询班级信息
-			//Ajax查询班级信息
 			$.ajax({
 				url:'queryByclazzid?id='+id,
 				type:'POST',
 				dataType:'json',
 				success:function(data){
-					console.log(data);
 					v.clazz=data;
 				}
 			})
+			
+			//使用AJax根据班级id查询班级游离已分配的学员以及现在所在的班级信息
+			$.ajax({
+				url:'queryZc?id='+id,
+				type:'POST',
+				dataType:'json',
+				success:function(data){
+					v.yllist=data;
+				}
+			})
+			
 			//AJax查询班级学员信息
 				$.ajax({
 				url:'queryByMo?id='+id,
@@ -260,8 +353,134 @@
 				$("#tab2").addClass("clickblock");
 			})
 			
+			$("body").on("click","#close",function(){
+				$("#modalUpdate").hide();
+			})
+			
+			//点击减少职位
+			$("body").on("click",".jianZhiwei",function(){
+				$(this).parent().parent().remove();
+			})
+			$("body").on("click","#banwei",function(){
+					//AJax查询班级学员信息
+					$.ajax({
+					url:'queryByclid?id='+id,
+					type:'POST',
+					dataType:'json',
+					success:function(data){
+						v.bwlist=data;
+						console.log(v.bwlist);
+					}
+				})
+				$("#modalUpdate").show();
+			})
 			
 			
+			//点击添加班委按钮生成input
+			$("body").on("click","#addBan",function(){
+				var sec=$("#hhide select").html();
+				var p='<div class="form-group has-error " style="padding: 3px 10px;"><input style="width: 50%;display: inline;" type="text" id="successInput" value="" class="form-control sectionName" placeholder="职位名"><select class="form-control input-square" style="width: 25%; display: inline;">'+sec+'</select><input type="checkbox" style="position: static;"><span>是否为考勤人员</span><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="jianZhiwei">×</span></button></div>';
+				$("#bwzh").append(p);
+			});
 			
+			//点击添加学员按钮  显示模态框
+			$("body").on("click","#closeadd",function(){
+				$("#as").hide();
+			})
+			$("body").on("click","#addbut",function(){
+				//AJax查询班级学员信息
+				$.ajax({
+					url:'queryBystatus',
+					type:'POST',
+					dataType:'json',
+					success:function(data){
+						v.statuslist=data;
+					}
+				})
+				$("#as").show();
+			})
+			
+			//点击提交将游离学员添加入本班级  在原来班级的游离学员的状态改为游离已分配
+			$("body").on("click","#youli",function(){
+				//获取本班级的id
+				var cid=[[${id}]];
+				//获取所有已选择的元素节点
+				var che=$("#status input[type=checkbox]:checked").prev();
+				//定义一个结果数组
+				var cz=[];
+				$.each(che,function(i,obj){
+					//定义一个对象
+					var sb={};
+					//获取要该为游离已分配的id
+					var id=$(obj).attr("id");
+					sb.id=parseInt(id);
+					sb.cid=cid;
+					//获取要加入本班级的学员id
+					var sid=$(obj).attr("sid")
+					sb.sid=parseInt(sid);
+					cz.push(sb);
+				})
+				console.log(cz);
+				//Ajax传值
+				$.ajax({
+					url:'addYl',
+					type:'POST',
+					data: JSON.stringify(cz),
+					contentType:'application/json;charset=utf-8',
+					success:function(data){
+						
+					}
+				})
+			})
+			
+			//点击提交获取数据
+			$("body").on("click","#add",function(){
+				//定义一个数据数组
+				var comlist=[];
+				//获取所有元素数组
+				var jd=$("#bwzh div");
+				//循环数组
+				$.each(jd,function(i,obj){
+					//定义一个职位对象
+					var zhiwei={};
+					//获取职位名字
+					zhiwei.jobTitle=$(obj).find(".sectionName").val();
+					//获取职位id
+					zhiwei.pid=$(obj).find(".sectionName").attr("pid");
+					//班级id
+					zhiwei.clid=id;
+					//判断是否是考勤人员
+					if($(obj).find("[type=checkbox]").is(':checked')){
+						zhiwei.attendance=1;
+					}else{
+						zhiwei.attendance=0;
+					}
+					//定义一个班委对象
+					var com={};
+					//获取班委的学员id
+					var sd=$(obj).find("select").val();
+					//获取班委的索引id
+					com.ccid=$(obj).find(".sectionName").attr("ccid")
+					com.sid=parseInt(sd);
+				 
+					zhiwei.com=com;
+					//把加入好的数据对象加入数组中
+					comlist.push(zhiwei);
+				})
+				console.log(comlist);
+				$.ajax({
+					url:"insertComAndPos",
+					type:'POST',
+					data: JSON.stringify(comlist),
+					
+					contentType:'application/json;charset=utf-8',
+					success:function(data){
+							location.reload();
+						}
+					})
+			})
+			
+		
+		
 		})
 </script>
