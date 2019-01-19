@@ -5,10 +5,9 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ExamTaskJob extends Thread {
 	// 此类为定时器模板
-	// 如果方法需要带参数则定义成员变量为参数再设置有参构造
+	// 如果方法需要带参数则通过set复制属性 自己定义属性然后设置set get 方法
 	int i;
 	String b;
-	// 通过有参构造出函数
 	
 	public ExamTaskJob() {
 		// TODO Auto-generated constructor stub
@@ -34,7 +33,7 @@ public class ExamTaskJob extends Thread {
 	public void run() {
 		// 执行方法
 		System.out.println("扫描考试表..........."+i+","+b);
-
+		//在方法执行完之后将值属性清空
 	}
 
 }

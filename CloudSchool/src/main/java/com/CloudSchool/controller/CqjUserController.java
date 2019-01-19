@@ -32,7 +32,7 @@ public class CqjUserController {
 			System.out.println("登录成功");
 			examTaskJob.setI(20);
 			examTaskJob.setB("你好");
-			//dynamicTaskJobs.addTaskTimerJob(examTaskJob, "*/5 * * * * *");
+			dynamicTaskJobs.addTaskTimerJob(examTaskJob, "*/5 * * * * *");
 			//dynamicTaskJobs.addTaskJob(examTaskJob,"2019-01-17 08:49:10");
 			session.setAttribute("user", userinfo);
 		}else {

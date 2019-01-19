@@ -9,8 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @MapperScan("com.CloudSchool.dao")
 @EnableScheduling
-/*@ComponentScan(basePackages= {"com.CloudSchool.timer.DynamicTaskJobs.java"})
-*/public class CloudSchoolApplication {
+public class CloudSchoolApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CloudSchoolApplication.class, args);
 	}
