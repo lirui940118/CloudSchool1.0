@@ -148,13 +148,10 @@ p{
 							<div class="form-group">
 								<label for="largeSelect">年级：</label>
 								<select class="form-control form-control-lg" id="largeSelect">
-									<option>S1</option>
-									<option>S2</option>
-									<option>Y2</option>
-									<option>启蒙星</option>
+									<option th:each="m:${list}" th:value="${m.gid}" th:text="${m.gradeName}"></option> 
 								</select>
 								<label for="largeSelect">班级：</label>
-								<select class="form-control form-control-lg" id="largeSelect">
+								<select class="form-control form-control-lg" id="largeSelect1">
 									<option>1717</option>
 									<option>1818</option>
 									<option>1716</option>
@@ -226,6 +223,17 @@ p{
 <script th:src="@{/static/js/ready.min.js}"></script>
 <script>
 	$(function(){
+		/* var sel=document.getElementById("largeSelect");
+		sel.onchange=function(){
+	　　　	var id=sel.options[sel.selectedIndex].value;
+	　　　	$.ajax({
+				url:"",
+	        	data:"id="+id,
+	        	success:function(result){
+	        		
+	        	}
+			})
+    	}　 */
 		var btn = document.getElementById('showModel');
 	    var close = document.getElementsByClassName('close')[0];
 	    var cancel = document.getElementById('cancel');

@@ -15,10 +15,12 @@ import com.CloudSchool.domain.Classtype;
 import com.CloudSchool.domain.Commission;
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.Missionhistory;
+import com.CloudSchool.domain.ZzyGrade;
 import com.CloudSchool.service.ClassroomService;
 import com.CloudSchool.service.ClasstypeService;
 import com.CloudSchool.service.CommissionService;
 import com.CloudSchool.service.MissionHistoryService;
+import com.CloudSchool.service.ZzyGradeService;
 
 @Controller
 @RequestMapping("/mission")
@@ -31,6 +33,8 @@ public class MissionController {
 	CommissionService com;
 	@Autowired
 	MissionHistoryService miss;
+	@Autowired
+	ZzyGradeService gras;
 
 	@RequestMapping("/queryMissionhistory")
 	public String queryMissionhistory(Model model,HttpSession session) {
@@ -93,5 +97,12 @@ public class MissionController {
 		List<Commission> list=com.query();
 		model.addAttribute("list", list);
 		return "czw_mission/commission";
+	}
+	
+	@RequestMapping("/toStudentmission")
+	public String toStudentmission(Model model) {
+		List<ZzyGrade> list=gras.queryAll();
+		model.addAttribute("list", list);
+		return "czw_mission/publishstumission";
 	}
 }
