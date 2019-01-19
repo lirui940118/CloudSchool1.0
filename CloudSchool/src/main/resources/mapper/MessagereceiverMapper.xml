@@ -20,11 +20,12 @@
     delete from messagereceiver
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.CloudSchool.domain.Messagereceiver">
+  <insert id="insert" parameterType="com.CloudSchool.domain.Message">
     insert into messagereceiver (id, mid, receiver, 
-      time)
-    values (#{id,jdbcType=INTEGER}, #{mid,jdbcType=INTEGER}, #{receiver,jdbcType=INTEGER}, 
-      #{time,jdbcType=TIMESTAMP})
+      time) values
+    <foreach collection="receiver" item="obj" separator=",">
+    	(0,#{id},#{obj},now())
+    </foreach>
   </insert>
   <insert id="insertSelective" parameterType="com.CloudSchool.domain.Messagereceiver">
     insert into messagereceiver
