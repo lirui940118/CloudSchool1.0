@@ -135,15 +135,15 @@ p{
 							</div>
 							<div class="form-check">
 								<label class="form-check-label">
-									<input class="form-check-input" type="checkbox" value="">
+									<input class="form-check-input" type="checkbox" value="" id="checkbox" onclick="xuan()">
 									<span class="form-check-sign">是否定时发布</span>
 								</label>
 							</div>
-							<div class="form-group">
-								<label for="largeSelect">开始时间：</label>
+							<div class="form-group" id="time">
+								<!-- <label for="largeSelect">开始时间：</label>
 								<input type="date" />
 								<label for="largeSelect">结束时间：</label>
-								<input type="date" />
+								<input type="date" /> -->
 							</div>
 							<div class="form-group">
 								<label for="largeSelect">年级：</label>
@@ -223,7 +223,7 @@ p{
 <script th:src="@{/static/js/ready.min.js}"></script>
 <script>
 	$(function(){
-		/* var sel=document.getElementById("largeSelect");
+		var sel=document.getElementById("largeSelect");
 		sel.onchange=function(){
 	　　　	var id=sel.options[sel.selectedIndex].value;
 	　　　	$.ajax({
@@ -233,7 +233,7 @@ p{
 	        		
 	        	}
 			})
-    	}　 */
+    	}
 		var btn = document.getElementById('showModel');
 	    var close = document.getElementsByClassName('close')[0];
 	    var cancel = document.getElementById('cancel');
@@ -256,5 +256,15 @@ p{
 				"<input type=\"text\" class=\"form-control input-square\" id=\"squareInput\">";
 		$("#phase").append(dd);
 	})
+	function xuan(){
+		var input=document.getElementById('checkbox');
+		if(input.checked==true){
+			var a="<label for=\"largeSelect\">开始时间：</label>"+
+					"<input type=\"datetime-local\" />";
+			$("#time").append(a);
+		}else{
+			$("#time").html("");
+		}
+	}
 </script>
 </html>
