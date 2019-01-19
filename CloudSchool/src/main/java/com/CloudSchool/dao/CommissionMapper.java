@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.CloudSchool.domain.Commission;
 @Mapper
 public interface CommissionMapper {
-	List<Commission> query();
+	List<Commission> query(Integer id);
 	
     int deleteByPrimaryKey(Integer id);
 

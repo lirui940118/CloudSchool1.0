@@ -13,8 +13,8 @@ public class CommissionServiceImpl implements CommissionService{
 	@Autowired
 	CommissionMapper com;
 	
-	public List<Commission> query() {
-		return com.query();
+	public List<Commission> query(Integer id) {
+		return com.query(id);
 	}
 
 }
