@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.CloudSchool.dao.MessageMapper;
+import com.CloudSchool.dao.MessagereceiverMapper;
 import com.CloudSchool.domain.Message;
 import com.CloudSchool.service.MessageService;
 @Service
@@ -12,6 +13,8 @@ import com.CloudSchool.service.MessageService;
 public class MessageServiceImpl implements MessageService {
 	@Autowired
 	MessageMapper mm;
+	@Autowired
+	MessagereceiverMapper mrm;
 	@Override
 	/**
 	 * 新增消息(title:如系统提示，考试提示，任务提示;content:具体详细内容;sender:系统为0-说的就是你们调用的；url:有就填，time：不填；receiver:int[],接收者*用户id*，必填，数组存储，支持多人)
@@ -19,7 +22,9 @@ public class MessageServiceImpl implements MessageService {
 	public int insert(Message m) {
 		// TODO Auto-generated method stub
 		System.out.println("生成消息");
-		return 0;
+		int jg=mm.insert(m);
+		int jg1=mrm.insert(m);
+		return jg1;
 	}
 	
 }

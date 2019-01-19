@@ -32,6 +32,11 @@ public class MessageController {
 		CqjUser u=(CqjUser) session.getAttribute("user");
 		System.out.println("用户-发送消息："+u.getUserid());
 		m.setSender(u.getUserid());
+		m.setTitle("测试提示");
+		m.setContent("这是测试内容！");
+		m.setSender(0);
+		int[] r= {1};
+		m.setReceiver(r);
 		return ms.insert(m);
 	}
 }
