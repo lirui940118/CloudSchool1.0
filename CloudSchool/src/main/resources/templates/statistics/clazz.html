@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>班级统计</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<style type="text/css">
+			.card{
+				border-radius: 0px;
+			    background-color: #ffffff;
+			    margin-bottom: 0px;
+			    -webkit-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+			    -moz-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+			    box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+			    border: 1px solid #eee;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title">班级统计（班主任，教员查看 通过班级id点入）</h4>
+					<div class="row">
+						<div class="card col-lg-5">
+							<div class="card-header">
+								<h4 class="card-title">班级信息</h4>
+							</div>
+							<div v-if="classBaseInfo" id="classBaseInfoSec" class="card-body" style="text-align: center;">
+								<p>年级：{{classBaseInfo[0].gradeName}}</p>
+								<p v-for="items in classBaseInfo" v-if="items.isMaster==1">班主任：{{items.staffName}}</p>
+								<p>班级：{{classBaseInfo[0].clazzName}}</p>
+								<p>专业：{{classBaseInfo[0].majorName}}</p>
+								<p id="courseName">课程名称：{{classBaseInfo[0].gradeName}}</p>
+								<div class="">
+									<label for="exampleFormControlSelect1">教员</label>
+									<select v-model="currentStaffId" style="width:auto" class=" m-auto form-control" id="staffSelect">
+										<option v-for="(items,index) in classBaseInfo" v-bind:value="items.staffId" v-if="items.isTeacher==1">{{items.staffName}}</option>
+									</select>
+								</div>
+								<!-- <p>班级人数：30人</p> -->
+							</div>
+						</div>
+						<!--全班学员能力雷达图-->
+						<div class="card col-lg-7">
+							<div class="card-header">
+								<h4 class="card-title">班级整体能力雷达图</h4>
+							</div>
+							<div class="card-body" id="allStudentAbilityPicture" style="width: 400; height: 400px;"></div>
+						</div>
+						<div class="card col-lg-12">
+							<div class="card-header">
+								<h4 class="card-title">班级考试情况</h4>
+							</div>
+							<div class="card-body">
+								<table v-if="studentList.length > 0" id="tableTestSec" class="table table-bordered mt-1" style="text-align: center;">
+									<thead>
+										<tr>
+											<th scope="col" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">学号</font></font></th>
+											<th scope="col" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">姓名</font></font></th>
+											<th scope="col" v-for="(testinfo,index) in studentList[0].testList">
+											<font style="vertical-align: inherit;"><font style="vertical-align: inherit;cursor: pointer;" v-bind:index="index"  v-on:click="sortClick($event)">{{testinfo.testName}}</font></font>
+											</th>
+											<th scope="col" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">平均分</font></font></th>
+											<th scope="col" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">排名（平均分）</font></font></th>
+											<th scope="col" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">操作</font></font></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(items,index) in studentList">
+											<td scope="col"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{items.no}}</font></font></td>
+											<td scope="col"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{items.studentName}}</font></font></td>
+											<td scope="col" v-for="testinfo in items.testList">
+												
+												<font style="vertical-align: inherit;">
+													<font style="vertical-align: inherit;">{{testinfo.studentScore}}</font>
+													({{testinfo.rank}})
+												</font>
+											</td>
+											<td scope="col"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{items.averageScore}}</font></font></td>
+											<td scope="col"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{items.averageNo}}</font></font></td>
+											<th scope="col" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+											<button class="btn btn-primary btn-xs">查看学员信息</button>
+											</font></font></th>
+										</tr>
+									</tbody>
+									
+									
+								</table>
+							</div>
+						</div>
+						<div class="card col-lg-12">
+							<div class="card-header">
+								<h4 class="card-title">班级考试分数变化趋势</h4>
+							</div>
+							<div class="card-body">
+							<div id="clazzTestPictrue" style="width: 400px; height: 400px;"></div>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" th:src="@{/static/js/core/vue.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/statisticsDefaultData.js}"></script>
+	<script th:src="@{/static/js/echarts.js}"></script>
+	<script type="text/javascript">
+	//点击教员id（当前登陆员工id）
+	var goInStaffId = 4;//[[${session.user.usertypeid}]];
+	var myChar = echarts.init(document.querySelector("#clazzTestPictrue"));
+	var currentStaffId = null;//全局当前课程id =》教员id
+	$(function(){
+		//初始化
+		initData();
+		//考试走势图
+		myChar.setOption(initDataAboutLine,true);
+		initpicture();//初始化图表
+	})
+	//=========================================
+	function initData(){
+		//判断是教员还是班主任
+		//获取基础数据
+		 $.ajax({
+				type : "post",
+				url : adress.url + "/statistics/getDataAboutClazzBaseInfo",
+				data : {
+					
+				},
+				success:function(data){
+					if(data ==null){
+						alert("初始化数据出错");
+						return;
+					}
+					//console.log(JSON.stringify(data));
+					var vue = new Vue({
+						el:"#classBaseInfoSec",
+						data:{
+							classBaseInfo:data,
+							currentStaffId:null//默认教员
+						},
+						watch:{
+							currentStaffId(id,last){//教员id变化
+								console.log(id);
+								currentStaffId = id;//全局赋值
+								//改变课程名称
+								for(var i = 0;i<this.classBaseInfo.length;i++){
+			                    	if(this.classBaseInfo[i].staffId == id){
+			                    		$("#courseName").html("课程名称："+this.classBaseInfo[i].courseName);
+			                    	}
+			                    }
+								//获取考试数据
+								getTestsData(id,-1);
+							}
+						},
+						created(){
+							//判断是教员还是班主任
+							 for(var i = 0;i<this.classBaseInfo.length;i++){//这个班相关的全部老师
+			                    	if(this.classBaseInfo[i].staffId == goInStaffId){
+			                    		if(this.classBaseInfo[i].isTeacher == 1){//是为教员
+			                    			//只能看自己交过的课程考试
+			                    			this.currentStaffId = goInStaffId;
+			                    			currentStaffId = goInStaffId;//全局赋值
+			                    			$("#staffSelect").attr("disabled", true);
+			                    			return;
+			                    		}else if(this.classBaseInfo[i].isMaster == 1){//是否为班主任
+			                    			//默认点击到第一个教员
+			                    		}
+			                    		break;//找到了跳出循环
+			                    	}
+			                 }
+		　　　　　　　　　　　　//如果没有这句代码，select中初始化会是空白的，默认选中就无法实现(班主任进入，默认点击第一个)
+		                    for(var i = 0;i<this.classBaseInfo.length;i++){
+		                    	if(this.classBaseInfo[i].isTeacher == 1){
+		                    		this.currentStaffId = this.classBaseInfo[i].staffId;
+		                    		break;
+		                    	}
+		                    }
+		                }
+					})
+				}//success
+			});//ajax
+	}
+	
+	
+	
+	//获取一个班（多个学员）的多次考试成
+	var vue1 = new Vue({
+		el:"#tableTestSec",
+		data:{
+			studentList:null
+		},
+		methods:{
+			sortClick:function(e){
+				var  selectedDom = $(e.srcElement)//当前dom元素
+				var sortType = selectedDom.attr("index");//排序方式
+				getTestsData(currentStaffId,sortType);//刷新table
+			}
+		}
+	});
+	function getTestsData(staffId,sortType){
+		 $.ajax({
+				type : "post",
+				url : adress.url + "/statistics/getStudentTestVoByStaffId",
+				data : {
+					staffId:staffId,
+					sortType:sortType
+				},
+				success:function(data){
+					//console.log(JSON.stringify(data));
+					vue1.studentList = data;
+					//算出平均分数
+					for(var i = 0;i<studentList.size();i++){
+						
+					}
+				}
+		 })
+	}
+	function initpicture(){
+		
+	}
+	</script>
+</html>
