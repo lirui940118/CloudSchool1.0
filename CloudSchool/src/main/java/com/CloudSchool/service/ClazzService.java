@@ -6,6 +6,7 @@ import java.util.List;
 import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.ClazzInfo;
 import com.CloudSchool.domain.Clazzcourseteacher;
+import com.CloudSchool.domain.statistics.ClazzBaseInfoVO;
 
 public interface ClazzService {
 	public int CreateClass(ClazzInfo c);
@@ -16,4 +17,6 @@ public interface ClazzService {
 	
 	//根据班级id查询班级 以及查询班主任对象以及教员集合
 	public Clazz queryByid(Integer id);
+	//write by lirui
+	public List<ClazzBaseInfoVO> queryClazzBaseInfo(Integer clazzId);
 }

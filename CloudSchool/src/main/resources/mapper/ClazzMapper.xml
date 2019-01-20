@@ -166,4 +166,18 @@
 	<select id="queryByid" resultMap="result">
 		select *,(SELECT COUNT(*) FROM `clazzstudent` WHERE `clazzstudent`.`cid`=`clazz`.`id` AND `clazzstudent`.`status`=0) AS normalCount  from clazz where id=#{id}
 	</select>
+	
+	<!-- 查询班级基础信息(统计lirui) -->
+	<select id="queryClazzBaseInfo" resultType="com.CloudSchool.domain.statistics.ClazzBaseInfoVO">
+	SELECT `zzy_grade`.`grade_name`AS GradeName, `clazz`.`cname`AS clazzName,zzy_major.`major_name`AS majorName,
+	`zzy_course`.`course_name`AS courseName,`cqj_staff`.`staffname`AS staffName,zzy_course.`cid`AS courseId,cqj_staff.`staffid`AS staffId,
+	clazzcourseteacher.`isTeacher`, clazzcourseteacher.`isMaster`,clazzcourseteacher.`starttime`AS startTime,clazzcourseteacher.`endtime`AS endTime
+	FROM `clazz`
+	INNER JOIN `zzy_grade` ON `clazz`.gid = `zzy_grade`.`gid`
+	INNER JOIN `zzy_major` ON `zzy_major`.`mid` = `clazz`.`mid` 
+	INNER JOIN `clazzcourseteacher` ON `clazzcourseteacher`.`clazzid` = `clazz`.`id`
+	LEFT JOIN `zzy_course` ON `zzy_course`.`cid` = clazzcourseteacher.`courseid`
+	INNER JOIN `cqj_staff` ON `cqj_staff`.`staffid` = `clazzcourseteacher`.tid
+	WHERE clazz.`id` = #{clazzId}
+	</select>
 </mapper>

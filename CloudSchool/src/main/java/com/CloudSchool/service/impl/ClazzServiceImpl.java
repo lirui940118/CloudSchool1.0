@@ -13,6 +13,7 @@ import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.ClazzInfo;
 import com.CloudSchool.domain.Clazzcourseteacher;
 import com.CloudSchool.domain.Clazzstudent;
+import com.CloudSchool.domain.statistics.ClazzBaseInfoVO;
 import com.CloudSchool.service.ClazzService;
 @Service
 @Transactional
@@ -55,5 +56,9 @@ public class ClazzServiceImpl implements ClazzService {
 	public Clazz queryByid(Integer id) {
 		// TODO Auto-generated method stub
 		return cm.queryByid(id);
+	}
+	@Override
+	public List<ClazzBaseInfoVO> queryClazzBaseInfo(Integer clazzId) {
+		return cm.queryClazzBaseInfo(clazzId);
 	}
 }

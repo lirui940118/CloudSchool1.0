@@ -3,9 +3,12 @@ package com.CloudSchool.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.ClazzInfo;
+import com.CloudSchool.domain.statistics.ClazzBaseInfoVO;
+import com.CloudSchool.domain.statistics.StudentInfoVO;
 
 
 @Mapper
@@ -30,4 +33,9 @@ public interface ClazzMapper {
     
     //根据班级id查询班级 以及查询班主任对象以及教员集合
     public Clazz queryByid(Integer id);
+    
+    //write by lirui 查询班级基础信息(统计lirui)
+    public List<ClazzBaseInfoVO> queryClazzBaseInfo(Integer clazzId);
+    
+    
 }

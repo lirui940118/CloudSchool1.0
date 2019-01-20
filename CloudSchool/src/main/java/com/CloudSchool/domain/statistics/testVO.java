@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 public class testVO {
+	private Integer rank;//考试名次
 	private Integer tId; //考试成绩testGrade.`id`
 	private String TestName;//考试名称
 	private String TestTsime;//考试时间（考试结束时间）
@@ -23,6 +24,12 @@ public class testVO {
 	private double studentScore100;//学员百分制得分
 	
 	
+	public Integer getRank() {
+		return rank;
+	}
+	public void setRank(Integer rank) {
+		this.rank = rank;
+	}
 	public Integer gettId() {
 		return tId;
 	}

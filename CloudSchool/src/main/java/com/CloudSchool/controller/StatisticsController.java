@@ -13,13 +13,18 @@ import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.GkKaoqinState;
 import com.CloudSchool.domain.ZzyGrade;
+import com.CloudSchool.domain.statistics.ClazzBaseInfoVO;
+import com.CloudSchool.domain.statistics.StudentInfoVO;
 import com.CloudSchool.domain.statistics.TestInfo;
 import com.CloudSchool.domain.statistics.testBaseInfo;
 import com.CloudSchool.domain.statistics.testVO;
+import com.CloudSchool.service.ClazzSService;
+import com.CloudSchool.service.ClazzService;
 import com.CloudSchool.service.CqjStudentService;
 import com.CloudSchool.service.GkKaoqinStateService;
 import com.CloudSchool.service.TestGradeService;
 import com.CloudSchool.service.ZzyGradeService;
+import com.alibaba.fastjson.JSON;
 
 @Controller
 @RequestMapping("statistics")
@@ -35,6 +40,10 @@ public class StatisticsController {
 	CqjStudentService cqjStudentService;
 	@Autowired
 	GkKaoqinStateService gkKaoqinStateService;
+	@Autowired
+	ClazzService clazzService;
+	@Autowired
+	ClazzSService clazzSService;
 	/**
 	 * 学员首页
 	 * 
@@ -59,9 +68,14 @@ public class StatisticsController {
 		session.setAttribute("lr_sId", sId);
 		return "statistics/studentText";
 	}
-	
-	
-	
+	/*打开班级成绩统计分析*/
+	@RequestMapping("/gotoClazz")
+	public String gotoClazz(Integer clazzId,HttpSession session) {//textGrade.Id
+		
+		//保存至session
+		session.setAttribute("lr_clazzId", clazzId);
+		return "statistics/clazz";
+	}
 	
 	/*查询数据*/
 	//============================个人=====================================
@@ -153,6 +167,26 @@ public class StatisticsController {
 		TestInfo testInfo = testGradeService.queryAllKnowledagePointBySidAndtId(sId, tId);
 		return testInfo;
 	}
-	
+	//============================班级=====================================
+	/*查询班级基础信息数据*/
+	@RequestMapping("/getDataAboutClazzBaseInfo")
+	@ResponseBody
+	public List<ClazzBaseInfoVO> getDataAboutClazzBaseInfo(HttpSession session) {
+		/*session.setAttribute("lr_clazzId", clazzId);*/
+		//获取需要查询的数据id
+		Integer clazzId = (Integer)session.getAttribute("lr_clazzId");
+		List<ClazzBaseInfoVO> list = clazzService.queryClazzBaseInfo(clazzId);
+		return list;
+	}
+	/*查询一班级下学员的多次考试成绩数据*/
+	@RequestMapping("/getStudentTestVoByStaffId")
+	@ResponseBody
+	public List<StudentInfoVO> getStudentTestVoByStaffId(HttpSession session,Integer staffId,Integer sortType) {//教员id
+		/*session.setAttribute("lr_clazzId", clazzId);*/
+		Integer clazzId = (Integer)session.getAttribute("lr_clazzId");
+		List<StudentInfoVO> list = clazzSService.queryStudentTestVoBySidsAndTid(clazzId,staffId,sortType);
+		//usertypeid 员工id
+		return list;
+	}
 	
 }
