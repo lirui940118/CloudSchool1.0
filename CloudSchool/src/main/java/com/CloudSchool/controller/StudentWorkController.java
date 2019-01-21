@@ -73,4 +73,11 @@ public class StudentWorkController {
 		System.out.println(JSON.toJSONString(obj));
 		return  wtrecordService.pageSaveClose(obj);
 	}
+	
+	//学生交作业
+	@RequestMapping("studentPublishWork")
+	@ResponseBody
+	public int studentPublishWork(@RequestBody Workinstance obj) {
+		return wtrecordService.studentPublishWork(obj);
+	}
 }

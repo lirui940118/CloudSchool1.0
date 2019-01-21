@@ -88,6 +88,7 @@ ul,
 
 .modalbox button {
 	float: right;
+	margin-right: 10px
 }
 
 .modelinfo {
@@ -219,14 +220,16 @@ ul,
 									<div class="modelinfo">
 										<p>
 											作业名称:<span>{{obj.name}}</span>
+											
 											<button class="btn btn-success use" v-bind:data-id="obj.id">使用</button>
+											<button class="btn btn-success toPage" v-bind:data-id="obj.id">查看</button>
 										</p>
 										<p>
 											发布时间:<span>{{obj.time}}</span>
 										</p>
-										<p>
+										<!-- <p>
 											级别:<span>难</span>
-										</p>
+										</p> -->
 										<p>
 											使用次数:<span>{{obj.count}}</span>
 										</p>
@@ -322,6 +325,7 @@ ul,
 </html>
 <script src="../static/js/core/jquery.min.js"></script>
 <script src="../static/js/core/vue.js"></script>
+<script src="../static/js/core/jquery.cookie.js"></script>
 <script>
 	//作业模板
 	var v = new Vue({
@@ -476,6 +480,11 @@ ul,
 			
 			
 			
+		})
+		//跳转到作业模板
+		$("body").on("click",".toPage",function(){
+			var id=$(this).attr("data-id")
+			window.open("http://127.0.0.1:8080/WorkModel/toWorkModel")
 		})
 	})
 </script>

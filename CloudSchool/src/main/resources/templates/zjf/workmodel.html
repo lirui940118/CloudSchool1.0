@@ -191,6 +191,7 @@
 </html>
 <script src="../static/js/core/jquery.min.js"></script>
 <script src="../static/js/core/vue.js"></script>
+<script src="../static/js/core/jquery.cookie.js"></script>
 <script>
 	/* 题目渲染 */
 	var v=new Vue({
@@ -222,13 +223,12 @@
 		offset=(pageNo - 1) * pageSize;
 		return (offset + pageSize >= array.length) ? array.slice(offset, array.length) : array.slice(offset, offset + pageSize);
 	}
-	
-	
 	$(function(){
+	
 		$.ajax({
 			type:"post",
 			url:"http://127.0.0.1:8080/WorkModel/queryWorkInfoById",
-			data:{id:22},
+			data:{id:25},
 			success:function(data){
 				console.log(JSON.stringify(data))
 				count=data.topicWithBLOBsList.length

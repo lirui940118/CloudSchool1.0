@@ -181,4 +181,8 @@
   		(0,#{wid},#{obj},0,#{user1})
   	</foreach>
   </insert>
+ <!--  根据作业id修改状态 -->
+  <update id="updateIscorrectByid">
+  	UPDATE `participationworkstu` SET `isCorrect` = #{isCorrect} WHERE `wid` = #{id} and sid=#{sid};
+  </update>
 </mapper>

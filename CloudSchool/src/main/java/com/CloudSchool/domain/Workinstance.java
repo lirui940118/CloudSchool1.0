@@ -49,6 +49,23 @@ public class Workinstance {
 	private CqjStaff staff;
 	private Integer tcount;
 	private Integer score;
+	private Integer exit;
+	
+
+
+
+	public Integer getExit() {
+		return exit;
+	}
+
+
+
+	public void setExit(Integer exit) {
+		this.exit = exit;
+	}
+
+
+
 	public Integer getTcount() {
 		return tcount;
 	}

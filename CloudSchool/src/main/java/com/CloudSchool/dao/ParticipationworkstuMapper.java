@@ -2,6 +2,8 @@ package com.CloudSchool.dao;
 
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.CloudSchool.domain.Participationworkstu;
 
 public interface ParticipationworkstuMapper {
@@ -18,4 +20,5 @@ public interface ParticipationworkstuMapper {
     int updateByPrimaryKey(Participationworkstu record);
     
     int insertList(Map<String, Object> map);
+    int updateIscorrectByid(@Param("isCorrect")Integer isCorrect,@Param("id")Integer id,@Param("sid") Integer sid);
 }
