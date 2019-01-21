@@ -316,4 +316,22 @@
 	<select id="queryByWidAndSidSumScore" resultType="int">
 		SELECT SUM(score) FROM wtrecord WHERE wid=#{wid} AND sid=#{sid}
 	</select>
+	
+	<!-- write by lirui 查询学员的劣势知识点 -->
+	<select id="queryBadKnowledagePointBySid" resultType="com.CloudSchool.domain.statistics.BadTopicVO">
+		SELECT * FROM (
+		SELECT zzy_course.`course_name`AS courseName,zzy_section.`section_name`AS sectionName,lr_knowledagePoint.`kName`AS knowledageName,
+		lr_knowledagePoint.`id`AS knowledageId,SUM(wtrecord.`score`)AS score,SUM(topic.`user1`)AS totalScore,COUNT(topic.`id`)AS totalCount,
+		SUM(wtrecord.`score`)/SUM(topic.`user1`)AS rate,wtrecord.`sId` AS studentId,zzy_course.`cid`AS courseId
+		FROM `wtrecord`
+		INNER JOIN `topic` ON `wtrecord`.`tId` = `topic`.`id`
+		INNER JOIN lr_knowledagePoint ON lr_knowledagePoint.`id` = `topic`.`kid`#知识点
+		INNER JOIN `zzy_section` ON `zzy_section`.secid = topic.cid #章节
+		INNER JOIN `zzy_course` ON `zzy_course`.`cid` = `zzy_section`.`cid` #课程
+		WHERE `wtrecord`.`sId` = #{sId}
+		GROUP BY lr_knowledagePoint.`id`
+		)a
+		WHERE a.rate &lt; 0.6 AND totalCount>=1
+	</select>
+	
 </mapper>

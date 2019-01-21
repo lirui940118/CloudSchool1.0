@@ -24,7 +24,7 @@
 
 		
 		
-		<table schema="Commission" tableName="commission" enableCountByExample="false"
+		<table schema="Lr_knowledagepoint_teacher" tableName="lr_knowledagepoint_teacher" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>

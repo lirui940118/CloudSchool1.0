@@ -13,7 +13,9 @@ import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.GkKaoqinState;
 import com.CloudSchool.domain.ZzyGrade;
+import com.CloudSchool.domain.statistics.BadTopicVO;
 import com.CloudSchool.domain.statistics.ClazzBaseInfoVO;
+import com.CloudSchool.domain.statistics.CourseVO;
 import com.CloudSchool.domain.statistics.StudentInfoVO;
 import com.CloudSchool.domain.statistics.TestInfo;
 import com.CloudSchool.domain.statistics.testBaseInfo;
@@ -22,9 +24,10 @@ import com.CloudSchool.service.ClazzSService;
 import com.CloudSchool.service.ClazzService;
 import com.CloudSchool.service.CqjStudentService;
 import com.CloudSchool.service.GkKaoqinStateService;
+import com.CloudSchool.service.LrKnowledagepointTeacherService;
 import com.CloudSchool.service.TestGradeService;
+import com.CloudSchool.service.WtrecordService;
 import com.CloudSchool.service.ZzyGradeService;
-import com.alibaba.fastjson.JSON;
 
 @Controller
 @RequestMapping("statistics")
@@ -44,6 +47,10 @@ public class StatisticsController {
 	ClazzService clazzService;
 	@Autowired
 	ClazzSService clazzSService;
+	@Autowired
+	WtrecordService wtrecordService;
+	@Autowired
+	LrKnowledagepointTeacherService lrKnowledagepointTeacherService;
 	/**
 	 * 学员首页
 	 * 
@@ -142,6 +149,25 @@ public class StatisticsController {
 		List<GkKaoqinState> list = gkKaoqinStateService.queryKqTotalInfoBySidAndGid(sId, gId);
 		return list;
 	}
+	/*查询学员的劣势知识点集合*/
+	@RequestMapping("getDataAboutBadKnowledage")
+	@ResponseBody
+	public List<BadTopicVO> getDataAboutBadKnowledage(HttpSession session,Integer sId){
+		CqjUser cqjUser = (CqjUser)session.getAttribute("user");
+		if(sId !=null) {//查其他学员
+			
+		}else {//查本人（学员）
+			sId = cqjUser.getUsertypeid();//doto session获取登陆学员的id
+		}
+		return wtrecordService.queryBadKnowledagePointBySid(sId);
+	}
+	//劣势知识点上报
+	@RequestMapping("submitBadKnowledage")
+	@ResponseBody
+	public Integer submitBadKnowledage(Integer courseId,Integer sId,Integer knowledageId) {
+		Integer effectCount = lrKnowledagepointTeacherService.submitBadKnowledage(courseId, sId, knowledageId);
+		return effectCount;
+	}
 	//=============================考试==========================================
 	/*查询考试基本信息数据*/
 	@RequestMapping("/getDataAboutTestBase")
@@ -188,5 +214,11 @@ public class StatisticsController {
 		//usertypeid 员工id
 		return list;
 	}
-	
+	//============================评分统计=====================================
+	/*开班选教员（班主任和教员）*/
+	@RequestMapping("/getStaffsAboutOpenClass")
+	@ResponseBody
+	public List<CourseVO> getStaffsAboutOpenClass(Integer gId,Integer mId){//年级id和mid专业
+		return null;
+	}
 }

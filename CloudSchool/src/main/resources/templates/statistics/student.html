@@ -125,23 +125,27 @@ img {
 							</p>
 						</div>
 						<div class="card-body">
-							<table class="table table-bordered" style="text-align: center;">
+							<table id="badKnowledageSec" class="table table-bordered" style="text-align: center;">
 								<thead>
 									<tr>
-										<th scope="col">书籍</th>
+										<th scope="col">课程</th>
 										<th scope="col">章节</th>
 										<th scope="col">知识点</th>
+										<th scope="col">正确率</th>
+										<th scope="col">数量</th>
 										<th scope="col">操作</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>JAVAOOP</td>
-										<td>面向对象</td>
-										<td>面向对象的三大特征</td>
+									<tr v-for="item in badKnowledageList">
+										<td>{{item.courseName}}</td>
+										<td>{{item.sectionName}}</td>
+										<td>{{item.knowledageName}}</td>
+										<td>{{item.rate}}</td>
+										<td>{{item.totalCount}}</td>
 										<td>
 											<button class="btn btn-danger">补习</button>
-											<button class="btn btn-info">上报</button>
+											<button class="btn btn-info" v-bind:studentId="item.studentId" v-bind:knowledageId="item.knowledageId" v-bind:courseId="item.courseId" v-on:click="submitKnowledagePoint($event)">上报</button>
 										</td>
 									</tr>
 								</tbody>
@@ -314,6 +318,8 @@ img {
 				console.log(data);
 			}
 		})
+		//加载劣势知识点部分
+		initBadKnowledagePoint();
 	}
 	function InitTestData(gId) {
 		myChar1.showLoading();
@@ -534,8 +540,59 @@ img {
 			}//success
 		})
 	}
-	
-	
+	//加载劣势知识点
+	function initBadKnowledagePoint(){
+		$.ajax({
+			type : "post",
+			url : adress.url + "/statistics/getDataAboutBadKnowledage",
+			data : {
+				sId:sId
+			},
+			success : function(data) {
+				console.log(data);
+				var vue = new Vue({
+					el:"#badKnowledageSec",
+					data:{
+						badKnowledageList:data
+					},
+					methods:{
+						//劣势知识点上报
+						submitKnowledagePoint:function(e){
+							var selectedDom = $(e.srcElement)//当前dom元素
+							var studentId = selectedDom.attr("studentId");
+							var knowledageId = selectedDom.attr("knowledageId");
+							var courseId = selectedDom.attr("courseId");
+							$.ajax({
+								type : "post",
+								url : adress.url + "/statistics/submitBadKnowledage",
+								data : {
+									sId:studentId,
+									knowledageId:knowledageId,
+									courseId:courseId
+								},
+								success : function(data) {
+									if(data>0){
+										alert("上报成功");
+										//doto
+										//禁止上报按钮
+									}
+								}
+							});
+							
+							
+							
+							
+							
+							
+							
+							
+						}
+					}
+				});
+			}
+		});
+		
+	}
 	
 	
 	

@@ -17,6 +17,7 @@ import com.CloudSchool.domain.TopicWithBLOBs;
 import com.CloudSchool.domain.Workgrade;
 import com.CloudSchool.domain.Workinstance;
 import com.CloudSchool.domain.Wtrecord;
+import com.CloudSchool.domain.statistics.BadTopicVO;
 import com.CloudSchool.service.WtrecordService;
 import com.alibaba.fastjson.JSON;
 @Service
@@ -131,6 +132,11 @@ public class WtrecordServiceImpl implements WtrecordService {
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public List<BadTopicVO> queryBadKnowledagePointBySid(Integer sId) {
+		return wtrecordMapper.queryBadKnowledagePointBySid(sId);
 	}
 
 }

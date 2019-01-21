@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.CloudSchool.domain.Wtrecord;
+import com.CloudSchool.domain.statistics.BadTopicVO;
 
 public interface WtrecordMapper {
     int deleteByPrimaryKey(Integer id);
@@ -32,5 +33,8 @@ public interface WtrecordMapper {
     int updateScoreById(@Param("score") Integer score,@Param("id") Integer id);
     
     int queryByWidAndSidSumScore(@Param("wid") Integer wid,@Param("sid") Integer sid);
+    
+    //write by lirui 查询学员的劣势知识点 (作业和考试)
+    public List<BadTopicVO> queryBadKnowledagePointBySid(Integer sId);
     
 }	

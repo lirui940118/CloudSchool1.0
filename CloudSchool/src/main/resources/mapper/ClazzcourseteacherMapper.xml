@@ -168,4 +168,15 @@
   <select id="queryByclazzid" resultMap="result">
   		SELECT * FROM `clazzcourseteacher` WHERE clazzid =#{id} AND isTeacher=1
   </select>
+  
+  <!-- write by lirui 查询该学员该课程的最后一次教学教员id -->
+  <select id="querystaffIdBysIdAndCourseId" resultType="int">
+  	SELECT clazzcourseteacher.`tid`AS staffId FROM clazzcourseteacher 
+	INNER JOIN `clazzstudent` ON `clazzstudent`.`cid` = clazzcourseteacher.`clazzid`
+	WHERE clazzcourseteacher.isTeacher = 1
+	AND courseid = #{courseId} AND clazzstudent.`sid` = #{sId}
+	ORDER BY clazzcourseteacher.status DESC 
+	LIMIT 0,1# 最正常
+  </select>
+  
 </mapper>

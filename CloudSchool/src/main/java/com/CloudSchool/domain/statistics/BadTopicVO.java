@@ -6,6 +6,7 @@ package com.CloudSchool.domain.statistics;
  */
 public class BadTopicVO {
 	private String courseName;//课程名称
+	private Integer courseId;//课程id
 	private String sectionName;//章节名称
 	private String knowledageName;//知识点名称
 	private Integer knowledageId;//知识点id
@@ -67,6 +68,12 @@ public class BadTopicVO {
 	}
 	public void setStudentId(Integer studentId) {
 		this.studentId = studentId;
+	}
+	public Integer getCourseId() {
+		return courseId;
+	}
+	public void setCourseId(Integer courseId) {
+		this.courseId = courseId;
 	}
 	
 	

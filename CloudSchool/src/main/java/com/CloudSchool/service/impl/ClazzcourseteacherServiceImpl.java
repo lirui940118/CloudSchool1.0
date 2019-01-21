@@ -20,4 +20,9 @@ public class ClazzcourseteacherServiceImpl implements ClazzcourseteacherService{
 		// TODO Auto-generated method stub
 		return clazzcourseteacherMapper.queryByTidResultClass(tid);
 	}
+
+	@Override
+	public Integer querystaffIdBysIdAndCourseId(Integer courseId, Integer sId) {
+		return clazzcourseteacherMapper.querystaffIdBysIdAndCourseId(courseId, sId);
+	}
 }
