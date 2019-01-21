@@ -14,4 +14,6 @@ public interface WorkgradeMapper {
     int updateByPrimaryKeySelective(Workgrade record);
 
     int updateByPrimaryKey(Workgrade record);
+    
+    int inserStuScore(Workgrade obj);
 }

@@ -173,4 +173,10 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <!-- 添加学生作业分数 -->
+  <insert id="inserStuScore">
+  	insert into workGrade(id, wId, uId, score, rank, time)
+  	values(0,#{wid},#{uid},#{score},#{rank},now())
+  </insert>
 </mapper>

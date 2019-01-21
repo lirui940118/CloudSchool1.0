@@ -23,4 +23,14 @@ public interface WtrecordMapper {
     
     int insertWorkRecordList(List<Wtrecord> list);
     int deleteBySidAndWid(@Param("wid") Integer wid,@Param("sid") Integer sid);
-}
+    
+    
+  /*   根据血学生id,作业查询所有选择题记录和题目的正确答案 */
+    List<Wtrecord> queryByWidAndSidAllSelect(@Param("wid") Integer wid,@Param("sid") Integer sid);
+    
+    
+    int updateScoreById(@Param("score") Integer score,@Param("id") Integer id);
+    
+    int queryByWidAndSidSumScore(@Param("wid") Integer wid,@Param("sid") Integer sid);
+    
+}	

@@ -1,233 +1,319 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.CloudSchool.dao.WtrecordMapper">
-  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.Wtrecord">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="wId" jdbcType="INTEGER" property="wid" />
-    <result column="tId" jdbcType="INTEGER" property="tid" />
-    <result column="sId" jdbcType="INTEGER" property="sid" />
-    <result column="score" jdbcType="INTEGER" property="score" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="time" jdbcType="TIMESTAMP" property="time" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="user1" jdbcType="VARCHAR" property="user1" />
-    <result column="user2" jdbcType="VARCHAR" property="user2" />
-    <result column="user3" jdbcType="VARCHAR" property="user3" />
-    <result column="user4" jdbcType="VARCHAR" property="user4" />
-    <result column="user5" jdbcType="VARCHAR" property="user5" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.CloudSchool.domain.Wtrecord">
-    <result column="result" jdbcType="LONGVARCHAR" property="result" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, wId, tId, sId, score, type, time, status, user1, user2, user3, user4, user5
-  </sql>
-  <sql id="Blob_Column_List">
-    result
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from wTrecord
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from wTrecord
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.CloudSchool.domain.Wtrecord">
-    insert into wTrecord (id, wId, tId, 
-      sId, score, type, time, 
-      status, user1, user2, 
-      user3, user4, user5, 
-      result)
-    values (#{id,jdbcType=INTEGER}, #{wid,jdbcType=INTEGER}, #{tid,jdbcType=INTEGER}, 
-      #{sid,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER}, #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, 
-      #{user3,jdbcType=VARCHAR}, #{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR}, 
-      #{result,jdbcType=LONGVARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.CloudSchool.domain.Wtrecord">
-    insert into wTrecord
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="wid != null">
-        wId,
-      </if>
-      <if test="tid != null">
-        tId,
-      </if>
-      <if test="sid != null">
-        sId,
-      </if>
-      <if test="score != null">
-        score,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="time != null">
-        time,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="user1 != null">
-        user1,
-      </if>
-      <if test="user2 != null">
-        user2,
-      </if>
-      <if test="user3 != null">
-        user3,
-      </if>
-      <if test="user4 != null">
-        user4,
-      </if>
-      <if test="user5 != null">
-        user5,
-      </if>
-      <if test="result != null">
-        result,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="wid != null">
-        #{wid,jdbcType=INTEGER},
-      </if>
-      <if test="tid != null">
-        #{tid,jdbcType=INTEGER},
-      </if>
-      <if test="sid != null">
-        #{sid,jdbcType=INTEGER},
-      </if>
-      <if test="score != null">
-        #{score,jdbcType=INTEGER},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
-      </if>
-      <if test="time != null">
-        #{time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="user1 != null">
-        #{user1,jdbcType=VARCHAR},
-      </if>
-      <if test="user2 != null">
-        #{user2,jdbcType=VARCHAR},
-      </if>
-      <if test="user3 != null">
-        #{user3,jdbcType=VARCHAR},
-      </if>
-      <if test="user4 != null">
-        #{user4,jdbcType=VARCHAR},
-      </if>
-      <if test="user5 != null">
-        #{user5,jdbcType=VARCHAR},
-      </if>
-      <if test="result != null">
-        #{result,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.Wtrecord">
-    update wTrecord
-    <set>
-      <if test="wid != null">
-        wId = #{wid,jdbcType=INTEGER},
-      </if>
-      <if test="tid != null">
-        tId = #{tid,jdbcType=INTEGER},
-      </if>
-      <if test="sid != null">
-        sId = #{sid,jdbcType=INTEGER},
-      </if>
-      <if test="score != null">
-        score = #{score,jdbcType=INTEGER},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="time != null">
-        time = #{time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="user1 != null">
-        user1 = #{user1,jdbcType=VARCHAR},
-      </if>
-      <if test="user2 != null">
-        user2 = #{user2,jdbcType=VARCHAR},
-      </if>
-      <if test="user3 != null">
-        user3 = #{user3,jdbcType=VARCHAR},
-      </if>
-      <if test="user4 != null">
-        user4 = #{user4,jdbcType=VARCHAR},
-      </if>
-      <if test="user5 != null">
-        user5 = #{user5,jdbcType=VARCHAR},
-      </if>
-      <if test="result != null">
-        result = #{result,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.CloudSchool.domain.Wtrecord">
-    update wTrecord
-    set wId = #{wid,jdbcType=INTEGER},
-      tId = #{tid,jdbcType=INTEGER},
-      sId = #{sid,jdbcType=INTEGER},
-      score = #{score,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER},
-      time = #{time,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
-      user1 = #{user1,jdbcType=VARCHAR},
-      user2 = #{user2,jdbcType=VARCHAR},
-      user3 = #{user3,jdbcType=VARCHAR},
-      user4 = #{user4,jdbcType=VARCHAR},
-      user5 = #{user5,jdbcType=VARCHAR},
-      result = #{result,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.Wtrecord">
-    update wTrecord
-    set wId = #{wid,jdbcType=INTEGER},
-      tId = #{tid,jdbcType=INTEGER},
-      sId = #{sid,jdbcType=INTEGER},
-      score = #{score,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER},
-      time = #{time,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
-      user1 = #{user1,jdbcType=VARCHAR},
-      user2 = #{user2,jdbcType=VARCHAR},
-      user3 = #{user3,jdbcType=VARCHAR},
-      user4 = #{user4,jdbcType=VARCHAR},
-      user5 = #{user5,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  
-  <!-- 作业记录批量新增 -->
-  <insert id="insertWorkRecordList">
-  	insert into wTrecord (id, wId, tId, sId,result, score, type, time, status, user1) values
-  	<foreach collection="list" separator="," item="obj">
-  		(0,#{obj.wid},#{obj.tid},#{obj.sid},#{obj.result},#{obj.score},#{obj.type},#{obj.time},#{obj.status},#{obj.user1})
-  	</foreach>
-  </insert>
-  <!-- 根据学生id和作业实例id删除 -->
-  <delete id="deleteBySidAndWid">
-  	delete from wtrecord where wid=#{wid} and sid=#{sid}  AND user1 IS NULL
-  </delete>
+	<resultMap id="BaseResultMap"
+		type="com.CloudSchool.domain.Wtrecord">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="wId" jdbcType="INTEGER" property="wid" />
+		<result column="tId" jdbcType="INTEGER" property="tid" />
+		<result column="sId" jdbcType="INTEGER" property="sid" />
+		<result column="score" jdbcType="INTEGER" property="score" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="time" jdbcType="TIMESTAMP" property="time" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="user1" jdbcType="VARCHAR" property="user1" />
+		<result column="user2" jdbcType="VARCHAR" property="user2" />
+		<result column="user3" jdbcType="VARCHAR" property="user3" />
+		<result column="user4" jdbcType="VARCHAR" property="user4" />
+		<result column="user5" jdbcType="VARCHAR" property="user5" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.CloudSchool.domain.Wtrecord">
+		<result column="result" jdbcType="LONGVARCHAR"
+			property="result" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, wId, tId, sId, score, type, time, status, user1, user2,
+		user3, user4,
+		user5
+	</sql>
+	<sql id="Blob_Column_List">
+		result
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from wTrecord
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from wTrecord
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.CloudSchool.domain.Wtrecord">
+		insert into wTrecord (id, wId, tId,
+		sId, score, type,
+		time,
+		status, user1, user2,
+		user3, user4, user5,
+		result)
+		values
+		(#{id,jdbcType=INTEGER}, #{wid,jdbcType=INTEGER},
+		#{tid,jdbcType=INTEGER},
+		#{sid,jdbcType=INTEGER},
+		#{score,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},
+		#{time,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR},
+		#{user3,jdbcType=VARCHAR}, #{user4,jdbcType=VARCHAR},
+		#{user5,jdbcType=VARCHAR},
+		#{result,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.CloudSchool.domain.Wtrecord">
+		insert into wTrecord
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="wid != null">
+				wId,
+			</if>
+			<if test="tid != null">
+				tId,
+			</if>
+			<if test="sid != null">
+				sId,
+			</if>
+			<if test="score != null">
+				score,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="time != null">
+				time,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="user1 != null">
+				user1,
+			</if>
+			<if test="user2 != null">
+				user2,
+			</if>
+			<if test="user3 != null">
+				user3,
+			</if>
+			<if test="user4 != null">
+				user4,
+			</if>
+			<if test="user5 != null">
+				user5,
+			</if>
+			<if test="result != null">
+				result,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="wid != null">
+				#{wid,jdbcType=INTEGER},
+			</if>
+			<if test="tid != null">
+				#{tid,jdbcType=INTEGER},
+			</if>
+			<if test="sid != null">
+				#{sid,jdbcType=INTEGER},
+			</if>
+			<if test="score != null">
+				#{score,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="time != null">
+				#{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="user1 != null">
+				#{user1,jdbcType=VARCHAR},
+			</if>
+			<if test="user2 != null">
+				#{user2,jdbcType=VARCHAR},
+			</if>
+			<if test="user3 != null">
+				#{user3,jdbcType=VARCHAR},
+			</if>
+			<if test="user4 != null">
+				#{user4,jdbcType=VARCHAR},
+			</if>
+			<if test="user5 != null">
+				#{user5,jdbcType=VARCHAR},
+			</if>
+			<if test="result != null">
+				#{result,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.CloudSchool.domain.Wtrecord">
+		update wTrecord
+		<set>
+			<if test="wid != null">
+				wId = #{wid,jdbcType=INTEGER},
+			</if>
+			<if test="tid != null">
+				tId = #{tid,jdbcType=INTEGER},
+			</if>
+			<if test="sid != null">
+				sId = #{sid,jdbcType=INTEGER},
+			</if>
+			<if test="score != null">
+				score = #{score,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="time != null">
+				time = #{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="user1 != null">
+				user1 = #{user1,jdbcType=VARCHAR},
+			</if>
+			<if test="user2 != null">
+				user2 = #{user2,jdbcType=VARCHAR},
+			</if>
+			<if test="user3 != null">
+				user3 = #{user3,jdbcType=VARCHAR},
+			</if>
+			<if test="user4 != null">
+				user4 = #{user4,jdbcType=VARCHAR},
+			</if>
+			<if test="user5 != null">
+				user5 = #{user5,jdbcType=VARCHAR},
+			</if>
+			<if test="result != null">
+				result = #{result,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs"
+		parameterType="com.CloudSchool.domain.Wtrecord">
+		update wTrecord
+		set wId = #{wid,jdbcType=INTEGER},
+		tId =
+		#{tid,jdbcType=INTEGER},
+		sId = #{sid,jdbcType=INTEGER},
+		score =
+		#{score,jdbcType=INTEGER},
+		type = #{type,jdbcType=INTEGER},
+		time =
+		#{time,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		user1 =
+		#{user1,jdbcType=VARCHAR},
+		user2 = #{user2,jdbcType=VARCHAR},
+		user3 =
+		#{user3,jdbcType=VARCHAR},
+		user4 = #{user4,jdbcType=VARCHAR},
+		user5 =
+		#{user5,jdbcType=VARCHAR},
+		result = #{result,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.CloudSchool.domain.Wtrecord">
+		update wTrecord
+		set wId = #{wid,jdbcType=INTEGER},
+		tId =
+		#{tid,jdbcType=INTEGER},
+		sId = #{sid,jdbcType=INTEGER},
+		score =
+		#{score,jdbcType=INTEGER},
+		type = #{type,jdbcType=INTEGER},
+		time =
+		#{time,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		user1 =
+		#{user1,jdbcType=VARCHAR},
+		user2 = #{user2,jdbcType=VARCHAR},
+		user3 =
+		#{user3,jdbcType=VARCHAR},
+		user4 = #{user4,jdbcType=VARCHAR},
+		user5 =
+		#{user5,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 作业记录批量新增 -->
+	<insert id="insertWorkRecordList">
+		insert into wTrecord (id, wId, tId, sId,result, score, type, time,
+		user1) values
+		<foreach collection="list" separator="," item="obj">
+			(0,#{obj.wid},#{obj.tid},#{obj.sid},#{obj.result},#{obj.score},#{obj.type},#{obj.time},#{obj.user1})
+		</foreach>
+	</insert>
+	<!-- 根据学生id和作业实例id删除 -->
+	<delete id="deleteBySidAndWid">
+		delete from wtrecord where wid=#{wid} and sid=#{sid}
+		AND user1 IS NULL
+	</delete>
+
+
+
+	<resultMap type="com.CloudSchool.domain.Wtrecord"
+		id="queryByWidAndSidAllSelectMap">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="wId" jdbcType="INTEGER" property="wid" />
+		<result column="tId" jdbcType="INTEGER" property="tid" />
+		<result column="sId" jdbcType="INTEGER" property="sid" />
+		<result column="score" jdbcType="INTEGER" property="score" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="time" jdbcType="TIMESTAMP" property="time" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="result" property="result" />
+		<result column="user1" jdbcType="VARCHAR" property="user1" />
+		<result column="user2" jdbcType="VARCHAR" property="user2" />
+		<result column="user3" jdbcType="VARCHAR" property="user3" />
+		<result column="user4" jdbcType="VARCHAR" property="user4" />
+		<result column="user5" jdbcType="VARCHAR" property="user5" />
+		<association property="topic"
+			javaType="com.CloudSchool.domain.TopicWithBLOBs">
+			<id column="topicid" property="id" />
+			<result column="topicscore" property="user1"/>
+			<result column="topicconten" property="topicconten" />
+		</association>
+		<association property="obj"
+			javaType="com.CloudSchool.domain.Topicoption">
+			<id column="optionid" property="id" />
+			<result column="option" property="option" />
+		</association>
+	</resultMap>
+	<!-- 根据血学生id,作业查询所有选择题记录和题目的正确答案 -->
+	<select id="queryByWidAndSidAllSelect"
+		resultMap="queryByWidAndSidAllSelectMap">
+		SELECT wtrecord.*,topic.`id` AS topicid,topic.`topicConten`
+		AS topicconten,topic.`user1` AS topicscore,topicoption.`id` AS
+		optionid,topicoption.`option`FROM wtrecord
+		INNER JOIN topic ON wtrecord.`tId`=topic.id
+		INNER JOIN topicoption ON topicoption.`tId`=topic.`id`
+		AND topic.`tId`=1 AND topicoption.`IsTrue`=1 AND wtrecord.`wId`=#{wid} AND
+		wtrecord.`sId`=#{sid} AND wtrecord.`status`=0
+	</select>
+
+	<!-- 根据id修改题目得分 （自动修改选择题） -->
+	<update id="updateScoreById">
+		UPDATE `wtrecord` SET `score` = #{score} WHERE `id` =
+		#{id};
+	</update>
+	
+	<!-- 根据学生id和作业实例id 计算成绩 -->
+	<select id="queryByWidAndSidSumScore" resultType="int">
+		SELECT SUM(score) FROM wtrecord WHERE wid=#{wid} AND sid=#{sid}
+	</select>
 </mapper>

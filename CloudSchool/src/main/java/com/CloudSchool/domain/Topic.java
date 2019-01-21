@@ -23,8 +23,9 @@ public class Topic {
     private Integer examdot;
 
     private Integer status;
-
-    private String user1;
+    
+    /*分数*/
+    private Integer user1;
 
     private String user2;
 
@@ -127,15 +128,16 @@ public class Topic {
         this.status = status;
     }
 
-    public String getUser1() {
-        return user1;
-    }
+   
+    public Integer getUser1() {
+		return user1;
+	}
 
-    public void setUser1(String user1) {
-        this.user1 = user1;
-    }
+	public void setUser1(Integer user1) {
+		this.user1 = user1;
+	}
 
-    public String getUser2() {
+	public String getUser2() {
         return user2;
     }
 

@@ -31,8 +31,27 @@ public class Wtrecord {
     private String user5;
 
     private String result;
+    //题目
+    private Topic topic;
+    //正确答案
+    private Topicoption obj;
+    public Topicoption getObj() {
+		return obj;
+	}
 
-    public Integer getId() {
+	public void setObj(Topicoption obj) {
+		this.obj = obj;
+	}
+
+	public Topic getTopic() {
+		return topic;
+	}
+
+	public void setTopic(Topic topic) {
+		this.topic = topic;
+	}
+
+	public Integer getId() {
         return id;
     }
 

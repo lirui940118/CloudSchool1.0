@@ -153,7 +153,7 @@
 									<div class="topicoption">
 										<div class="option" v-for="(obj1,index) in obj.topicoptionList">
 											<label class="form-radio-label">
-												<input class="form-radio-input" type="radio" name="optionsRadios" value="" >
+												<input class="form-radio-input" type="radio" name="">
 												<span class="form-radio-sign">{{obj1.option}}</span>
 											</label>
 											{{obj1.optionconten}}
@@ -347,7 +347,7 @@
 		$.ajax({
 			type:"post",
 			url:"http://127.0.0.1:8080/StudentWork/queryStudentWork",
-			data:{wid:22,sid:7},
+			data:{wid:25,sid:7},
 			success:function(data){
 				console.log(JSON.stringify(data))
 				count=data.topicWithBLOBsList.length
@@ -474,7 +474,18 @@
 		
 		//交作业
 		$("body").on("click","#submitWork",function(){
-			
+			v.obj.exit=0;
+			$.ajax({
+				type:"post",
+				url:"http://127.0.0.1:8080/StudentWork/studentPublishWork",
+				data:JSON.stringify(v.obj),
+				contentType: "application/json; charset=utf-8",
+				success:function(data){
+					if(data>0){
+						alert("交卷成功！")
+					}
+				}
+			})
 		})
 	})
 	

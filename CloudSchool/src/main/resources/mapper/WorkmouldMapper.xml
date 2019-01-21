@@ -297,6 +297,7 @@
 			javaType="com.CloudSchool.domain.Workmould">
 			<id column="mid" property="id" />
 			<result column="mname" property="name" />
+			<result column="wtype" property="wtype"/>
 		</association>
 		<association property="staff"
 			javaType="com.CloudSchool.domain.CqjStaff">
@@ -380,13 +381,12 @@
 			<id column="pid" property="id"/>
 			<result column="sid" property="sid"/>
 		</association>
-		
 	</resultMap>
-	<!-- 根据学生id和作业id查询作业详情 -->
+	<!-- 根据学生id和作业id查询作业详情  （没提交的作业）-->
 	<select id="queryStudentWork" resultMap="queryStudentWorkMap">
 		SELECT
 		workinstance.`id`,workinstance.`time`,cqj_staff.`staffid`,cqj_staff.`staffname`,workmould.`id`
-		AS `mid`,workmould.`name` as mname,topic.`topicConten`,topic.`id` AS
+		AS `mid`,workmould.`name` as mname,workmould.`wType` AS wtype,topic.`topicConten`,topic.`id` AS
 		tid,topic.`tId` AS typeid,
 		topic.`user1`,topic.`url`,topic.`analysis`,topic.`result`,workinfo.`user1`
 		AS workid,topicoption.`id` AS
@@ -401,7 +401,7 @@
 		INNER JOIN cqj_staff ON cqj_staff.`staffid`=workinstance.`tid`
 		INNER JOIN participationworkstu ON
 		participationworkstu.wid=workinstance.`id` AND
-		participationworkstu.`sId`=#{sid}
+		participationworkstu.`sId`=#{sid} AND participationworkstu.`isCorrect`=1
 		INNER JOIN
 		(
 		SELECT COUNT(*) AS tcount,SUM(topic.`user1`) AS score
@@ -416,5 +416,5 @@
 		LEFT JOIN topicoption ON topicoption.`tId`=topic.`id`
 		ORDER BY workinfo.`user1` ASC
 	</select>
-
+	
 </mapper>
