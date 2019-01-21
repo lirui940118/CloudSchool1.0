@@ -176,13 +176,17 @@
   
   <!--参加这次考试的学生  -->
   <insert id="insertList">
-  	insert into participationWorkStu(id, wId, sId,isCorrect,user1) values
+  	insert into participationWorkStu(id, wId, sId,isCorrect,user1,time) values
   	<foreach collection="list" separator="," item="obj">
-  		(0,#{wid},#{obj},0,#{user1})
+  		(0,#{wid},#{obj},0,#{user1},now())
   	</foreach>
   </insert>
  <!--  根据作业id修改状态 -->
   <update id="updateIscorrectByid">
-  	UPDATE `participationworkstu` SET `isCorrect` = #{isCorrect} WHERE `wid` = #{id} and sid=#{sid};
+  	UPDATE `participationworkstu` SET `isCorrect` = #{isCorrect}
+  	<if test="isCorrect==3">
+  		,user2=now()
+  	</if>
+  	 WHERE `wid` = #{id} and sid=#{sid};
   </update>
 </mapper>

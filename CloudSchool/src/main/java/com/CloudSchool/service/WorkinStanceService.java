@@ -23,4 +23,7 @@ public interface WorkinStanceService {
    * @return
    */
     Workinstance queryStudentWork(Integer wid,Integer sid);
+    
+    
+    Workinstance queryWorkStuInfo(Integer id);
 }

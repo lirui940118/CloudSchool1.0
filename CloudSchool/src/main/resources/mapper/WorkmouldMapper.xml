@@ -261,7 +261,7 @@
 	<select id="queryByTidAdminStuAll"
 		resultMap="TeacherAdminStuMap">
 		SELECT
-		clazzstudent.`id` AS
+		clazzstudent.sid AS
 		studentid,clazz.`cname`,cqj_student.`studentname`,clazz.`id` AS cid
 		FROM clazzcourseteacher
 		INNER JOIN clazz ON
@@ -339,15 +339,14 @@
 	<select id="queryWorkInfoById" resultMap="queryWorkInfoByIdMap">
 		SELECT
 		workinstance.`id`,workinstance.`time`,cqj_staff.`staffid`,cqj_staff.`staffname`,workmould.`id`
-		AS `mid`,workmould.`name` as mname,topic.`topicConten`,topic.`id` AS
+		AS `mid`,workmould.`name` AS mname,topic.`topicConten`,topic.`id` AS
 		tid,topic.`tId` AS typeid,topic.`user1`,topic.`url`,
 		topic.`analysis`,topic.`result`,workinfo.`user1` AS
 		workid,topicoption.`id` AS
 		oid,topicoption.`option`,topicoption.`optionConten`,topicoption.`IsTrue`,c.tcount,c.score
 		FROM workinstance
 		INNER JOIN workmould ON
-		workinstance.`wid`=workmould.`id` AND
-		workinstance.`id`=#{id} AND
+		workinstance.`wid`=workmould.`id` AND workmould.`id`=#{id} AND
 		workinstance.`status`=0
 		INNER JOIN workinfo ON
 		workmould.`id`=workinfo.`wId`
@@ -362,7 +361,7 @@
 		FROM workinstance
 		INNER JOIN
 		workmould ON workinstance.`wid`=workmould.`id` AND
-		workinstance.`id`=#{id} AND workinstance.`status`=0
+		workmould.`id`=#{id} AND workinstance.`status`=0
 		INNER JOIN workinfo
 		ON workmould.`id`=workinfo.`wId`
 		INNER JOIN topic ON
@@ -373,7 +372,7 @@
 		) AS c
 		LEFT JOIN topicoption ON
 		topicoption.`tId`=topic.`id`
-		order by workinfo.`user1` asc
+		ORDER BY workinfo.`user1` ASC
 	</select>
 
 	<resultMap type="com.CloudSchool.domain.Workinstance" id="queryStudentWorkMap" extends="queryWorkInfoByIdMap">
@@ -412,7 +411,7 @@
 		INNER JOIN topic ON topic.`id`=workinfo.`tId`
 		INNER JOIN cqj_staff ON cqj_staff.`staffid`=workinstance.`tid`
 		) AS c
-		LEFT JOIN wtrecord ON topic.`id`=wtrecord.`tId` and wtrecord.`type`=1
+		LEFT JOIN wtrecord ON topic.`id`=wtrecord.`tId` and wtrecord.`type`=1 AND wtrecord.`wId`=workinstance.`id`
 		LEFT JOIN topicoption ON topicoption.`tId`=topic.`id`
 		ORDER BY workinfo.`user1` ASC
 	</select>

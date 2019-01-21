@@ -20,7 +20,8 @@
 		<result column="user5" jdbcType="VARCHAR" property="user5" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, wid, startTime, endTime, message, tid, time, status, user1, user2,
+		id, wid, startTime, endTime, message, tid, time, status,
+		user1, user2,
 		user3, user4,
 		user5
 	</sql>
@@ -34,21 +35,26 @@
 	<delete id="deleteByPrimaryKey"
 		parameterType="java.lang.Integer">
 		delete from workInstance
-		where id = #{id,jdbcType=INTEGER}
+		where id =
+		#{id,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert"
 		parameterType="com.CloudSchool.domain.Workinstance">
 		insert into workInstance (id, wid, startTime,
-		endTime, message, tid,
+		endTime,
+		message, tid,
 		time, status, user1,
 		user2, user3, user4,
 		user5)
-		values (#{id,jdbcType=INTEGER}, #{wid,jdbcType=INTEGER},
+		values
+		(#{id,jdbcType=INTEGER}, #{wid,jdbcType=INTEGER},
 		#{starttime,jdbcType=TIMESTAMP},
-		#{endtime,jdbcType=TIMESTAMP}, #{message,jdbcType=VARCHAR}, #{tid,jdbcType=INTEGER},
+		#{endtime,jdbcType=TIMESTAMP},
+		#{message,jdbcType=VARCHAR}, #{tid,jdbcType=INTEGER},
 		#{time,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
 		#{user1,jdbcType=VARCHAR},
-		#{user2,jdbcType=VARCHAR}, #{user3,jdbcType=VARCHAR}, #{user4,jdbcType=VARCHAR},
+		#{user2,jdbcType=VARCHAR},
+		#{user3,jdbcType=VARCHAR}, #{user4,jdbcType=VARCHAR},
 		#{user5,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective"
@@ -186,7 +192,8 @@
 		update workInstance
 		set wid = #{wid,jdbcType=INTEGER},
 		startTime = #{starttime,jdbcType=TIMESTAMP},
-		endTime = #{endtime,jdbcType=TIMESTAMP},
+		endTime =
+		#{endtime,jdbcType=TIMESTAMP},
 		message = #{message,jdbcType=VARCHAR},
 		tid = #{tid,jdbcType=INTEGER},
 		time = #{time,jdbcType=TIMESTAMP},
@@ -198,24 +205,29 @@
 		user5 = #{user5,jdbcType=VARCHAR}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
-	<resultMap type="com.CloudSchool.domain.zjfvo.PublishWorkInfo" id="queryPublishWorkByTidMap">
-		<id column="id" property="id"/>
-		<result column="name" property="name"/>
-		<result column="startTime" property="startTime"/>
-		<result column="endTime" property="endTime"/>
-		<result column="cName" property="cName"/>
-		<result column="wStatus" property="wStatus"/>
-		<result column="wType" property="wType"/>
-	</resultMap> 
+	<resultMap
+		type="com.CloudSchool.domain.zjfvo.PublishWorkInfo"
+		id="queryPublishWorkByTidMap">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="startTime" property="startTime" />
+		<result column="endTime" property="endTime" />
+		<result column="cName" property="cName" />
+		<result column="wStatus" property="wStatus" />
+		<result column="wType" property="wType" />
+	</resultMap>
 	<select id="queryPublishWorkByTidCount" resultType="int">
 		SELECT
 		count(*)
 		FROM workinstance
-		INNER JOIN workmould ON workmould.`id`=workinstance.`wid`
+		INNER JOIN workmould ON
+		workmould.`id`=workinstance.`wid`
 		INNER JOIN participationworkclass ON
 		workinstance.`id`=participationworkclass.`wId`
-		INNER JOIN clazz ON clazz.`id`=participationworkclass.cid
-		AND workinstance.`tid`=#{tid} AND workinstance.`status`=0
+		INNER JOIN clazz ON
+		clazz.`id`=participationworkclass.cid
+		AND workinstance.`tid`=#{tid} AND
+		workinstance.`status`=0
 		<where>
 			<if test="wStatus!=null and wStatus!=4">
 				and participationworkclass.`wStatus`=#{wStatus}
@@ -227,15 +239,19 @@
 		</where>
 	</select>
 	<!-- 根据教师id查询发布的作业 -->
-	<select id="queryPublishWorkByTid" resultMap="queryPublishWorkByTidMap">
+	<select id="queryPublishWorkByTid"
+		resultMap="queryPublishWorkByTidMap">
 		SELECT
 		workinstance.`id`,workmould.`name`,workinstance.`startTime`,workinstance.`endTime`,clazz.`cname`,participationworkclass.`wStatus`,workmould.`wType`
 		FROM workinstance
-		INNER JOIN workmould ON workmould.`id`=workinstance.`wid`
+		INNER JOIN workmould ON
+		workmould.`id`=workinstance.`wid`
 		INNER JOIN participationworkclass ON
 		workinstance.`id`=participationworkclass.`wId`
-		INNER JOIN clazz ON clazz.`id`=participationworkclass.cid
-		AND workinstance.`tid`=#{tid} AND workinstance.`status`=0
+		INNER JOIN clazz ON
+		clazz.`id`=participationworkclass.cid
+		AND workinstance.`tid`=#{tid} AND
+		workinstance.`status`=0
 		<where>
 			<if test="wStatus!=null and wStatus!=4">
 				and participationworkclass.`wStatus`=#{wStatus}
@@ -245,6 +261,45 @@
 				and participationworkclass.`wStatus` in(0,1,2,3)
 			</if>
 		</where>
-		GROUP BY participationworkclass.`id` ORDER BY workinstance.`endTime` ASC LIMIT #{cur},#{pageSize}
+		GROUP BY participationworkclass.`id` ORDER BY workinstance.`endTime`
+		ASC LIMIT #{cur},#{pageSize}
+	</select>
+	
+	<resultMap type="com.CloudSchool.domain.Workinstance" id="queryWorkStuInfoMap" extends="BaseResultMap">
+		<association property="workmould" javaType="com.CloudSchool.domain.Workmould">
+			<id column="mid" property="id"/>
+			<result column="mname" property="name"/>
+		</association>
+		<collection property="listStu" ofType="com.CloudSchool.domain.Participationworkstu">
+			<id column="pwid" property="id"/>
+			<result column="pwtime" property="time"/>
+			<result column="iscorrect" property="iscorrect"/>
+			<association property="cqjStudent" javaType="com.CloudSchool.domain.CqjStudent">
+				<id column="studentid" property="studentid"/>
+				<result column="studentname" property="studentname"/>
+			</association>
+			<association property="workgrade" javaType="com.CloudSchool.domain.Workgrade">
+					<id column="wgid" property="id"/>
+					<id column="score" property="score"/>
+					<id column="rank" property="rank"/>
+			</association>
+		</collection>
+	</resultMap> 
+	<select id="queryWorkStuInfo" resultMap="queryWorkStuInfoMap">
+		SELECT workinstance.*,workmould.`id` AS `mid`,workmould.`name` AS
+		mname,cqj_student.`studentid`,cqj_student.`studentname`,participationworkstu.`id`
+		AS pwid,participationworkstu.`time` AS
+		pwtime,participationworkstu.`isCorrect` AS iscorrect,workgrade.`id` AS wgid,workgrade.`score`,workgrade.`rank`
+		FROM workinstance
+		INNER JOIN workmould ON workinstance.`wid`=workmould.`id` AND
+		workinstance.`status`=0 AND workinstance.`id`=#{id}
+		INNER JOIN participationworkclass ON
+		participationworkclass.`wId`=workinstance.`id`
+		INNER JOIN participationworkstu ON
+		participationworkstu.`user1`=participationworkclass.`id`
+		INNER JOIN cqj_student ON
+		cqj_student.`studentid`=participationworkstu.`sId`
+		LEFT JOIN workgrade ON workgrade.`wId`=workinstance.`id`
+		AND participationworkstu.`sId`=workgrade.`uId`
 	</select>
 </mapper>
