@@ -25,7 +25,7 @@
 					<h4 class="page-title">作业详情</h4>
 					<div class="card">
 						<div class="card-header">
-							<h5 class="card-title">作业名称：MySQL第一次作业</h4>
+							<h5 class="card-title">作业名称：{{obj.workmould.name}}</h4>
 						</div>
 						<div class="card-body">
 							<div class="row">
@@ -36,17 +36,30 @@
 													<th scope="col">布置时间</th>
 													<th scope="col">提交时间</th>
 													<th scope="col">是否批改</th>
+													<th scope="col">分数</th>
 													<th scope="col">评分</th>
 													<th scope="col">查看</th>
 												</tr>
 											</thead>
 											<tbody>
-												<tr>
+												<tr v-for="(obj1,index) in obj.listStu">
+													<td>{{obj1.cqjStudent.studentname}}</td>
+													<td>{{obj.time}}</td>
+													<td>{{obj1.time}}</td>
+													<td>{{obj1.iscorrect}}</td>
+													<td>{{obj1.workgrade.score}}</td>
+													<td>{{obj1.workgrade.rank}}</td>
+													<td>
+														<button class="btn btn-success">查看详情</button>
+													</td>
+												</tr>
+												<!-- <tr>
 													<td>老王</td>
 													<td>2019-01-02</td>
 													<td>2019-01-02</td>
 													<td>已批改</td>
 													<td>50</td>
+													<td>A</td>
 													<td>
 														<button class="btn btn-success">查看详情</button>
 													</td>
@@ -57,20 +70,12 @@
 													<td>2019-01-02</td>
 													<td>已批改</td>
 													<td>50</td>
+													<td>A</td>
 													<td>
 														<button class="btn btn-success">查看详情</button>
 													</td>
-												</tr>
-												<tr>
-													<td>老王</td>
-													<td>2019-01-02</td>
-													<td>2019-01-02</td>
-													<td>已批改</td>
-													<td>50</td>
-													<td>
-														<button class="btn btn-success">查看详情</button>
-													</td>
-												</tr>
+												</tr> -->
+												
 											</tbody>
 								</table>
 										</div>
@@ -109,3 +114,24 @@
 	</body>
 
 </html>
+<script src="../static/js/core/jquery.min.js"></script>
+<script src="../static/js/core/vue.js"></script>
+<script>
+	var v=new Vue({
+		el:".card",
+		data:{
+			obj:null
+		}
+	})
+	$(function(){
+		$.ajax({
+			type:"post",
+			url:"http://127.0.0.1:8080/WorkInfo/queryWorkStuInfo",
+			data:null,
+			success:function(data){
+				console.log(JSON.stringify(data))
+				v.obj=data;
+			}
+		})
+	})
+</script>

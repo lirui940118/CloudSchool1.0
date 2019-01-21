@@ -87,4 +87,10 @@ public class WorkinStanceServiceImpl implements WorkinStanceService{
 		return workmouldMapper.queryStudentWork(wid, sid);
 	}
 
+	@Override
+	public Workinstance queryWorkStuInfo(Integer id) {
+		// TODO Auto-generated method stub
+		return workinstanceMapper.queryWorkStuInfo(id);
+	}
+
 }

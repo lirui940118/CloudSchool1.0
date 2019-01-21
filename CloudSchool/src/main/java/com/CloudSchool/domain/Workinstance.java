@@ -36,6 +36,25 @@ public class Workinstance {
 	/* 教员 */
 	/*参加作业学生*/
 	private Participationworkstu stu;
+	
+	//参加本次作业实例的所有学生
+	private List<Participationworkstu> listStu;
+	
+
+
+
+	public List<Participationworkstu> getListStu() {
+		return listStu;
+	}
+
+
+
+	public void setListStu(List<Participationworkstu> listStu) {
+		this.listStu = listStu;
+	}
+
+
+
 	public Participationworkstu getStu() {
 		return stu;
 	}

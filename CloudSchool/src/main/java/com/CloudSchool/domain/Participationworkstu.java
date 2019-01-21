@@ -3,6 +3,10 @@ package com.CloudSchool.domain;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Participationworkstu {
     private Integer id;
 
@@ -13,7 +17,9 @@ public class Participationworkstu {
     private Integer istrue;
 
     private Integer iscorrect;
-
+    
+    @JsonFormat(pattern="yyy-MM-dd hh:ss",timezone="GMT+8")//出去数据格式
+    @DateTimeFormat(pattern="yyyy-MM-dd")		//进来数据格式
     private Date time;
 
     private Integer status;
@@ -27,6 +33,24 @@ public class Participationworkstu {
     private String user4;
 
     private String user5;
+    
+    private CqjStudent cqjStudent;
+    private Workgrade workgrade;
+	public Workgrade getWorkgrade() {
+		return workgrade;
+	}
+
+	public void setWorkgrade(Workgrade workgrade) {
+		this.workgrade = workgrade;
+	}
+
+	public CqjStudent getCqjStudent() {
+		return cqjStudent;
+	}
+
+	public void setCqjStudent(CqjStudent cqjStudent) {
+		this.cqjStudent = cqjStudent;
+	}
 
 	public Integer getId() {
         return id;

@@ -23,4 +23,7 @@ public interface WorkinstanceMapper {
     List<PublishWorkInfo> queryPublishWorkByTid(@Param("tid")Integer tid,@Param("wStatus") Integer wStatus,@Param("pageSize")Integer pageSize,@Param("cur")Integer cur);
     /*根据教师id查询发布的作业 Count*/
     int queryPublishWorkByTidCount(@Param("tid")Integer tid,@Param("wStatus") Integer wStatus);
+    
+    //根据作业id查询参加本次作业的完成情况
+    Workinstance queryWorkStuInfo(Integer id);
 }
