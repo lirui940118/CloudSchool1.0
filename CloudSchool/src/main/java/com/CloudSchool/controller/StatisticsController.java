@@ -83,6 +83,12 @@ public class StatisticsController {
 		session.setAttribute("lr_clazzId", clazzId);
 		return "statistics/clazz";
 	}
+	/*打开教员统计分析*/
+	@RequestMapping("/gotoStaff")
+	public String gotoStaff() {
+		
+		return "statistics/staff";
+	}
 	
 	/*查询数据*/
 	//============================个人=====================================
