@@ -39,20 +39,23 @@
 					<h4 class="page-title">员工统计首页</h4>
 					<div class="row">
 						<!--个人信息-->
-						<div class="card col-lg-5">
+						<div id="staffBaseInfoSec" class="card col-lg-5">
 							<div class="card-header">
 								<h4 class="card-title">个人信息</h4>
 							</div>
 							<div class="card-body" style="text-align: center;">
 								<div>
-									<img th:src="@{/static/img/teacherHead.jpg}">
+									<img v-bind:src="staffBaseInfo.url">
 								</div>
-								<p>姓名：唐勇</p>
-								<p>工号：20123</p>
-								<p>年龄：23</p>
-								<p>入职时间：2012-23-12</p>
-								<p>离职时间：2012-23-12</p>
-								<p>状态：在职离职</p>
+								<p>姓名：{{staffBaseInfo.staffName}}</p>
+								<p>工号：{{staffBaseInfo.staffNum}}</p>
+								<p>年龄：{{staffBaseInfo.staffAge}}</p>
+								<p>入职时间：{{staffBaseInfo.startTime}}</p>
+								<p v-if="staffBaseInfo.staffStatue==1">离职时间：{{staffBaseInfo.endTime}}</p>
+								<p v-if="staffBaseInfo.staffStatue==0">状态：在职</p>
+								<p v-if="staffBaseInfo.staffStatue==1">状态：离职</p>
+								<!-- 所教课程名称 -->
+								<span v-for="course in staffBaseInfo.courseList" class="badge badge-count">{{course.courseName}}</span>
 							</div>
 						</div>
 						<!--员工教学能力雷达图-->
@@ -140,19 +143,23 @@
 			</div>
 		</div>
 	</body>
+	<script type="text/javascript" th:src="@{/static/js/core/vue.js}"></script>
 	<script type="text/javascript" th:src="@{/static/js/core/jquery.3.2.1.min.js}" ></script>
 	<script th:src="@{/static/js/echarts.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/common.js}"></script>
 	<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
 	<script type="text/javascript">
+		//点进员工的id
+		var gotoStaff = null;//如果为null（登陆人点入）
 		//初始化
 		$(function(){
-			//初始化学员所有考试成绩
-			$.ajax({
-				type:"post",
-				url:"",
-				async:true
-			});
+			//员工基础信息初始化
+			initStaffBaseInfo();
 		})
+		
+		
+		
+		
 		
 		//初始化echars实例
 		var myChar = echarts.init(document.querySelector("#studentAbilityPicture"));
@@ -293,7 +300,28 @@
 		    ]
 		};
 		myChar2.setOption(option2);
-		
+		//==============================================================
+			
+			
+		function initStaffBaseInfo(){
+			$.ajax({
+				type:"post",
+				url:adress.url +"/statistics/" +"getStaffAboutBaseInfoAndCourseList",
+				async:true,
+				data:{
+					staffId:3//gotoStaff
+				},
+				success:function(data){
+					//console.log(data);
+					var vue = new Vue({
+						el:"#staffBaseInfoSec",
+						data:{
+							staffBaseInfo:data
+						}
+					});
+				}
+			});
+		}
 	</script>
 
 </html>

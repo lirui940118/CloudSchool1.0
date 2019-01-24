@@ -16,12 +16,14 @@ import com.CloudSchool.domain.ZzyGrade;
 import com.CloudSchool.domain.statistics.BadTopicVO;
 import com.CloudSchool.domain.statistics.ClazzBaseInfoVO;
 import com.CloudSchool.domain.statistics.CourseVO;
+import com.CloudSchool.domain.statistics.StaffBaseVO;
 import com.CloudSchool.domain.statistics.StudentInfoVO;
 import com.CloudSchool.domain.statistics.TestInfo;
 import com.CloudSchool.domain.statistics.testBaseInfo;
 import com.CloudSchool.domain.statistics.testVO;
 import com.CloudSchool.service.ClazzSService;
 import com.CloudSchool.service.ClazzService;
+import com.CloudSchool.service.CqjStaffService;
 import com.CloudSchool.service.CqjStudentService;
 import com.CloudSchool.service.GkKaoqinStateService;
 import com.CloudSchool.service.LrKnowledagepointTeacherService;
@@ -51,6 +53,8 @@ public class StatisticsController {
 	WtrecordService wtrecordService;
 	@Autowired
 	LrKnowledagepointTeacherService lrKnowledagepointTeacherService;
+	@Autowired
+	CqjStaffService cqjStaffService;
 	/**
 	 * 学员首页
 	 * 
@@ -85,7 +89,7 @@ public class StatisticsController {
 	}
 	/*打开教员统计分析*/
 	@RequestMapping("/gotoStaff")
-	public String gotoStaff() {
+	public String gotoStaff(HttpSession session) {
 		
 		return "statistics/staff";
 	}
@@ -226,5 +230,19 @@ public class StatisticsController {
 	@ResponseBody
 	public List<CourseVO> getStaffsAboutOpenClass(Integer gId,Integer mId){//年级id和mid专业
 		return null;
+	}
+	//============================教员=====================================
+	/*查询教员基本信息和教学能力（科目）*/
+	@RequestMapping("/getStaffAboutBaseInfoAndCourseList")
+	@ResponseBody
+	public StaffBaseVO getStaffAboutBaseInfoAndCourseList(Integer staffId,HttpSession session) {
+		CqjUser cqjUser = (CqjUser)session.getAttribute("user");
+		if(staffId !=null) {//查其他教员
+			
+		}else {//查本人（学员）
+			staffId = cqjUser.getUsertypeid();//doto session获取登陆教员的id
+		}
+		StaffBaseVO staffBaseVO = cqjStaffService.queryStaffBaseVOBySid(staffId);
+		return staffBaseVO;
 	}
 }

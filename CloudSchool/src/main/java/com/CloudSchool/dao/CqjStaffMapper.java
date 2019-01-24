@@ -1,6 +1,7 @@
 package com.CloudSchool.dao;
 
 import com.CloudSchool.domain.CqjStaff;
+import com.CloudSchool.domain.statistics.StaffBaseVO;
 
 public interface CqjStaffMapper {
     int deleteByPrimaryKey(Integer staffid);
@@ -20,4 +21,8 @@ public interface CqjStaffMapper {
     
     //根据员工id查询员工对象
     public CqjStaff queryBytid(Integer tid);
+    
+    
+    //write by lirui 查询员工基本信息和所能教学的科目
+    public StaffBaseVO queryStaffBaseVOBySid(Integer staffId);
 }

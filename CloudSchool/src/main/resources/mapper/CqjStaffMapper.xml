@@ -229,4 +229,36 @@
   <select id="queryBytid" resultMap="BaseResultMap">
   		SELECT * FROM `cqj_staff` WHERE staffid=#{tid};
   </select>
+  
+  
+  <!-- write by lirui 查询员工基本信息和所能教学的科目 -->
+  <resultMap type="com.CloudSchool.domain.statistics.StaffBaseVO" id="StaffBaseVOAndCourseList">
+  	<id column="staffId" property="staffId"/>
+  	<result column="staffName" property="staffName"/>
+  	<result column="staffNum" property="staffNum"/>
+  	<result column="staffAge" property="staffAge"/>
+  	<result column="startTime" property="startTime"/>
+  	<result column="endTime" property="endTime"/>
+  	<result column="staffStatue" property="staffStatue"/>
+  	<result column="positionId" property="positionId"/>
+  	<result column="url" property="url"/>
+  	<collection property="courseList" ofType="com.CloudSchool.domain.statistics.CourseVO" >
+  		<id column="courseId" property="courseId"/>
+  		<result column="courseName" property="courseName"/>
+  	</collection>
+  </resultMap>
+  <select id="queryStaffBaseVOBySid" resultMap="StaffBaseVOAndCourseList">
+  	SELECT cqj_staff.`staffid`AS staffId,cqj_staff.`staffname`AS staffName,cqj_staff.`staffnub`AS staffNum,cqj_staff.`age`AS staffAge, 
+	cqj_staff.`standby1`AS startTime,cqj_staff.`standby2`AS endTime,cqj_user.`status`AS staffStatue
+	,cqj_staff.`positionid`AS positionId,`img`.`url`AS url,zzy_course.`cid`AS courseId,zzy_course.`course_name`AS courseName
+	FROM `cqj_staff`
+	INNER JOIN `cqj_user` ON cqj_user.`usertypeid` = cqj_staff.`staffid` AND cqj_user.usertypenub = 0#员工
+	LEFT JOIN `zzy_teacher_ability` ON `zzy_teacher_ability`.`tid` = cqj_staff.`staffid`
+	LEFT JOIN zzy_course ON zzy_course.`cid` = zzy_teacher_ability.`cid`
+	INNER JOIN `img` ON `img`.`id` = cqj_user.`userid`
+	WHERE cqj_staff.`staffid` = #{staffId}#员工id
+  </select>
+  
+  
+  
 </mapper>
