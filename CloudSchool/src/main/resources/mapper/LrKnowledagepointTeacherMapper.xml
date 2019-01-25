@@ -114,4 +114,18 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!-- 查询该教员知识点的上报情况 -->
+  <select id="queryAllKnowledagepointByStaffId" resultType="com.CloudSchool.domain.statistics.KnowledgePointUpVO">
+  SELECT zzy_course.`cid`AS courseId,zzy_course.`course_name`AS courseName,
+	zzy_section.`secid`AS sectionId,zzy_section.`section_name`AS sectionName,
+	lr_knowledagepoint.`id`AS knowledagepointId,lr_knowledagepoint.`kName`AS knowledagepointName,
+	COUNT(lr_knowledagepoint.`id`)AS `count`
+	FROM `lr_knowledagepoint_teacher`
+	INNER JOIN `lr_knowledagepoint` ON `lr_knowledagepoint`.`id` = `lr_knowledagepoint_teacher`.`kId`
+	INNER JOIN `zzy_section` ON `zzy_section`.`secid` = lr_knowledagepoint.`sId`#章节
+	INNER JOIN zzy_course ON zzy_course.`cid` = zzy_section.`cid` #课程
+	WHERE lr_knowledagepoint_teacher.`staffId` = #{staffId}#员工id 教员id
+	GROUP BY lr_knowledagepoint.`id`
+	ORDER BY `count` DESC
+  </select>
 </mapper>

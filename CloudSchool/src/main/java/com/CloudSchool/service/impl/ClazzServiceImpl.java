@@ -61,4 +61,8 @@ public class ClazzServiceImpl implements ClazzService {
 	public List<ClazzBaseInfoVO> queryClazzBaseInfo(Integer clazzId) {
 		return cm.queryClazzBaseInfo(clazzId);
 	}
+	@Override
+	public List<ClazzBaseInfoVO> queryClazzListByStaffId(Integer staffId) {
+		return cm.queryClazzListByStaffId(staffId);
+	}
 }

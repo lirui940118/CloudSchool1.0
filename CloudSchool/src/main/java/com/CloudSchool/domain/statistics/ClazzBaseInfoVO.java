@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 public class ClazzBaseInfoVO {
 	private String GradeName;//年级名称
+	private Integer clazzId;//班级id
 	private String clazzName;//班级名称
 	private String majorName;//专业名称
 	private Integer courseId;//课程编号
@@ -22,6 +23,7 @@ public class ClazzBaseInfoVO {
 	private String staffName;//员工名称
 	private Integer isMaster;//是否为班主任
 	private Integer isTeacher;//是否为教员
+	private Integer clazzStatus;//班级状态 0正常 1结束（历史）
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//出去
 	@DateTimeFormat(pattern="yyyy-MM-dd")//进来
 	private Date startTime; //课程开始时间
@@ -94,6 +96,18 @@ public class ClazzBaseInfoVO {
 	}
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
+	}
+	public Integer getClazzStatus() {
+		return clazzStatus;
+	}
+	public void setClazzStatus(Integer clazzStatus) {
+		this.clazzStatus = clazzStatus;
+	}
+	public Integer getClazzId() {
+		return clazzId;
+	}
+	public void setClazzId(Integer clazzId) {
+		this.clazzId = clazzId;
 	}
 	
 	

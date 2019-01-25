@@ -70,7 +70,7 @@
 							<div class="card-header">
 								<h4 class="card-title">所教班级</h4>
 							</div>
-							<div class="card-body">
+							<div id="clazzListSec" class="card-body">
 								<table class="table mt-3" style="text-align: center;">
 									<thead>
 										<tr>
@@ -82,12 +82,13 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr style="background-color: #f2f2f2;">
-											<td>1</td>
-											<td>Mark</td>
-											<td>Otto</td>
-											<td>@mdo</td>
-											<td><button class="btn btn-primary btn-xs">查看详情</button></td>
+										<tr v-for="clazz in clazzList" style="background-color: #f2f2f2;">
+											<td>{{clazz.gradeName}}</td>
+											<td>{{clazz.clazzName}}</td>
+											<td>{{clazz.courseName}}</td>
+											<td v-if="clazz.clazzStatus==0">正在进行</td>
+											<td v-if="clazz.clazzStatus==1">结束</td>
+											<td><button class="btn btn-primary btn-xs" v-bind:staffId="gotoStaff" v-bind:clazzId="clazz.clazzId">查看详情</button></td>
 										</tr>
 										
 									</tbody>
@@ -115,7 +116,7 @@
 									知识点上报统计
 								</h4>
 							</div>
-							<div class="card-body">
+							<div id="badKonwledagepointSec" class="card-body">
 								<table class="table table-bordered" style="text-align: center;">
 									<thead>
 										<tr>
@@ -126,16 +127,18 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>JAVAOOP</td>
-											<td>面向对象</td>
-											<td>面向对象的三大特征</td>
-											<td>111</td>
+										<tr v-for="Konwledagepoint in badKonwledagepointList">
+											<td>{{Konwledagepoint.courseName}}</td>
+											<td>{{Konwledagepoint.sectionName}}</td>
+											<td>{{Konwledagepoint.knowledagepointName}}</td>
+											<td>{{Konwledagepoint.count}}</td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
+							<div id="badKonwledagepointPicture" style="width: 400; height: 400px;"></div>
 						</div>
+						
 					</div>
 						
 
@@ -144,17 +147,22 @@
 		</div>
 	</body>
 	<script type="text/javascript" th:src="@{/static/js/core/vue.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/statisticsDefaultData.js}"></script>
 	<script type="text/javascript" th:src="@{/static/js/core/jquery.3.2.1.min.js}" ></script>
 	<script th:src="@{/static/js/echarts.js}"></script>
 	<script type="text/javascript" th:src="@{/static/js/common.js}"></script>
 	<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
 	<script type="text/javascript">
 		//点进员工的id
-		var gotoStaff = null;//如果为null（登陆人点入）
+		var gotoStaff = 3;//null;//如果为null（登陆人点入）
 		//初始化
 		$(function(){
 			//员工基础信息初始化
 			initStaffBaseInfo();
+			//员工所带班级初始化
+			initClazzList();
+			//员工对应班级下学员劣势知识点上报情况
+			initBadKonwledagepoint();
 		})
 		
 		
@@ -309,7 +317,7 @@
 				url:adress.url +"/statistics/" +"getStaffAboutBaseInfoAndCourseList",
 				async:true,
 				data:{
-					staffId:3//gotoStaff
+					staffId:gotoStaff
 				},
 				success:function(data){
 					//console.log(data);
@@ -319,6 +327,114 @@
 							staffBaseInfo:data
 						}
 					});
+				}
+			});
+		}
+		//员工所带班级初始化
+		function initClazzList(){
+			$.ajax({
+				type:"post",
+				url:adress.url +"/statistics/" +"getStaffAboutclazzList",
+				async:true,
+				data:{
+					staffId:gotoStaff
+				},
+				success:function(data){
+					console.log(data);
+					var vue = new Vue({
+						el:"#clazzListSec",
+						data:{
+							clazzList:data,
+							gotoStaff:gotoStaff
+						}
+					});
+				}
+			});
+		}
+		//查询劣势知识点上报情况
+		function initBadKonwledagepoint(){
+			//初始化图形
+			//初始化echars实例
+			var myChar1 = echarts.init(document.querySelector("#badKonwledagepointPicture"));
+			myChar1.setOption(initDataAboutLine,true);
+			myChar1.showLoading();
+			//初始化数据
+			$.ajax({
+				type:"post",
+				url:adress.url +"/statistics/" +"getStaffAboutBadKonwledagepoint",
+				async:true,
+				data:{
+					staffId:gotoStaff
+				},
+				success:function(data){
+					console.log(data);
+					var vue = new Vue({
+						el:"#badKonwledagepointSec",
+						data:{
+							badKonwledagepointList:data
+						}
+					});
+					var badKonwledagepointCountArr = [];//知识点数量
+					var badKonwledagepointNameArr = [];//知识点名称
+					//筛选数据
+					if(vue.badKonwledagepointList.length == 0){
+						myChar1.setOption(noDataLoadingOption,true);
+						myChar1.hideLoading();
+						return;
+					}
+					for(var i = vue.badKonwledagepointList.length-1;i>=0;i--){
+						badKonwledagepointCountArr.push(vue.badKonwledagepointList[i].count);
+						badKonwledagepointNameArr.push(vue.badKonwledagepointList[i].knowledagepointName);
+					}
+					var option = {
+					    tooltip: {
+					        trigger: 'axis',
+					        axisPointer: {
+					            type: 'shadow'
+					        }
+					    },
+					    title: {
+					        text: '劣势知识点上报情况'
+					    },
+					    grid: {
+					        left: '3%',
+					        right: '4%',
+					        containLabel: true
+					    },
+					    xAxis: {
+					    	name:"次数",
+					        type: 'value',
+					        minInterval:1,
+					        boundaryGap: [0, 0.01]
+					    },
+					    yAxis: {
+					    	name:"知识点名称",
+					        type: 'category',
+					        data: badKonwledagepointNameArr
+					    },
+					    series: [
+					        {
+					            barGap:1,
+					            barWidth:40,
+					            type: 'bar',
+					            itemStyle: {
+									normal: {
+										label: {
+											show: true, //开启显示
+											position: 'top', //在上方显示
+											textStyle: { //数值样式
+												color: 'black',
+												fontSize: 12
+											}
+										}
+									}
+								},
+					            data: badKonwledagepointCountArr
+					        }
+					    ]
+					};//option设置结束
+					myChar1.setOption(option,true);
+					myChar1.hideLoading();
 				}
 			});
 		}

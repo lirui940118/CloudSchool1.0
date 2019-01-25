@@ -39,4 +39,6 @@ public interface ClazzMapper {
 
     //write by lirui 查询班级基础信息(统计lirui)
     public List<ClazzBaseInfoVO> queryClazzBaseInfo(Integer clazzId);
+    //write by lirui 查询教员所带的班级(统计lirui)
+    public List<ClazzBaseInfoVO> queryClazzListByStaffId(Integer staffId);
 }

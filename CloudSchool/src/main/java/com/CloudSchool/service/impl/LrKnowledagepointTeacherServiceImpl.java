@@ -1,10 +1,13 @@
 package com.CloudSchool.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.CloudSchool.dao.LrKnowledagepointTeacherMapper;
 import com.CloudSchool.domain.LrKnowledagepointTeacher;
+import com.CloudSchool.domain.statistics.KnowledgePointUpVO;
 import com.CloudSchool.service.ClazzcourseteacherService;
 import com.CloudSchool.service.LrKnowledagepointTeacherService;
 @Service
@@ -25,6 +28,11 @@ public class LrKnowledagepointTeacherServiceImpl implements LrKnowledagepointTea
 		l.setSid(sId);//学员id
 		l.setKid(KnowledagepointId);//知识点id
 		return lrKnowledagepointTeacherMapper.insert(l);
+	}
+
+	@Override
+	public List<KnowledgePointUpVO> queryAllKnowledagepointByStaffId(Integer staffId) {
+		return lrKnowledagepointTeacherMapper.queryAllKnowledagepointByStaffId(staffId);
 	}
 
 }

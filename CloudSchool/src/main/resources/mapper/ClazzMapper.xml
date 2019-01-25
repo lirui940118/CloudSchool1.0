@@ -186,4 +186,16 @@
 	INNER JOIN `cqj_staff` ON `cqj_staff`.`staffid` = `clazzcourseteacher`.tid
 	WHERE clazz.`id` = #{clazzId}
 	</select>
+	
+	<!-- 查询教员所带的班级(统计lirui) -->
+	<select id="queryClazzListByStaffId" resultType="com.CloudSchool.domain.statistics.ClazzBaseInfoVO">
+		SELECT zzy_grade.`grade_name`AS GradeName,clazz.`id`AS clazzId,clazz.`cname`AS clazzName,zzy_course.`course_name`AS courseName,
+		clazzcourseteacher.`status`AS clazzStatus
+		FROM `clazz`
+		INNER JOIN `clazzcourseteacher` ON clazzcourseteacher.`clazzid` = clazz.`id`#班级
+		INNER JOIN `zzy_course` ON zzy_course.`cid` = `clazzcourseteacher`.`courseid`#课程
+		INNER JOIN `zzy_grade` ON `zzy_grade`.`gid` = clazz.`gid`#年级
+		WHERE clazzcourseteacher.`tid` = #{staffId}
+		ORDER BY clazzcourseteacher.starttime DESC 
+	</select>
 </mapper>

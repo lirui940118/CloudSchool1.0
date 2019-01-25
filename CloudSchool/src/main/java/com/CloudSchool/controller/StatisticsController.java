@@ -16,6 +16,7 @@ import com.CloudSchool.domain.ZzyGrade;
 import com.CloudSchool.domain.statistics.BadTopicVO;
 import com.CloudSchool.domain.statistics.ClazzBaseInfoVO;
 import com.CloudSchool.domain.statistics.CourseVO;
+import com.CloudSchool.domain.statistics.KnowledgePointUpVO;
 import com.CloudSchool.domain.statistics.StaffBaseVO;
 import com.CloudSchool.domain.statistics.StudentInfoVO;
 import com.CloudSchool.domain.statistics.TestInfo;
@@ -244,5 +245,25 @@ public class StatisticsController {
 		}
 		StaffBaseVO staffBaseVO = cqjStaffService.queryStaffBaseVOBySid(staffId);
 		return staffBaseVO;
+	}
+	/*查询教员所带的班级信息*/
+	@RequestMapping("/getStaffAboutclazzList")
+	@ResponseBody
+	public List<ClazzBaseInfoVO> getStaffAboutclazzList(Integer staffId,HttpSession session) {
+		CqjUser cqjUser = (CqjUser)session.getAttribute("user");
+		if(staffId !=null) {//查其他教员
+			
+		}else {//查本人（学员）
+			staffId = cqjUser.getUsertypeid();//doto session获取登陆教员的id
+		}
+		List<ClazzBaseInfoVO> list = clazzService.queryClazzListByStaffId(staffId);
+		return list;
+	}
+	/*查询该教员的上报劣势情况*/
+	@RequestMapping("/getStaffAboutBadKonwledagepoint")
+	@ResponseBody
+	public List<KnowledgePointUpVO> getStaffAboutBadKonwledagepoint(Integer staffId){
+		List<KnowledgePointUpVO> list = lrKnowledagepointTeacherService.queryAllKnowledagepointByStaffId(staffId);
+		return list;
 	}
 }
