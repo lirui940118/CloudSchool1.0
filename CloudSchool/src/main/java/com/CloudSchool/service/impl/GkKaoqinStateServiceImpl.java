@@ -17,5 +17,9 @@ public class GkKaoqinStateServiceImpl implements GkKaoqinStateService{
 	public List<GkKaoqinState> queryKqTotalInfoBySidAndGid(Integer sId, Integer gId) {
 		return gkKaoqinStateMapper.queryKqTotalInfoBySidAndGid(sId, gId);
 	}
+	@Override
+	public List<GkKaoqinState> queryKqTotalInfoByStaffId(Integer staffId) {
+		return gkKaoqinStateMapper.queryKqTotalInfoByStaffId(staffId);
+	}
 
 }

@@ -266,4 +266,11 @@ public class StatisticsController {
 		List<KnowledgePointUpVO> list = lrKnowledagepointTeacherService.queryAllKnowledagepointByStaffId(staffId);
 		return list;
 	}
+	/*查询员工的考勤情况(按类目分组)*/
+	@RequestMapping("/getStaffAboutkqInfo")
+	@ResponseBody
+	public List<GkKaoqinState> getStaffAboutkqInfo(Integer staffId){
+		List<GkKaoqinState> list = gkKaoqinStateService.queryKqTotalInfoByStaffId(staffId);
+		return list;
+	}
 }

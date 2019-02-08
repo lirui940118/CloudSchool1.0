@@ -163,6 +163,8 @@
 			initClazzList();
 			//员工对应班级下学员劣势知识点上报情况
 			initBadKonwledagepoint();
+			//考勤情况初始化
+			initKqInfo();
 		})
 		
 		
@@ -238,76 +240,6 @@
 		
 		
 		
-		//初始化echars实例
-		var myChar2 = echarts.init(document.querySelector("#dailyPicture"));
-		//myChar2.showLoading();
-		var option2 ={
-			 tooltip: {
-		        trigger: 'item',
-		        formatter: "{b}: {c} ({d}%)"
-		    },
-		    legend: {
-		        orient: 'vertical',
-		        x: 'left',
-		        data:['正常','迟到','早退']
-		    },
-		    series: [
-		        {
-		            labelLine: {
-		                normal: {
-		                    show: false
-		                }
-		            },
-		            name:'访问来源',
-		            type:'pie',
-		            radius: ['40%', '55%'],
-		            label: {
-		                normal: {
-		                    formatter: '{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
-		                    backgroundColor: '#eee',
-		                    borderColor: '#aaa',
-		                    borderWidth: 1,
-		                    borderRadius: 4,
-		                    shadowBlur:3,
-		                    shadowOffsetX: 2,
-		                    shadowOffsetY: 2,
-		                    shadowColor: '#999',
-		                    padding: [0, 0],
-		                    rich: {
-		                        a: {
-		                            color: '#999',
-		                            lineHeight: 22,
-		                            align: 'center'
-		                        },
-		                        hr: {
-		                            borderColor: '#aaa',
-		                            width: '100%',
-		                            borderWidth: 0.5,
-		                            height: 0
-		                        },
-		                        b: {
-		                            fontSize: 16,
-		                            lineHeight: 33
-		                        },
-		                        per: {
-		                            color: '#eee',
-		                            backgroundColor: '#334455',
-		                            padding: [2, 4],
-		                            borderRadius: 2
-		                        }
-		                    }
-		                }
-		            },
-		            data:[
-		                {value:335, name:'正常'},
-		                {value:310, name:'迟到'},
-		                {value:234, name:'早退'}
-		            ]
-		        
-		        }
-		    ]
-		};
-		myChar2.setOption(option2);
 		//==============================================================
 			
 			
@@ -437,6 +369,101 @@
 					myChar1.hideLoading();
 				}
 			});
+		}
+		function initKqInfo(){
+			//初始化echars实例
+			var myChar2 = echarts.init(document.querySelector("#dailyPicture"));
+			myChar2.showLoading();
+			$.ajax({
+				type:"post",
+				url:adress.url +"/statistics/" +"getStaffAboutkqInfo",
+				async:true,
+				data:{
+					staffId:gotoStaff
+				},
+				success:function(data){
+					console.log(data);
+					//空值
+					if(data.length==0){
+						myChar2.setOption(noDataLoadingOption,true);
+						myChar2.hideLoading();
+						return;
+					}
+					//筛选数据
+					var kqNameArr = [];//考勤类目名称集合
+					var kqNameAndCountArr = [];//考勤类目名称和次数集合
+					for(var i = 0;i<data.length;i++){
+						kqNameArr.push(data[i].kqStateName);
+						var temp = {};
+						temp.value = data[i].totalCount;
+						temp.name = data[i].kqStateName;
+						kqNameAndCountArr.push(temp);
+					}
+					var option2 ={
+							 tooltip: {
+						        trigger: 'item',
+						        formatter: "{b}: {c} ({d}%)"
+						    },
+						    legend: {
+						        orient: 'vertical',
+						        x: 'left',
+						        data:kqNameArr
+						    },
+						    series: [
+						        {
+						            labelLine: {
+						                normal: {
+						                    show: false
+						                }
+						            },
+						            type:'pie',
+						            radius: ['40%', '55%'],
+						            label: {
+						                normal: {
+						                    formatter: '{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+						                    backgroundColor: '#eee',
+						                    borderColor: '#aaa',
+						                    borderWidth: 1,
+						                    borderRadius: 4,
+						                    shadowBlur:3,
+						                    shadowOffsetX: 2,
+						                    shadowOffsetY: 2,
+						                    shadowColor: '#999',
+						                    padding: [0, 0],
+						                    rich: {
+						                        a: {
+						                            color: '#999',
+						                            lineHeight: 22,
+						                            align: 'center'
+						                        },
+						                        hr: {
+						                            borderColor: '#aaa',
+						                            width: '100%',
+						                            borderWidth: 0.5,
+						                            height: 0
+						                        },
+						                        b: {
+						                            fontSize: 16,
+						                            lineHeight: 33
+						                        },
+						                        per: {
+						                            color: '#eee',
+						                            backgroundColor: '#334455',
+						                            padding: [2, 4],
+						                            borderRadius: 2
+						                        }
+						                    }
+						                }
+						            },
+						            data:kqNameAndCountArr
+						        
+						        }
+						    ]
+						};
+					myChar2.setOption(option2,true);
+					myChar2.hideLoading();
+				}
+			});//ajax结束
 		}
 	</script>
 

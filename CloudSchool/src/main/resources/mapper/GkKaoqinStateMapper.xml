@@ -177,4 +177,13 @@
 	</if>
 	GROUP BY gk_kaoqin_state.`kq_state_id`
   </select>
+  <!-- 查询员工考勤情况 （write by lirui） -->
+  <select id="queryKqTotalInfoByStaffId" resultMap="BaseResultMap">
+  	SELECT gk_kaoqin_state.`kq_state_id`,gk_kaoqin_state.`kq_state_name`,COUNT(*)AS totalCount FROM `gk_kaoqin` 
+	INNER JOIN `gk_kaoqin_state` ON `gk_kaoqin_state`.`kq_state_id` = `gk_kaoqin`.`kq_state_id`
+	INNER JOIN cqj_user ON cqj_user.`userid` = `gk_kaoqin`.`uid` AND cqj_user.`usertypenub`=0#员工
+	INNER JOIN cqj_staff ON cqj_staff.`staffid`=cqj_user.`usertypeid`  
+	WHERE cqj_staff.`staffid` = #{staffId}#员工id
+	GROUP BY gk_kaoqin_state.`kq_state_id`
+  </select>
 </mapper>
