@@ -5,13 +5,19 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.CloudSchool.domain.CqjParents;
 import com.CloudSchool.domain.CqjPosition;
+import com.CloudSchool.domain.CqjStaff;
+import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.GkFangTan;
 import com.CloudSchool.domain.GkInterview;
@@ -54,7 +60,13 @@ public class GkController {
 	
 	
 	
-	
+	//查询未完成的访谈
+	@RequestMapping("queryFangTanByWWC")
+	public String queryFangTanByWWC(HttpSession session,Model model){
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		model.addAttribute("fangtan", gkFangTanService.queryFangTanByWWC(user.getUserid()));
+		return "gk/Fill_interview";
+	}
 	//查询所有访谈
 	@RequestMapping("queryAllFangTan")
 	@ResponseBody
@@ -89,7 +101,33 @@ public class GkController {
 	@RequestMapping("toNew_interview")
 	public String toNew_interview(Model model,HttpSession session) {
 		CqjUser user=(CqjUser)session.getAttribute("user");
-		System.out.println(user.getClazzidsList());
+		model.addAttribute("user", user);
 		return "gk/New_interview";
+	}
+	//新增访谈
+	@RequestMapping(value="insertFangTan")
+	@ResponseBody
+	public int insertFangTan(GkInterview ft) {
+		System.out.println(ft);
+		Integer[] shuzu = ft.getShuzu();
+		return gkFangTanService.insertFangTan(ft,shuzu);
+	}
+	//查询所有学生（按姓名模糊查）
+	@RequestMapping("queryAllXueSheng")
+	@ResponseBody
+	public List<GkInterview> queryAllXueSheng(@Param(value="name")String name){
+		return gkFangTanService.queryAllXueSheng(name);
+	}
+	//查询所有家长（按姓名模糊查）
+	@RequestMapping("queryAllJiaZhang")
+	@ResponseBody
+	public List<GkInterview> queryAllJiaZhang(String name){
+		return gkFangTanService.queryAllJiaZhang(name);
+	}
+	//查询所有员工（按姓名模糊查）
+	@RequestMapping("queryAllYuanGong")
+	@ResponseBody
+	public List<GkInterview> queryAllYuanGong(String name){
+		return gkFangTanService.queryAllYuanGong(name);
 	}
 }

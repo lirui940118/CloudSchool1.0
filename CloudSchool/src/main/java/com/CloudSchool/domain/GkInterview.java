@@ -1,15 +1,24 @@
 package com.CloudSchool.domain;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class GkInterview {
-    private Integer ftId;
+import org.springframework.format.annotation.DateTimeFormat;
+
+public class GkInterview implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7526476306074535018L;
+
+	private Integer ftId;
 
     private Integer ftPeople;
 
     private Integer ftObject;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ftStarttime;
 
     private Integer ftTime;
@@ -49,8 +58,50 @@ public class GkInterview {
 	private Integer pageSize;	//每页显示行数
 	private Date starttime;		//开始时间
 	private Date endtime;		//结束时间
+	private String studentnub;	//学号
+	private String studentname;	//学生名称
+	private String staffnub;	//员工工号
+	private String staffname;	//员工名称
+	private String parentsname;	//家长名称
+	private Integer[] shuzu;
     
 	
+	public Integer[] getShuzu() {
+		return shuzu;
+	}
+	public void setShuzu(Integer[] shuzu) {
+		this.shuzu = shuzu;
+	}
+	public String getStudentnub() {
+		return studentnub;
+	}
+	public void setStudentnub(String studentnub) {
+		this.studentnub = studentnub;
+	}
+	public String getStudentname() {
+		return studentname;
+	}
+	public void setStudentname(String studentname) {
+		this.studentname = studentname;
+	}
+	public String getStaffnub() {
+		return staffnub;
+	}
+	public void setStaffnub(String staffnub) {
+		this.staffnub = staffnub;
+	}
+	public String getStaffname() {
+		return staffname;
+	}
+	public void setStaffname(String staffname) {
+		this.staffname = staffname;
+	}
+	public String getParentsname() {
+		return parentsname;
+	}
+	public void setParentsname(String parentsname) {
+		this.parentsname = parentsname;
+	}
 	public Date getStarttime() {
 		return starttime;
 	}
@@ -161,6 +212,9 @@ public class GkInterview {
     }
 
     public String getFtStarttime() {
+    	if(ftStarttime==null) {
+    		return null;
+    	}
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ftStarttime);
     }
 

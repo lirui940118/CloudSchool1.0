@@ -23,8 +23,50 @@
   <!-- 新增访谈 -->
   <insert id="insertFangTan"  parameterType="com.CloudSchool.domain.GkInterview">
   	INSERT INTO `gk_interview`(`ft_people`,`ft_object`,`ft_starttime`,`ft_time`,`ft_problem`,`people_proposal`,`creation_time`,`update_time`)
-	VALUES(#{ftPeople},#{ftObject},#{ftStarttime},#{ftTime},#{ftProblem},#{peopleProposal},NOW(),NOW())
+	VALUES
+	<foreach collection="shuzu" close=";" separator="," item="l">
+			(#{ft.ftPeople},#{l},#{ft.ftStarttime},#{ft.ftTime},#{ft.ftProblem},#{ft.peopleProposal},NOW(),NOW())
+	</foreach>
   </insert>
+  <!-- 查询未完成的访谈 -->
+  <select id="queryFangTanByWWC" resultMap="BaseResultMap">
+  	SELECT * FROM `gk_interview` WHERE `by1` = 0 AND `ft_object` = #{ftObject}
+  </select>
+  <!-- 查询所有家长(按姓名模糊查) -->
+  <select id="queryAllJiaZhang" resultMap="BaseResultMap">
+  	SELECT * FROM `cqj_user` AS u
+	JOIN (
+		SELECT jz.parentsid,xs.studentid,jz.parentsname,xs.studentname FROM `cqj_parents_student` AS jzxs
+		JOIN `cqj_parents` AS jz ON (jz.parentsid = jzxs.parentsid)
+		JOIN `cqj_student` AS xs ON (xs.studentid = jzxs.studentid)
+		<where>
+			<if test="name != null">
+				jz.parentsname LIKE concat('%',#{name},'%')
+			</if>
+		</where>
+	) AS xs ON (xs.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+  </select>
+  <!-- 查询所有学生(按姓名模糊查) -->
+  <select id="queryAllXueSheng" resultMap="BaseResultMap">
+  	SELECT * FROM `cqj_user` AS u
+	JOIN `cqj_student` AS xs ON (u.usertypeid = xs.studentid) AND u.usertypenub = 1
+  	<where>
+  		<if test="name != null and name != ''">
+  			studentname LIKE concat('%',#{name},'%')
+  		</if>
+  	</where>
+  </select>
+  <!-- 查询所有员工(按姓名模糊查) -->
+  <select id="queryAllYuanGong" resultMap="BaseResultMap">
+  	SELECT * FROM `cqj_user` AS u
+	JOIN `cqj_staff` AS yg ON (u.usertypeid = yg.staffid) AND u.usertypenub = 0
+  	<where>
+  		u.userid != 1
+  		<if test="name != null">
+  			and staffname LIKE concat('%',#{name},'%')
+  		</if>
+  	</where>
+  </select>
   <!-- 删除访谈信息 -->
   <delete id="deleteFangTanByftId" parameterType="java.lang.Integer">
   	UPDATE `gk_interview` SET `status`=-9
@@ -85,6 +127,11 @@
   <select id="queryFangTanDetailsByftid" resultMap="BaseResultMap">
   	SELECT * FROM `ftinfo`WHERE ft_id=#{ftId}
   </select>
+  
+  
+  
+  
+  
   
   <sql id="Base_Column_List">
     ft_id, ft_people, ft_object, ft_starttime, ft_time, ft_problem, people_proposal, 
