@@ -108,7 +108,7 @@
 								<h6>操作</h6>
 								<button class="btn btn-warning">修改</button>
 								<button infoBut moduleUrl="/deleteFangTanByftId" onclick="deleteFangTanByftId()" class="btn btn-danger">删除</button>
-								<button class="btn btn-primary">导入</button>
+								<button infoBut moduleUrl="/GK/toNew_interview" onclick="toNew_interview()" class="btn btn-primary">新增</button>
 								<button class="btn btn-info">导出</button>
 								<label class="form-check-label">
 									<input onclick="quanxuan()" name="quanxuan" class="form-check-input task-select" type="checkbox">
@@ -259,7 +259,10 @@
 			queryAllFangTan(1,this.peoplename,this.objectname,this.startStr,this.endStr);
 			infoBut.ccc();
 		});
-		
+		//去新增访谈页面
+		function toNew_interview(){
+			window.location.href = "/GK/toNew_interview";
+		}
 		//全选反选
 		function quanxuan(){
 			if($("input[name='quanxuan']").prop("checked")){

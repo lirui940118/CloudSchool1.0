@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.CloudSchool.dao.GkInterviewMapper;
+import com.CloudSchool.domain.CqjParents;
+import com.CloudSchool.domain.CqjStaff;
+import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.GkFangTan;
 import com.CloudSchool.domain.GkInterview;
 import com.CloudSchool.domain.GkPageBean;
@@ -42,8 +45,28 @@ public class GkFangTanServiceImpl implements GkFangTanService{
 		return gkInterviewMapper.deleteFangTanByftId(shuzu);
 	}
 	@Override
-	public int insertFangTan(GkInterview ft) {
+	public int insertFangTan(GkInterview ft,Integer[] shuzu) {
 		// TODO Auto-generated method stub
-		return gkInterviewMapper.insertFangTan(ft);
+		return gkInterviewMapper.insertFangTan(ft,shuzu);
+	}
+	@Override
+	public List<GkInterview> queryAllXueSheng(String name) {
+		// TODO Auto-generated method stub
+		return gkInterviewMapper.queryAllXueSheng(name);
+	}
+	@Override
+	public List<GkInterview> queryAllYuanGong(String name) {
+		// TODO Auto-generated method stub
+		return gkInterviewMapper.queryAllYuanGong(name);
+	}
+	@Override
+	public List<GkInterview> queryAllJiaZhang(String name) {
+		// TODO Auto-generated method stub
+		return gkInterviewMapper.queryAllJiaZhang(name);
+	}
+	@Override
+	public List<GkInterview> queryFangTanByWWC(Integer ftObject) {
+		// TODO Auto-generated method stub
+		return gkInterviewMapper.queryFangTanByWWC(ftObject);
 	}
 }
