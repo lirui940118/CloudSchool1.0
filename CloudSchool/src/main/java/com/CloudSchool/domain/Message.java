@@ -16,6 +16,7 @@ public class Message {
     private String content;
     //接收者数组
     private int[] receiver; 
+    private String sendername;
     public Integer getId() {
         return id;
     }
@@ -70,5 +71,13 @@ public class Message {
 
 	public void setReceiver(int[] receiver) {
 		this.receiver = receiver;
+	}
+
+	public String getSendername() {
+		return sendername;
+	}
+
+	public void setSendername(String sendername) {
+		this.sendername = sendername;
 	}
 }

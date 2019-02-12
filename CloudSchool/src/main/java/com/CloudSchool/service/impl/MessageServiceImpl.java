@@ -1,11 +1,14 @@
 package com.CloudSchool.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.CloudSchool.dao.MessageMapper;
 import com.CloudSchool.dao.MessagereceiverMapper;
+import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.Message;
 import com.CloudSchool.service.MessageService;
 @Service
@@ -25,6 +28,16 @@ public class MessageServiceImpl implements MessageService {
 		int jg=mm.insert(m);
 		int jg1=mrm.insert(m);
 		return jg1;
+	}
+	@Override
+	public List<Message> getChatRecord(int userid,int chatid) {
+		// TODO Auto-generated method stub
+		return mm.getChatRecord(userid,chatid);
+	}
+	@Override
+	public List<CqjUser> getChatList(Integer userid) {
+		// TODO Auto-generated method stub
+		return mm.getChatList(userid);
 	}
 	
 }

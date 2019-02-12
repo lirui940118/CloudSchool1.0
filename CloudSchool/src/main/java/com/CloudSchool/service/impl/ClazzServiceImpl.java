@@ -28,12 +28,15 @@ public class ClazzServiceImpl implements ClazzService {
 	
 	@Override
 	public int CreateClass(ClazzInfo c) {
+		System.out.println("开班----开始执行");
 		int jg=cm.insert(c);
-//		System.out.println(jg+"-"+c.getId()+"-"+c.getCname());
+		System.out.println("开班----clazz-"+jg+"-"+c.getId()+"-"+c.getCname());
 		int jg1=csm.insertAll(c);
-//		System.out.println(jg+"------------------------\n\n\n\n------");
+//		System.out.println("开班----clazzstudent-"+jg+"--------------------\n");
 		int jg2=cctm.insertAll(c);
-		System.out.println(jg1+"------------------------\n\n\n\n------");
+		System.out.println("开班----clazzcourseteacher-"+jg1+"-----------------\n");
+		//新增-登录用户:账号密码都是学号usertypenub=1
+		//修改-学生信息:分配学号、状态0在读/1毕业standby1、入学时间standby2
 		return jg+jg1+jg2;
 	}
 	/**

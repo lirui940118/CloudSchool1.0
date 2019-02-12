@@ -249,17 +249,6 @@ function querpersonerInfo(){
 }
 </script>
 <script type="text/javascript">
-//     var ue = UE.getEditor('editor', {
-//     	toolbars: [
-//     		['fullscreen', 'source',  'redo', 'bold', 'italic', 
-//     		'underline','fontborder', 'backcolor', 'fontsize', 'fontfamily', 
-//     		'justifyleft', 'justifyright','justifycenter', 'justifyjustify', 
-//     		'strikethrough','superscript', 'subscript', 'removeformat',
-//     		'formatmatch','autotypeset', 'blockquote', 'pasteplain', '|',
-//     		'forecolor', 'backcolor','insertorderedlist', 'insertunorderedlist', 
-//     		'selectall', 'cleardoc', 'link', 'unlink','emotion', 'help']
-//     		]
-//     		});
     UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
     UE.Editor.prototype.getActionUrl = function(action) {
         if (action == 'uploadimage' || action == 'uploadscrawl' || action == 'uploadimage') {
