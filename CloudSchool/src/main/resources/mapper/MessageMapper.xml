@@ -7,9 +7,21 @@
     <result column="sender" jdbcType="INTEGER" property="sender" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="sendername" property="sendername"/>
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.CloudSchool.domain.Message">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <resultMap id="CqjUser" type="com.CloudSchool.domain.CqjUser">
+    <id column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="usertypeid" jdbcType="INTEGER" property="usertypeid" />
+    <result column="usertypenub" jdbcType="INTEGER" property="usertypenub" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="positionid" jdbcType="INTEGER" property="positionid" />
+    <result column="positionname" jdbcType="VARCHAR" property="positionname" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
   </resultMap>
   <sql id="Base_Column_List">
     id, title, sender, url, time
@@ -118,4 +130,17 @@
       time = #{time,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getChatRecord" resultMap="BaseResultMap">
+  	SELECT * FROM message INNER JOIN messagereceiver ON message.id=messagereceiver.mid
+  	WHERE (messagereceiver.receiver=#{userid} AND sender=#{chatid}) OR (messagereceiver.receiver=#{chatid} AND sender=#{userid})
+  </select>
+  <select id="getChatList" resultMap="CqjUser">
+	SELECT u.`userid`,u.`username`,u.`usertypeid`,u.`usertypenub`,CONCAT(IFNULL(s.`staffname`,''),IFNULL(stu.`studentname`,''),IFNULL(p.`parentsname`,'')) AS `name`,CONCAT(IFNULL(s.`sex`,''),IFNULL(stu.`sex`,''),IFNULL(p.`sex`,'')) AS `sex`,img.`url` FROM cqj_user AS u
+	LEFT JOIN cqj_staff AS s ON s.`staffid`=u.`usertypeid` AND u.`usertypenub`=0
+	LEFT JOIN cqj_student AS stu ON stu.`studentid`=u.`usertypeid` AND u.`usertypenub`=1
+	LEFT JOIN cqj_parents AS p ON p.`parentsid`=u.`usertypeid` AND u.`usertypenub`=2
+	LEFT JOIN img ON img.`id`=u.`userid`
+	WHERE u.`userid` IN (SELECT (message.sender+messagereceiver.`receiver`-#{userid}) AS uid FROM message INNER JOIN messagereceiver ON message.id=messagereceiver.mid
+	WHERE messagereceiver.receiver=#{userid} OR message.`sender`=#{userid} GROUP BY uid)
+  </select>
 </mapper>
