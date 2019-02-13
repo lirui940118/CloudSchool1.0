@@ -44,7 +44,7 @@ public class MessageController {
 		String status =null;
 		//显示自己发送的信息
 		//消息内容前加上聊天对方的id,用于区分多个聊天链接
-		status = handler.sendMsg(u.getUserid()+"", m.getReceiver()+"-<div class=\"m_message_right\">"+m.getContent()+"</div>");
+		status = handler.sendMsg(u.getUserid()+"", u.getUserid()+"-<div class=\"m_message_right\">"+m.getContent()+"</div>");
 		//显示好友发来的信息
 		for (int receiver : m.getReceiver()) {
 			System.out.println("接收人："+receiver);

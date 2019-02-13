@@ -52,6 +52,9 @@
 		.cpm ul p{background-color:silver;}
 		.cpm ul li{list-style: none;}
 		.cpm ul li button{font-size: 10px;padding:0px}
+		.m_left ul li:hover .closechat{display:block;}
+		.closechat{position: absolute;top: -20px;left: 80px;font-size:20px;display:none;}
+		.closechat:hover{background-color:red;}
 	</style>
 	<body>
 		<div class="main-panel">
@@ -64,18 +67,21 @@
 								<li v-for="obj,index in chatlist" v-bind:nid="obj.userid" v-on:click="jump(obj.userid,obj.name)" style="height: 70px;width: 200px; min-width: 20px;">
 									<div class="" style="display: flex;flex-direction: row;position: relative;padding: 5px;" >
 										<div class="photo">
-											<img src="../static/image/obj.url" alt="头像" style="border-radius: 50%;vertical-align: middle;width: 45px;border-style: none;position: relative;top: -10px;">
+											<img v-if="obj.url!=null" v-bind:src="obj.url" style="border-radius: 50%;vertical-align: middle;width: 45px;border-style: none;position: relative;top: -10px;">
+											<img v-if="obj.url==null&&obj.usertypenub==0" src="/static/image/teacherHead.jpg" style="border-radius: 50%;vertical-align: middle;width: 45px;border-style: none;position: relative;top: -10px;">
+											<img v-if="obj.url==null&&obj.usertypenub==1" src="/static/image/studentImg.png" style="border-radius: 50%;vertical-align: middle;width: 45px;border-style: none;position: relative;top: -10px;">
+											<img v-if="obj.url==null&&obj.usertypenub==2" src="/static/image/parents.jpg" style="border-radius: 50%;vertical-align: middle;width: 45px;border-style: none;position: relative;top: -10px;">
 										</div>
 										<div  class="" style="width: 250px;height: 50px;">
 											<span>
 												<span class="" style="min-width: 250px;height: 25px;">{{obj.name}}{{obj.positionname}}</span>
-												<span class="la la-remove" style=""></span>
+												<span class="closechat la la-remove" @click.stop="closechat(obj.userid)" style=""></span>
 											</span>
 										</div>
 									</div>
 								</li>
 								<li style="height: 70px;width: 200px;" v-on:click="jump(0,'系统')">
-									<div class="talking_li" chatid="4" style="display: flex;flex-direction: row;position: relative;padding: 5px;" >
+									<div class="talking_li" chatid="0" style="display: flex;flex-direction: row;position: relative;padding: 5px;" >
 										<div class="photo">
 											<img src="../static/image/profile.jpg" alt="头像" style="border-radius: 50%;vertical-align: middle;width: 45px;height:45px;border-style: none;position: relative;top: -10px;">
 										</div>
@@ -83,7 +89,7 @@
 											<span>
 												<span class="" style="min-width: 250px;height: 25px;">系统</span>
 												<span class="m_unReadCount">1</span>
-												<span class="la la-remove" style=""></span>
+												<span class="closechat la la-remove" v-on:click="closechat(0)" style="display:none;"></span>
 											</span>
 										</div>
 									</div>
@@ -103,7 +109,7 @@
 										<div class="m_message_left">ready,GO！<img src="http://img.baidu.com/hi/jx2/j_0003.gif"/></div>
 										
 									</div>
-									
+									<div><a id="msg_end" name="1" href="#1">&nbsp</a></div>
 								</div>
 								<div class="ediotr" style="width: 100%;background-color: #cccccc;height: 100px;position: absolute;bottom: 0;">
 									<script id="editor" type="text/plain" style="width:100%;height:100px;"></script>
@@ -293,7 +299,7 @@
 		console.log("连接异常.....");
 	}
 	websocket.onmessage = function(msg){
-		console.log("接收到通信的消息."+msg.data);
+		console.log("接收到通信的消息."+msg.data+'\n'+v.user.userid);
 // 		alert(msg.data.substring(0,msg.data.indexOf("-")).toString())
 		var chatid=msg.data.substring(0,msg.data.indexOf("-"))
 		if(v.currentchatid==chatid){
@@ -303,6 +309,12 @@
 		}else if(v.user.userid==chatid){
 			//自己刚发的消息
 			$(".m_body .view").append(msg.data.substring(msg.data.indexOf("-")+1));
+			adduserimg()
+			alert("刚发送的")
+		}else if("notice"==chatid){
+			//通知
+			
+			alert("通知")
 		}else{
 			//其他好友的消息
 			tips("系统","你有一条系统消息","javascript:void(0)")
@@ -361,15 +373,32 @@
 			currentchatid:null,
 			chatlist:null,
 			chatrecord:null,
-			userimg:[{userid:"0",img:"profile.jpg"},{userid:"1",img:"profile2.jpg"},{userid:"3",img:"studentimg.png"},{userid:"4",img:"studentimg.png"}],
+			userimg:[{userid:"0",img:"/static/image/profile.jpg"},{userid:"1",img:"/static/image/profile2.jpg"},{userid:"3",img:"/static/image/studentimg.png"},{userid:"4",img:"/static/image/studentimg.png"}],
 			nid:'abc',
 			alluserlist:null,
 		},
 		methods:{
 			jump:function(chatid,name){
+				console.log("切换聊天对象："+chatid)
 				v.currentchatid=chatid
 // 				alert(chatid)
 				$(".m_top h6").text(name)
+				getChatRecord()
+			},
+			//关闭聊天列表移除指定用户
+			closechat:function(userid){
+// 				alert(userid)
+				var index=0;
+				for(i=0;i<v.chatlist.length;i++){
+					if(userid==v.chatlist[i].userid){
+						index=i
+					}
+				}
+				console.log("正在移出聊天列表："+index)
+				v.chatlist.splice(index,1)
+				//获取聊天记录
+				v.currentchatid=v.chatlist[0].userid
+				$(".m_top h6").text(v.chatlist[0].name)
 				getChatRecord()
 			}
 		}
@@ -380,9 +409,9 @@
 			if(userid==v.userimg[i].userid){
 				console.log(userid+"-"+v.userimg[i].userid+"-"+v.userimg[i].img)
 				if(v.userimg[i].img==null){
-					return "/profile.jpg";
+					return "/static/image/profile.jpg";
 				}else{
-					return v.userimg[i].url
+					return v.userimg[i].img
 				}
 			}
 		}
@@ -391,8 +420,9 @@
 	//在聊天消息前添加头像
 	function adduserimg(){
 		$(".userimg").remove()
-		$(".m_message_left").prepend("<img src=\"../static/image/"+getuserimg(v.currentchatid)+"\" width='25px' height='25px'/ class='userimg'>");
-		$(".m_message_right").append("<img src=\"../static/image/"+v.user.userimg+"\" width='25px' height='25px'/ class='userimg'>");
+		$(".m_message_left").prepend("<img src="+getuserimg(v.currentchatid)+" width='25px' height='25px'/ class='userimg'>");
+		$(".m_message_right").append("<img src="+v.user.userimg+" width='25px' height='25px'/ class='userimg'>");
+		msg_end.click()
 	}
 	//发送消息
 	function senderMessage(){
@@ -528,6 +558,12 @@
 			time: 1000,
 		});
 	}
+	//定位聊天信息滚动条到底部
+	function onGetMessage(context) {
+		msg.innerHTML+=context;
+		msg_end.click(); 
+	}
+	//未读
 	function unReadCount(nid,num){
 		var li= $(".m_left ul li")
 		for(i=0;i<li.length;i++){
