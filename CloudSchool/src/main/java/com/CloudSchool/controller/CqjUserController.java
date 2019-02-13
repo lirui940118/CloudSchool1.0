@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.CloudSchool.domain.CqjUser;
+import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.service.CqjMoudelService;
 import com.CloudSchool.service.CqjUserService;
 import com.CloudSchool.timer.DynamicTaskJobs;
@@ -29,11 +30,7 @@ public class CqjUserController {
 	public String login(String username,String password,HttpSession session) {
 		CqjUser userinfo=cus.login(username, password);
 		if(userinfo!=null) {
-			System.out.println("登录成功");
-			examTaskJob.setI(20);
-			examTaskJob.setB("你好");
-			//dynamicTaskJobs.addTaskTimerJob(examTaskJob, "*/5 * * * * *");
-			//dynamicTaskJobs.addTaskJob(examTaskJob,"2019-01-17 08:49:10");
+			System.out.println("登录成功");		
 			session.setAttribute("user", userinfo);
 		}else {
 			System.out.println("登录失败");
@@ -71,5 +68,33 @@ public class CqjUserController {
 		CqjUser userinfo =(CqjUser)session.getAttribute("user");
 		userinfo=cms.queryByUser(userinfo);
 		return userinfo;
+	}
+	
+	@RequestMapping("goUser")
+	public String goUser() {
+		return "cqj_setting/user";
+	}
+	@RequestMapping("goAddUser")
+	public String goAddUser() {
+		return "cqj_setting/user_insert";
+	}
+	@RequestMapping("goAddStudent")
+	public String goAddStudent() {
+		return "cqj_setting/student_insert";
+	}
+	@RequestMapping("getPage")
+	@ResponseBody
+	public PageBean getPage(Integer pageSize,String filtrate,Integer cur) {
+		if(pageSize==null) {
+			pageSize=2;
+		}
+		PageBean page=cus.pageUser(filtrate, cur, pageSize);
+		return page;
+	}
+	@RequestMapping("/updateUser")
+	@ResponseBody
+	public int updateUser(CqjUser user) {
+		
+		return cus.updateUser(user);
 	}
 }

@@ -8,9 +8,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.CloudSchool.dao.CqjModuleMapper;
+import com.CloudSchool.dao.CqjParentsMapper;
+import com.CloudSchool.dao.CqjStaffMapper;
+import com.CloudSchool.dao.CqjStudentMapper;
 import com.CloudSchool.dao.CqjUserMapper;
 import com.CloudSchool.domain.CqjModule;
+import com.CloudSchool.domain.CqjParents;
+import com.CloudSchool.domain.CqjStaff;
+import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.CqjUser;
+import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.service.CqjUserService;
 
 @Service
@@ -20,7 +27,12 @@ public class CqjUserServiceImpl implements CqjUserService {
 	CqjUserMapper cum;
 	@Autowired
 	CqjModuleMapper cmm;
-
+	@Autowired
+	CqjStaffMapper csfm;
+	@Autowired
+	CqjStudentMapper csm;
+	@Autowired
+	CqjParentsMapper cpm;
 	@Override
 	public CqjUser login(String username, String password) {
 		// TODO Auto-generated method stub
@@ -47,5 +59,45 @@ public class CqjUserServiceImpl implements CqjUserService {
 	public CqjUser queryByUserid(Integer userid) {
 		// TODO Auto-generated method stub
 		return cum.queryByUserid(userid);
+	}
+
+	@Override
+	public PageBean pageUser(String filtrate, Integer cur, Integer pageSize) {
+		// TODO Auto-generated method stub
+		int count=cum.queryCunt(filtrate);
+		int cur1=(cur-1)*pageSize;
+		List<CqjUser> list=cum.pageUser(filtrate,cur1, pageSize);
+		PageBean page=new PageBean(count, pageSize,list , cur);
+		return page;
+	}
+
+	@Override
+	public int updateUser(CqjUser user) {
+		int i=cum.updateByPrimaryKeySelective(user);
+		int z=0;
+		if(user.getUsertypenub()==0) {
+			CqjStaff staff=new CqjStaff();
+			staff.setPositionid(user.getPositionid());
+			staff.setStaffname(user.getName());
+			staff.setStaffid(user.getUsertypeid());
+			z=csfm.updateByPrimaryKeySelective(staff);
+		}
+		
+		if(user.getUsertypenub()==1) {
+			CqjStudent student=new CqjStudent();
+			student.setPositionid(user.getPositionid());
+			student.setStudentname(user.getName());
+			student.setStudentid(user.getUsertypeid());
+			z=csm.updateByPrimaryKeySelective(student);
+		}
+		
+		if(user.getUsertypenub()==2) {
+			CqjParents parents=new CqjParents();
+			parents.setPositionid(user.getPositionid());
+			parents.setParentsname(user.getName());
+			parents.setParentsid(user.getUsertypeid());
+			z=cpm.updateByPrimaryKeySelective(parents);
+		}
+		return z;
 	}
 }

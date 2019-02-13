@@ -29,11 +29,11 @@ public class CqjRoleServiceImpl implements CqjRoleService {
 	@Override
 	public int updateRoleAndModule(Integer roleid, String[] result) {
 		// TODO Auto-generated method stub
-		crmm.deleteByRoleId(roleid);
+		int i=crmm.deleteByRoleId(roleid);
 		if(result.length>0) {
-			crmm.addByRoleIdAndModuleid(roleid, result);
+			return crmm.addByRoleIdAndModuleid(roleid, result);
 		}
-		return 0;
+		return i;
 	}
 
 	@Override
