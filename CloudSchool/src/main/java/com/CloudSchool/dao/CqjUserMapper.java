@@ -1,5 +1,9 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.CloudSchool.domain.CqjUser;
 
 public interface CqjUserMapper {
@@ -20,4 +24,13 @@ public interface CqjUserMapper {
     String[] queryClazzByPositionid(Integer positionid);
     //通过userid 获取用户的信息
     CqjUser queryByUserid(Integer userid);
+    //分页查询用户信息
+    List<CqjUser> pageUser(@Param("filtrate")String filtrate,@Param("cur")Integer cur,@Param("pageSize")Integer pageSize);
+    int queryCunt(String filtrate);
+    //查询职员
+    List<CqjUser> queryStaff();
+    //查询家长
+    List<CqjUser> queryParents();
+    //查询学员
+    List<CqjUser> queryStduents();
 }

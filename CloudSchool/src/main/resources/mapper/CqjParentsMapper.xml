@@ -44,7 +44,8 @@
       #{standby1,jdbcType=VARCHAR}, #{standby2,jdbcType=VARCHAR}, #{standby3,jdbcType=VARCHAR}, 
       #{standby4,jdbcType=VARCHAR}, #{standby5,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.CloudSchool.domain.CqjParents">
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.CqjParents" useGeneratedKeys="true"
+		keyProperty="parentsid">
     insert into cqj_parents
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="parentsid != null">
