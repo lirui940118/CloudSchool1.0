@@ -39,8 +39,11 @@ public class CqjUserController {
 	}
 	
 	@RequestMapping("goLogin")
-	public String goLogin() {
-		return "login";
+	public String goLogin(HttpSession session) {
+		if(session.getAttribute("user")==null) {
+			return "login";
+		}
+		return "redirect:goIndex";
 	}
 	
 	@RequestMapping("goIndex")
