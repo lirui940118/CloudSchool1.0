@@ -1,5 +1,7 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
+
 import com.CloudSchool.domain.CqjStudent;
 
 public interface CqjStudentMapper {
@@ -22,4 +24,8 @@ public interface CqjStudentMapper {
     
     //根据学员id查询学员对象
     public CqjStudent queryBysid(Integer cid);
+    
+    public int addStudents(List<CqjStudent> student);
+    
+    List<CqjStudent> queryNullParentsId();
 }

@@ -30,8 +30,7 @@
 			property="standby4" />
 		<result column="standby5" jdbcType="VARCHAR"
 			property="standby5" />
-<result column="url" jdbcType="VARCHAR"
-			property="url" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
 		<result column="name" jdbcType="VARCHAR" property="name" />
 		<result column="rolename" jdbcType="VARCHAR"
 			property="rolename" />
@@ -51,10 +50,10 @@
 		<result column="clazzids" jdbcType="VARCHAR"
 			property="clazzids" />
 	</resultMap>
-	
 
-	
-	
+
+
+
 	<sql id="Base_Column_List">
 		userid, username, password, roleid, usertypeid,
 		usertypenub, creationtime,
@@ -318,24 +317,30 @@
 		cu.`usertypenub`=2
 		LEFT JOIN cqj_parents_student cps ON
 		cp.`parentsid`=cps.`parentsid` and cps.`status`=0
-		LEFT JOIN `clazzstudent` cls1 ON
+		LEFT JOIN
+		`clazzstudent` cls1 ON
 		cls1.`sid`=cs.`studentid` and cls1.`status`=0
 		LEFT JOIN `clazzcourseteacher` cct ON
 		cct.`tid`=cst.`staffid`
-		LEFT JOIN (SELECT * FROM `clazzstudent` ) AS
+		LEFT JOIN
+		(SELECT * FROM `clazzstudent` ) AS
 		cls2 ON cps.`studentid`
-		=cls2.`sid` and cls2.`status`=0
+		=cls2.`sid`
+		and cls2.`status`=0
 		LEFT JOIN `cqj_position` cpo ON
 		cpo.`positionid`=CONCAT_WS('',cs.`positionid`,cst.`positionid`,cp.`positionid`)
 		INNER JOIN cqj_role cr ON cr.`roleid`=cu.`roleid`
-		LEFT JOIN img im ON cu.`usertypenub`=im.`style` AND cu.`usertypeid`=im.`id`
+		LEFT JOIN img im ON
+		cu.`userid`=im.`id`
 		WHERE
-		cu.`username`=#{username} AND cu.`password`=#{password}
+		cu.`username`=#{username} AND
+		cu.`password`=#{password}
 		GROUP BY
 		cu.userid,cpo.positionid,im.imgId
 	</select>
 
-	<select id="queryClazzByPositionid"  resultType="java.lang.String">
+	<select id="queryClazzByPositionid"
+		resultType="java.lang.String">
 		SELECT DISTINCT
 		CONCAT_WS(
 		'',
@@ -346,20 +351,27 @@
 		FROM
 		cqj_user cu
 		LEFT JOIN cqj_student cs
-		ON cu.`usertypeid` = cs.`studentid`
+		ON
+		cu.`usertypeid` = cs.`studentid`
 		AND cu.`usertypenub` = 1
-		LEFT JOIN cqj_staff cst
+		LEFT JOIN
+		cqj_staff cst
 		ON cu.`usertypeid` = cst.`staffid`
-		AND cu.`usertypenub` = 0
+		AND cu.`usertypenub` =
+		0
 		LEFT JOIN cqj_parents cp
 		ON cu.`usertypeid` = cp.`parentsid`
-		AND cu.`usertypenub` = 2
+		AND
+		cu.`usertypenub` = 2
 		LEFT JOIN cqj_parents_student cps
-		ON cp.`parentsid` = cps.`parentsid` and cps.`status`=0
+		ON cp.`parentsid`
+		= cps.`parentsid` and cps.`status`=0
 		LEFT JOIN `clazzstudent` cls1
-		ON cls1.`sid` = cs.`studentid`
+		ON
+		cls1.`sid` = cs.`studentid`
 		LEFT JOIN `clazzcourseteacher` cct
-		ON cct.`tid` = cst.`staffid`
+		ON
+		cct.`tid` = cst.`staffid`
 		LEFT JOIN
 		(SELECT
 		*
@@ -379,7 +391,8 @@
 		t1.positionid,
 		IF(
 		FIND_IN_SET(pid, @pids) > 0,
-		@pids := CONCAT(@pids, ',', positionid),
+		@pids := CONCAT(@pids,
+		',', positionid),
 		0
 		) AS ischild
 		FROM
@@ -428,21 +441,142 @@
 		cu.`usertypenub`=2
 		LEFT JOIN cqj_parents_student cps ON
 		cp.`parentsid`=cps.`parentsid` AND cps.`status`=0
-		LEFT JOIN `clazzstudent` cls1 ON
+		LEFT JOIN
+		`clazzstudent` cls1 ON
 		cls1.`sid`=cs.`studentid` AND cls1.`status`=0
 		LEFT JOIN `clazzcourseteacher` cct ON
 		cct.`tid`=cst.`staffid`
-		LEFT JOIN (SELECT * FROM `clazzstudent` ) AS
+		LEFT JOIN
+		(SELECT * FROM `clazzstudent` ) AS
 		cls2 ON cps.`studentid`
-		=cls2.`sid` AND cls2.`status`=0
+		=cls2.`sid`
+		AND cls2.`status`=0
 		LEFT JOIN `cqj_position` cpo ON
 		cpo.`positionid`=CONCAT_WS('',cs.`positionid`,cst.`positionid`,cp.`positionid`)
 		INNER JOIN cqj_role cr ON cr.`roleid`=cu.`roleid`
-		LEFT JOIN img im ON cu.`usertypenub`=im.`style` AND cu.`usertypeid`=im.`id`
+		LEFT JOIN img im ON
+		cu.`usertypenub`=im.`style` AND cu.`usertypeid`=im.`id`
 		WHERE
 		cu.`userid`=#{userid}
 		GROUP BY
 		cu.userid,cpo.positionid,im.imgId
-	
+
 	</select>
+
+	<select id="pageUser" resultMap="BaseResultMap">
+		SELECT
+		cr.`rolename`,positionname,CONCAT_WS('',cs.`studentname`,cst.`staffname`,cp.`parentsname`)
+		AS
+		`name`,CONCAT_WS('',cs.`positionid`,cst.`positionid`,cp.`positionid`)
+		AS
+		`positionid`,cu.* FROM
+		cqj_user cu
+		LEFT JOIN cqj_student cs
+		ON
+		cu.`usertypeid` = cs.`studentid`
+		AND cu.`usertypenub` = 1
+		LEFT JOIN
+		cqj_staff cst
+		ON cu.`usertypeid` = cst.`staffid`
+		AND cu.`usertypenub` =
+		0
+		LEFT JOIN cqj_parents cp
+		ON cu.`usertypeid` = cp.`parentsid`
+		AND
+		cu.`usertypenub` = 2
+		INNER JOIN cqj_role cr
+		ON cu.`roleid`=cr.`roleid`
+		LEFT JOIN `cqj_position` cpo ON
+		cpo.`positionid`=CONCAT_WS('',cs.`positionid`,cst.`positionid`,cp.`positionid`)
+		WHERE cu.`status`=0 and
+		(username LIKE
+		concat(concat("%",#{filtrate}),"%")
+		OR
+		CONCAT_WS('',cs.`studentname`,cst.`staffname`,cp.`parentsname`) LIKE
+		concat(concat("%",#{filtrate}),"%")
+		OR cr.`rolename` LIKE
+		CONCAT(CONCAT("%",#{filtrate}),"%")
+		OR positionname LIKE
+		CONCAT(CONCAT("%",#{filtrate}),"%")
+		)
+		LIMIT #{cur},#{pageSize}
+	</select>
+	<select id="queryCunt" resultType="java.lang.Integer">
+		SELECT
+		COUNT(*) FROM cqj_user
+		cu
+		LEFT JOIN cqj_student cs
+		ON cu.`usertypeid` = cs.`studentid`
+		AND
+		cu.`usertypenub` = 1
+		LEFT JOIN cqj_staff cst
+		ON cu.`usertypeid` =
+		cst.`staffid`
+		AND cu.`usertypenub` = 0
+		LEFT JOIN cqj_parents cp
+		ON
+		cu.`usertypeid` = cp.`parentsid`
+		AND cu.`usertypenub` = 2
+		INNER JOIN
+		cqj_role cr
+		ON cu.`roleid`=cr.`roleid`
+		LEFT JOIN `cqj_position`
+		cpo ON
+		cpo.`positionid`=CONCAT_WS('',cs.`positionid`,cst.`positionid`,cp.`positionid`)
+		WHERE cu.`status`=0 and
+		(username LIKE
+		concat(concat("%",#{filtrate}),"%")
+		OR
+		CONCAT_WS('',cs.`studentname`,cst.`staffname`,cp.`parentsname`) LIKE
+		concat(concat("%",#{filtrate}),"%")
+		OR cr.`rolename` LIKE
+		CONCAT(CONCAT("%",#{filtrate}),"%")
+		OR positionname LIKE
+		CONCAT(CONCAT("%",#{filtrate}),"%")
+		)
+	</select>
+	<select id="queryStaff" resultMap="BaseResultMap">
+		SELECT
+		cs.`staffname` AS `name`,cp.`positionname`,cu.`userid`,img.`url` FROM
+		`cqj_staff` cs
+		LEFT JOIN `cqj_position` cp
+		ON cs.`positionid`=cp.`positionid`
+		LEFT JOIN `cqj_user` cu
+		ON cu.`usertypeid`=cs.`staffid`
+		LEFT JOIN img ON img.`id`=cu.`userid`
+		WHERE cu.`status`=0
+	</select>
+	
+		<select id="queryParents" resultMap="BaseResultMap">
+		SELECT cu.`userid`,cp.`parentsname` `name`,img.`url`,
+GROUP_CONCAT(cs.`studentname`,"(",IFNULL(cla.`cname`,'无'),")") remark
+ FROM `cqj_parents` cp 
+LEFT JOIN `cqj_parents_student` cps 
+ON cp.`parentsid`=cps.`parentsid`
+LEFT JOIN `cqj_student` cs 
+ON cps.`studentid`=cs.`studentid`
+LEFT JOIN `clazzstudent` cls 
+ON  cls.`status`=0 AND cls.`sid`=cs.`studentid` 
+LEFT JOIN `clazz` cla
+ON cls.`cid`=cla.`id` 
+LEFT JOIN `cqj_user` cu 
+ON cu.`usertypeid`=cp.`parentsid`
+LEFT JOIN img 
+ON img.`id`=cu.`userid`
+GROUP BY cu.`userid`
+	</select>
+	<select id="queryStduents" resultMap="BaseResultMap">
+		SELECT cu.`userid`,cs.`studentname` `name`,clz.`id` clazzids,clz.`cname` standby1,img.`url` FROM 
+		`cqj_student`cs 
+		LEFT JOIN `clazzstudent` cls
+		ON cls.`sid`=cs.`studentid` AND cls.`status`=0
+		LEFT JOIN `clazz` clz
+		ON clz.`id`=cls.`cid`
+		LEFT JOIN `cqj_user` cu
+		ON cu.`usertypeid`=cs.`studentid` 
+		LEFT JOIN img 
+		ON img.`id`=cu.`userid`
+		WHERE cu.`userid` IS NOT NULL AND cu.`status`=0
+	</select>
+	
 </mapper>

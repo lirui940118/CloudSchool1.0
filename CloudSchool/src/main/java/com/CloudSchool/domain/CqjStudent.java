@@ -46,10 +46,29 @@ public class CqjStudent {
 
     private String standby5;
 
+    private Integer parentsid;
+    
+    private String parentsname;
     
     
     
-    public String getClassName() {
+    public String getParentsname() {
+		return parentsname;
+	}
+
+	public void setParentsname(String parentsname) {
+		this.parentsname = parentsname;
+	}
+
+	public Integer getParentsid() {
+		return parentsid;
+	}
+
+	public void setParentsid(Integer parentsid) {
+		this.parentsid = parentsid;
+	}
+
+	public String getClassName() {
 		return className;
 	}
 

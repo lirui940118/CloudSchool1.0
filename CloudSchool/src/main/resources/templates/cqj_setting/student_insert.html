@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>用户管理-新增用户</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+<link rel="stylesheet" th:href="@{/static/css/load.css}">
+<style type="text/css">
+.card {
+	margin-bottom: 10px;
+}
+
+#hezi {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: #f2f3f8;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+}
+
+.zxc {
+	top: 80px;
+}
+</style>
+</head>
+
+<body>
+	<div class="main-panel">
+		<!-- <div id="hezi">
+			<div class="spinner">
+				<div class="spinner-container container1">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+				<div class="spinner-container container2">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+				<div class="spinner-container container3">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+			</div>
+		</div> -->
+		<div class="content">
+			<div class="container-fluid">
+				<h4 class="page-title">新增用户</h4>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group">
+									<label for="exampleFormControlFile1">Example file input</label>
+									<input type="file" class="form-control-file"
+										id="exampleFormControlFile1" onchange="importf(this)">
+								</div>
+								<p class="demo">
+									<button name="goInsertStudent" class="btn btn-success">新增学员</button>
+								</p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-body">
+							
+							<table class="table table-striped mt-12">
+
+									<thead>
+										<tr>
+											<th scope="col">姓名</th>
+											<th scope="col">性别</th>
+											<th scope="col">手机</th>
+											<th scope="col">身份证</th>
+											<th scope="col">邮箱</th>
+											<th scope="col">地址</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(e,index) in excelJson">
+											<td>{{e.studentname}}</td>
+											<td>{{e.sex}}</td>
+											<td>{{e.phone}}</td>
+											<td>{{e.idcard}}</td>
+											<td>{{e.email}}</td>
+											<td>{{e.address}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+	</div>
+
+</body>
+<script th:src="@{/static/js/core/jquery.min.js}"></script>
+<script th:src="@{/static/js/core/vue.js}" type="text/javascript"
+	charset="utf-8"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+<script th:src="@{/static/js/core/popper.min.js}"></script>
+<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+<script th:src="@{/static/js/ready.min.js}"></script>
+<script th:src="@{/static/js/cqj_infoBut.js}"></script>
+<script th:src="@{/static/js/axios.min.js}" type="text/javascript"
+	charset="utf-8"></script>
+<script th:src="@{/static/js/lodash.min.js}" type="text/javascript"
+	charset="utf-8"></script>
+	<script th:src="@{/static/js/xlsx.full.min.js}"></script>
+	
+<script type="text/javascript">
+	var v = new Vue({
+		el : ".content",
+		data : {
+			excelJson:{}
+		}
+	});
+	$(function(){
+		$('[name="goInsertStudent"]').click(function(){
+			$.ajax({
+				url : "/student/addStudents",
+				data :JSON.stringify( v.excelJson),
+				type : "post",
+				contentType: "application/json",
+				success : function(data) {
+					
+				}
+			})
+		
+		});
+	})
+	
+	var wb;//读取完成的数据
+    var rABS = false; //是否将文件读取为二进制字符串
+
+    //开始导入
+    function importf(obj) {
+        if(!obj.files) {
+            return;
+        }
+        var f = obj.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var data = e.target.result;
+            if(rABS) {
+                wb = XLSX.read(btoa(fixdata(data)), {//手动转化
+                    type: 'base64'
+                });
+            } else {
+                wb = XLSX.read(data, {
+                    type: 'binary'
+                });
+            }
+            /**
+             * wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
+             * wb.Sheets[Sheet名]获取第一个Sheet的数据
+             */
+            var excelJson = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+            
+            excelJson.name=excelJson.姓名;
+            delete  excelJson.姓名;
+           
+            
+            excelJson = JSON.parse(JSON.stringify(excelJson).replace(/学生姓名/g,"studentname")
+            		.replace(/学生性别/g,"sex")
+            		.replace(/学生年龄/g,"age")
+            		.replace(/学生手机/g,"phone")
+            		.replace(/学生身份证/g,"idcard")
+            		.replace(/学生地址/g,"address")
+            		.replace(/学生邮箱/g,"email")
+            		.replace(/学生家长手机号/g,"standby4")
+            		.replace(/家长名称/g,"parentsname")
+            		);
+            v.excelJson=excelJson;
+            console.log(excelJson)
+        };
+        if(rABS) {
+            reader.readAsArrayBuffer(f);
+        } else {
+            reader.readAsBinaryString(f);
+        }
+    }
+
+    //文件流转BinaryString
+    function fixdata(data) { 
+        var o = "",
+            l = 0,
+            w = 10240;
+        for(; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
+        o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
+        return o;
+    }
+
+</script>
+
+</html>
