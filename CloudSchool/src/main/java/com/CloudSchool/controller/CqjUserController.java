@@ -42,7 +42,11 @@ public class CqjUserController {
 	public String goLogin() {
 		return "login";
 	}
-	
+	@RequestMapping("exit")
+	public String exit(HttpSession session) {
+		session.invalidate(); 
+		return "login";
+	}
 	@RequestMapping("goIndex")
 	public String goIndex(HttpSession session) {
 		CqjUser userinfo=(CqjUser)session.getAttribute("user");
