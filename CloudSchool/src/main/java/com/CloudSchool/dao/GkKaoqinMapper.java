@@ -2,6 +2,8 @@ package com.CloudSchool.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.CloudSchool.domain.CqjPosition;
 import com.CloudSchool.domain.GkKaoqin;
 import com.CloudSchool.domain.GkPageBean;
@@ -26,4 +28,7 @@ public interface GkKaoqinMapper {
     int updateByPrimaryKeySelective(GkKaoqin record);
 
     int updateByPrimaryKey(GkKaoqin record);
+    
+    /*学员考勤到勤率*/
+    Double querykaoqinRateBygIdAndsId(@Param("sId") Integer sId,@Param("gId") Integer gId);
 }

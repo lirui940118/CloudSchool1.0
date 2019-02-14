@@ -128,4 +128,24 @@ public class TopicServiceImpl implements TopicService {
 		return 0;
 	}
 
+	@Override
+	public Integer queryCurrentTotalTopicCountBysIdAndGid(Integer sId, Integer gId,Integer eId) {
+		return topicMapper.queryCurrentTotalTopicCountBysIdAndGid(sId, gId, eId);
+	}
+
+	@Override
+	public Integer queryCurrentRealTotalTopicCountBysIdAndgId(Integer sId, Integer gId,Integer eId) {
+		return topicMapper.queryCurrentRealTotalTopicCountBysIdAndgId(sId, gId, eId);
+	}
+
+	@Override
+	public Integer queryCurrentTotalTopicAccuracyBysIdAndgId(Integer sId, Integer gId,Integer eId) {
+		return topicMapper.queryCurrentTotalTopicAccuracyBysIdAndgId(sId, gId, eId);
+	}
+
+	@Override
+	public Integer queryApplicationAbilityRateBysIdAndgId(Integer sId, Integer gId, Integer tId) {
+		return topicMapper.queryApplicationAbilityRateBysIdAndgId(sId, gId, tId);
+	}
+
 }

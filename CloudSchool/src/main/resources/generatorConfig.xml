@@ -24,7 +24,7 @@
 
 		
 		
-		<table schema="Lr_knowledagepoint_teacher" tableName="lr_knowledagepoint_teacher" enableCountByExample="false"
+		<table schema="Lr_configrate" tableName="lr_configrate" enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>

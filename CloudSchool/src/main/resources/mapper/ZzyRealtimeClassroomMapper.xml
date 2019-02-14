@@ -120,4 +120,49 @@
       </if>
     </trim>
   </insert>
+  
+  
+  
+  
+  <!-- 学员课堂表现，统计用 write by lirui -->
+  <select id="queryRealtimeBysIdAndgId" resultType="int">
+	  SELECT 
+		(
+			(
+			SELECT COUNT(zzy_event_type.`returned_value`) FROM `zzy_realtime_classroom`
+			INNER JOIN zzy_event_type  ON `zzy_event_type`.`etid` = zzy_realtime_classroom.`etid`
+			INNER JOIN clazz ON zzy_realtime_classroom.`user1` = `clazz`.`id`#班级
+			WHERE zzy_realtime_classroom.sid = #{sId} #学员id
+			<if test="gId!=null">
+			AND  clazz.`gid` = #{gId}  #年级
+			</if>
+			AND zzy_event_type.`returned_value` = 1 #表扬
+			) -
+			(
+			SELECT COUNT(zzy_event_type.`returned_value`) FROM `zzy_realtime_classroom`
+			INNER JOIN zzy_event_type  ON `zzy_event_type`.`etid` = zzy_realtime_classroom.`etid`
+			INNER JOIN clazz ON zzy_realtime_classroom.`user1` = `clazz`.`id`#班级
+			WHERE zzy_realtime_classroom.sid = #{sId}#学员id
+			<if test="gId!=null">
+			AND  clazz.`gid` = #{gId}  #年级
+			</if>
+			AND zzy_event_type.`returned_value` = 0 #批评
+			)
+		)
+		/
+		(
+		#上课次数
+		SELECT COUNT(*) FROM`zzy_class_schedule`
+		INNER JOIN clazz ON clazz.`id` = zzy_class_schedule.`clid`
+		INNER JOIN `clazzstudent` ON clazzstudent.`cid` = clazz.`id`
+		WHERE clazzstudent.`sid` = #{sId} #学员id
+		<if test="gId!=null">
+			AND  clazz.`gid` = #{gId}  #年级
+		</if>
+		AND zzy_class_schedule.`time` &lt;=  CURDATE()
+		)
+		* 100
+	AS rate
+  </select>
+  
 </mapper>

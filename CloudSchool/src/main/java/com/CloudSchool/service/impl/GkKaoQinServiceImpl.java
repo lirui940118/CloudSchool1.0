@@ -37,5 +37,10 @@ public class GkKaoQinServiceImpl implements GkKaoQinService{
 		return page;
 	}
 
+	@Override
+	public Double querykaoqinRateBygIdAndsId(Integer sId, Integer gId) {
+		return gkKaoqinMapper.querykaoqinRateBygIdAndsId(sId, gId);
+	}
+
 	
 }
