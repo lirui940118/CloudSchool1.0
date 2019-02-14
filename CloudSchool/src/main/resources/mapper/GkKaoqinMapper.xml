@@ -273,4 +273,16 @@
       by5 = #{by5,jdbcType=VARCHAR}
     where kq_id = #{kqId,jdbcType=INTEGER}
   </update>
+  
+  <!-- 学员考勤到勤率 -->
+  <select id="querykaoqinRateBygIdAndsId" resultType="double">
+  	SELECT IFNULL(SUM(kq_state_id=1)/COUNT(kq_id)*100,0) FROM `gk_kaoqin`
+	INNER JOIN `cqj_user` ON `cqj_user`.userid = gk_kaoqin.uid AND cqj_user.usertypenub = 1 #学员类型
+	WHERE cqj_user.usertypeid = #{sId}
+	<if test="gId!=null">
+	AND by2 = #{gId} #年级
+	</if>
+  </select>
+  
+  
 </mapper>

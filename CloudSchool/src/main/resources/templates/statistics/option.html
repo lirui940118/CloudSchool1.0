@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>参数设置</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<style type="text/css">
+			*{
+				/*border: 1px solid;*/
+			}
+			.card{
+				border-radius: 0px;
+			    background-color: #ffffff;
+			    margin-bottom: 0px;
+			    -webkit-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+			    -moz-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+			    box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+			    border: 1px solid #eee;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title">参数设置</h4>
+					<div class="row" id="configSec">
+						<div class="card col-lg-12">
+							<div class="card-header">
+								<h4 class="card-title">学员理解能力系数</h4>
+								<p class="card-category">
+									做题数量（理解类型）：实际刷题数量/当前进度下题目总数。
+									<br>
+									正确率（理解类型）：当前进度下题目总数刷题总数正确率（去除重复答题） 重复答题超过五次（无效数据）并且 正确率过高（包含）80%。
+									<br>
+									教员评价：教过该学员的教员对其进行的评价（问卷调查的形式）。
+								</p>
+							</div>
+							<div class="card-body row" style="justify-content: flex-start;display: flex;">
+								 <div class="col-lg-4" >
+								   <span>做题数量（理解类型）</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config1" data-name="config1">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>正确率（理解类型）</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config2" data-name="config2">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>教员评价</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config3" data-name="config3">
+								     <span></span>
+								   </div>
+								 </div>
+							</div>
+							
+							<div class="card-header">
+								<h4 class="card-title">学员识记能力系数</h4>
+								<p class="card-category">
+									识记数量（识记类型）：实际刷题数量/当前进度下题目总数。
+									<br>
+									正确率（识记类型）：当前进度下题目总数刷题总数正确率（去除重复答题） 重复答题超过五次（无效数据）并且 正确率过高（包含）80%。
+									<br>
+									教员评价：教过该学员的教员对其进行的评价（问卷调查的形式）。
+								</p>
+							</div>
+							<div class="card-body row" style="justify-content: flex-start;display: flex;">
+								 <div class="col-lg-4" >
+								   <span>做题数量（识记类型）</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config4"  data-name="config4">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>正确率（识记类型）</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config5" data-name="config5">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>教员评价</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config6" data-name="config6">
+								     <span></span>
+								   </div>
+								 </div>
+							</div>
+							
+							
+							<div class="card-header">
+								<h4 class="card-title">学员自控力能力系数</h4>
+								<p class="card-category">
+									日常考勤：当前正常到勤次数/总考勤次数。
+									<br>
+									作业及时完成情况：作业及时上交次数/总作业次数。
+									<br>
+									教员评价：教过该学员的教员对其进行的评价（问卷调查的形式）。
+								</p>
+							</div>
+							<div class="card-body row" style="justify-content: flex-start;display: flex;">
+								 <div class="col-lg-4" >
+								   <span>日常考勤</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config7" data-name="config7">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>作业及时完成情况</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config8" data-name="config8">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>教员评价</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config9" data-name="config9">
+								     <span></span>
+								   </div>
+								 </div>
+							</div>
+							
+							
+							
+							
+							<div class="card-header">
+								<h4 class="card-title">学员动手能力系数</h4>
+								<p class="card-category">
+									上机题目得分：上级题目（包含考试和作业）题目平均分得分
+									<br>
+									教员评价：教过该学员的教员对其进行的评价（问卷调查的形式）。
+								</p>
+							</div>
+							<div class="card-body row" style="justify-content: flex-start;display: flex;">
+								 <div class="col-lg-4" >
+								   <span>上机题目得分</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config10" data-name="config10">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>教员评价</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config11" data-name="config11">
+								     <span></span>
+								   </div>
+								 </div>
+							</div>
+							
+							
+							<div class="card-header">
+								<h4 class="card-title">学员课堂表现系数</h4>
+								<p class="card-category">
+									动态课堂评价：表扬次数-批评次数/上课次数   >1 取1 <0 取0
+									<br>
+									教员评价：教过该学员的教员对其进行的评价（问卷调查的形式）。
+								</p>
+							</div>
+							<div class="card-body row" style="justify-content: flex-start;display: flex;">
+								 <div class="col-lg-4" >
+								   <span>动态课堂评价</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config12" data-name="config12">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>教员评价</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config13" data-name="config13">
+								     <span></span>
+								   </div>
+								 </div>
+							</div>
+							
+						</div>
+						
+						
+						
+						
+						
+						<!--<div class="card col-lg-12">
+							<div class="card-header">
+								<h4 class="card-title">学员理解能力</h4>
+							</div>
+							<div class="card-body row" style="justify-content: flex-start;display: flex;">
+								 <div class="col-lg-4" >
+								   <span>理解题目</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>理解题目</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>理解题目</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>理解题目</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%">
+								     <span></span>
+								   </div>
+								 </div>
+							</div>
+						</div>-->
+						
+						
+						<!-- 修改按钮 -->
+						<div class="card col-lg-12" >
+							<div class="card-action" style="justify-content: center;display: flex;">
+								<button id="editBtn" class="btn btn-danger" onclick="editBtnFunc()">修改</button>
+							</div>
+						</div>
+						
+						
+						
+					</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" th:src="@{/static/js/core/vue.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/core/jquery.3.2.1.min.js}" ></script>
+	<script type="text/javascript" th:src="@{/static/js/common.js}"></script>
+	<script type="text/javascript">
+		var vue;//全局(方便做修改)
+		
+		$(function(){
+			console.log();
+			
+			InitInfo();
+
+		})
+		
+		//================自定义函数=============================
+		function InitInfo(){
+			$.ajax({
+				type:"post",
+				url:adress.url +"/statistics/" +"queryOptionAllConfig",
+				async:true,
+				data:{
+					
+				},
+				success:function(data){
+					console.log(data);
+					vue = new Vue({
+						el:"#configSec",
+						data:{
+							configInfo:data
+						}
+					});
+				}
+			});
+		}
+		//修改点击事件
+		function editBtnFunc(){
+			$.ajax({
+				type:"post",
+				url:adress.url +"/statistics/" +"updateOptionAllConfig",
+				async:true,
+				data:vue.configInfo,
+				success:function(effectCount){
+					alert(effectCount);
+					if(effectCount>0){
+						alert("修改成功！")
+					}else{
+						alert("修改失败");
+					}
+				}
+			});
+		}
+	</script>
+	
+
+</html>

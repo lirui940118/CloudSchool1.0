@@ -179,4 +179,49 @@
   	insert into workGrade(id, wId, uId, score, rank, time)
   	values(0,#{wid},#{uid},#{score},#{rank},now())
   </insert>
+  
+  <!-- 查询学员作业统计 -->
+  <select id="queryStudentWorkInfoBysIdAndgId" resultType="com.CloudSchool.domain.statistics.WorkGradeVo">
+  	SELECT workgrade.`rank`AS rankName,COUNT(workgrade.rank)AS workCount FROM `workgrade`
+	INNER JOIN participationworkstu ON `participationworkstu`.`wId` =  workgrade.`wId`
+	INNER JOIN `clazz` ON `clazz`.`id` = participationworkstu.`user1`
+	WHERE workgrade.`uId` = #{sId} #学员id 
+	<if test="gId!=null">
+	AND clazz.`gid` = #{gId}
+	</if>
+	GROUP BY workgrade.rank
+  </select>
+  
+  <!-- 学员作业及时完成率 -->
+  <select id="queryStudentWorkTimelyFinishRate" resultType="double">
+  	SELECT IFNULL((
+	(
+	#已经完成作业次数
+	SELECT COUNT(*)AS finishCount FROM `workgrade`
+	INNER JOIN `workinstance` ON `workinstance`.id = `workgrade`.wId
+	INNER JOIN `participationworkstu` ON `participationworkstu`.wId = `workgrade`.wId
+	INNER JOIN `clazz` ON `clazz`.`id` = participationworkstu.`user1`#年级
+	WHERE workgrade.uId = #{sId} #学员id
+	<if test="gId!=null">
+		AND clazz.`gid` = #{gId}
+	</if>
+	AND workinstance.`endTime` &gt;= participationworkstu.`user2`#作业是否及时完成 (及时完成次数)
+	)
+	/
+	(
+	#总过次数
+	SELECT COUNT(*)AS totalCount FROM `workgrade`
+	INNER JOIN `workinstance` ON `workinstance`.id = `workgrade`.wId
+	INNER JOIN `participationworkstu` ON `participationworkstu`.wId = `workgrade`.wId
+	INNER JOIN `clazz` ON `clazz`.`id` = participationworkstu.`user1`#年级
+	WHERE workgrade.uId = #{sId} #学员id
+	<if test="gId!=null">
+		AND clazz.`gid` = #{gId}
+	</if>
+	AND workinstance.`endTime` &lt;= NOW() #到了上交时间
+	)
+	*100),0) 
+	AS workTimelyFinishRate 
+  
+  </select>
 </mapper>
