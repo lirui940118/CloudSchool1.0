@@ -549,7 +549,7 @@
 	
 		<select id="queryParents" resultMap="BaseResultMap">
 		SELECT cu.`userid`,cp.`parentsname` `name`,img.`url`,
-GROUP_CONCAT(cs.`studentname`,"(",IFNULL(cla.`cname`,'无'),")") remark
+GROUP_CONCAT(IFNULL(cla.`cname`,'无'),"-",cs.`studentname`) remark
  FROM `cqj_parents` cp 
 LEFT JOIN `cqj_parents_student` cps 
 ON cp.`parentsid`=cps.`parentsid`
@@ -564,6 +564,7 @@ ON cu.`usertypeid`=cp.`parentsid`
 LEFT JOIN img 
 ON img.`id`=cu.`userid`
 GROUP BY cu.`userid`
+ORDER BY GROUP_CONCAT(IFNULL(cla.`cname`,'无'),"-",cs.`studentname`)
 	</select>
 	<select id="queryStduents" resultMap="BaseResultMap">
 		SELECT cu.`userid`,cs.`studentname` `name`,clz.`id` clazzids,clz.`cname` standby1,img.`url` FROM 

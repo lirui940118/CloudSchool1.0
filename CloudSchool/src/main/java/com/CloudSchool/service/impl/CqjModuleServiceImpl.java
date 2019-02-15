@@ -24,6 +24,7 @@ public class CqjModuleServiceImpl implements CqjMoudelService{
 		List<CqjModule> moduleSettingList = new ArrayList<CqjModule>();
 		List<CqjModule> moduleList = new ArrayList<CqjModule>();
 		List<CqjModule> moduleInfoList = new ArrayList<CqjModule>();
+		String HomeUrl=null;
 		for (CqjModule list : alllist) {
 			if (list.getPid() == 0) {
 				for (CqjModule clist : alllist) {
@@ -39,6 +40,9 @@ public class CqjModuleServiceImpl implements CqjMoudelService{
 				if(list.getLeftmenu()==1) {
 					moduleSettingList.add(list);
 				}
+				if(list.getLeftmenu()==3) {
+					HomeUrl=list.getModuleurl();
+				}
 			}
 			if(list.getLeftmenu()==2) {
 				moduleInfoList.add(list);
@@ -48,6 +52,7 @@ public class CqjModuleServiceImpl implements CqjMoudelService{
 		userinfo.setModuleList(moduleList);
 		userinfo.setModuleInfoList(moduleInfoList);
 		userinfo.setModuleSettingList(moduleSettingList);
+		userinfo.setHomeUrl(HomeUrl);
 		return userinfo;
 	}
 

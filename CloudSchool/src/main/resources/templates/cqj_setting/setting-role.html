@@ -160,11 +160,17 @@
 	    name:"tree",
 	    template:`<ul>
 	                <li style="margin-left: 40px;"  v-for = "item in folder">
-		                <label class="form-check-label">
+		                <label v-if="item.leftmenu!=3" class="form-check-label">
 		                <input @click = "select(item)" v-if = "item.status==0" checked class="form-check-input" type="checkbox" v-bind:value="item.moduleid"> 
 		                <input @click = "select(item)" v-else class="form-check-input" type="checkbox" v-bind:value="item.moduleid" > 	
 		                	<span class="form-check-sign" @click = "select(item)">{{item.modulename}}</span>
 						</label>
+						<label v-else class="form-check-label">
+		                <input @click = "select(item)" v-if = "item.status==0" checked class="form-radio-input" type="radio" name="indexHome"  v-bind:value="item.moduleid"> 
+		                <input @click = "select(item)" v-else class="form-radio-input" type="radio" name="indexHome" v-bind:value="item.moduleid" > 	
+		                	<span class="form-radio-sign" @click = "select(item)">{{item.modulename}}</span>
+						</label>
+						
 	                    <tree v-if = "item.mlist" :folder = "item.mlist" :select = "select"></tree>
 	                </li>
 	            </ul>`,
@@ -211,6 +217,8 @@
 								 $.each($('input:checkbox:checked'),function(index,element){
 									 json.modules+=$(this).val()+",";
 						         }); 
+								
+								 json.modules+=$('input:radio[name="indexHome"]:checked').val()+",";
 								json.roleid=roleid;
 								if(roleid!=undefined){
 									$.ajax({
