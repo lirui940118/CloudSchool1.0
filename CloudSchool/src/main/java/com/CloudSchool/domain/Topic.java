@@ -37,8 +37,16 @@ public class Topic {
     
     private Wtrecord wtrecord;
 
- 
+    private Workinfo workinfoobj;
 
+
+	public Workinfo getWorkinfoobj() {
+		return workinfoobj;
+	}
+
+	public void setWorkinfoobj(Workinfo workinfoobj) {
+		this.workinfoobj = workinfoobj;
+	}
 
 	public Wtrecord getWtrecord() {
 		return wtrecord;

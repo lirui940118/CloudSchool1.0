@@ -1,10 +1,13 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.CloudSchool.domain.Participationworkstu;
+import com.CloudSchool.domain.zjfvo.StuWorkInfo;
+import com.CloudSchool.domain.zjfvo.WorkinstanceInfo;
 
 public interface ParticipationworkstuMapper {
     int deleteByPrimaryKey(Integer id);
@@ -21,4 +24,11 @@ public interface ParticipationworkstuMapper {
     
     int insertList(Map<String, Object> map);
     int updateIscorrectByid(@Param("isCorrect")Integer isCorrect,@Param("id")Integer id,@Param("sid") Integer sid);
+    
+    List<WorkinstanceInfo> queryByCidAndWidShowInfo(@Param("cid")Integer cid,@Param("wid")Integer wid);
+    
+    //wid  作业id    学生id  sid
+    StuWorkInfo queryStuWorkInfo(@Param("wid")Integer wid,@Param("sid")Integer sid,@Param("cur")Integer cur,@Param("pagesize")Integer pagesize);
+    
+    int queryStuWorkInfoCount(@Param("wid")Integer wid,@Param("sid")Integer sid);
 }

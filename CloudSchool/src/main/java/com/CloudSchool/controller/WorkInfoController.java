@@ -1,5 +1,7 @@
 package com.CloudSchool.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.CloudSchool.domain.Workinstance;
+import com.CloudSchool.domain.zjfvo.WorkinstanceInfo;
+import com.CloudSchool.service.ParticipationworkstuService;
 import com.CloudSchool.service.WorkinStanceService;
 import com.CloudSchool.timer.AddMissionTaskJob;
 import com.CloudSchool.timer.AddScoreTaskJob;
@@ -23,11 +27,14 @@ public class WorkInfoController {
 
 	@Autowired
 	WorkinStanceService workinStanceService;
-
+	
+	@Autowired
+	ParticipationworkstuService participationworkstuService;
 	// 跳转到作业详情页面
 	@RequestMapping("toWorkInfo")
-	public String toWorkInfo(Integer id,HttpSession session) {
-		session.setAttribute("zjf_toWorkInfoid", id);
+	public String toWorkInfo(Integer cid,Integer wid,HttpSession session) {
+		session.setAttribute("zjf_toWorkInfocid", cid);
+		session.setAttribute("zjf_toWorkInfowid", wid);
 		return "zjf/workInfo";
 	}
 
@@ -43,8 +50,9 @@ public class WorkInfoController {
 	
 	@RequestMapping("queryWorkStuInfo")
 	@ResponseBody
-	public Workinstance queryWorkStuInfo(Integer id,HttpSession session) {
-		id=(Integer)session.getAttribute("zjf_toWorkInfoid");
-		return workinStanceService.queryWorkStuInfo(id);
+	public List<WorkinstanceInfo> queryWorkStuInfo(Integer cid,Integer wid,HttpSession session) {
+		cid=(Integer)session.getAttribute("zjf_toWorkInfocid");
+		wid=(Integer)session.getAttribute("zjf_toWorkInfowid");
+		return participationworkstuService.queryByCidAndWidShowInfo(cid, wid);
 	}
 }

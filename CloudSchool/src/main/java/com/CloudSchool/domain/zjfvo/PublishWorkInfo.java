@@ -1,13 +1,28 @@
 package com.CloudSchool.domain.zjfvo;
 
+import com.CloudSchool.domain.Workmould;
+
 public class PublishWorkInfo {
 	private Integer id;
 	private String name;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	private String startTime;
 	private String endTime;
 	private String cName;
 	private Integer wStatus;
 	private Integer wType;
+	private Integer cid;
+	public Integer getCid() {
+		return cid;
+	}
+	public void setCid(Integer cid) {
+		this.cid = cid;
+	}
 	public Integer getwType() {
 		return wType;
 	}
@@ -19,12 +34,6 @@ public class PublishWorkInfo {
 	}
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	public String getStartTime() {
 		return startTime;

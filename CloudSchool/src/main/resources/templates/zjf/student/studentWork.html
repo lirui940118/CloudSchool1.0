@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>事例</title>
+		<title>做作业</title>
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 		<link rel="stylesheet" href="../static/css/bootstrap.min.css">
 		<link rel="stylesheet" href="../static/css/ready.css">
@@ -347,7 +347,7 @@
 		$.ajax({
 			type:"post",
 			url:"http://127.0.0.1:8080/StudentWork/queryStudentWork",
-			data:{wid:34,sid:3},
+			data:{wid:6,sid:2},
 			success:function(data){
 				console.log(JSON.stringify(data))
 				count=data.topicWithBLOBsList.length
