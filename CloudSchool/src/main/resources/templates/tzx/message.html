@@ -316,10 +316,15 @@
 			//通知
 			tips("通知","你有一条新的通知","notice")
 // 			alert("通知")
-		}else{
-			//其他好友的消息
+		}else if("0"==chatid){
+			//系统的消息
 			tips("系统","你有一条系统消息","javascript:void(0)")
 // 			alert("你有一条其他好友的消息")
+		}else if(chatid>0){
+			//其他好友的消息
+			changechatid(chatid,getusername(chatid))
+			console.log("收到其他好友消息，正在打开跳转聊天："+chatid+"-"+getusername(chatid))
+			tips("系统","你有一条系统消息","javascript:void(0)")
 		}
 	}
 	//var httpRequest = new XMLHttpRequest();
@@ -407,6 +412,14 @@
 			}
 		}
 	})
+	//切换聊天对象
+	function changechatid(chatid,name){
+		console.log("切换聊天对象："+chatid)
+		v.currentchatid=chatid
+//			alert(chatid)
+		$(".m_top h6").text(name)
+		getChatRecord()
+	}
 	//获取用户头像
 	function getuserimg(userid){
 		for(var i=0;i<v.alluserlist.length;i++){
@@ -630,8 +643,20 @@
 		var nid=$(th).attr("nid")
 		var name=getusername(nid)
 		var url=getuserimg(nid)
+		//查询用户是否存在于聊天列表
+		var isfind=0
+		for(var i=0;i<v.chatlist.length;i++){
+			if(nid==v.chatlist[i].userid){
+				isfind=1
+			}
+		}
+		if(isfind==1){
+			alert("该用户已存在于你的聊天列表！")
+			return
+		}
+		//不在聊天列表-加入新列表
 		console.log("选择了一个用户："+nid+"-"+name+"-"+url)
-		alert("选择了一个用户："+nid+"-"+name+"你可以开始聊天了！")
+		alert("选择了加入聊天列表："+nid+"-"+name+"你可以开始聊天了！")
 		$(".cpm").hide()
 		var newchat={"userid":nid,"name":name,"url":url}
 		var newimg={"userid":nid,"name":name,"url":url}

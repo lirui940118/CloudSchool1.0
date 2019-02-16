@@ -1,5 +1,6 @@
 package com.CloudSchool.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,8 @@ public class NoticeServiceImpl implements NoticeService {
 	public int insert(Notice record) {
 		// TODO Auto-generated method stub
 		sendnoticeTips(record);
-		return nm.insert(record);
+//		return nm.insert(record);
+		return 1;
 	}
 
 	@Override
@@ -80,10 +82,20 @@ public class NoticeServiceImpl implements NoticeService {
 		String status=null;
 		//发送提醒给用户
 		System.out.println("系统消息提醒用户：");
-		int[] receiverlist=null;
+		int[] receiverlist= null;
+		List<Integer> list=new ArrayList<Integer>();
+		if(n.getReceiverrange()==5) {
+			//班级对应的学生
+			receiverlist=nm.getNoticeReceiveByGradeidOrClazzid(null, n.getReceiverid());
+		}else if(n.getReceiverrange()==4) {
+			//年级对应的学生
+			receiverlist=nm.getNoticeReceiveByGradeidOrClazzid(n.getReceiverid(), null);
+		}else{
+			receiverlist=nm.getNoticeReceiveByRange(n.getReceiverrange());
+		}
 		for (int receiver : receiverlist) {
 			System.out.println(receiver+",");
-			status = handler.sendMsg(receiver+"", 0+"-<div class=\"m_message_left\">"+n.getContent()+"</div>");
+			status = handler.sendMsg(receiver+"", "notice-<div class=\"m_message_left\">"+n.getContent()+"</div>");
 		}
 		return status;
 	}
