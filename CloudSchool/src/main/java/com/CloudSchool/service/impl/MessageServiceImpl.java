@@ -30,9 +30,12 @@ public class MessageServiceImpl implements MessageService {
 		System.out.println("生成消息");
 		int jg=mm.insert(m);
 		int jg1=mrm.insert(m);
+		String content=m.getContent();
 		//处理链接
-		String url="<p><a href="+m.getUrl()+">······链接······</a></p>";
-		String content=m.getContent()+url;
+		if(m.getUrl()!=null&&m.getUrl()!="") {
+			String url="<p><a href="+m.getUrl()+">······链接······</a></p>";
+			content+=url;
+		}
 		m.setContent(content);
 		if(0==m.getSender()&&jg1>0) {
 			String status=null;

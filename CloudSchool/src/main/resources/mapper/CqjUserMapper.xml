@@ -50,8 +50,11 @@
 		<result column="clazzids" jdbcType="VARCHAR"
 			property="clazzids" />
 	</resultMap>
-
-
+	<resultMap type="com.CloudSchool.domain.CqjUser" id="parents" extends="BaseResultMap">
+		<collection property="clazzidsList" ofType="string" javaType="list">
+			<result column="stuinfo" />
+		</collection>
+	</resultMap>
 
 
 	<sql id="Base_Column_List">
@@ -537,7 +540,7 @@
 	</select>
 	<select id="queryStaff" resultMap="BaseResultMap">
 		SELECT
-		cs.`staffname` AS `name`,cp.`positionname`,cu.`userid`,img.`url` FROM
+		cs.`staffname` AS `name`,cp.`positionname`,cu.`userid`,img.`url`,0 as `usertypenub` FROM
 		`cqj_staff` cs
 		LEFT JOIN `cqj_position` cp
 		ON cs.`positionid`=cp.`positionid`
@@ -547,26 +550,18 @@
 		WHERE cu.`status`=0
 	</select>
 	
-		<select id="queryParents" resultMap="BaseResultMap">
-		SELECT cu.`userid`,cp.`parentsname` `name`,img.`url`,
-GROUP_CONCAT(cs.`studentname`,"(",IFNULL(cla.`cname`,'无'),")") remark
- FROM `cqj_parents` cp 
-LEFT JOIN `cqj_parents_student` cps 
-ON cp.`parentsid`=cps.`parentsid`
-LEFT JOIN `cqj_student` cs 
-ON cps.`studentid`=cs.`studentid`
-LEFT JOIN `clazzstudent` cls 
-ON  cls.`status`=0 AND cls.`sid`=cs.`studentid` 
-LEFT JOIN `clazz` cla
-ON cls.`cid`=cla.`id` 
-LEFT JOIN `cqj_user` cu 
-ON cu.`usertypeid`=cp.`parentsid`
-LEFT JOIN img 
-ON img.`id`=cu.`userid`
-GROUP BY cu.`userid`
+		<select id="queryParents" resultMap="parents">
+SELECT u.`userid`,p.`parentsname` as `name`,img.`url`,u.`usertypenub`,CONCAT(IFNULL(cla.`cname`,'无'),"-",s.`studentname`) AS stuinfo FROM cqj_parents p
+LEFT JOIN cqj_user u ON p.`parentsid`=u.`usertypeid` AND u.`usertypenub`=2
+LEFT JOIN img ON img.`id`=u.`userid`
+LEFT JOIN `cqj_parents_student` ps ON p.`parentsid`=ps.`parentsid`
+LEFT JOIN `cqj_student` s ON ps.`studentid`=s.`studentid`
+LEFT JOIN `clazzstudent` cls ON  cls.`status`=0 AND cls.`sid`=s.`studentid` 
+LEFT JOIN `clazz` cla ON cls.`cid`=cla.`id`
+ORDER BY stuinfo
 	</select>
 	<select id="queryStduents" resultMap="BaseResultMap">
-		SELECT cu.`userid`,cs.`studentname` `name`,clz.`id` clazzids,clz.`cname` standby1,img.`url` FROM 
+		SELECT cu.`userid`,cs.`studentname` `name`,clz.`id` clazzids,clz.`cname` standby1,img.`url`,1 as `usertypenub` FROM 
 		`cqj_student`cs 
 		LEFT JOIN `clazzstudent` cls
 		ON cls.`sid`=cs.`studentid` AND cls.`status`=0

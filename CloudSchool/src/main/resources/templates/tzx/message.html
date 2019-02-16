@@ -61,7 +61,7 @@
 			<div class="content">
 				<div class="container-fluid">
 					<h4 class="page-title">消息</h4>
-					<div class="tzx" style="border: 1px solid red;width: 100%;height: 100%; display: flex; flex-direction: row;">
+					<div class="tzx" style="/* border: 1px solid red; */width: 100%;height: 100%; display: flex; flex-direction: row;background-color: #dcf5ef;">
 						<div class="m_left" style="width: 20%;min-width: 50px;min-height:400px;height:400px;overflow:scroll;">
 							<ul style="margin: 0;padding: 0;font-size: 14px;">
 								<li v-for="obj,index in chatlist" v-bind:nid="obj.userid" v-on:click="jump(obj.userid,obj.name)" style="height: 70px;width: 200px; min-width: 20px;">
@@ -83,7 +83,7 @@
 								<li style="height: 70px;width: 200px;" v-on:click="jump(0,'系统')">
 									<div class="talking_li" chatid="0" style="display: flex;flex-direction: row;position: relative;padding: 5px;" >
 										<div class="photo">
-											<img src="../static/image/profile.jpg" alt="头像" style="border-radius: 50%;vertical-align: middle;width: 45px;height:45px;border-style: none;position: relative;top: -10px;">
+											<img src="../static/image/profile2.jpg" alt="头像" style="border-radius: 50%;vertical-align: middle;width: 45px;height:45px;border-style: none;position: relative;top: -10px;">
 										</div>
 										<div  class="" style="width: 150px;height: 50px;">
 											<span>
@@ -121,29 +121,26 @@
 							</div>
 
 						</div>
-						<div class="cpm" style="display:none;width:100%;height:100%;background-color:#eee;z-index: 999; position:absolute;">
+						<div class="cpm" style="display:none;width:100%;background-color:rgba(200,200,200,1);overflow-y: auto;z-index: 999; position:absolute;">
 							
 							<ul style="margin:20px;">
 								<li>
 									<p>选择职员</p>
 									<ul>
-										<li><input type="checkbox" name="" value="1" nid="1" style="position:unset;"><span>xxxx</span><button onclick="chooseOne(1,'阿花1','bk2.jpg')" class="btn btn-success">选择</button></li>
-										<li><input type="checkbox" name="" value="2" nid="2" style="position:unset;"><span>xxxx</span><button onclick="chooseOne(2,'阿花2','bk2.jpg')" class="btn btn-success">选择</button></li>
-										<li><input type="checkbox" name="" value="3" nid="3" style="position:unset;"><span>xxxx</span><button onclick="chooseOne(3,'阿花3','bk2.jpg')" class="btn btn-success">选择</button></li>
+										<li v-for="obj,index in userlist.staff" ><input type="checkbox" name="" v-bind:value="obj.userid" v-bind:nid="obj.userid" style="position:unset;"><span style="margin-right:40px;">{{obj.name}}</span><span>{{obj.positionname}}</span><button onclick="chooseOne(this)" v-bind:nid="obj.userid" class="btn btn-success">选择</button></li>
 									</ul>
 								</li>
 								<li>
 									<p>选择学生</p>
 									<ul>
-										<li><input type="checkbox" value="4" style="position:unset;"><span>xxx</span><button onclick="chooseOne(4,'阿花4','profile.jpg')" class="btn btn-success">选择</button></li>
-										<li><input type="checkbox" value="6" style="position:unset;"><span>xxx</span><button onclick="chooseOne(6,'阿花6','profile.jpg')" class="btn btn-success">选择</button></li>
-										<li><input type="checkbox" value="7" style="position:unset;"><span>xxx</span><button onclick="chooseOne(7,'阿花7','profile.jpg')" class="btn btn-success">选择</button></li>
+										<li v-for="obj,index in userlist.student"><input type="checkbox" name="" v-bind:value="obj.userid" v-bind:nid="obj.userid" style="position:unset;"><span style="margin-right:40px;">{{obj.name}}</span><span>{{obj.standby1}}</span><button onclick="chooseOne(this)" v-bind:nid="obj.userid" class="btn btn-success">选择</button></li>
 									</ul>
 								</li>
 								<li>
 									<p>选择家长</p>
 									<ul>
-										<li><input type="checkbox" value="5" style="position:unset;"><span>xxx</span><button onclick="chooseOne(5,'阿花5','profile.jpg')" class="btn btn-success">选择</button></li>
+										<li v-for="obj,index in userlist.parents"><input type="checkbox" name=""v-bind:value="obj.userid" v-bind:nid="obj.userid" style="position:unset;"><span style="margin-right:40px;">{{obj.name}}</span><span v-for="obj1,index1 in obj.clazzidsList">{{obj1}}</span><button onclick="chooseOne(this)"  v-bind:nid="obj.userid" class="btn btn-success">选择</button></li>
+										<li><input type="checkbox" value="5" style="position:unset;"><span>xxx</span><button onclick="chooseOne(this)" nid=5 class="btn btn-success">选择</button></li>
 									</ul>
 								</li>
 							</ul>
@@ -302,19 +299,23 @@
 		console.log("接收到通信的消息."+msg.data+'\n'+v.user.userid);
 // 		alert(msg.data.substring(0,msg.data.indexOf("-")).toString())
 		var chatid=msg.data.substring(0,msg.data.indexOf("-"))
+		var message=msg.data.substring(msg.data.indexOf("-")+1)
 		if(v.currentchatid==chatid){
 			//当前聊天对象的消息
 			$(".m_body .view").append(msg.data.substring(msg.data.indexOf("-")+1));
 			adduserimg()
+			content=""+"你有一条好友消息："+getusername(chatid)+":"+message
+			tips("好友消息","你有一条好友消息："+getusername(chatid)+":"+message,"javascript:void(0)")
 		}else if(v.user.userid==chatid){
 			//自己刚发的消息
 			$(".m_body .view").append(msg.data.substring(msg.data.indexOf("-")+1));
 			adduserimg()
-			alert("刚发送的")
+			tips("发送结果","消息发送成功","javascript:void(0)")
+// 			alert("刚发送的")
 		}else if("notice"==chatid){
 			//通知
-			
-			alert("通知")
+			tips("通知","你有一条新的通知","notice")
+// 			alert("通知")
 		}else{
 			//其他好友的消息
 			tips("系统","你有一条系统消息","javascript:void(0)")
@@ -345,7 +346,8 @@
 				type:"post",
 				dataType:"text",
 				success:function(stu){
-					alert(stu);
+// 					alert(stu);
+					console.log(stu)
 				}
 			});
 		});
@@ -362,6 +364,7 @@
 		getLoginUserInMessage()
 		getChatList()
 // 		getChatRecord()
+		getAllUserList()
 	})
 	ue.ready(function(){
 		UE.getEditor('editor').setHeight(73)
@@ -373,9 +376,10 @@
 			currentchatid:null,
 			chatlist:null,
 			chatrecord:null,
-			userimg:[{userid:"0",img:"/static/image/profile.jpg"},{userid:"1",img:"/static/image/profile2.jpg"},{userid:"3",img:"/static/image/studentimg.png"},{userid:"4",img:"/static/image/studentimg.png"}],
+			userimg:[{userid:"0",url:"/static/image/profile.jpg"},{userid:"1",url:"/static/image/profile2.jpg"},{userid:"3",url:"/static/image/studentimg.png"},{userid:"4",url:"/static/image/studentimg.png"}],
 			nid:'abc',
 			alluserlist:null,
+			userlist:{staff:[],student:[],parents:[]}
 		},
 		methods:{
 			jump:function(chatid,name){
@@ -405,13 +409,28 @@
 	})
 	//获取用户头像
 	function getuserimg(userid){
-		for(var i=0;i<v.userimg.length;i++){
-			if(userid==v.userimg[i].userid){
-				console.log(userid+"-"+v.userimg[i].userid+"-"+v.userimg[i].img)
-				if(v.userimg[i].img==null){
-					return "/static/image/profile.jpg";
+		for(var i=0;i<v.alluserlist.length;i++){
+			if(userid==v.alluserlist[i].userid){
+				console.log("获取头像："+userid+"-"+v.alluserlist[i].userid+"-"+v.alluserlist[i].url)
+				if(v.alluserlist[i].url==null){
+					return "/static/image/morenhead.png";//未查询到头像
 				}else{
-					return v.userimg[i].img
+					return v.alluserlist[i].url
+				}
+			}
+		}
+		//系统头像
+		return "/static/image/profile2.jpg"
+	}
+	//获取用户名字
+	function getusername(userid){
+		for(var i=0;i<v.alluserlist.length;i++){
+			if(userid==v.alluserlist[i].userid){
+				console.log("获取名字："+userid+"-"+v.alluserlist[i].name)
+				if(v.alluserlist[i].name==null){
+					return "无名氏";
+				}else{
+					return v.alluserlist[i].name
 				}
 			}
 		}
@@ -421,7 +440,7 @@
 	function adduserimg(){
 		$(".userimg").remove()
 		$(".m_message_left").prepend("<img src="+getuserimg(v.currentchatid)+" width='25px' height='25px'/ class='userimg'>");
-		$(".m_message_right").append("<img src="+v.user.userimg+" width='25px' height='25px'/ class='userimg'>");
+		$(".m_message_right").append("<img src="+getuserimg(v.user.userid)+" width='25px' height='25px'/ class='userimg'>");
 		msg_end.click()
 	}
 	//发送消息
@@ -433,7 +452,8 @@
 			return
 		}
 		UE.getEditor('editor').setContent('');
-		alert(content)
+// 		alert(content)
+		console.log("发送消息内容："+content)
 		$.post("senderMessage","receiver[0]="+receiver+"&content="+content,function(result){
 			console.log("发送结果："+result)
 			if("000000"==result){
@@ -468,13 +488,15 @@
 		}
 		var content=UE.getEditor('editor').getContent()
 		UE.getEditor('editor').setContent('');
-		alert(content+"群发:\n"+receiverStr)
+// 		alert(content+"群发:\n"+receiverStr)
+		console.log(content+"群发:\n"+receiverStr)
 		$.post("senderMessage","content="+content+receiverStr,function(result){
 			console.log("发送结果："+result)
 			if("000000"==result){
 				alert("发送失败！请检查网络。")
 			}
 		})
+		chooseClose()
 		
 	}
 	//获取聊天记录
@@ -510,7 +532,7 @@
 			for(i=0;i<result.length;i++){
 				var item={}
 				item['userid']=result[i].userid
-				item['img']=result[i].url
+				item['url']=result[i].url
 				v.userimg.push(item)
 				console.log("正在刷新聊天列表："+result[i].url)
 			}
@@ -526,29 +548,43 @@
 			v.user=result
 		})
 	}
-	//获取弹窗中绑定的用户信息列表（userid/name/url）
+	//获取弹窗中绑定的用户信息列表（userid/name/url）（头像、姓名。userid、职位、班级、家长所属学生）
 	function getAllUserList(){
 		$.post("getAllUserList","",function(result){
+			console.log("获取弹窗中绑定的用户信息列表")
 			console.log(result)
 			v.alluserlist=result
+			for(var i=0;i<v.alluserlist.length;i++){
+				if(v.alluserlist[i].usertypenub==0){
+					v.userlist.staff.push(v.alluserlist[i])
+					console.log(0)
+				}else if(v.alluserlist[i].usertypenub==1){
+					v.userlist.student.push(v.alluserlist[i])
+					console.log(1)
+				}else if(v.alluserlist[i].usertypenub==2){
+					v.userlist.parents.push(v.alluserlist[i])
+					console.log(2)
+				}
+			}
 		})
 	}
 	//消息弹出提示
-	function tips(title,content,url){
+	function tips(title,content1,url){
 		var placementFrom = "bottom";
 		var placementAlign = "right";
 		var state = "info";
 		var style = "withicon";
 		var content = {};
-		content.message = '测试消息';
-		content.title = '系统';
+		content.message = content1;
+		content.title = title;
+// 		alert(title+"-"+content1+"-"+url)
 		if (style == "withicon") {
 			content.icon = 'la la-bell';
 		} else {
 			content.icon = 'none';
 		}
 		content.url = url;
-		content.target = '_self';
+		content.target = '_blank';
 		$.notify(content,{
 			type: state,
 			placement: {
@@ -590,12 +626,15 @@
 		$(".cpm .btnchooseAll").hide()
 	}
 	//弹窗-查找好友-点击选择
-	function chooseOne(nid,name,img){
-		console.log("选择了一个用户："+nid)
-		alert("选择了一个用户："+nid+"你可以开始聊天了！")
+	function chooseOne(th){
+		var nid=$(th).attr("nid")
+		var name=getusername(nid)
+		var url=getuserimg(nid)
+		console.log("选择了一个用户："+nid+"-"+name+"-"+url)
+		alert("选择了一个用户："+nid+"-"+name+"你可以开始聊天了！")
 		$(".cpm").hide()
-		var newchat={"userid":nid,"name":name,"url":img}
-		var newimg={"userid":nid,"img":img}
+		var newchat={"userid":nid,"name":name,"url":url}
+		var newimg={"userid":nid,"name":name,"url":url}
 		v.chatlist.push(newchat)
 		v.userimg.push(newimg)
 		console.log(v.chatlist)
@@ -603,22 +642,22 @@
 	}
 	
 	function chooseAll(nid){
-		alert("chooseAll啊啊啊啊")
+// 		alert("chooseAll啊啊啊啊")
 		var receiver=[]
 		$(".cpm ul li input[type='checkbox']").each(function () {
 		    if ($(this).is(":checked")) {
 				receiver.push($(this).val())
 		        console.log($(this).val())
-		        alert("选中")
+// 		        alert("选中")
 		    } else {
-		        alert("未选中")
+// 		        alert("未选中")
 		    }
 		});
-		console.log(receiver)
+		console.log("群发目标："+receiver)
 		senderMultiMessage(receiver)
 	}
 	function chooseClose(){
-		console.log("取消了选择")
+		console.log("关闭选择弹窗！")
 		$(".cpm").hide()
 	}
 </script>
