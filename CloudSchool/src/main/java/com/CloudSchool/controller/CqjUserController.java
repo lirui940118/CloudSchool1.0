@@ -45,7 +45,11 @@ public class CqjUserController {
 		}
 		return "redirect:goIndex";
 	}
-	
+	@RequestMapping("exit")
+	public String exit(HttpSession session) {
+		session.invalidate(); 
+		return "login";
+	}
 	@RequestMapping("goIndex")
 	public String goIndex(HttpSession session) {
 		CqjUser userinfo=(CqjUser)session.getAttribute("user");
@@ -100,4 +104,9 @@ public class CqjUserController {
 		
 		return cus.updateUser(user);
 	}
+	@RequestMapping("goProgressing")
+	public String goProgressing() {
+		return "cqj_setting/progressing";
+	}
+	
 }
