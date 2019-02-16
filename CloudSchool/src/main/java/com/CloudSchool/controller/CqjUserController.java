@@ -104,4 +104,9 @@ public class CqjUserController {
 		
 		return cus.updateUser(user);
 	}
+	@RequestMapping("goProgressing")
+	public String goProgressing() {
+		return "cqj_setting/progressing";
+	}
+	
 }
