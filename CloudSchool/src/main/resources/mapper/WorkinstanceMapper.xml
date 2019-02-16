@@ -212,6 +212,7 @@
 		<result column="name" property="name" />
 		<result column="startTime" property="startTime" />
 		<result column="endTime" property="endTime" />
+		<result column="cid" property="cid" />
 		<result column="cName" property="cName" />
 		<result column="wStatus" property="wStatus" />
 		<result column="wType" property="wType" />
@@ -242,7 +243,7 @@
 	<select id="queryPublishWorkByTid"
 		resultMap="queryPublishWorkByTidMap">
 		SELECT
-		workinstance.`id`,workmould.`name`,workinstance.`startTime`,workinstance.`endTime`,clazz.`cname`,participationworkclass.`wStatus`,workmould.`wType`
+		workinstance.`id`,workmould.`name`,workinstance.`startTime`,workinstance.`endTime`,clazz.`id` as cid,clazz.`cname`,participationworkclass.`wStatus`,workmould.`wType`
 		FROM workinstance
 		INNER JOIN workmould ON
 		workmould.`id`=workinstance.`wid`

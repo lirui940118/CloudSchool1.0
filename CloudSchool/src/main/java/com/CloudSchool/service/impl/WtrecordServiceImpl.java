@@ -83,7 +83,6 @@ public class WtrecordServiceImpl implements WtrecordService {
 				/*添加非上机题目记录*/
 				if(topicWithBLOBs.getWtrecord().getResult()!=null) {
 					wtrecord.setResult(topicWithBLOBs.getWtrecord().getResult());
-					System.out.println(topicWithBLOBs.getWtrecord().getResult());
 					list.add(wtrecord);	//添加题目记录对象
 					
 				}
@@ -137,6 +136,19 @@ public class WtrecordServiceImpl implements WtrecordService {
 	@Override
 	public List<BadTopicVO> queryBadKnowledagePointBySid(Integer sId) {
 		return wtrecordMapper.queryBadKnowledagePointBySid(sId);
+	}
+
+	@Override
+	public Wtrecord queryTopicById(Integer id) {
+		// TODO Auto-generated method stub
+		return wtrecordMapper.queryTopicById(id);
+	}
+	
+	//手动批改作业
+	@Override
+	public int updateScoreByWidSidTid(Wtrecord obj) {
+		// TODO Auto-generated method stub
+		return wtrecordMapper.updateScoreByWidSidTid(obj);
 	}
 
 }

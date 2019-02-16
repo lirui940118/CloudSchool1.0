@@ -62,7 +62,7 @@ public class StudentWorkController {
 	@RequestMapping("queryStudentWork")
 	@ResponseBody
 	public Workinstance queryStudentWork(Integer wid,Integer sid) {
-		System.out.println(JSON.toJSONString(workinStanceService.queryStudentWork(wid, sid)));
+		/*System.out.println(JSON.toJSONString(workinStanceService.queryStudentWork(wid, sid)));*/
 		return workinStanceService.queryStudentWork(wid, sid);
 	}
 	
