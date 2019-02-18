@@ -37,8 +37,14 @@ public interface ClazzMapper {
     //根据班级id 查询班级
     public Clazz queryZcid(Integer cid);
 
+
     //write by lirui 查询班级基础信息(统计lirui)
     public List<ClazzBaseInfoVO> queryClazzBaseInfo(Integer clazzId);
     //write by lirui 查询教员所带的班级(统计lirui)
     public List<ClazzBaseInfoVO> queryClazzListByStaffId(Integer staffId);
+
+    
+    //查询所有在正常状态的班级
+    public List<Clazz> queryAll();
+
 }

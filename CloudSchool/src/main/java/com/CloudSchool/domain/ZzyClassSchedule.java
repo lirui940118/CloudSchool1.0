@@ -2,6 +2,8 @@ package com.CloudSchool.domain;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class ZzyClassSchedule {
     private Integer csid;
 
@@ -12,8 +14,9 @@ public class ZzyClassSchedule {
     private Integer tid;
 
     private Integer cid;
-
-    private Date time;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd") 
+    private String time;
 
     private Integer temporalInterva;
 
@@ -77,11 +80,11 @@ public class ZzyClassSchedule {
         this.cid = cid;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

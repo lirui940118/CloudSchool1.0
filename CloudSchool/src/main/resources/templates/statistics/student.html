@@ -13,7 +13,7 @@
 * {
 	margin: 0px;
 	padding: 0px;
-	/*border: 1px solid red;*/
+	/*  border: 1px solid red;  */
 }
 
 img {
@@ -92,9 +92,26 @@ img {
 					<!--学员作业成绩-->
 					<div class=" card col-lg-12">
 						<div class="card-header">
-							<h4 class="card-title">学员作业成绩趋势图</h4>
+							<h4 class="card-title">学员作业成绩情况统计</h4>
+							<div id="workPicture" style="width: 400; height: 400px;"></div>
 						</div>
-						<div class="card-body">123</div>
+						<div class="card-body" id="workTableSec">
+							<!-- 作业情况饼状图 -->
+							<table v-if="workInfoList.length!=0" class="table table-bordered" style="text-align: center;">
+								<thead>
+									<tr>
+										<th scope="col">等级</th>
+										<th scope="col">次数</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="item in workInfoList">
+										<td>{{item.rankName}}</td>
+										<td>{{item.workCount}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 						<div class="card-footer">
 							<div class="legend">
 								<i class="la la-circle text-primary"></i> 查看很多
@@ -179,7 +196,7 @@ img {
 		},
 		tooltip : {},
 		legend : {
-			data : [ '学员能力值', '所在班级学员能力平均值' ]
+			data : [ '学员能力值']
 		},
 		radar : {
 			center : [ '50%', '55%' ],
@@ -213,7 +230,7 @@ img {
 			type : 'radar',
 			// areaStyle: {normal: {}},
 			data : [ {
-				value : [ 98, 56, 67, 56, 47 ],
+				value : [ 0, 0, 0, 0, 0 ],
 				label : {
 					show : true, //是否显示标签。
 					position : "insideTop", //标签的位置。// 绝对的像素值[10, 10],// 相对的百分比['50%', '50%'].'top','left','right','bottom','inside','insideLeft','insideRight','insideTop','insideBottom','insideTopLeft','insideBottomLeft','insideTopRight','insideBottomRight'
@@ -221,15 +238,6 @@ img {
 					formatter : '{c}', //标签内容格式器。模板变量有 {a}、{b}、{c}，分别表示系列名，数据名，数据值。
 				},
 				name : '学员能力值'
-			}, {
-				value : [ 23, 45, 23, 34, 23 ],
-				label : {
-					show : true, //是否显示标签。
-					position : "insideTop", //标签的位置。// 绝对的像素值[10, 10],// 相对的百分比['50%', '50%'].'top','left','right','bottom','inside','insideLeft','insideRight','insideTop','insideBottom','insideTopLeft','insideBottomLeft','insideTopRight','insideBottomRight'
-					offset : [ -10, 0 ], //是否对文字进行偏移。默认不偏移。例如：[30, 40] 表示文字在横向上偏移 30，纵向上偏移 40。
-					formatter : '{c}', //标签内容格式器。模板变量有 {a}、{b}、{c}，分别表示系列名，数据名，数据值。
-				},
-				name : '所在班级学员能力平均值'
 			} ]
 		} ]
 	};
@@ -240,12 +248,14 @@ img {
 	//全局
 	var myChar1 = echarts.init(document.querySelector("#studentTestPictrue"));
 	var myChar2 = echarts.init(document.querySelector("#dailyPicture"));
+	var myChar3 = echarts.init(document.querySelector("#workPicture"));
 	//初始化数据
 	$(function() {
 		//基础数据加载
 		InitBaseData();
 		myChar1.setOption(initDataAboutLine,true);
 		myChar2.setOption(initDataAboutCircle,true);
+		myChar3.setOption(initDataAboutCircle,true);
 	})
 	//=============================自定义方法=======================================
 		
@@ -287,9 +297,15 @@ img {
 					InitTestData(-1);
 					//學院所有考勤
 					initQkData(-1);
+					//雷达能力图
+					studentAbilityinfoInit(-1);
+					studentWorkInfoInit(-1);
 				}else{
 					InitTestData(data.gid);
 					initQkData(data.gid);
+					//雷达能力图
+					studentAbilityinfoInit(data.gid);
+					studentWorkInfoInit(data.gid);
 				}
 			}
 		})
@@ -312,6 +328,10 @@ img {
 						gid(){
 							InitTestData(this.gid);
 							initQkData(this.gid);
+							//（雷达能力图）
+							studentAbilityinfoInit(this.gid);
+							//作业统计情况
+							studentWorkInfoInit(this.gid);
 						}
 					}
 				})
@@ -593,9 +613,170 @@ img {
 		});
 		
 	}
+	//学员能力计算初始化
+	function studentAbilityinfoInit(gId){
+		$.ajax({
+			type : "post",
+			url : adress.url + "/statistics/queryStudentAbility",
+			data : {
+				sId:sId,
+				gId:gId
+			},
+			success : function(data) {
+				console.log(data);
+				var indicator = [ {
+					'name' : '理解',
+					'max' : 100
+				}, {
+					'name' : '识记',
+					'max' : 100
+				}, {
+					'name': '自控力',
+					'max' : 100
+				}, {
+					'name' : '应用上机',
+					'max' : 100
+				}, {
+					'name' : '课堂表现',
+					'max' : 100
+				} ];
+
+				//<=80 优秀 <80 >=60 良好 <60差
+				for(var i= 0;i<data.length;i++){
+					if(data[i]>=80){
+						indicator[i].name +="(优秀)";
+					}else if(data[i]<80 && data[i]>=60){
+						indicator[i].name +="(一般)";
+					}else{
+						indicator[i].name +="(差)";
+					}
+				}
+				
+				myChar.showLoading();
+				option = {
+						title : {
+
+						},
+						tooltip : {},
+						legend : {
+							data : [ '学员能力值']
+						},
+						radar : {
+							center : [ '50%', '55%' ],
+							// shape: 'circle',
+							name : {
+								textStyle : {
+									color : '#fff',
+									backgroundColor : '#999',
+									borderRadius : 3,
+									padding : [ 3, 5 ]
+								}
+							},
+							indicator : indicator
+						},
+						series : [ {
+							type : 'radar',
+							// areaStyle: {normal: {}},
+							data : [ {
+								value : data,
+								label : {
+									show : true, //是否显示标签。
+									position : "insideTop", //标签的位置。// 绝对的像素值[10, 10],// 相对的百分比['50%', '50%'].'top','left','right','bottom','inside','insideLeft','insideRight','insideTop','insideBottom','insideTopLeft','insideBottomLeft','insideTopRight','insideBottomRight'
+									offset : [ -10, 0 ], //是否对文字进行偏移。默认不偏移。例如：[30, 40] 表示文字在横向上偏移 30，纵向上偏移 40。
+									formatter : '{c}', //标签内容格式器。模板变量有 {a}、{b}、{c}，分别表示系列名，数据名，数据值。
+								},
+								name : '学员能力值'
+							} ]
+						} ]
+					};
+				
+				
+				//设置参数
+				myChar.setOption(option,true);
+				//关闭动画
+				myChar.hideLoading();
+				
+				
+			}
+		});
+		
+		
+		
+		
+	}
 	
-	
-	
+	//查询学员作业情况
+	function studentWorkInfoInit(gId){
+		if(gId == -1)
+			gId = null;//查询全部
+		myChar3.showLoading();
+		$.ajax({
+			type : "post",
+			url : adress.url + "/statistics/getDataAboutWorkInfo",
+			data : {
+				sId:sId,
+				gId:gId
+			},
+			success : function(data) {
+				console.log("学员作业统计"+data.length);
+				var vue =new Vue({
+					el:"#workTableSec",
+					data:{
+						workInfoList:data
+					}
+				});
+				if(data.length == 0){//无数据
+					myChar3.setOption(noDataLoadingOption,true);
+				}else{
+					//筛选数据
+					var rankNameArr = [];
+					var workDataArr = [];
+					for(var i = 0; i <data.length;i++){
+						rankNameArr.push(data[i].rankName);//等级名称
+						var workData ={};
+						workData.name = data[i].rankName;
+						workData.value = data[i].workCount;
+						workDataArr.push(workData);//次数
+					}
+					console.log(rankNameArr);
+					console.log(workDataArr);
+					//图形
+					var option = {
+						tooltip : {
+					        trigger: 'item',
+					        formatter: "{a} <br/>{b} : {c} ({d}%)"
+					    },
+					    legend: {
+					        x : 'center',
+					        y : 'bottom',
+					        data: rankNameArr
+					    },
+					    series : [
+					        {
+					            name: '等级：次数/（占比%）',
+					            type: 'pie',
+					            radius : '50%',
+					            data:workDataArr,
+					            itemStyle: {
+					                emphasis: {
+					                    shadowBlur: 10,
+					                    shadowOffsetX: 0,
+					                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+					                }
+					            }
+					        }
+					    ]
+					};
+					myChar3.setOption(option,true);
+					console.log("123123123"+JSON.stringify(option));
+				}
+				//关闭动画
+				myChar3.hideLoading();
+			}
+		});
+			
+		
+	}
 </script>
 
 </html>

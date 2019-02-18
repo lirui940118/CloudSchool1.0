@@ -26,7 +26,7 @@
 				<div class="container-fluid">
 					<h4 class="page-title">班级统计（班主任，教员查看 通过班级id点入）</h4>
 					<div class="row">
-						<div class="card col-lg-5">
+						<div class="card col-lg-12">
 							<div class="card-header">
 								<h4 class="card-title">班级信息</h4>
 							</div>
@@ -46,12 +46,12 @@
 							</div>
 						</div>
 						<!--全班学员能力雷达图-->
-						<div class="card col-lg-7">
+						<!-- <div class="card col-lg-7">
 							<div class="card-header">
 								<h4 class="card-title">班级整体能力雷达图</h4>
 							</div>
 							<div class="card-body" id="allStudentAbilityPicture" style="width: 400; height: 400px;"></div>
-						</div>
+						</div> -->
 						<div class="card col-lg-12">
 							<div class="card-header">
 								<h4 class="card-title">班级考试情况</h4>
@@ -98,7 +98,7 @@
 								<h4 class="card-title">班级考试分数变化趋势</h4>
 							</div>
 							<div class="card-body">
-							<div id="clazzTestPictrue" style="width: 400px; height: 400px;"></div>
+							<div id="clazzTestPictrue" style="width: 1000px; height: 400px;"></div>
 							</div>
 						</div>
 					</div>
@@ -120,7 +120,6 @@
 		initData();
 		//考试走势图
 		myChar.setOption(initDataAboutLine,true);
-		initpicture();//初始化图表
 	})
 	//=========================================
 	function initData(){
@@ -212,17 +211,99 @@
 					sortType:sortType
 				},
 				success:function(data){
-					//console.log(JSON.stringify(data));
+					console.log(JSON.stringify(data));
+					//console.log(data);
 					vue1.studentList = data;
-					//算出平均分数
+					/* //算出平均分数
 					for(var i = 0;i<studentList.size();i++){
 						
+					} */
+					//图形
+					var itemStyle = {
+					    normal: {
+					        /*信息显示方式*/
+					        label: {
+					            show: true,
+					            position: 'top',
+					            formatter: '{c}'
+					        }
+					    }
+					};
+					myChar.showLoading();
+					if(data.length == 0){//无数据
+						mychar.setOption(noDataLoadingOption,true);
+					}else{
+						//数据筛选
+						var studentNameArr = [];//学生姓名集合
+						var TestNameArr = [];//考试名称集合
+						var studentTestsArr = [];//班级下多个学生的多次考试成绩
+						var selectedObject = {};//设置默认是否显示
+						for(var i = 0;i<data.length;i++){
+							studentNameArr.push(data[i].studentName);
+							selectedObject[data[i].studentName] = false;
+							var studentTestsSim = {};
+							studentTestsSim.itemStyle = itemStyle;
+							studentTestsSim.name = data[i].studentName;
+							studentTestsSim.type = 'line';
+							var testScoreArr = [];//一名学员的所有考试情况
+							for(var j = 0;j<data[i].testList.length;j++){
+								testScoreArr.push(data[i].testList[j].studentScore);
+							}
+							studentTestsSim.data = testScoreArr;
+							studentTestsArr.push(studentTestsSim);
+							/* 
+							{
+					            itemStyle:itemStyle,
+					            name:'邮件营销',
+					            type:'line',
+					            data:[120, 132, 101, 134, 90, 230, 210]
+					        } */
+						}
+						for(var i = 0;i<data[0].testList.length;i++){
+							TestNameArr.push(data[0].testList[i].testName);
+						}
+						//图片参数
+						var option = {
+						    tooltip : {
+						        trigger: 'axis'
+						    },
+						    legend: {
+						        data:studentNameArr,
+						        selected:selectedObject
+						    },
+						    toolbox: {
+						        show : true,
+						        feature : {
+						            mark : {show: true},
+						            dataView : {show: true, readOnly: false},
+						            magicType : {show: true, type: ['line','bar']},
+						            restore : {show: true},
+						            saveAsImage : {show: true}
+						        }
+						    },
+						    calculable : true,
+						    xAxis : [
+						        {
+						            type : 'category',
+						            boundaryGap : false,
+						            data : TestNameArr
+						        }
+						    ],
+						    yAxis : [
+						        {
+						            type : 'value'
+						        }
+						    ],
+						    series : studentTestsArr
+						};
+						console.log(JSON.stringify(option));
+						myChar.setOption(option,true);
 					}
+					
+
+					myChar.hideLoading();
 				}
 		 })
-	}
-	function initpicture(){
-		
 	}
 	</script>
 </html>

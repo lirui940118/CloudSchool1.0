@@ -229,9 +229,9 @@
   
   <!-- 循环新增年级 -->
   <insert id="insertMap">
-		insert into `zzy_grade`(grade_name,vid,majorbool,classbool) values
+		insert into `zzy_grade`(grade_name,vid,majorbool,classbool,user1) values
 		<foreach collection="list" item="l" separator="," >
-			(#{l.gradeName},#{vid},#{l.majorbool},#{l.classbool})
+			(#{l.gradeName},#{vid},#{l.majorbool},#{l.classbool},#{l.user1})
 		</foreach>
 	</insert>
 	
@@ -261,9 +261,43 @@
 		</collection>
 	</resultMap>
 	
-	<!-- 根据id查询年级 -->
+	<!-- 根据版本id查询年级 -->
 	<select id="queryByvid2" resultMap="resultMapGraAndCou">
 		select * from `zzy_grade` where vid=#{vid}
 	</select>
-  
+  	
+  	<!-- 所有年级下所有批次下的所有班级  write by lirui-->
+  	<select id="queryAllGradePcClazz" resultMap="GradePcClazz">
+  	SELECT zzy_grade.`gid`AS gradeId,clazz.`pc`AS clazzPc,zzy_grade.`grade_name`AS gradeName,clazz.`id` AS clazzId,clazz.`cname` AS clazzName
+	FROM zzy_grade
+	INNER JOIN clazz ON clazz.`gid` = zzy_grade.`gid`
+	WHERE zzy_grade.`state` = 0
+	AND clazz.`status` = 2#正常
+	<if test="pc!=''">
+		AND clazz.`pc` = #{pc} #批次
+	</if>
+	<if test="gId!=null">
+		AND zzy_grade.`gid` =  #{gId}
+	</if>
+  	</select>
+  	<!-- 多对多对多 -->
+  <resultMap type="com.CloudSchool.domain.statistics.GradeVO" id="GradePcClazz">
+  	<id column="gradeId" property="gradeId"/>
+  	<result column="gradeName" property="gradeName"/>
+  	<collection property="pcList" ofType="com.CloudSchool.domain.statistics.PCVO">
+  		<result column="clazzPc" property="clazzPc"/>
+  		<collection property="clazzList" ofType="com.CloudSchool.domain.statistics.ClazzBaseInfoVO">
+  			<id column="clazzId" property="clazzId"/>
+  			<result column="clazzName" property="clazzName"/>
+  		</collection>
+  	</collection>
+  </resultMap>
+  	
+  	
+  	
+	
+	<!-- 根据班级id查询年级 -->
+  <select id="queryBycid" resultMap="BaseResultMap">
+  		SELECT * FROM `zzy_grade`  WHERE gid=(SELECT `clazz`.`gid` FROM `clazz` WHERE id=#{id})
+  </select>
 </mapper>
