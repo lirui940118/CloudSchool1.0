@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>年级统计</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+<style type="text/css">
+.card {
+	border-radius: 0px;
+	background-color: #ffffff;
+	margin-bottom: 0px;
+	-webkit-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+	-moz-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+	box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+	border: 1px solid #eee;
+}
+</style>
+</head>
+
+<body>
+	<div class="main-panel">
+		<div class="content">
+			<div class="container-fluid">
+				<h4 class="page-title">全年级统计</h4>
+				<div class="row">
+					<div class="card col-lg-12">
+						<div class="card-header row" id="GradeAndPcAndClazzSec">
+							<!--年级-->
+							<div v-if="gradeInfoList.length>0" class="form-group col-lg-6">
+								<label>年级</label> 
+								<select v-model="currentgId" v-if='gradeInfoList.length>1' class="form-control form-control">
+									<option v-for="gradeItem in gradeInfoList" v-bind:value="gradeItem.gradeId">{{gradeItem.gradeName}}</option>
+									<option></option>
+								</select>
+								<select v-model="currentgId"  v-if='gradeInfoList.length==1' disabled ="disabled" class="form-control form-control" id="defaultSelect">
+									<option v-for="gradeItem in gradeInfoList" v-bind:value="gradeItem.gradeId">{{gradeItem.gradeName}}</option>
+									<option></option>
+								</select>
+							</div>
+							<!--年级-->
+							<div v-if="gradeInfoList.length>0" class="form-group col-lg-6">
+								<label>批次</label> 
+								<select v-model="currentPc"  v-if='gradeInfoList[0].pcList.length > 1' class="form-control form-control">
+									<option v-for="pcItem in gradeInfoList[0].pcList">{{pcItem.clazzPc}}</option>
+								</select>
+								<select v-model="currentPc" v-if='gradeInfoList[0].pcList.length == 0' class="form-control form-control">
+									<option v-for="pcItem in gradeInfoList[0].pcList">{{pcItem.clazzPc}}</option>
+								</select>
+							</div>
+							<!--同一批次各个班平均成绩查询-->
+							<div id="scoreInfoPicture"></div>
+						</div>
+						<div class="card-body" style="text-align: center;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+<script type="text/javascript" th:src="@{/static/js/core/vue.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/common.js}"></script>
+<script type="text/javascript"
+	th:src="@{/static/js/statisticsDefaultData.js}"></script>
+<script type="text/javascript"
+	th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
+<script src="/static/js/echarts.js"></script>
+<script src="/static/js/core/bootstrap.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		initGradeInfo(null,'');//查询全部
+	});
+	//初始化年级基本数据
+	function initGradeInfo(gId,pc){
+		//查询所有年级下的所有批次下的所有班级
+		$.ajax({
+			type : "post",
+			url : adress.url + "/statistics/getAllGradesAboutPcsAndClazzs",
+			data : {
+				gId : gId,
+				pc : pc
+			},
+			success : function(data) {
+				console.log(JSON.stringify(data));
+				
+				if(data.length>0){
+					var vue = new Vue({
+						el:"#GradeAndPcAndClazzSec",
+						data:{
+							gradeInfoList:data,
+							currentgId:data[0].gradeId,
+							currentPc:data[0].pcList[0].clazzPc
+						},
+						watch:{
+							currentgId(){//vue
+								alert(this.currentgId);
+								initGradeInfo(this.currentgId,'');
+							},
+							currentPc(){
+								alert(this.currentPc);
+								initGradeInfo(this.currentgId,this.currentPc);
+							}
+						}
+					});
+				}else{
+					var vue = new Vue({
+						el:"#GradeAndPcAndClazzSec",
+						data:{
+							gradeInfoList:data
+						}
+					});
+					//todo显示无数据
+				}
+				
+				
+			}
+		})
+	}
+</script>
+</html>

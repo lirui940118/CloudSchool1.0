@@ -3,7 +3,10 @@ package com.CloudSchool.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.CloudSchool.domain.ZzyGrade;
+import com.CloudSchool.domain.statistics.GradeVO;
 
 public interface ZzyGradeMapper {
 	
@@ -18,7 +21,8 @@ public interface ZzyGradeMapper {
 	public List<ZzyGrade> queryByvid2(Integer vid);
 	//查询所有年级
 	public List<ZzyGrade> queryAll();
-	
+	//所有年级下所有批次下的所有班级  write by lirui
+	public List<GradeVO> queryAllGradePcClazz(@Param("gId")Integer gId,@Param("pc")String pc);
 
 	
     int deleteByPrimaryKey(Integer gid);
