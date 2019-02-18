@@ -12,9 +12,9 @@ public class Notice {
     private String url;
 
     private Date time;
-
+    //接收者范围：0全部、教职工、学生、家长、年级、班级
     private Integer receiverrange;
-
+    //年级id或班级id
     private Integer receiverid;
 
     private String readrecord;

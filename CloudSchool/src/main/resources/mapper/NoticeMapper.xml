@@ -207,4 +207,15 @@
 	LEFT JOIN cqj_parents AS p ON p.`parentsid`=u.`usertypeid` AND u.`usertypenub`=2
 	WHERE u.`userid`=#{uid}
   </select>
+  <select id="getNoticeReceiveByGradeidOrClazzid" resultType="int">
+  	SELECT u.`userid` FROM cqj_user u
+	INNER JOIN clazzstudent cs ON u.`usertypeid`=cs.`sid` AND u.`usertypenub`=1 AND cs.`status`=0
+	INNER JOIN clazz c ON c.`id`=cs.`cid` AND c.`status`=0 where 1=1
+	<if test="clazzid != null"> AND cs.`cid`=#{clazzid}</if>
+	<if test="gradeid != null"> AND c.`gid`=#{gradeid}</if>
+  </select>
+   <select id="getNoticeReceiveByRange" resultType="int">
+  	SELECT * FROM cqj_user u
+	<if test="receiverrange != 0"> WHERE u.`usertypenub`=#{receiverrange}-1</if>
+  </select>
 </mapper>

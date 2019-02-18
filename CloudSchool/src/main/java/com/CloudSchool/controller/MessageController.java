@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.CloudSchool.dao.CqjUserMapper;
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.Message;
 import com.CloudSchool.handler.MyWebSocketHandler;
@@ -18,6 +19,8 @@ import com.CloudSchool.service.MessageService;
 
 @Controller
 public class MessageController {
+	@Autowired
+	CqjUserMapper um;
 	@Autowired
 	MessageService ms;
 	@Autowired
@@ -44,13 +47,13 @@ public class MessageController {
 		String status =null;
 		//显示自己发送的信息
 		//消息内容前加上聊天对方的id,用于区分多个聊天链接
-		status = handler.sendMsg(u.getUserid()+"", m.getReceiver()+"-<div class=\"m_message_right\">"+m.getContent()+"</div>");
+		status = handler.sendMsg(u.getUserid()+"", u.getUserid()+"-<div class=\"m_message_right\">"+m.getContent()+"</div>");
 		//显示好友发来的信息
 		for (int receiver : m.getReceiver()) {
 			System.out.println("接收人："+receiver);
 			status = handler.sendMsg(receiver+"", u.getUserid()+"-<div class=\"m_message_left\">"+m.getContent()+"</div>");
 		}
-//		System.out.println("存储结果:"+jg+"发送结果："+status);
+		System.out.println("存储结果:"+jg+"发送结果："+status);
 		return status;
 	}
 	@ResponseBody
@@ -77,5 +80,17 @@ public class MessageController {
 		CqjUser u=(CqjUser) session.getAttribute("user");
 		System.out.println("当前登录用户信息");
 		return u;
+	}
+	@ResponseBody
+	@RequestMapping("/getAllUserList")
+	//获取弹窗中绑定的用户信息列表（userid/name/url）分别附带信息职位、班级、家长所属学生
+	public List<CqjUser> getAllUserList(HttpSession session,HttpServletResponse response) {
+		response.setCharacterEncoding("utf-8");
+		CqjUser u=(CqjUser) session.getAttribute("user");
+		System.out.println("查询用户列表");
+		List<CqjUser> ulist=um.queryStaff();
+		ulist.addAll(um.queryStduents());
+		ulist.addAll(um.queryParents());
+		return ulist;
 	}
 }

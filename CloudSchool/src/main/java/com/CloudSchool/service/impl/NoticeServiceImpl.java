@@ -1,5 +1,6 @@
 package com.CloudSchool.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.CloudSchool.dao.NoticeMapper;
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.Notice;
+import com.CloudSchool.handler.MyWebSocketHandler;
 import com.CloudSchool.service.NoticeService;
 @Service
 @Transactional
 public class NoticeServiceImpl implements NoticeService {
 	@Autowired
 	NoticeMapper nm;
+	@Autowired
+	MyWebSocketHandler handler;
 	@Override
 	public int deleteByPrimaryKey(Integer id) {
 		// TODO Auto-generated method stub
@@ -24,7 +28,9 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public int insert(Notice record) {
 		// TODO Auto-generated method stub
-		return nm.insert(record);
+		sendnoticeTips(record);
+//		return nm.insert(record);
+		return 1;
 	}
 
 	@Override
@@ -68,6 +74,29 @@ public class NoticeServiceImpl implements NoticeService {
 		// TODO Auto-generated method stub
 		return nm.querpersonerInfo(uid);
 	}
-
 	
+	/**
+	 * 新增通知触发消息提醒
+	 */
+	public String sendnoticeTips(Notice n) {
+		String status=null;
+		//发送提醒给用户
+		System.out.println("系统消息提醒用户：");
+		int[] receiverlist= null;
+		List<Integer> list=new ArrayList<Integer>();
+		if(n.getReceiverrange()==5) {
+			//班级对应的学生
+			receiverlist=nm.getNoticeReceiveByGradeidOrClazzid(null, n.getReceiverid());
+		}else if(n.getReceiverrange()==4) {
+			//年级对应的学生
+			receiverlist=nm.getNoticeReceiveByGradeidOrClazzid(n.getReceiverid(), null);
+		}else{
+			receiverlist=nm.getNoticeReceiveByRange(n.getReceiverrange());
+		}
+		for (int receiver : receiverlist) {
+			System.out.println(receiver+",");
+			status = handler.sendMsg(receiver+"", "notice-<div class=\"m_message_left\">"+n.getContent()+"</div>");
+		}
+		return status;
+	}
 }

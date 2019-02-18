@@ -13,6 +13,7 @@
     <script type="text/javascript" charset="utf-8" src="/static/ueditor/ueditor.all.js"> </script>
     <script type="text/javascript" charset="utf-8" src="/static/ueditor/lang/zh-cn/zh-cn.js"></script>
 	<script src="/static/js/core/jquery.min.js"></script>
+	<script src="../static/js/core/vue.js"></script>
 		<style type="text/css">
 			.content div{width: 100%;}
 			/* .form-control.input-full{width: 50% !important;} */
@@ -46,32 +47,28 @@
 								<script id="editor" type="text/plain" style="width:100%;min-height:300px"></script>
 																<div class="form-group" style="display: inline-block;width: 20%;">
 									<label for="exampleSelect">选择人群：</label>
-									<select class="form-control form-control-sm" id="smallSelect" name="receiverrange">
+									<select class="receiverrange form-control form-control-sm" id="smallSelect" name="receiverrange">
 										<option value="0">全部</option>
-										<option value="0">员工</option>
-										<option value="0">学生</option>
-										<option value="0">教员</option>
-										<option value="0">班主任</option>
-										<option value="0">宿管</option>
-										<option value="0">家长</option>
-										<option value="0">勤务</option>
-										<option value="0">出勤人员</option>
+										<option value="1">教职工</option>
+										<option value="2">学生</option>
+										<option value="3">家长</option>
+										<option value="4">年级</option>
+										<option value="5">班级</option>
 									</select>
 								</div>
-								<div class="form-group" style="display: inline-block;width: 20%;" name="grade">
-									<label for="exampleSelect">年级：</label>
-									<select class="form-control form-control-sm" id="smallSelect">
-										<option>S1</option>
-										<option>S2</option>
-										<option>Y2</option>
+								<div class="grade form-group" style="display: inline-block;width: 20%;" name="grade">
+									<label for="exampleSelect">指定年级：</label>
+									<select class="receiverid form-control form-control-sm" id="smallSelect">
+										<option v-for="obj,index in gradelist" v-bind:value="obj.gid">{{obj.gradeName}}</option>
 									</select>
 								</div>
-								<div class="form-group" style="display: inline-block;width: 20%;" name="clazz">
-									<label for="exampleSelect">班级：</label>
-									<select class="form-control form-control-sm" id="smallSelect">
-										<option>AT1717</option>
-										<option>AT1718</option>
-										<option>AT1719</option>
+								<div class="clazz form-group" style="display: inline-block;width: 20%;" name="clazz">
+									<label for="exampleSelect">指定班级：</label>
+									<select class="receiverid form-control form-control-sm" id="smallSelect">
+										<option value="1">Java20</option>
+										<option value="2">AT1717</option>
+										<option value="3">AT1718</option>
+										<option v-for="obj,index in clazzlist" v-bind:value="obj.id">{{obj.cname}}</option>
 									</select>
 								</div>
 							</div>
@@ -215,13 +212,56 @@
 	$(function(){
 		infoBut.ccc();	//开始处理按钮权限
 		querpersonerInfo();
+		$(".grade").hide()
+		$(".clazz").hide()
+		queryGradeAll()
+		$(".receiverrange").change(function(){
+			//接收者范围：0全部、教职工、学生、家长、年级、班级
+			var sel=$(".receiverrange").val()
+			var t=$(".receiverrange").find("option:selected").text()
+			if(4==sel){
+				$(".grade").show()
+				$(".clazz").hide()
+			}else if(5==sel){
+				$(".grade").hide()
+				$(".clazz").show()
+			}else{
+				$(".grade").hide()
+				$(".clazz").hide()
+			}
+		})
 	})
+	var v=new Vue({
+		el : ".tzx",
+		data : {
+			user:{userid:"2"},
+			gradelist:null,
+			clazzlist:null
+		},
+		methods:{
+			
+		}
+	})
+	
+//查询所有年级
+function queryGradeAll(){
+	$.post("zzy/queryGradeAll","",function(result){
+		console.log("查询所有年级结果：")
+		console.log(result)
+		v.gradelist=result
+	})
+}
 //发布通知
 function addnotice(){
 	var title=$("[name=title]").val()
 	var content=getContent()
 	var receiverrange=$("select[name=receiverrange]").val()
-	var receiverid=$("select[name=receiverrange]").val()
+	var receiverid=null
+	if(4==receiverrange){
+		receiverid=$(".grade .receiverid").val()
+	}else if(5==receiverrange){
+		receiverid=$(".clazz .receiverid]").val()
+	}
 	var data="title="+title+"&content="+content+"&receiverrange="+receiverrange+"&receiverid="+receiverid;
 	alert(data)
 	console.log(data)
@@ -240,7 +280,8 @@ function addnotice(){
 }
 function querpersonerInfo(){
 	$.post("querpersonerInfo","",function(result){
-		console.log(result)
+		v.user=result
+		console.log(v.user)
 		$(".sendername").text(result.standby1)
 		$(".sendtime").text()
 // 		alert(result.standby1)

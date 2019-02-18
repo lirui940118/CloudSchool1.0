@@ -26,4 +26,12 @@ public interface NoticeMapper {
     CqjUser querpersonerInfo(Integer uid);
 
 	List<Notice> query(@Param("time")String time, @Param("str")String str);
+	/**
+	 * 获取通知目标数组，用于发送通知弹窗的所有目标，根据年级id 或班级id
+	 * @param gradeid
+	 * @param clazzid
+	 * @return
+	 */
+	int[] getNoticeReceiveByGradeidOrClazzid(@Param("gradeid")Integer gradeid,@Param("clazzid")Integer clazzid);
+	int[] getNoticeReceiveByRange(Integer receiverrange);
 }
