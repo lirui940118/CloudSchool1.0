@@ -22,4 +22,6 @@ public interface ParticipationworkclassMapper {
     int insertObjList(Map<String, Object> obj);
     
     int insertObj(Participationworkclass wid);
+    
+    int updateStatusById(Participationworkclass obj);
 }

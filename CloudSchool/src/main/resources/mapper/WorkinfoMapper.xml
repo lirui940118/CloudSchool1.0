@@ -156,4 +156,6 @@
       	(0,#{wid},#{obj},now(),#{i})
       </foreach>
   </insert>
+  
+  
 </mapper>

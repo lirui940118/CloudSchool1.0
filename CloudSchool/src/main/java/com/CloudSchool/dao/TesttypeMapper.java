@@ -18,5 +18,9 @@ public interface TesttypeMapper {
 
     int updateByPrimaryKey(Testtype record);
     
+    
+   //查询登录的用户拥有的出卷类型
+    List<Testtype> queryBylimits(String id);
+    
    
 }

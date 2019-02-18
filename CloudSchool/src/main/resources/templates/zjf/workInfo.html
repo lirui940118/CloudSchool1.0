@@ -48,8 +48,9 @@
 													<td v-if="obj.commitTime==null">未提交</td>
 													<td v-if="obj.commitTime!=null">{{obj.commitTime}}</td>
 													<td v-if="obj.isCorrect==0">未领取</td>
-													<td v-if="obj.isCorrect==1">待批改</td>
-													<td v-if="obj.isCorrect==2">已批该</td>
+													<td v-if="obj.isCorrect==1">待提交</td>
+													<td v-if="obj.isCorrect==2">待批改</td>
+													<td v-if="obj.isCorrect==3">已批改</td>
 													<td>{{obj.score}}</td>
 													<td>{{obj.rank}}</td>
 													<!-- <td>

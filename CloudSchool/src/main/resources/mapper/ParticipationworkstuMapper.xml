@@ -219,7 +219,7 @@
 		pstuid,participationworkstu.`time`,participationworkstu.`sId`,participationworkstu.`user2`
 		AS
 		commitTime,
-		participationworkstu.`isCorrect`,workgrade.`id` AS
+		participationworkstu.`isCorrect`,participationworkstu.user1,workgrade.`id` AS
 		workid,workgrade.`score`,workgrade.`rank`
 		FROM workinstance
 		INNER JOIN
@@ -360,5 +360,9 @@
 		ORDER BY workinfo.`user1`
 	</select>
 	
+	<!--查询参与本次作业的学生作业是否全部批改完  -->
+	<select id="queryNotCorrectCountByUser1" resultType="int">
+		SELECT COUNT(*) FROM participationworkstu WHERE user1=#{user1} AND isCorrect!=#{iscorrect}
+	</select>
 	
 </mapper>

@@ -184,4 +184,24 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <!--生成作业模板  -->
+  <insert id="insertTestModule" useGeneratedKeys="true" keyProperty="id">
+  	insert into testModule
+  	(id, name, time, 
+      tId, tCount, score, 
+      uId, status, user1, 
+     user2) values(0,#{name},now(),#{tid},#{tcount},#{score},#{uid},0,#{user1},#{user2})
+  </insert>
+  
+  	<!-- 作业模板 类型 -->
+	<select id="queryTestMouldType" resultType="int">
+		SELECT tid FROM topic WHERE id
+		IN(
+		<foreach collection="ids" separator="," item="obj">
+			#{obj}
+		</foreach>
+		) and status=0
+		GROUP BY tid
+	</select>
 </mapper>

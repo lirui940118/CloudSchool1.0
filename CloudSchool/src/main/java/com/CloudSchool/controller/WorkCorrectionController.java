@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.CloudSchool.domain.PageBean;
+import com.CloudSchool.domain.Participationworkclass;
 import com.CloudSchool.domain.Wtrecord;
 import com.CloudSchool.domain.zjfvo.StuWorkInfo;
 import com.CloudSchool.domain.zjfvo.WorkinstanceInfo;
+import com.CloudSchool.service.ParticipationworkclassService;
 import com.CloudSchool.service.ParticipationworkstuService;
 import com.CloudSchool.service.WorkinStanceService;
 import com.CloudSchool.service.WtrecordService;
@@ -28,6 +30,9 @@ public class WorkCorrectionController {
 	
 	@Autowired
 	WtrecordService wtrecordService;
+	
+	@Autowired
+	ParticipationworkclassService participationworkclassService;
 	/*跳转到作业批改*/
 	@RequestMapping("toWorkCorrectionIndex")
 	public String toWorkCorrectionIndex() {
@@ -93,5 +98,15 @@ public class WorkCorrectionController {
 	public int updateIscorrectByid(Wtrecord obj) {
 		return participationworkstuService.updateIscorrectByid(obj);
 	}
+	
+	
+	//修改本次作业状态(作业公布)
+	@RequestMapping("updateStatusById")
+	@ResponseBody
+	public int updateStatusById(Participationworkclass obj) {
+		return participationworkclassService.updateStatusById(obj);
+	}
+	
+	
 
 }
