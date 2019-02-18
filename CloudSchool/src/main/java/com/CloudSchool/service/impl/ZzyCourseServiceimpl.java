@@ -42,5 +42,9 @@ public class ZzyCourseServiceimpl implements ZzyCourseService{
 		
 		return cous.queryStaffsAboutOpenClass(gId, mId);
 	}
+	public ZzyCourse queryBycid(Integer cid) {
+		// TODO Auto-generated method stub
+		return cous.queryBycid(cid);
+	}
 	
 }

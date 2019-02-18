@@ -10,4 +10,7 @@ public interface ZzyCourseService {
 	
 	//开办选老师
 	public List<CourseVO>  queryStaffsAboutOpenClass(Integer gId, Integer mId);
+
+	 public ZzyCourse queryBycid(Integer cid);
+
 }

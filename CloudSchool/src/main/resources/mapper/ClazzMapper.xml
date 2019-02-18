@@ -198,4 +198,10 @@
 		WHERE clazzcourseteacher.`tid` = #{staffId}
 		ORDER BY clazzcourseteacher.starttime DESC 
 	</select>
+	<!-- 查询所有正常状态的班级-->
+	<select id="queryAll" resultMap="BaseResultMap">
+		select * from `clazz` where status=2
+	</select>
+	
+
 </mapper>

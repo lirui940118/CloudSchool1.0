@@ -93,4 +93,23 @@
       floor = #{floor,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!-- 查询所有上课教室班级 -->
+  <select id="queryAllRoom" resultMap="BaseResultMap">
+  		SELECT * FROM `classroom` WHERE ctid=1
+  </select>
+  
+  <!-- 查询某日期 某时间区间 某教室是否已经占用 -->
+  <select id="queryOccupyRoom" resultType="INTEGER">
+  		SELECT COUNT(*) FROM `zzy_class_schedule` WHERE rid=#{rid} AND `time`=#{time} AND temporal_interva=#{temporal_interva}
+  </select>
+  
+  
+ <!-- 查询所有的自习教室 -->
+ <select id="queryAllZiXiRoom" resultMap="BaseResultMap">
+ 		SELECT * FROM `classroom` WHERE ctid=2
+ </select>
+ <!-- 根据教室id查询教室对象 -->
+ <select id="queryByroomid" resultMap="BaseResultMap">
+ 		select * from `classroom` where id=#{id}
+ </select>
 </mapper>

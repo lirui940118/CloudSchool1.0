@@ -49,11 +49,18 @@ public class CqjStudent {
 
     private String standby5;
 
+
     private Integer parentsid;
     
     private String parentsname;
+
+    //学员在当前班级被当前教员提出问题的总次数
+    private Integer count;
+    //学员回答问题的回答出来的次数
+    private Integer count2;
+
     
-    
+
     
     public String getParentsname() {
 		return parentsname;
@@ -69,6 +76,23 @@ public class CqjStudent {
 
 	public void setParentsid(Integer parentsid) {
 		this.parentsid = parentsid;
+	}
+
+    public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	public Integer getCount2() {
+		return count2;
+	}
+
+	public void setCount2(Integer count2) {
+		this.count2 = count2;
+
 	}
 
 	public String getClassName() {

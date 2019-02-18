@@ -46,4 +46,10 @@ public class ClassStudentServiceimpl implements ClassStudentService{
 		// TODO Auto-generated method stub
 		return clas.insertOne(record);
 	}
+
+	@Override
+	public List<Clazzstudent> queryBystatusAndid(Integer cid) {
+		// TODO Auto-generated method stub
+		return clas.queryBystatusAndid(cid);
+	}
 }

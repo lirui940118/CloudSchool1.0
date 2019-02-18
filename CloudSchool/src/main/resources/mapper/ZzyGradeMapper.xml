@@ -229,9 +229,9 @@
   
   <!-- 循环新增年级 -->
   <insert id="insertMap">
-		insert into `zzy_grade`(grade_name,vid,majorbool,classbool) values
+		insert into `zzy_grade`(grade_name,vid,majorbool,classbool,user1) values
 		<foreach collection="list" item="l" separator="," >
-			(#{l.gradeName},#{vid},#{l.majorbool},#{l.classbool})
+			(#{l.gradeName},#{vid},#{l.majorbool},#{l.classbool},#{l.user1})
 		</foreach>
 	</insert>
 	
@@ -261,7 +261,7 @@
 		</collection>
 	</resultMap>
 	
-	<!-- 根据id查询年级 -->
+	<!-- 根据版本id查询年级 -->
 	<select id="queryByvid2" resultMap="resultMapGraAndCou">
 		select * from `zzy_grade` where vid=#{vid}
 	</select>
@@ -295,4 +295,9 @@
   	
   	
   	
+	
+	<!-- 根据班级id查询年级 -->
+  <select id="queryBycid" resultMap="BaseResultMap">
+  		SELECT * FROM `zzy_grade`  WHERE gid=(SELECT `clazz`.`gid` FROM `clazz` WHERE id=#{id})
+  </select>
 </mapper>

@@ -143,4 +143,22 @@
       </if>
     </trim>
   </insert>
+  <!-- 根据班级id以及课程id查询这个班级的这个课程上了多少次课了 -->
+  <select id="queryClidAndCid" resultType="INTEGER">
+  		SELECT COUNT(*) FROM `zzy_class_schedule` WHERE clid=#{clid} AND cid=#{cid}
+  </select>
+  
+  <!-- 根据教员id  日期 时间区间 状态 判断该教员是否有空 -->
+  <select id="queryByyoukong" resultType="INTEGER">
+  		SELECT COUNT(*) FROM `zzy_class_schedule` WHERE tid=#{tid} AND `time`=#{time} AND temporal_interva=#{temporal_interva} AND state=0
+  </select>
+  
+  <!-- 根据教员id  日期  时间区间 状态 查询教员的一条上课记录    -->
+  <select id="queryByOneY" resultMap="BaseResultMap">
+  		SELECT * FROM `zzy_class_schedule` WHERE tid=#{tid} AND `time`=#{time} AND temporal_interva=#{temporal_interva} AND state=0
+  </select>
+  <!-- 新增一条课表 -->
+  <insert id="insertkebiao">
+  		INSERT INTO `cloudSchool`.`zzy_class_schedule` (`clid`,`rid`,`tid`,`cid`,`time`,`temporal_interva`,`state`)VALUES(#{clid},#{rid},#{tid},#{cid},#{time},#{temporalInterva},#{state});
+  </insert>
 </mapper>
