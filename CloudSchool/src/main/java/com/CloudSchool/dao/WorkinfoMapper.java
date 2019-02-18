@@ -19,4 +19,6 @@ public interface WorkinfoMapper {
     
     //添加作业题目
     int insertListByMap(Map<String, Object> obj);
+    
+    
 }

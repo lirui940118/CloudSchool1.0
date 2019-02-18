@@ -14,4 +14,10 @@ public interface TestmoduleMapper {
     int updateByPrimaryKeySelective(Testmodule record);
 
     int updateByPrimaryKey(Testmodule record);
+    
+    
+    //添加试卷模板
+    int insertTestModule(Testmodule obj);
+    //查询试卷类型
+    Integer[] queryTestMouldType(Testmodule obj);
 }

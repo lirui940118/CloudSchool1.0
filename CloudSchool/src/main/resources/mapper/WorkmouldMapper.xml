@@ -232,6 +232,8 @@
 		) and status=0
 		GROUP BY tid
 	</select>
+	
+
 	<!-- 根据教员id查询作业模板 -->
 	<select id="queryByTidMould" resultMap="BaseResultMap">
 		SELECT * FROM workMould

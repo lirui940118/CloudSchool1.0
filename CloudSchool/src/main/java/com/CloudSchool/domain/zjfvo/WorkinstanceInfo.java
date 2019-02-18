@@ -11,6 +11,13 @@ public class WorkinstanceInfo {
 	private String commitTime;
 	private Integer isCorrect;
 	private Integer workid;
+	private Integer user1;
+	public Integer getUser1() {
+		return user1;
+	}
+	public void setUser1(Integer user1) {
+		this.user1 = user1;
+	}
 	public Integer getSid() {
 		return sid;
 	}

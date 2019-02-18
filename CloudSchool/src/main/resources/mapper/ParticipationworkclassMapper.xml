@@ -172,6 +172,10 @@
   	insert into participationWorkClass(id, wId, cId,wStatus, time) values(0,#{wid},#{cid},0,now())
   </insert>
   
+  <!-- 修改本次作业状态 -->
+  <update id="updateStatusById">
+  		update participationWorkClass set wStatus=#{wstatus} where id=#{id}
+  </update>
   
   
 </mapper>

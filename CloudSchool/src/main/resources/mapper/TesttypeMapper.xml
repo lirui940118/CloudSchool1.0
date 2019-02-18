@@ -3,7 +3,7 @@
 <mapper namespace="com.CloudSchool.dao.TesttypeMapper">
   <resultMap id="BaseResultMap" type="com.CloudSchool.domain.Testtype">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="INTEGER" property="name" />
+    <result column="name" property="name" />
     <result column="limits" jdbcType="INTEGER" property="limits" />
     <result column="time" jdbcType="TIMESTAMP" property="time" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -149,4 +149,9 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!-- 查询登录的用户拥有的出卷类型 -->
+  <select id="queryBylimits" resultMap="BaseResultMap">
+  	SELECT * FROM testtype 
+	WHERE testtype.user1 LIKE #{id}
+  </select>
 </mapper>

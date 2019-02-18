@@ -28,8 +28,18 @@ public class Testmodule {
     private String user4;
 
     private String user5;
+    
+    //试卷模板题目id
+    private Integer[] ids;
+    public Integer[] getIds() {
+		return ids;
+	}
 
-    public Integer getId() {
+	public void setIds(Integer[] ids) {
+		this.ids = ids;
+	}
+
+	public Integer getId() {
         return id;
     }
 

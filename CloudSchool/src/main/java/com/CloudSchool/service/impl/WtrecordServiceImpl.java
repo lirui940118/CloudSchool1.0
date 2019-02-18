@@ -118,9 +118,19 @@ public class WtrecordServiceImpl implements WtrecordService {
 					Workgrade workgrade=new Workgrade();	//学生成绩对象
 					workgrade.setUid( obj.getStu().getSid());	//学生id
 					workgrade.setWid(obj.getId());				//作业id
-					workgrade.setRank(null);					//评分等级 A B C D
 					int score=wtrecordMapper.queryByWidAndSidSumScore(obj.getId(), obj.getStu().getSid());
 					workgrade.setScore(score); 					//得分
+					int worksumscore=workinstanceMapper.querySumScoreById(obj.getWid());
+					//及格
+					if(score>=worksumscore*0.9) {
+						workgrade.setRank("A");					//评分等级 A B C D
+					}else if(score>=worksumscore*0.8 && score<worksumscore*0.9) {
+						workgrade.setRank("B");					//评分等级 A B C D
+					}else if(score>=worksumscore*0.6 && score<worksumscore*0.8) {
+						workgrade.setRank("C");					//评分等级 A B C D
+					}else if(score<worksumscore*0.6) {
+						workgrade.setRank("D");					//评分等级 A B C D
+					}
 					return workgradeMapper.inserStuScore(workgrade);
 				}
 			}

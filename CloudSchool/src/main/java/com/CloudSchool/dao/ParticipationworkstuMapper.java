@@ -31,4 +31,6 @@ public interface ParticipationworkstuMapper {
     StuWorkInfo queryStuWorkInfo(@Param("wid")Integer wid,@Param("sid")Integer sid,@Param("cur")Integer cur,@Param("pagesize")Integer pagesize);
     
     int queryStuWorkInfoCount(@Param("wid")Integer wid,@Param("sid")Integer sid);
+    
+    int queryNotCorrectCountByUser1(Participationworkstu obj);
 }

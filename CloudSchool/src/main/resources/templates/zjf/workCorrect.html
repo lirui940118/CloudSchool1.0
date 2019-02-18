@@ -113,7 +113,7 @@
 												</tr>
 											</thead>
 											<tbody>
-												<tr v-for="(obj,index) in list">
+												<tr v-for="(obj,index) in list" v-bind:data-user1="obj.user1">
 													<td>{{obj.studentname}}</td>
 													<td>{{obj.time}}</td>
 													<td v-if="obj.commitTime==null">未提交</td>
@@ -121,11 +121,12 @@
 													<td v-if="obj.isCorrect==0">未领取</td>
 													<td v-if="obj.isCorrect==1">待提交</td>
 													<td v-if="obj.isCorrect==2">待批改</td>
-													<td v-if="obj.isCorrect==3">已批该</td>
+													<td v-if="obj.isCorrect==3">已批改</td>
 													<td>{{obj.score}}</td>
 													<td>{{obj.rank}}</td>
 													<td>
-														<button class="btn btn-success updateWork" v-bind:data-wid="obj.id" v-bind:data-sid="obj.sid">批改</button>
+														<button class="btn btn-success updateWork" v-bind:data-wid="obj.id" v-bind:data-sid="obj.sid" v-if="obj.isCorrect!=3">批改</button>
+														<button class="btn btn-success updateWork" v-bind:data-wid="obj.id" v-bind:data-sid="obj.sid" v-if="obj.isCorrect==3" disabled=ture>批改</button>
 													</td>
 												</tr>
 											</tbody>
@@ -332,7 +333,7 @@
 			var sumscore=$("#getscore").attr("score")	//提交的题目总分
 			var score=$("#getscore").val()				//给分
 			var topicid=$("#getscore").attr("topicid")
-			if(score<=sumscore){
+			if(parseInt(score)<=parseInt(sumscore)){
 				$.ajax({
 					type:"post",
 					url:"http://127.0.0.1:8080/WorkCorrection/updateScoreByWidSidTid",
@@ -358,6 +359,24 @@
 				success:function(data){
 					if(data>0){
 						alert("完成")
+					}
+				}
+			})
+		})
+		
+		
+		//发布作业成绩
+		$("body").on("click",".workclassinfofoot button",function(){
+			var id=$("tbody tr").attr("data-user1")
+			$.ajax({
+				type:"post",
+				url:"http://127.0.0.1:8080/WorkCorrection/updateStatusById",
+				data:{id:id},
+				success:function(data){
+					if(data>0){
+						alert("作业发布成功")
+					}else{
+						alert("你还有"+data+"本作业没改完")
 					}
 				}
 			})
