@@ -1,6 +1,7 @@
 package com.CloudSchool.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.CloudSchool.dao.ZzyCourseMapper;
 import com.CloudSchool.dao.ZzySectionMapper;
 import com.CloudSchool.domain.ZzyCourse;
+import com.CloudSchool.domain.statistics.CourseVO;
 import com.CloudSchool.service.ZzyCourseService;
 
 @Service
@@ -33,6 +35,12 @@ public class ZzyCourseServiceimpl implements ZzyCourseService{
 		//新增年级方法
 		secs.insertMap(map);
 		return 0;
+	}
+	@Override
+	public List<CourseVO> queryStaffsAboutOpenClass(Integer gId, Integer mId) {
+		// TODO 开办选老师
+		
+		return cous.queryStaffsAboutOpenClass(gId, mId);
 	}
 	
 }

@@ -13,7 +13,7 @@
 * {
 	margin: 0px;
 	padding: 0px;
-	/* border: 1px solid red; */
+	/*  border: 1px solid red;  */
 }
 
 img {
@@ -93,8 +93,10 @@ img {
 					<div class=" card col-lg-12">
 						<div class="card-header">
 							<h4 class="card-title">学员作业成绩情况统计</h4>
+							<div id="workPicture" style="width: 400; height: 400px;"></div>
 						</div>
 						<div class="card-body" id="workTableSec">
+							<!-- 作业情况饼状图 -->
 							<table v-if="workInfoList.length!=0" class="table table-bordered" style="text-align: center;">
 								<thead>
 									<tr>
@@ -109,8 +111,6 @@ img {
 									</tr>
 								</tbody>
 							</table>
-							<!-- 作业情况饼状图 -->
-							<div id="workPicture" style="width: 400; height: 400px;"></div>
 						</div>
 						<div class="card-footer">
 							<div class="legend">
@@ -741,7 +741,7 @@ img {
 					console.log(rankNameArr);
 					console.log(workDataArr);
 					//图形
-					option = {
+					var option = {
 						tooltip : {
 					        trigger: 'item',
 					        formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -768,6 +768,7 @@ img {
 					    ]
 					};
 					myChar3.setOption(option,true);
+					console.log("123123123"+JSON.stringify(option));
 				}
 				//关闭动画
 				myChar3.hideLoading();

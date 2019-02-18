@@ -1,5 +1,6 @@
 package com.CloudSchool.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -17,6 +18,7 @@ import com.CloudSchool.domain.ZzyGrade;
 import com.CloudSchool.domain.statistics.BadTopicVO;
 import com.CloudSchool.domain.statistics.ClazzBaseInfoVO;
 import com.CloudSchool.domain.statistics.CourseVO;
+import com.CloudSchool.domain.statistics.GradeVO;
 import com.CloudSchool.domain.statistics.KnowledgePointUpVO;
 import com.CloudSchool.domain.statistics.StaffBaseVO;
 import com.CloudSchool.domain.statistics.StudentInfoVO;
@@ -34,6 +36,7 @@ import com.CloudSchool.service.LrKnowledagepointTeacherService;
 import com.CloudSchool.service.TestGradeService;
 import com.CloudSchool.service.WorkgradeService;
 import com.CloudSchool.service.WtrecordService;
+import com.CloudSchool.service.ZzyCourseService;
 import com.CloudSchool.service.ZzyGradeService;
 import com.CloudSchool.service.studentAbilityService;
 
@@ -65,6 +68,8 @@ public class StatisticsController {
 	LrConfigrateService lrConfigrateService;
 	@Autowired
 	WorkgradeService workgradeService;
+	@Autowired
+	ZzyCourseService zzyCourseService;
 	/**
 	 * 学员首页
 	 * 
@@ -103,10 +108,17 @@ public class StatisticsController {
 	/* 打开教员统计分析 */
 	@RequestMapping("/gotoStaff")
 	public String gotoStaff(HttpSession session) {
-
+		
 		return "statistics/staff";
 	}
 
+	/* 打开年级统计分析 */
+	@RequestMapping("/gotoGrade")
+	public String gotoGrade() {
+
+		return "statistics/grade";
+	}
+	
 	/* 查询数据 */
 	// ============================个人=====================================
 	/* 查询该学员个人信息 */
@@ -274,7 +286,8 @@ public class StatisticsController {
 	@RequestMapping("/getStaffsAboutOpenClass")
 	@ResponseBody
 	public List<CourseVO> getStaffsAboutOpenClass(Integer gId, Integer mId) {// 年级id和mid专业
-		return null;
+		
+		return zzyCourseService.queryStaffsAboutOpenClass(gId, mId);
 	}
 
 	// ============================教员=====================================
@@ -322,6 +335,21 @@ public class StatisticsController {
 		return list;
 	}
 
+	// ============================年级=====================================
+	/*查询年级基本信息*/
+	@RequestMapping("/getAllGradesAboutPcsAndClazzs")
+	@ResponseBody
+	public List<GradeVO> getAllGradesAboutPcsAndClazzs(Integer gId,String pc) {
+		List<GradeVO> list = zzyGradeService.queryAllGradePcClazz(gId, pc);
+		return list;
+	}
+	
+	
+	
+	
+	
+	
+	
 	// =======================学员能力计算=====================================
 	@RequestMapping("/queryStudentAbility")
 	@ResponseBody

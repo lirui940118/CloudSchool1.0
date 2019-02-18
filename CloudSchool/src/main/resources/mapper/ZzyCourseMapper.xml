@@ -145,4 +145,11 @@
 	<select id="queryBycid" resultMap="BaseResultMap">
 		select * from `zzy_course` where cid=#{cid}
 	</select>
+	
+	<!-- 开办选老师 -->
+	<select id="queryStaffsAboutOpenClass" resultType="com.CloudSchool.domain.statistics.CourseVO">
+	
+	</select>
+	
+	
 </mapper>
