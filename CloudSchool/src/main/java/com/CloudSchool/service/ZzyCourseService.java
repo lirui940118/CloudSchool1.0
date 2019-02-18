@@ -4,4 +4,6 @@ import com.CloudSchool.domain.ZzyCourse;
 
 public interface ZzyCourseService {
 	int insert(ZzyCourse record);
+	
+	 public ZzyCourse queryBycid(Integer cid);
 }

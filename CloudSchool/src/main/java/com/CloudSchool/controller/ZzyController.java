@@ -1,9 +1,16 @@
 package com.CloudSchool.controller;
 
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.xml.ws.RequestWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,21 +19,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.CloudSchool.dao.ClassroomMapper;
 import com.CloudSchool.dao.ZzyClassCommitteeMapper;
+import com.CloudSchool.dao.ZzyRealtimeClassroomMapper;
+import com.CloudSchool.domain.Classroom;
 import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.Clazzstudent;
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.ZzyClassPosition;
+import com.CloudSchool.domain.ZzyClassSchedule;
 import com.CloudSchool.domain.ZzyCourse;
+import com.CloudSchool.domain.ZzyEventType;
 import com.CloudSchool.domain.ZzyGrade;
 import com.CloudSchool.domain.ZzyMajor;
+import com.CloudSchool.domain.ZzyRealtimeClassroom;
 import com.CloudSchool.domain.ZzyVersion;
 import com.CloudSchool.service.ClassStudentService;
+import com.CloudSchool.service.ClassroomService;
 import com.CloudSchool.service.ClazzService;
+import com.CloudSchool.service.ZzyClassCommitteeService;
 import com.CloudSchool.service.ZzyClassPositionService;
+import com.CloudSchool.service.ZzyClassScheduleService;
 import com.CloudSchool.service.ZzyCourseService;
 import com.CloudSchool.service.ZzyGradeService;
 import com.CloudSchool.service.ZzyMajorService;
+import com.CloudSchool.service.ZzyRealtimeClassroomService;
 import com.CloudSchool.service.ZzyVersionService;
 
 @Controller
@@ -54,7 +71,16 @@ public class ZzyController {
 	ZzyClassPositionService poss;
 	
 	@Autowired
-	ZzyClassCommitteeMapper coms;
+	ZzyClassCommitteeService coms;
+	
+	@Autowired
+	ZzyClassScheduleService csss;
+	
+	@Autowired
+	ClassroomService clr;
+	
+	@Autowired
+	ZzyRealtimeClassroomService realtime;
 	
 	List<ZzyClassPosition> deletelist=null;
 	
@@ -243,7 +269,112 @@ public class ZzyController {
 		return  1;
 	}
 	
+	//进入自动排课界面
+	@RequestMapping("entrancePk")
+	public String entrancePk() {
+		return "zzy/automatic_arrangement.html";
+	}
 	
+	//点击自动排课按钮
+	@RequestMapping("arrangement")
+	@ResponseBody
+	public int arrangement(String time) throws ParseException {
+		//将获取的时间分隔为年 周
+		String[] arry=time.split("-W");
+		//年
+		int year =Integer.parseInt(arry[0]);
+		//周
+		int week =Integer.parseInt(arry[1]);
+		csss.paike(year, week);
+		return 1; 
+	}
+	
+	//进入实时课堂
+	@RequestMapping("Goshishi")
+	public String Goshishi(Integer tid,Model model) {
+		tid=3;
+		model.addAttribute("tid", tid);
+		return "zzy/realTime.html";
+	}
+	
+	@RequestMapping("queryBytidAndtime")
+	@ResponseBody
+	//Ajax根据当前日期以及当前时间区间和教师id判断该教师该时间段是否有课
+	public ZzyClassSchedule queryBytidAndtime(Integer tid) {
+		ZzyClassSchedule ss=csss.queryBytidAndtime(tid);
+		System.out.println(ss.getCsid());
+		return ss; 
+	}
+	
+	
+	//Ajax根据班级id查询所有的正常学生对象
+	@RequestMapping("queryBystatusAndid")
+	@ResponseBody
+	public List<Clazzstudent> queryBystatusAndid(Integer cid,Integer tid){
+		List<Clazzstudent> list=clss.queryBystatusAndid(cid);
+		for (Clazzstudent clazzstudent : list) {
+			//获取学员id
+			Integer sid=clazzstudent.getStu().getStudentid();
+			//查询学员的回答问题总次数
+			Integer count=realtime.queryByHuida(tid, sid, cid);
+			//回答出来的总次数
+			Integer count2=realtime.queryByHuidaTure(tid, sid, cid);
+			clazzstudent.getStu().setCount(count);
+			clazzstudent.getStu().setCount2(count2);
+		}
+		return list;
+	}
+	
+	//根据班级id查询班级对象
+	@RequestMapping("queryBycid")
+	@ResponseBody
+	public Clazz queryBycid(Integer id) {
+		return clas.queryByid(id);
+	}
+	
+	
+	//根据课程id查询课程对象
+	@RequestMapping("queryBycourseid")
+	@ResponseBody
+	public ZzyCourse queryBycourseid(Integer cid) {
+	return  cous.queryBycid(cid);
+	}
+	
+	//根据教室id查询教室对象
+	@RequestMapping("queryByroomid")
+	@ResponseBody
+	public Classroom queryByroomid(Integer id) {
+		// TODO Auto-generated method stub
+		return clr.queryByroomid(id);
+	}
+	
+	//根据教员id查询教员的自定义按钮
+	@RequestMapping("queryByuid")
+	@ResponseBody
+	public List<ZzyEventType> queryByuid(Integer uid){
+		
+		
+		return realtime.queryByuid(uid);
+	}
+	
+	
+	//教员添加自定义按钮
+	@RequestMapping("insertZidingyi")
+	@ResponseBody
+	public String insertZidingyi( ZzyEventType shadiao) {
+		System.out.println(shadiao.getEvent_name());
+		System.out.println(shadiao.getUid());
+		System.out.println(shadiao.getReturned_value());
+		return realtime.insertZidingyi(shadiao)+"";
+	}
+	
+	
+	@RequestMapping("insertTSEid")
+	@ResponseBody
+	public int insertTSEid(ZzyRealtimeClassroom zzy) {
+			realtime.insertTSEid(zzy);
+		return 1;
+	}
 	
 	
 }

@@ -33,4 +33,7 @@ public interface ClazzMapper {
     
     //根据班级id 查询班级
     public Clazz queryZcid(Integer cid);
+    
+    //查询所有在正常状态的班级
+    public List<Clazz> queryAll();
 }

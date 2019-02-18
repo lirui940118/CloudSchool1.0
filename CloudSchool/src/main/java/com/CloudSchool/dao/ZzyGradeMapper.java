@@ -18,6 +18,8 @@ public interface ZzyGradeMapper {
 	public List<ZzyGrade> queryByvid2(Integer vid);
 	//查询所有年级
 	public List<ZzyGrade> queryAll();
+	//根据班级id查询年级
+	public ZzyGrade queryBycid(Integer id);
 	
 
 	

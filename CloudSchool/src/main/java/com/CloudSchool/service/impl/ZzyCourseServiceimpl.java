@@ -34,5 +34,10 @@ public class ZzyCourseServiceimpl implements ZzyCourseService{
 		secs.insertMap(map);
 		return 0;
 	}
+	@Override
+	public ZzyCourse queryBycid(Integer cid) {
+		// TODO Auto-generated method stub
+		return cous.queryBycid(cid);
+	}
 	
 }

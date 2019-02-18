@@ -2,6 +2,8 @@ package com.CloudSchool.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.CloudSchool.domain.ClazzInfo;
 import com.CloudSchool.domain.Clazzcourseteacher;
 
@@ -25,4 +27,6 @@ public interface ClazzcourseteacherMapper {
     
     //根据班级id查询班级所有教员
     public List<Clazzcourseteacher> queryByclazzid(Integer id);
+    
+    public Integer queryClidAndCid(@Param("clid")Integer clid,@Param("cid")Integer cid);
 }
