@@ -318,4 +318,23 @@
 		LEFT JOIN cqj_parents cp ON cp.`phone`=cs.`standby4`
 		WHERE cps.`parentsid` IS NULL
 	</select>
+	<!-- 开班-更新学生职位和学号 -->
+	<update id="setStudentnubAfterCreateClazz">
+		UPDATE cqj_student SET 
+		positionid = 4,
+		studentnub = case 
+		<foreach collection="list" item="item" index ="index">
+			when studentid=#{item.studentid} then #{item.studentnub}
+		</foreach>
+			when studentid not in (${str})
+			<!-- <foreach collection="list" item="item" index ="index" open="(" separator="," close=")">
+				${item.studentid}
+			</foreach>  -->
+			then studentnub
+		end
+		where  studentid in
+		<foreach collection="list" item="item" index ="index" open="(" separator="," close=")">
+			#{item.studentid}
+		</foreach>
+	</update>
 </mapper>

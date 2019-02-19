@@ -3,6 +3,8 @@ package com.CloudSchool.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.CloudSchool.domain.ClazzInfo;
 import com.CloudSchool.domain.Clazzcourseteacher;
 import com.CloudSchool.domain.Clazzstudent;
+import com.CloudSchool.domain.CqjStudent;
+import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.service.ClazzService;
 import com.alibaba.fastjson.JSON;
 
@@ -35,10 +39,15 @@ public class CreateClazzController {
 	}
 	@ResponseBody
 	@RequestMapping(value="/craeteClazz",method=RequestMethod.POST)
-	public int createClazz(ClazzInfo c) {
+	public int createClazz(HttpSession session,ClazzInfo c) {
 //		c.setId(11);
 		System.out.println("开班-新增班级");
-		System.out.println(JSON.toJSONString(c));
+		CqjUser u=(CqjUser)session.getAttribute("user");
+		if(u!=null) {
+			c.setUid(u.getUserid());
+		}else {
+			c.setUid(0);
+		}
 		//预添加数据------------
 //		c.setCname("AT1717");
 //		c.setGid(1);
@@ -72,8 +81,22 @@ public class CreateClazzController {
 	}
 	@ResponseBody
 	@RequestMapping("/createClazz1")
-	public void toCreateClazz1() {
+	public void toCreateClazz1(HttpSession session) {
 		System.out.println("111111111-------直接调开班方法");
-		createClazz(new ClazzInfo());
+//		CqjUser u=(CqjUser)session.getAttribute("user");
+		ClazzInfo c=new ClazzInfo();
+		c.setUid(0);
+		c.setCname("AT1902");
+		c.setSlist(new ArrayList<CqjStudent>());
+		CqjStudent s=new CqjStudent();
+//		s.setStudentnub("AT190101");
+		s.setStudentid(20);
+		c.getSlist().add(s);
+		CqjStudent s1=new CqjStudent();
+//		s1.setStudentnub("AT190102");
+		s1.setStudentid(21);
+		c.getSlist().add(s1);
+		System.out.println(JSON.toJSONString(c));
+		createClazz(session,c);
 	}
 }

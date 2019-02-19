@@ -2,6 +2,8 @@ package com.CloudSchool.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.CloudSchool.domain.CqjStudent;
 
 public interface CqjStudentMapper {
@@ -28,4 +30,6 @@ public interface CqjStudentMapper {
     public int addStudents(List<CqjStudent> student);
     
     List<CqjStudent> queryNullParentsId();
+    //分班-分配学号update职位
+    int setStudentnubAfterCreateClazz(@Param("list") List<CqjStudent> list,@Param("str") String str);
 }

@@ -114,4 +114,11 @@
       id = #{id,jdbcType=INTEGER}
     where imgId = #{imgid,jdbcType=INTEGER}
   </update>
+	<!-- 为学生批量添加user登录账号 -->
+	<insert id="insertAll">
+		INSERT INTO img VALUES
+	    <foreach collection="list" item="s" separator=",">
+	    	(0,'/static/image/studentImg.png',0,NOW(),#{s.uid},#{s.userid},NULL)
+	    </foreach>
+	</insert>
 </mapper>

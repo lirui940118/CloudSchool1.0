@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.CloudSchool.domain.ClazzInfo;
+import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.CqjUser;
 
 public interface CqjUserMapper {
@@ -33,4 +35,7 @@ public interface CqjUserMapper {
     List<CqjUser> queryParents();
     //查询学员
     List<CqjUser> queryStduents();
+    //批量分配学生的系统登录账号user
+    int insertAll(List<CqjUser> u);
+    
 }

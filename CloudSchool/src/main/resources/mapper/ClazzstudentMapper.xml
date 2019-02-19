@@ -106,7 +106,7 @@
   <insert id="insertAll" parameterType="com.CloudSchool.domain.ClazzInfo">
     insert into `clazzstudent` values
     <foreach collection="slist" item="s" separator=",">
-    	(0,#{id},#{s.sid},DATE(now()),null,0)
+    	(0,#{id},#{s.studentid},DATE(now()),null,0)
     </foreach>
   </insert>
  <!-- 根据班级id查询班级学生中间  获得一个班级中学生的id -->

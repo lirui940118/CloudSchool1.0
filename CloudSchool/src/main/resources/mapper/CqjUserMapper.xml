@@ -573,5 +573,11 @@ ORDER BY stuinfo
 		ON img.`id`=cu.`userid`
 		WHERE cu.`userid` IS NOT NULL AND cu.`status`=0
 	</select>
-	
+	<!-- 为学生批量添加user登录账号 -->
+	<insert id="insertAll" useGeneratedKeys="true" keyProperty="userid" >
+		INSERT INTO cqj_user VALUES
+	    <foreach collection="list" item="s" separator=",">
+	    	(0,#{s.username},'123',1,#{s.usertypeid},1,DATE(now()),null,0,#{s.uid},null,null,null,null,null,null)
+	    </foreach>
+	</insert>
 </mapper>
