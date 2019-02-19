@@ -8,14 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.CloudSchool.dao.ClazzMapper;
 import com.CloudSchool.dao.CqjParentsMapper;
 import com.CloudSchool.dao.CqjParentsStudentMapper;
 import com.CloudSchool.dao.CqjStudentMapper;
 import com.CloudSchool.dao.CqjUserMapper;
+import com.CloudSchool.dao.StudentupgradeMapper;
 import com.CloudSchool.domain.CqjParents;
 import com.CloudSchool.domain.CqjParentsStudent;
 import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.CqjUser;
+import com.CloudSchool.domain.Studentupgrade;
+import com.CloudSchool.domain.cqjvo.StudentTestVo;
 import com.CloudSchool.service.CqjStudentService;
 @Service
 @Transactional
@@ -29,6 +33,10 @@ public class CqjStudentServiceImpl implements CqjStudentService{
 	CqjParentsStudentMapper cpsm;
 	@Autowired
 	CqjUserMapper cum;
+	@Autowired
+	StudentupgradeMapper sugm;
+	@Autowired
+	ClazzMapper cm;
 	@Override
 	public CqjStudent queryStudentInfoBySid(Integer sId) {
 		return cqjStudentMapper.queryStudentInfoBySid(sId);
@@ -90,6 +98,48 @@ public class CqjStudentServiceImpl implements CqjStudentService{
 			}
 		}
 		return 0;
+	}
+	@Override
+	public List<CqjStudent> queryStudetnTestByCid(Integer cid,Integer gid) {
+		// TODO Auto-generated method stub
+		List<CqjStudent> slist=cqjStudentMapper.queryStudetnTestByCidAndGid(cid,gid);
+		List<StudentTestVo> stvo=cqjStudentMapper.queryTestByCidAndGid(cid,gid);
+		for (CqjStudent s : slist) {
+			
+			if(s!=null) {
+				int i=0;
+				int j=0;
+				for (StudentTestVo st : s.getStList()) {
+					i+=st.getTestScore()/st.getTestSumScore()>0.6?0:1;
+					if(st.getTc()>1) {
+						j++;
+					}
+				}
+				System.out.println(stvo.size()+","+s.getStList().size());
+				if(i>0&&stvo.size()!=s.getStList().size()) {
+					s.setStandby2(1+"");
+				}else if(i>0){
+					s.setStandby2(2+"");
+				}else if(stvo.size()!=s.getStList().size()){
+					s.setStandby2(3+"");
+				}else {
+					s.setStandby2(0+"");
+				}
+				if(j>0) {
+					s.setStandby3(1+"");
+				}else {
+					s.setStandby3(0+"");
+				}
+				System.out.println(s.getStandby2());
+			}
+		}
+		return slist;
+	}
+	@Override
+	public int addStudentUpGrade(List<Studentupgrade> Studentupgrade,Integer cid) {
+		// TODO Auto-generated method stub
+		sugm.addStudentUpGrades(Studentupgrade);
+		return cm.updateStatusByCid(-1, cid);
 	}
 
 }

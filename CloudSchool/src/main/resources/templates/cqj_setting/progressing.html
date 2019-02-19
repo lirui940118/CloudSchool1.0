@@ -42,35 +42,49 @@
 				<h4 class="page-title">升班管理</h4>
 
 				<div class="row">
+				<div class="col-md-12">
+						<div class="card">
+							<div class="card-body">
+								<p class="demo">
+									<button name="progressing" class="btn btn-success">一键升班</button>
+								</p>
+							</div>
+						</div>
+					</div>
 					<div class="col-md-12">
 						<div class="card">
 							<div class="card-body">
-								<table class="table table-striped mt-12">
+								<table class="table table-bordered table-head-bg-info table-bordered-bd-info mt-12">
 
 									<thead>
 										<tr>
 											<th scope="col">名称</th>
-											<th scope="col">账号</th>
-											<th scope="col">角色</th>
-											<th scope="col">职位</th>
-											<th scope="col">操作</th>
+											<th scope="col">倾向</th>
 										</tr>
 									</thead>
 									<tbody>
-										<!-- <tr v-for="(p,index) in page.list">
-											<td>{{p.name}}</td>
-											<td>{{p.username}}</td>
-											<td>{{p.rolename}}</td>
-											<td>{{p.positionname}}</td>
-											<td>
-												<button data-toggle="modal" v-on:click="getInfo(index)"
-													data-target=".bs-example-modal-lg" name="goInsertRole"
-													class="btn btn-success">修改用户</button>
+										<tr v-for="(s,index) in students">
+											<td>{{s.studentname}}</td>
+											<td>{{s.standby1}}</td>
+											<td v-bind:bgcolor="st.testScore/st.testSumScore>0.6?'':'ff646d'"   v-for="(st,indexs) in s.stList">
+											<font v-bind:color="st.testScore/st.testSumScore>0.6?'':'#fff'">{{st.testname}}-{{st.testScore/st.testSumScore>0.6?'及格':'不及格'}}-{{st.testScore}}</font>
 											</td>
-										</tr> -->
+											<td>
+													<label  class="form-check-label">
+									                <input v-if = "s.standby2>0"  class="form-check-input" type="checkbox" v-bind:value="index"> 
+									                <input  v-else class="form-check-input" checked type="checkbox" v-bind:value="index" > 	
+									                	<span class="form-check-sign" >升班</span>
+													</label>
+											</td>
+											<td>
+												<font v-if="s.standby2==0">成绩全合格自动升班</font>
+												<font v-if="s.standby2==1">成绩出现不合格,参与测试次数不够</font>
+												<font v-if="s.standby2==2">成绩出现不合格</font>
+												<font v-if="s.standby2==3">参与测试次数不够</font>
+											</td>
+										</tr>
 									</tbody>
 								</table>
-								
 							</div>
 						</div>
 					</div>
@@ -110,7 +124,75 @@
 <script th:src="@{/static/js/lodash.min.js}" type="text/javascript"
 	charset="utf-8"></script>
 <script type="text/javascript">
-	
+	var v=new Vue({
+		el : ".content",
+		data : {
+			students : {},
+			count:0
+		}
+	})
+	var progressInfo={};
+	$(function(){
+		GetInfo();
+		$.ajax({
+			url : "/student/queryStudetnTest",
+			data : null,
+			type : "post",
+			dataType : "json",
+			success : function(data) {
+				v.students=data;
+				console.log(data);
+			}
+		})
+		$('[name="progressing"]').click(function(){
+			var arry=[];
+			 $.each($('input:checkbox:checked'),function(index,element){
+				 var json={};
+				 json.studentid=v.students[$(this).val()].studentid;
+				 console.log($(this).val());
+				 if(v.students[$(this).val()].standby3==0){
+					 json.isnormal=1;
+				 }else{
+					 json.isnormal=0;
+				 }
+				 json.user1=v.students[$(this).val()].standby4;
+				 json.tagetgId=progressInfo.ngid;
+				 json.currentgId=progressInfo.gid;
+				 arry.push(json);
+	         });
+		        console.log(arry);
+			 /*  $.ajax({
+					url : "/student/addStudentUpGrade?cid=1",
+					data :JSON.stringify(arry),
+					type : "post",
+					contentType: "application/json",
+					success : function(data) {
+						
+					}
+				})  */
+			
+		});
+	})
+	function GetRequest() { 
+		var url = location.search; //获取url中"?"符后的字串 
+		var theRequest = new Object(); 
+		if (url.indexOf("?") != -1) { 
+		var str = url.substr(1); 
+		strs = str.split("&"); 
+		for(var i = 0; i < strs.length; i ++) { 
+		theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+		} 
+		} 
+		return theRequest; 
+	} 
+	function GetInfo(){
+		$.ajax({
+			url : "/student/getProgressInfo",
+			success : function(data) {
+				progressInfo=data;
+			}
+		})
+	}
 </script>
 
 </html>

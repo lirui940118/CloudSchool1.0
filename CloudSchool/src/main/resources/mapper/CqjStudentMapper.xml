@@ -35,6 +35,37 @@
 		<result column="parentsid" jdbcType="INTEGER"
 			property="parentsid" />
 	</resultMap>
+	
+	
+<resultMap id="StudentTest"
+		type="com.CloudSchool.domain.CqjStudent">
+		<id column="sid" jdbcType="INTEGER" property="studentid" />
+		<result column="studentname" jdbcType="VARCHAR"
+			property="studentname" />
+			<result column="standby1" jdbcType="VARCHAR"
+			property="standby1" />
+			<result column="standby2" jdbcType="VARCHAR"
+			property="standby2" />
+			<result column="standby3" jdbcType="VARCHAR"
+			property="standby3" />
+			<result column="standby4" jdbcType="VARCHAR"
+			property="standby4" />
+		<collection property="stList" ofType="com.CloudSchool.domain.cqjvo.StudentTestVo" column="sid">
+			<result column="testSumScore" property="testSumScore"/>
+			<result column="testScore" property="testScore"/>
+			<result column="testname" property="testname"/>
+			<result column="testTypeName" property="testTypeName"/>
+			<result column="testid" property="testid"/>
+			<result column="tc" property="tc"/>
+			<result column="mid" property="mid"/>
+		</collection>
+	</resultMap>
+
+	<resultMap type="com.CloudSchool.domain.cqjvo.StudentTestVo" id="StudentTestVo">
+			<result column="testname" property="testname"/>
+			<result column="testTypeName" property="testTypeName"/>
+	</resultMap>
+	
 	<sql id="Base_Column_List">
 		studentid, studentname, studentnub, positionid, sex, age,
 		phone, idcard,
@@ -317,5 +348,52 @@
 		LEFT JOIN cqj_parents_student cps ON cps.`studentid`=cs.`studentid`
 		LEFT JOIN cqj_parents cp ON cp.`phone`=cs.`standby4`
 		WHERE cps.`parentsid` IS NULL
+	</select>
+	<select id="queryStudetnTestByCidAndGid" resultMap="StudentTest">
+		SELECT cu.`userid`,cs.`studentname`,clstu.`cid`,clstu.`sid`,tg.`score` AS testScore,tm.`score` AS testSumScore,tm.`name` testname,tt.`name` testTypeName, 
+			zm.`major_name` AS standby1,tm.`id` AS testid,
+			IF(tg.`score`/tm.`score`>0.6,0,1) AS nub,tcount.tc AS tc,tm.id AS `mid`,zm.`mid` AS standby4
+			
+			FROM clazzstudent clstu LEFT JOIN `testgrade` tg
+			ON  clstu.`sid`=tg.`sId` 
+			LEFT JOIN cqj_student cs 
+			ON cs.`studentid`=clstu.`sid`
+			LEFT JOIN `testinstance` tins
+			ON tg.`tid`=tins.`id`
+			LEFT JOIN `testmodule` tm
+			ON tins.`tId`=tm.`id`
+			LEFT JOIN `testtype` tt
+			ON tm.`tId`=tt.`id` 
+			LEFT JOIN `cqj_user`  cu
+			ON cu.`usertypeid`=clstu.`sid` AND cu.`usertypenub`=1
+			LEFT JOIN `gk_wjcs` gw
+			ON gw.`uid`=cu.`userid` AND gw.`wjtm_id`=20
+			LEFT JOIN (
+				SELECT tm.`id`,COUNT(tm.`id`) AS tc,tm.`name`,tg.`sId` FROM `testgrade` tg LEFT JOIN 
+				`testinstance` ti ON 
+				tg.`tid`=ti.`id`
+				LEFT JOIN `testmodule` tm ON
+				ti.`tId`=tm.`id`  
+				LEFT JOIN `testtype` tt ON
+				tm.`tId`=tt.`id` AND (tt.`id`=2 OR tt.`id`=3)
+				WHERE tg.`sId`=1 AND (tt.`id`=2 OR tt.`id`=3)
+				GROUP BY tm.`id`
+			) AS tcount
+			ON tcount.id=tm.`id`
+			LEFT JOIN `participatetestclass` ppc ON
+			ppc.`tId`=tins.`id`
+			LEFT JOIN `zzy_major` zm 
+			ON gw.`by1`=zm.`mid`
+			WHERE clstu.`status`=0  AND ppc.`cid`=#{cid} AND tm.`user1`=#{gid} AND (tt.`id`=2 OR tt.`id`=3)
+	
+	</select>
+	<select id="queryTestByCidAndGid" resultMap="StudentTestVo">
+		SELECT tm.`id`,tm.`name` testname,tt.`name` testTypeName FROM `participatetestclass` ppc
+		INNER JOIN `testinstance` ti ON ppc.`tId`=ti.`id`
+		LEFT JOIN `testmodule` tm ON ti.`tId`=tm.`id`
+		LEFT JOIN `testtype` tt ON tm.`tId`=tt.`id`
+		WHERE ppc.`cId`=#{cid} AND tm.`user1`=#{gid} AND (tt.`id`=2 OR tt.`id`=3)
+		GROUP BY tm.`id`
+		ORDER BY tm.`id`
 	</select>
 </mapper>

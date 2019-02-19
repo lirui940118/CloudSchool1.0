@@ -2,7 +2,10 @@ package com.CloudSchool.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.CloudSchool.domain.CqjStudent;
+import com.CloudSchool.domain.cqjvo.StudentTestVo;
 
 public interface CqjStudentMapper {
 	//write by lirui
@@ -28,4 +31,9 @@ public interface CqjStudentMapper {
     public int addStudents(List<CqjStudent> student);
     
     List<CqjStudent> queryNullParentsId();
+    
+    List<CqjStudent> queryStudetnTestByCidAndGid(@Param("cid")Integer cid,@Param("gid")Integer gid);
+    
+    List<StudentTestVo> queryTestByCidAndGid(@Param("cid")Integer cid,@Param("gid")Integer gid);
+    
 }

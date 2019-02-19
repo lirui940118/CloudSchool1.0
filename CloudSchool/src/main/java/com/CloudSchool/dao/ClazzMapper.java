@@ -42,9 +42,8 @@ public interface ClazzMapper {
     public List<ClazzBaseInfoVO> queryClazzBaseInfo(Integer clazzId);
     //write by lirui 查询教员所带的班级(统计lirui)
     public List<ClazzBaseInfoVO> queryClazzListByStaffId(Integer staffId);
-
-    
     //查询所有在正常状态的班级
     public List<Clazz> queryAll();
-
+    //改变班级的状态(升班陈桥君)
+    public int updateStatusByCid(@Param("status") Integer status,@Param("status") Integer id);
 }
