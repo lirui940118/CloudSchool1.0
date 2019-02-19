@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.PageBean;
+import com.CloudSchool.domain.cqjvo.ProgressInfo;
 import com.CloudSchool.service.CqjMoudelService;
 import com.CloudSchool.service.CqjUserService;
 import com.CloudSchool.timer.DynamicTaskJobs;
@@ -104,9 +105,18 @@ public class CqjUserController {
 		
 		return cus.updateUser(user);
 	}
-	@RequestMapping("goProgressing")
-	public String goProgressing() {
-		return "cqj_setting/progressing";
+	@RequestMapping("/goProgressing")
+	public String goProgressing(HttpSession session,Integer cid,Integer gid,Integer ngid) {
+		if(cid!=null&&gid!=null&&ngid!=null) {
+			ProgressInfo progressInfo=new ProgressInfo(cid, gid, ngid);
+			if(session.getAttribute("progressInfo")!=null) {
+				session.removeAttribute("session");
+			}
+			session.setAttribute("progressInfo", progressInfo);
+			return "cqj_setting/progressing";
+		}
+		return "redirect:goIndex";
+		
 	}
 	
 }

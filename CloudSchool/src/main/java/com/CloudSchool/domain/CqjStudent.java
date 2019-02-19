@@ -1,10 +1,15 @@
 package com.CloudSchool.domain;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class CqjStudent {
+import com.CloudSchool.domain.cqjvo.StudentTestVo;
+
+public class CqjStudent implements Serializable{
 	
 	//write by lirui 
 	//当前所在班级名称
@@ -53,9 +58,18 @@ public class CqjStudent {
     
     private String parentsname;
     
+    private List<StudentTestVo> stList=new ArrayList<StudentTestVo>();
     
     
-    public String getParentsname() {
+    public List<StudentTestVo> getStList() {
+		return stList;
+	}
+
+	public void setStList(List<StudentTestVo> stList) {
+		this.stList = stList;
+	}
+
+	public String getParentsname() {
 		return parentsname;
 	}
 
