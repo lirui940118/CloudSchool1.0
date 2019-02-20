@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="../static/css/bootstrap.min.css">
 		<link rel="stylesheet" href="../static/css/ready.css">
 		<script src="static/js/core/jquery.3.2.1.min.js"></script>
+		<script src="../static/js/core/vue.js"></script>
 		<style type="text/css">
 			.jb .form-control{width: 50%;}
 			
@@ -31,25 +32,25 @@
 								</div>
 								<div class="form-group">
 									<label for="exampleSelect">版本：</label>
-									<select class="form-control form-control-sm" id="smallSelect">
-										<option>ACCP7.0</option>
-										<option>ACCP8.0</option>
-										<option>ACCP9.0</option>
+									<select class="form-control form-control-sm" id="smallSelect" name="vid" @change="getSelVersion(version)" v-model="version">
+										<option v-for="obj,index in versionlist" v-bind:vid="obj.vid" v-bind:value="obj.vid">{{obj.versionof}}</option>
 									</select>
 								</div>
 								<div class="form-group">
 									<label for="exampleSelect">年级：</label>
-									<select class="form-control form-control-sm" id="smallSelect" name="gid">
-										<option value="1">S1</option>
-										<option value="2">S2</option>
-										<option value="3">Y2</option>
+									<select class="form-control form-control-sm" id="smallSelect" name="gid" @change="getSelGrade(grade)" v-model="grade">
+										<option v-for="obj,index in gradelist" v-bind:gid="obj.gid" v-bind:value="obj.gid">{{obj.gradeName}}</option>
 									</select>
 								</div>
 								<div class="form-group">
 									<label for="exampleSelect">专业：</label>
-									<select class="form-control form-control-sm" id="smallSelect" name="mid">
-										<option value="1">java</option>
-										<option value="2">.net</option>
+									<select class="form-control form-control-sm" id="smallSelect" name="mid" @change="getSelMajor(major)" v-model="major">
+										<option v-for="obj,index in selmajorlist" v-bind:mid="obj.mid" v-bind:value="obj.mid">{{obj.majorName}}</option>
+<!-- 										<optgroup v-for="obj,index in versionlist" v-bind:vid="obj.vid" label="obj.versionof"> -->
+<!-- 											<sonOfBC v-for="obj1,index in majorlist"> -->
+<!-- 												<option v-if="obj1.user1==version" v-bind:mid="obj1.mid" v-bind:value="obj1.mid">{{obj1.majorName}}</option> -->
+<!-- 											</sonOfBC> -->
+<!-- 										</optgroup> -->
 									</select>
 								</div>
 								<div class="form-group">
@@ -193,44 +194,138 @@
 		</div>
 	</body>
 	<script>
-		//获取开班可选信息
-		$(function(){
-// 			$.post("getOptionOfCreateClazz","",function(result){
-// 				console.log(result)
-// 				v.aa=result
-// 			})
-		})
-		//开班
-		function createClazz(){
-			var cname=$("[name=cname]").val()
-			var gid=$("[name=gid]").val()
-			var mid=$("[name=mid]").val()
-			var tid=$("[name=tid]").val()
-			var data="cname="+cname+"&gid="+gid+"&mid="+mid;
-			var tlist=$(".teacher table .t-content")
-			var slist=$(".student table .s-content")
-			data+="&tlist[0].tid="+tid+"&tlist[0].ismaster=1&tlist[0].isteacher=0"
-			$.each(tlist,function(index,obj){
-				var courseid=$(obj).find("input[name=courseid]").val()
-				var tid=$(obj).find("[name=tid]").val()
-				data+="&tlist["+(index+1)+"].courseid="+courseid+"&tlist["+(index+1)+"].tid="+tid+"&tlist["+(index+1)+"].isMaster=1&tlist["+(index+1)+"].isTeacher=0"
-				console.log(obj)
-			})
-			$.each(slist,function(index,obj){
-				var studentid=$(obj).find("input[name=studentid]").val()
-				var sid=$(obj).find("[name=sid]").val()
-				data+="&slist["+(index)+"].sid="+sid
-				console.log(obj)
-			})
-			alert("添加学生："+slist.length)
-			data+="&count="+slist.length
-			console.log(data)
-			$.post("craeteClazz",data,function(result){
-				alert(result)
-				console.log(result)
-			})
+	var v=new Vue({
+		el : ".tzx",
+		data : {
+			user:{userid:"2"},
+			versionlist:null,
+			gradelist:null,
+			majorlist:null,
+			selmajorlist:null,
+			version:null,
+			grade:null,
+			major:null
+		},
+		methods:{
+			jump:function(chatid,name){
+				console.log("切换聊天对象："+chatid)
+			},
+			closechat:function(userid){
+// 				alert(userid)
+			},
+			getSelVersion:function(version){
+				console.log("选择版本："+version)
+				getAllGrade(version)
+// 				alert(version)
+				var list=[]
+				for(var i=0;i<v.majorlist.length;i++){
+					if(v.majorlist[i].user1==v.version){
+						list.push(v.majorlist[i])
+						console.log("第"+i+"次：")
+						console.log(v.majorlist[i])
+					}
+				}
+				v.selmajorlist=list
+				console.log("相关专业："+list.length)
+				console.log(v.selmajorlist)
+				if(0==list.length){
+					alert("未找到相关专业")
+					v.major=0
+					if(0!=v.majorlist.length){
+						console.log("该年级部分专业")
+						v.major=list[0].mid
+					}
+				}else{
+					v.major=list[0].mid
+				}
+			},
+			getSelGrade:function(grade){
+				alert(grade)
+			},
+			getSelMajor:function(major){
+				alert(major)
+			}
 		}
+	})
+	$(function(){
+		getAllVersion();
+// 		getAllGrade(vid)
+		getAllMajor()
 		
+		
+			console.log(v.version)
+	})
+	//开班
+	function createClazz(){
+		var cname=$("[name=cname]").val()
+		var gid=$("[name=gid]").val()
+		var mid=$("[name=mid]").val()
+		var tid=$("[name=tid]").val()
+		var data="cname="+cname+"&gid="+gid+"&mid="+mid;
+		var tlist=$(".teacher table .t-content")
+		var slist=$(".student table .s-content")
+		data+="&tlist[0].tid="+tid+"&tlist[0].ismaster=1&tlist[0].isteacher=0"
+		$.each(tlist,function(index,obj){
+			var courseid=$(obj).find("input[name=courseid]").val()
+			var tid=$(obj).find("[name=tid]").val()
+			data+="&tlist["+(index+1)+"].courseid="+courseid+"&tlist["+(index+1)+"].tid="+tid+"&tlist["+(index+1)+"].isMaster=1&tlist["+(index+1)+"].isTeacher=0"
+			console.log(obj)
+		})
+		$.each(slist,function(index,obj){
+			var studentid=$(obj).find("input[name=studentid]").val()
+			var sid=$(obj).find("[name=sid]").val()
+			data+="&slist["+(index)+"].sid="+sid
+			console.log(obj)
+		})
+		alert("添加学生："+slist.length)
+		data+="&count="+slist.length
+		console.log(data)
+// 		$.post("craeteClazz",data,function(result){
+// 			alert(result)
+// 			console.log(result)
+// 		})
+	}
+	//获取版本
+	function getAllVersion(){
+		$.post("zzy/AjaxqueryAllVersion","",function(result){
+			console.log("获取到版本：")
+			console.log(result)
+			v.versionlist=result
+			v.version=v.versionlist[0].vid
+			console.log(v.version)
+		})
+	}
+	//获取年级--/queryByvid  --/queryGradeAll
+	function getAllGrade(vid){
+		$.post("zzy/queryByvid","vid="+vid,function(result){
+			console.log("获取到年级：")
+			console.log(result)
+			v.gradelist=result
+			if(result.length==0){
+				v.grade=null
+				alert("没有找到相关年级")
+			}else{
+				v.grade=v.gradelist[0].gid
+			}
+			console.log(v.grade)
+		})
+	}
+	//获取所有专业
+	function getAllMajor(){
+		$.post("zzy/queryMajorAll","",function(result){
+			console.log("获取到专业：")
+			console.log(result)
+			v.majorlist=result
+			if(result.length==0){
+				v.major=null
+				alert("没有找到专业")
+			}else{
+				v.major=v.majorlist[0].mid
+			}
+			console.log(v.major)
+		})
+	}
+	
 		
 	</script>
 </html>
