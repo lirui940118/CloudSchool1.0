@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.GkWjcsjfMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.GkWjcsjf">
+    <id column="wjcsjf_id" jdbcType="INTEGER" property="wjcsjfId" />
+    <result column="o_id" jdbcType="INTEGER" property="oId" />
+    <result column="z_id" jdbcType="INTEGER" property="zId" />
+    <result column="g_id" jdbcType="INTEGER" property="gId" />
+    <result column="wj_id" jdbcType="INTEGER" property="wjId" />
+    <result column="tm_id" jdbcType="INTEGER" property="tmId" />
+    <result column="tm_sum" jdbcType="INTEGER" property="tmSum" />
+    <result column="tm_score" jdbcType="INTEGER" property="tmScore" />
+    <result column="wj_score" jdbcType="INTEGER" property="wjScore" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    wjcsjf_id, o_id, z_id, g_id, wj_id, tm_id, tm_sum, tm_score, wj_score
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gk_wjcsjf
+    where wjcsjf_id = #{wjcsjfId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gk_wjcsjf
+    where wjcsjf_id = #{wjcsjfId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.CloudSchool.domain.GkWjcsjf">
+    insert into gk_wjcsjf (wjcsjf_id, o_id, z_id, 
+      g_id, wj_id, tm_id, tm_sum, 
+      tm_score, wj_score)
+    values (#{wjcsjfId,jdbcType=INTEGER}, #{oId,jdbcType=INTEGER}, #{zId,jdbcType=INTEGER}, 
+      #{gId,jdbcType=INTEGER}, #{wjId,jdbcType=INTEGER}, #{tmId,jdbcType=INTEGER}, #{tmSum,jdbcType=INTEGER}, 
+      #{tmScore,jdbcType=INTEGER}, #{wjScore,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.GkWjcsjf">
+    insert into gk_wjcsjf
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wjcsjfId != null">
+        wjcsjf_id,
+      </if>
+      <if test="oId != null">
+        o_id,
+      </if>
+      <if test="zId != null">
+        z_id,
+      </if>
+      <if test="gId != null">
+        g_id,
+      </if>
+      <if test="wjId != null">
+        wj_id,
+      </if>
+      <if test="tmId != null">
+        tm_id,
+      </if>
+      <if test="tmSum != null">
+        tm_sum,
+      </if>
+      <if test="tmScore != null">
+        tm_score,
+      </if>
+      <if test="wjScore != null">
+        wj_score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wjcsjfId != null">
+        #{wjcsjfId,jdbcType=INTEGER},
+      </if>
+      <if test="oId != null">
+        #{oId,jdbcType=INTEGER},
+      </if>
+      <if test="zId != null">
+        #{zId,jdbcType=INTEGER},
+      </if>
+      <if test="gId != null">
+        #{gId,jdbcType=INTEGER},
+      </if>
+      <if test="wjId != null">
+        #{wjId,jdbcType=INTEGER},
+      </if>
+      <if test="tmId != null">
+        #{tmId,jdbcType=INTEGER},
+      </if>
+      <if test="tmSum != null">
+        #{tmSum,jdbcType=INTEGER},
+      </if>
+      <if test="tmScore != null">
+        #{tmScore,jdbcType=INTEGER},
+      </if>
+      <if test="wjScore != null">
+        #{wjScore,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.GkWjcsjf">
+    update gk_wjcsjf
+    <set>
+      <if test="oId != null">
+        o_id = #{oId,jdbcType=INTEGER},
+      </if>
+      <if test="zId != null">
+        z_id = #{zId,jdbcType=INTEGER},
+      </if>
+      <if test="gId != null">
+        g_id = #{gId,jdbcType=INTEGER},
+      </if>
+      <if test="wjId != null">
+        wj_id = #{wjId,jdbcType=INTEGER},
+      </if>
+      <if test="tmId != null">
+        tm_id = #{tmId,jdbcType=INTEGER},
+      </if>
+      <if test="tmSum != null">
+        tm_sum = #{tmSum,jdbcType=INTEGER},
+      </if>
+      <if test="tmScore != null">
+        tm_score = #{tmScore,jdbcType=INTEGER},
+      </if>
+      <if test="wjScore != null">
+        wj_score = #{wjScore,jdbcType=INTEGER},
+      </if>
+    </set>
+    where wjcsjf_id = #{wjcsjfId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.GkWjcsjf">
+    update gk_wjcsjf
+    set o_id = #{oId,jdbcType=INTEGER},
+      z_id = #{zId,jdbcType=INTEGER},
+      g_id = #{gId,jdbcType=INTEGER},
+      wj_id = #{wjId,jdbcType=INTEGER},
+      tm_id = #{tmId,jdbcType=INTEGER},
+      tm_sum = #{tmSum,jdbcType=INTEGER},
+      tm_score = #{tmScore,jdbcType=INTEGER},
+      wj_score = #{wjScore,jdbcType=INTEGER}
+    where wjcsjf_id = #{wjcsjfId,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  
+  
+  <!-- 能力问卷调查，评分  统计使用-->
+  <select id="queryAbilitWjBysIdAndgId" resultType="int">
+  SELECT IFNULL(ROUND(SUM(gk_wjcsjf.`tm_score`)/SUM(gk_wjcsjf.`tm_sum`)*100),0) AS 得分  FROM gk_wjcsjf
+	INNER JOIN gk_questionnairetm ON `gk_questionnairetm`.`wjtm_id` = gk_wjcsjf.`tm_id`#题目表
+	INNER JOIN `gk_questionnairetm_type` ON `gk_questionnairetm_type`.`wjtm_type_id` = gk_questionnairetm.`wjtm_type_id`#题目类型表
+	INNER JOIN `cqj_user` ON `cqj_user`.userid = gk_wjcsjf.o_id AND cqj_user.usertypenub = 1 #学员类型
+	WHERE gk_questionnairetm_type.`wjtm_type_id` = #{tId} #1理解能力
+	AND cqj_user.`usertypeid` = #{sId} #被调查对象 学员id
+	<if test="gId!=null">
+	AND gk_wjcsjf.`g_id` = #{gId} #被调查的对象处于的年级
+	</if>
+  </select>
+  
+  
+  
+</mapper>

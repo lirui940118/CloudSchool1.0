@@ -7,6 +7,7 @@
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
 		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<link rel="stylesheet" th:href="@{/static/css/demo.css}">
 		<style type="text/css">
 			.card{
 				border-radius: 0px;
@@ -17,6 +18,7 @@
 			    box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
 			    border: 1px solid #eee;
 			}
+			
 		</style>
 	</head>
 
@@ -45,6 +47,7 @@
 								</p>
 							</div>
 							<div class="card-body">
+								<h6>选择和简答题题目统计</h6>
 								<table id="knowledgePointSec" class="table table-bordered mt-1" style="text-align: center;">
 									<thead>
 										<tr>
@@ -66,27 +69,31 @@
 											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.topicList[0].knowledagePointName}}</font></font></td>
 											<!-- 识记分布和得分 -->
 											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-												<button v-show="topicItems.topicRate>=goodRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-if="topicItems.topicExamdotId==0" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-success btn-xs">T:{{topicItems.topicNo}}<br/>{{topicItems.topicScore}}/{{topicItems.topicTotalScore}}</button>
-												<button v-show="topicItems.topicRate<goodRate && topicItems.topicRate>=badRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-if="topicItems.topicExamdotId==0" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-default btn-xs">T:{{topicItems.topicNo}}<br/>{{topicItems.topicScore}}/{{topicItems.topicTotalScore}}</button>
-												<button v-show="topicItems.topicRate<badRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-if="topicItems.topicExamdotId==0" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-danger btn-xs">T:{{topicItems.topicNo}}<br/>{{topicItems.topicScore}}/{{topicItems.topicTotalScore}}</button>
+												<span v-for="topicItems in item.topicList">
+													<span v-if="topicItems.topicExamdotId==0 && topicItems.topicRate>=goodRate"  v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-success btn-xs">T:{{topicItems.topicNo}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
+													<span v-if="topicItems.topicExamdotId==0 && topicItems.topicRate<goodRate && topicItems.topicRate>=badRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-default btn-xs">T:{{topicItems.topicNo}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
+													<span v-if="topicItems.topicExamdotId==0 && topicItems.topicRate<badRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-danger btn-xs">T:{{topicItems.topicNo}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
+												</span>
 											</font></font></td>
 											
 											<td>
-												<font v-bind:value="item.understandTopicScore" v-bind:totalValue="item.understandTopicTotalScore" class="understandKnowledgePointTotal" style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.understandTopicScore}}/{{item.understandTopicTotalScore}}</font></font>
+												<font v-bind:value="item.understandTopicScore" v-bind:totalValue="item.understandTopicTotalScore" class="understandKnowledgePointTotal" style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.understandTopicScore}}|{{item.understandTopicTotalScore}}</font></font>
 											</td>
 											<!-- 理解分布和得分 -->
 											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-												<button v-show="topicItems.topicRate>=goodRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-if="topicItems.topicExamdotId==1" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-success btn-xs">T:{{topicItems.topicNo}}<br/>{{topicItems.topicScore}}/{{topicItems.topicTotalScore}}</button>
-												<button v-show="topicItems.topicRate<goodRate && topicItems.topicRate>=badRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-if="topicItems.topicExamdotId==0" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-default btn-xs">T:{{topicItems.topicNo}}<br/>{{topicItems.topicScore}}/{{topicItems.topicTotalScore}}</button>
-												<button v-show="topicItems.topicRate<badRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-if="topicItems.topicExamdotId==1" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-danger btn-xs">T:{{topicItems.topicNo}}<br/>{{topicItems.topicScore}}/{{topicItems.topicTotalScore}}</button>
+												<span v-for="topicItems in item.topicList">
+													<span v-if="topicItems.topicExamdotId==1 && topicItems.topicRate>=goodRate"  v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-success btn-xs">T:{{topicItems.topicNo}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
+													<span v-if="topicItems.topicExamdotId==1 && topicItems.topicRate<goodRate && topicItems.topicRate>=badRate" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-default btn-xs">T:{{topicItems.topicNo}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
+													<span v-if="topicItems.topicExamdotId==1 && topicItems.topicRate<badRate" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-danger btn-xs">T:{{topicItems.topicNo}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
+												</span>
 											</font></font></td>
 											
 											<td>
-												<font v-bind:value="item.memorizationTopicScore" v-bind:totalValue="item.memorizationTopicTotalScore" class="memorizationKnowledgePointTotal" style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.memorizationTopicScore}}/{{item.memorizationTopicTotalScore}}</font></font>
+												<font v-bind:value="item.memorizationTopicScore" v-bind:totalValue="item.memorizationTopicTotalScore" class="memorizationKnowledgePointTotal" style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.memorizationTopicScore}}|{{item.memorizationTopicTotalScore}}</font></font>
 											</td>
 											
 											<!-- 知识点合计 -->
-											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.knowledagePointTopicScore}}/{{item.knowledagePointTopicTotalScore}}</font></font></td><!-- 知識點合計 -->
+											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.knowledagePointTopicScore}}|{{item.knowledagePointTopicTotalScore}}</font></font></td><!-- 知識點合計 -->
 											
 											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{(item.knowledagePointTopicScore/item.knowledagePointTopicTotalScore).toFixed(3)*100}}%</font></font></td>
 										</tr>
@@ -108,6 +115,7 @@
 									</tbody>
 								</table>
 								<!--应用-->
+								<h6>上级题目统计</h6>
 								<table id="applicationSec" v-if="applicationTopicList" class="table table-bordered mt-1" style="text-align: center;">
 									<thead>
 										<tr>
@@ -135,12 +143,21 @@
 							    <button class="btn btn-default btn-xs" >一般</button>
 								<button class="btn btn-danger btn-xs">差</button>
 							</div>
-							<div class="card-footer">
-								<i class="la la-circle text-primary">查看详情</i>
+							<div class="card-footer row">
+								<i class="col-md-3 la la-circle text-primary">查看详情</i>
+								<!-- 下载 -->
+								<div class="col-md-3 demo-icon"> 
+									<div class="icon-preview">
+										<i class="la la-adjust"></i>
+									</div>
+									<div style="display: inline;" class="icon-class">
+										下载报表
+									</div> 
+								</div> 
 							</div>
 						</div>
 						<!--试卷分析-->
-						<div class="card col-lg-12">
+						<!-- <div class="card col-lg-12">
 							<div class="card-header">
 								<h4 class="card-title">
 									考试分析
@@ -149,7 +166,7 @@
 							<div class="card-body">
 								<div id="textAnalyse"></div>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -223,7 +240,7 @@
 			 understandFinnalScore = understandFinnalScore+Number(understandKnowledgePointTotalArr.get(i).getAttribute("value"));
 			 understandFinnalTotalScore = understandFinnalTotalScore+Number(understandKnowledgePointTotalArr.get(i).getAttribute("totalValue"));
 		 }
-		 $("#understandValue").html(""+understandFinnalScore+"/"+understandFinnalTotalScore);
+		 $("#understandValue").html(""+understandFinnalScore+"|"+understandFinnalTotalScore);
 		 $("#understandRateValue").html(""+understandFinnalScore/understandFinnalTotalScore.toFixed(3)*100+"%");
 		 //识记部分
 		 var memorizationKnowledgePointTotalArr = $(".memorizationKnowledgePointTotal");
@@ -233,10 +250,10 @@
 			 memorizationFinnalScore = memorizationFinnalScore+Number(memorizationKnowledgePointTotalArr.get(i).getAttribute("value"));
 			 memorizationFinnalTotalScore = memorizationFinnalTotalScore+Number(memorizationKnowledgePointTotalArr.get(i).getAttribute("totalValue"));
 		 }
-		 $("#memorizationValue").html(""+memorizationFinnalScore+"/"+memorizationFinnalTotalScore);
+		 $("#memorizationValue").html(""+memorizationFinnalScore+"|"+memorizationFinnalTotalScore);
 		 $("#memorizationRateValue").html(""+memorizationFinnalScore/memorizationFinnalTotalScore.toFixed(3)*100+"%");
 		 //总合计
-		 $("#totalValue").html(understandFinnalScore+memorizationFinnalScore+"/"+(understandFinnalTotalScore+memorizationFinnalTotalScore));
+		 $("#totalValue").html(understandFinnalScore+memorizationFinnalScore+"|"+(understandFinnalTotalScore+memorizationFinnalTotalScore));
 		 $("#totalRate").html(((understandFinnalScore+memorizationFinnalScore)/(understandFinnalTotalScore+memorizationFinnalTotalScore)).toFixed(3)*100+"%");
 	 
 	 }

@@ -42,4 +42,5 @@ public interface WorkmouldMapper {
    * @return
    */
   Workinstance queryStudentWork(@Param("wid") Integer wid,@Param("sid") Integer sid);
+  
 }

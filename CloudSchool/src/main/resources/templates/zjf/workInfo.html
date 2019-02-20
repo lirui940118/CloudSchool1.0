@@ -25,11 +25,11 @@
 					<h4 class="page-title">作业详情</h4>
 					<div class="card">
 						<div class="card-header">
-							<h5 class="card-title">作业名称：{{obj.workmould.name}}</h4>
+							<h5 class="card-title">作业名称</h4>
 						</div>
 						<div class="card-body">
 							<div class="row">
-								<table class="table table-head-bg-success col-md-12">
+								<table class="table table-head-bg-success">
 											<thead>
 												<tr>
 													<th scope="col">姓名</th>
@@ -38,46 +38,27 @@
 													<th scope="col">是否批改</th>
 													<th scope="col">分数</th>
 													<th scope="col">评分</th>
-													<th scope="col">查看</th>
+													<!-- <th scope="col">操作</th> -->
 												</tr>
 											</thead>
 											<tbody>
-												<tr v-for="(obj1,index) in obj.listStu">
-													<td>{{obj1.cqjStudent.studentname}}</td>
+												<tr v-for="(obj,index) in list">
+													<td>{{obj.studentname}}</td>
 													<td>{{obj.time}}</td>
-													<td>{{obj1.time}}</td>
-													<td>{{obj1.iscorrect}}</td>
-													<td>{{obj1.workgrade.score}}</td>
-													<td>{{obj1.workgrade.rank}}</td>
-													<td>
-														<button class="btn btn-success">查看详情</button>
-													</td>
+													<td v-if="obj.commitTime==null">未提交</td>
+													<td v-if="obj.commitTime!=null">{{obj.commitTime}}</td>
+													<td v-if="obj.isCorrect==0">未领取</td>
+													<td v-if="obj.isCorrect==1">待提交</td>
+													<td v-if="obj.isCorrect==2">待批改</td>
+													<td v-if="obj.isCorrect==3">已批改</td>
+													<td>{{obj.score}}</td>
+													<td>{{obj.rank}}</td>
+													<!-- <td>
+														<button class="btn btn-success">批改</button>
+													</td> -->
 												</tr>
-												<!-- <tr>
-													<td>老王</td>
-													<td>2019-01-02</td>
-													<td>2019-01-02</td>
-													<td>已批改</td>
-													<td>50</td>
-													<td>A</td>
-													<td>
-														<button class="btn btn-success">查看详情</button>
-													</td>
-												</tr>
-												<tr>
-													<td>老王</td>
-													<td>2019-01-02</td>
-													<td>2019-01-02</td>
-													<td>已批改</td>
-													<td>50</td>
-													<td>A</td>
-													<td>
-														<button class="btn btn-success">查看详情</button>
-													</td>
-												</tr> -->
-												
 											</tbody>
-								</table>
+										</table>
 										</div>
 										<div id="pagebox">
 									<p class="demo">
@@ -120,7 +101,7 @@
 	var v=new Vue({
 		el:".card",
 		data:{
-			obj:null
+			list:null
 		}
 	})
 	$(function(){
@@ -130,7 +111,7 @@
 			data:null,
 			success:function(data){
 				console.log(JSON.stringify(data))
-				v.obj=data;
+				v.list=data;
 			}
 		})
 	})

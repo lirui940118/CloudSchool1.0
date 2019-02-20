@@ -2,6 +2,8 @@ package com.CloudSchool.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.CloudSchool.domain.CqjStudent;
+import com.CloudSchool.domain.Studentupgrade;
+import com.CloudSchool.domain.cqjvo.ProgressInfo;
 import com.CloudSchool.service.CqjStudentService;
 
 @Controller
@@ -24,4 +28,25 @@ public class CqjStudentController {
 		css.addStudents(list);
 		return 0;
 	}
+	
+	
+	@RequestMapping("queryStudetnTest")
+	@ResponseBody
+	public List<CqjStudent> queryStudetnTestByCid(HttpSession session) {
+		ProgressInfo progressInfo=(ProgressInfo)session.getAttribute("progressInfo");
+		return css.queryStudetnTestByCid(progressInfo.getCid(),progressInfo.getGid());
+	}
+	
+	 @RequestMapping("addStudentUpGrade")
+	 @ResponseBody
+	 public void addStudentUpGrade(@RequestBody List<Studentupgrade> ids,HttpSession session) {
+		 ProgressInfo progressInfo=(ProgressInfo)session.getAttribute("progressInfo");
+		 css.addStudentUpGrade(ids,progressInfo.getCid());
+		 session.removeAttribute("progressInfo");
+	 }
+	 @RequestMapping("getProgressInfo")
+	 @ResponseBody
+	 public Object getCGNid(HttpSession session) {
+		 return session.getAttribute("progressInfo");
+	 }
 }

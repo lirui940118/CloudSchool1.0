@@ -83,10 +83,21 @@ public class CqjUser {
     
     //所有能访问模块组
     private List<CqjModule> moduleAllList;
+    //首页路径
+    private String homeUrl;
     
     
     
-    
+	
+
+	public String getHomeUrl() {
+		return homeUrl;
+	}
+
+	public void setHomeUrl(String homeUrl) {
+		this.homeUrl = homeUrl;
+	}
+
 	public String getUrl() {
 		return url;
 	}

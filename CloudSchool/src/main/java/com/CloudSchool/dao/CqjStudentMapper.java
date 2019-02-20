@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.CloudSchool.domain.CqjStudent;
+import com.CloudSchool.domain.cqjvo.StudentTestVo;
 
 public interface CqjStudentMapper {
 	//write by lirui
@@ -32,4 +33,9 @@ public interface CqjStudentMapper {
     List<CqjStudent> queryNullParentsId();
     //分班-分配学号update职位
     int setStudentnubAfterCreateClazz(@Param("list") List<CqjStudent> list,@Param("str") String str);
+    
+    List<CqjStudent> queryStudetnTestByCidAndGid(@Param("cid")Integer cid,@Param("gid")Integer gid);
+    
+    List<StudentTestVo> queryTestByCidAndGid(@Param("cid")Integer cid,@Param("gid")Integer gid);
+    
 }

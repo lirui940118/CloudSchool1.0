@@ -285,7 +285,7 @@
 		<association property="topic"
 			javaType="com.CloudSchool.domain.TopicWithBLOBs">
 			<id column="topicid" property="id" />
-			<result column="topicscore" property="user1"/>
+			<result column="topicscore" property="user1" />
 			<result column="topicconten" property="topicconten" />
 		</association>
 		<association property="obj"
@@ -300,9 +300,12 @@
 		SELECT wtrecord.*,topic.`id` AS topicid,topic.`topicConten`
 		AS topicconten,topic.`user1` AS topicscore,topicoption.`id` AS
 		optionid,topicoption.`option`FROM wtrecord
-		INNER JOIN topic ON wtrecord.`tId`=topic.id
-		INNER JOIN topicoption ON topicoption.`tId`=topic.`id`
-		AND topic.`tId`=1 AND topicoption.`IsTrue`=1 AND wtrecord.`wId`=#{wid} AND
+		INNER JOIN topic ON
+		wtrecord.`tId`=topic.id
+		INNER JOIN topicoption ON
+		topicoption.`tId`=topic.`id`
+		AND topic.`tId`=1 AND
+		topicoption.`IsTrue`=1 AND wtrecord.`wId`=#{wid} AND
 		wtrecord.`sId`=#{sid} AND wtrecord.`status`=0
 	</select>
 
@@ -311,27 +314,62 @@
 		UPDATE `wtrecord` SET `score` = #{score} WHERE `id` =
 		#{id};
 	</update>
-	
+
 	<!-- 根据学生id和作业实例id 计算成绩 -->
 	<select id="queryByWidAndSidSumScore" resultType="int">
-		SELECT SUM(score) FROM wtrecord WHERE wid=#{wid} AND sid=#{sid}
+		SELECT
+		SUM(score) FROM wtrecord WHERE wid=#{wid} AND sid=#{sid}
 	</select>
-	
+
 	<!-- write by lirui 查询学员的劣势知识点 -->
-	<select id="queryBadKnowledagePointBySid" resultType="com.CloudSchool.domain.statistics.BadTopicVO">
+	<select id="queryBadKnowledagePointBySid"
+		resultType="com.CloudSchool.domain.statistics.BadTopicVO">
 		SELECT * FROM (
-		SELECT zzy_course.`course_name`AS courseName,zzy_section.`section_name`AS sectionName,lr_knowledagePoint.`kName`AS knowledageName,
-		lr_knowledagePoint.`id`AS knowledageId,SUM(wtrecord.`score`)AS score,SUM(topic.`user1`)AS totalScore,COUNT(topic.`id`)AS totalCount,
-		SUM(wtrecord.`score`)/SUM(topic.`user1`)AS rate,wtrecord.`sId` AS studentId,zzy_course.`cid`AS courseId
+		SELECT zzy_course.`course_name`AS
+		courseName,zzy_section.`section_name`AS
+		sectionName,lr_knowledagePoint.`kName`AS knowledageName,
+		lr_knowledagePoint.`id`AS knowledageId,SUM(wtrecord.`score`)AS
+		score,SUM(topic.`user1`)AS totalScore,COUNT(topic.`id`)AS totalCount,
+		SUM(wtrecord.`score`)/SUM(topic.`user1`)AS rate,wtrecord.`sId` AS
+		studentId,zzy_course.`cid`AS courseId
 		FROM `wtrecord`
-		INNER JOIN `topic` ON `wtrecord`.`tId` = `topic`.`id`
-		INNER JOIN lr_knowledagePoint ON lr_knowledagePoint.`id` = `topic`.`kid`#知识点
-		INNER JOIN `zzy_section` ON `zzy_section`.secid = topic.cid #章节
-		INNER JOIN `zzy_course` ON `zzy_course`.`cid` = `zzy_section`.`cid` #课程
-		WHERE `wtrecord`.`sId` = #{sId}
+		INNER JOIN `topic`
+		ON `wtrecord`.`tId` = `topic`.`id`
+		INNER JOIN lr_knowledagePoint ON
+		lr_knowledagePoint.`id` = `topic`.`kid`#知识点
+		INNER JOIN `zzy_section` ON
+		`zzy_section`.secid = topic.cid #章节
+		INNER JOIN `zzy_course` ON
+		`zzy_course`.`cid` = `zzy_section`.`cid` #课程
+		WHERE `wtrecord`.`sId` =
+		#{sId}
 		GROUP BY lr_knowledagePoint.`id`
 		)a
-		WHERE a.rate &lt; 0.6 AND totalCount>=1
+		WHERE a.rate &lt; 0.6 AND
+		totalCount>=1
 	</select>
 	
+	<resultMap type="com.CloudSchool.domain.Wtrecord" id="queryTopicByIdMap">
+		<id column="id" property="id"/>
+		<result column="user1" property="user1"/>
+		<result column="result" property="result"/>
+		<result column="score" property="score"/>
+		<association property="topic" javaType="com.CloudSchool.domain.TopicWithBLOBs">
+			<id column="topicid" property="id"/>
+			<result column="analysis" property="analysis"/>
+			<result column="topicscore" property="user1"/>
+		</association>
+	</resultMap>
+	<!-- 根据作业题记录id查询题目详情 --> 
+	<select id="queryTopicById" resultMap="queryTopicByIdMap">
+		SELECT
+		wtrecord.`id`,wtrecord.`result`,wtrecord.`score`,wtrecord.user1,topic.`id` AS topicid,topic.`analysis`,topic.`user1` as topicscore
+		FROM wtrecord
+		INNER JOIN topic ON wtrecord.`tId`=topic.`id` AND wtrecord.`id`=#{id}
+	</select>
+	
+	<!-- 手动批改作业  根据学生id 作业id 题目id修改score（题目给分 ）-->
+	<update id="updateScoreByWidSidTid">
+		update wtrecord set score=#{score} where wid=#{wid} and tid=#{tid} and sid=#{sid}
+	</update>
 </mapper>

@@ -96,6 +96,8 @@
 		
 		//获取所有年级节点
 		var arr1=$(".gradezuhe");
+		//选择专业之后的年级以及之后的年级是否是分专业年级 默认为否
+		var bo=false;
 		//循环所有年级节点
 		$.each(arr1,function(i,obj){
 			//当前年级对象
@@ -106,15 +108,23 @@
 			var bool1=$(obj).find("[type=checkbox]").is(':checked');
 			if(bool1){
 				g.classbool=1;
+				
 			}else{
 				g.classbool=0;
 			}
+			
 			//当前年级是否选择专业
 			var bool2=$(obj).find("[type=radio]").is(':checked');
 			if(bool2){
 				g.majorbool=1;
+				bo=true;
 			}else{
 				g.majorbool=0;
+			}
+			if(bo){
+				g.user1=1;
+			}else{
+				g.user1=0;
 			}
 			grade.push(g);
 			});

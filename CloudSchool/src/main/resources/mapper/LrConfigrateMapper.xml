@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.LrConfigrateMapper">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.LrConfigrate">
+    <result column="config1" jdbcType="DOUBLE" property="config1" />
+    <result column="config2" jdbcType="DOUBLE" property="config2" />
+    <result column="config3" jdbcType="DOUBLE" property="config3" />
+    <result column="config4" jdbcType="DOUBLE" property="config4" />
+    <result column="config5" jdbcType="DOUBLE" property="config5" />
+    <result column="config6" jdbcType="DOUBLE" property="config6" />
+    <result column="config7" jdbcType="DOUBLE" property="config7" />
+    <result column="config8" jdbcType="DOUBLE" property="config8" />
+    <result column="config9" jdbcType="DOUBLE" property="config9" />
+    <result column="config10" jdbcType="DOUBLE" property="config10" />
+    <result column="config11" jdbcType="DOUBLE" property="config11" />
+    <result column="config12" jdbcType="DOUBLE" property="config12" />
+    <result column="config13" jdbcType="DOUBLE" property="config13" />
+    <result column="config14" jdbcType="DOUBLE" property="config14" />
+    <result column="config15" jdbcType="DOUBLE" property="config15" />
+    <result column="config16" jdbcType="DOUBLE" property="config16" />
+    <result column="config17" jdbcType="DOUBLE" property="config17" />
+    <result column="config18" jdbcType="DOUBLE" property="config18" />
+    <result column="config19" jdbcType="DOUBLE" property="config19" />
+    <result column="config20" jdbcType="DOUBLE" property="config20" />
+    <result column="config21" jdbcType="DOUBLE" property="config21" />
+    <result column="config22" jdbcType="DOUBLE" property="config22" />
+    <result column="config23" jdbcType="DOUBLE" property="config23" />
+    <result column="config24" jdbcType="DOUBLE" property="config24" />
+    <result column="config25" jdbcType="DOUBLE" property="config25" />
+    <result column="config26" jdbcType="DOUBLE" property="config26" />
+    <result column="config27" jdbcType="DOUBLE" property="config27" />
+    <result column="config28" jdbcType="DOUBLE" property="config28" />
+    <result column="config29" jdbcType="DOUBLE" property="config29" />
+    <result column="config30" jdbcType="DOUBLE" property="config30" />
+  </resultMap>
+  <insert id="insert" parameterType="com.CloudSchool.domain.LrConfigrate">
+    insert into lr_configrate (config1, config2, config3, 
+      config4, config5, config6, 
+      config7, config8, config9, 
+      config10, config11, config12, 
+      config13, config14, config15, 
+      config16, config17, config18, 
+      config19, config20, config21, 
+      config22, config23, config24, 
+      config25, config26, config27, 
+      config28, config29, config30
+      )
+    values (#{config1,jdbcType=DOUBLE}, #{config2,jdbcType=DOUBLE}, #{config3,jdbcType=DOUBLE}, 
+      #{config4,jdbcType=DOUBLE}, #{config5,jdbcType=DOUBLE}, #{config6,jdbcType=DOUBLE}, 
+      #{config7,jdbcType=DOUBLE}, #{config8,jdbcType=DOUBLE}, #{config9,jdbcType=DOUBLE}, 
+      #{config10,jdbcType=DOUBLE}, #{config11,jdbcType=DOUBLE}, #{config12,jdbcType=DOUBLE}, 
+      #{config13,jdbcType=DOUBLE}, #{config14,jdbcType=DOUBLE}, #{config15,jdbcType=DOUBLE}, 
+      #{config16,jdbcType=DOUBLE}, #{config17,jdbcType=DOUBLE}, #{config18,jdbcType=DOUBLE}, 
+      #{config19,jdbcType=DOUBLE}, #{config20,jdbcType=DOUBLE}, #{config21,jdbcType=DOUBLE}, 
+      #{config22,jdbcType=DOUBLE}, #{config23,jdbcType=DOUBLE}, #{config24,jdbcType=DOUBLE}, 
+      #{config25,jdbcType=DOUBLE}, #{config26,jdbcType=DOUBLE}, #{config27,jdbcType=DOUBLE}, 
+      #{config28,jdbcType=DOUBLE}, #{config29,jdbcType=DOUBLE}, #{config30,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.LrConfigrate">
+    insert into lr_configrate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="config1 != null">
+        config1,
+      </if>
+      <if test="config2 != null">
+        config2,
+      </if>
+      <if test="config3 != null">
+        config3,
+      </if>
+      <if test="config4 != null">
+        config4,
+      </if>
+      <if test="config5 != null">
+        config5,
+      </if>
+      <if test="config6 != null">
+        config6,
+      </if>
+      <if test="config7 != null">
+        config7,
+      </if>
+      <if test="config8 != null">
+        config8,
+      </if>
+      <if test="config9 != null">
+        config9,
+      </if>
+      <if test="config10 != null">
+        config10,
+      </if>
+      <if test="config11 != null">
+        config11,
+      </if>
+      <if test="config12 != null">
+        config12,
+      </if>
+      <if test="config13 != null">
+        config13,
+      </if>
+      <if test="config14 != null">
+        config14,
+      </if>
+      <if test="config15 != null">
+        config15,
+      </if>
+      <if test="config16 != null">
+        config16,
+      </if>
+      <if test="config17 != null">
+        config17,
+      </if>
+      <if test="config18 != null">
+        config18,
+      </if>
+      <if test="config19 != null">
+        config19,
+      </if>
+      <if test="config20 != null">
+        config20,
+      </if>
+      <if test="config21 != null">
+        config21,
+      </if>
+      <if test="config22 != null">
+        config22,
+      </if>
+      <if test="config23 != null">
+        config23,
+      </if>
+      <if test="config24 != null">
+        config24,
+      </if>
+      <if test="config25 != null">
+        config25,
+      </if>
+      <if test="config26 != null">
+        config26,
+      </if>
+      <if test="config27 != null">
+        config27,
+      </if>
+      <if test="config28 != null">
+        config28,
+      </if>
+      <if test="config29 != null">
+        config29,
+      </if>
+      <if test="config30 != null">
+        config30,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="config1 != null">
+        #{config1,jdbcType=DOUBLE},
+      </if>
+      <if test="config2 != null">
+        #{config2,jdbcType=DOUBLE},
+      </if>
+      <if test="config3 != null">
+        #{config3,jdbcType=DOUBLE},
+      </if>
+      <if test="config4 != null">
+        #{config4,jdbcType=DOUBLE},
+      </if>
+      <if test="config5 != null">
+        #{config5,jdbcType=DOUBLE},
+      </if>
+      <if test="config6 != null">
+        #{config6,jdbcType=DOUBLE},
+      </if>
+      <if test="config7 != null">
+        #{config7,jdbcType=DOUBLE},
+      </if>
+      <if test="config8 != null">
+        #{config8,jdbcType=DOUBLE},
+      </if>
+      <if test="config9 != null">
+        #{config9,jdbcType=DOUBLE},
+      </if>
+      <if test="config10 != null">
+        #{config10,jdbcType=DOUBLE},
+      </if>
+      <if test="config11 != null">
+        #{config11,jdbcType=DOUBLE},
+      </if>
+      <if test="config12 != null">
+        #{config12,jdbcType=DOUBLE},
+      </if>
+      <if test="config13 != null">
+        #{config13,jdbcType=DOUBLE},
+      </if>
+      <if test="config14 != null">
+        #{config14,jdbcType=DOUBLE},
+      </if>
+      <if test="config15 != null">
+        #{config15,jdbcType=DOUBLE},
+      </if>
+      <if test="config16 != null">
+        #{config16,jdbcType=DOUBLE},
+      </if>
+      <if test="config17 != null">
+        #{config17,jdbcType=DOUBLE},
+      </if>
+      <if test="config18 != null">
+        #{config18,jdbcType=DOUBLE},
+      </if>
+      <if test="config19 != null">
+        #{config19,jdbcType=DOUBLE},
+      </if>
+      <if test="config20 != null">
+        #{config20,jdbcType=DOUBLE},
+      </if>
+      <if test="config21 != null">
+        #{config21,jdbcType=DOUBLE},
+      </if>
+      <if test="config22 != null">
+        #{config22,jdbcType=DOUBLE},
+      </if>
+      <if test="config23 != null">
+        #{config23,jdbcType=DOUBLE},
+      </if>
+      <if test="config24 != null">
+        #{config24,jdbcType=DOUBLE},
+      </if>
+      <if test="config25 != null">
+        #{config25,jdbcType=DOUBLE},
+      </if>
+      <if test="config26 != null">
+        #{config26,jdbcType=DOUBLE},
+      </if>
+      <if test="config27 != null">
+        #{config27,jdbcType=DOUBLE},
+      </if>
+      <if test="config28 != null">
+        #{config28,jdbcType=DOUBLE},
+      </if>
+      <if test="config29 != null">
+        #{config29,jdbcType=DOUBLE},
+      </if>
+      <if test="config30 != null">
+        #{config30,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <select id="queryAllConfig" resultMap="BaseResultMap">
+  SELECT * FROM `lr_configrate`
+  </select>
+  
+  
+  <update id="updateAllConfig" parameterType="com.CloudSchool.domain.LrConfigrate">
+  UPDATE
+  `cloudschool`.`lr_configrate`
+SET
+  `config1` = #{config1},
+  `config2` = #{config2},
+  `config3` = #{config3},
+  `config4` = #{config4},
+  `config5` = #{config5},
+  `config6` = #{config6},
+  `config7` = #{config7},
+  `config8` = #{config8},
+  `config9` = #{config9},
+  `config10` = #{config10},
+  `config11` = #{config11},
+  `config12` = #{config12},
+  `config13` = #{config13},
+  `config14` = #{config14},
+  `config15` = #{config15},
+  `config16` = #{config16},
+  `config17` = #{config17},
+  `config18` = #{config18},
+  `config19` = #{config19},
+  `config20` = #{config20},
+  `config21` = #{config21},
+  `config22` = #{config22},
+  `config23` = #{config23},
+  `config24` = #{config24},
+  `config25` = #{config25},
+  `config26` = #{config26},
+  `config27` = #{config27},
+  `config28` = #{config28},
+  `config29` = #{config29},
+  `config30` = #{config30}
+  
+  </update>
+</mapper>

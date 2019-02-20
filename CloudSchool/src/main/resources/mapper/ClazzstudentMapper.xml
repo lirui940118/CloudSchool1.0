@@ -118,6 +118,11 @@
  		SELECT * FROM `clazzstudent` WHERE cid=#{cid}
  </select>
  
+ <!-- 查询班级中所有正常的学员 -->
+ <select id="queryBystatusAndid" resultMap="result">
+ 		SELECT * FROM `clazzstudent` WHERE cid=#{cid} and status=0
+ </select>
+ 
  
  <!-- 查询班级游离出去的学员的 学员对象 以及班级对象 -->
  <resultMap type="com.CloudSchool.domain.Clazzstudent" id="zc" extends="BaseResultMap">

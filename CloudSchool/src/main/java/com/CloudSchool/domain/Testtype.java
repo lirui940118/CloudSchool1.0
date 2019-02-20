@@ -5,7 +5,7 @@ import java.util.Date;
 public class Testtype {
     private Integer id;
 
-    private Integer name;
+    private String name;
 
     private Integer limits;
 
@@ -31,15 +31,17 @@ public class Testtype {
         this.id = id;
     }
 
-    public Integer getName() {
-        return name;
-    }
+  
 
-    public void setName(Integer name) {
-        this.name = name;
-    }
+    public String getName() {
+		return name;
+	}
 
-    public Integer getLimits() {
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getLimits() {
         return limits;
     }
 

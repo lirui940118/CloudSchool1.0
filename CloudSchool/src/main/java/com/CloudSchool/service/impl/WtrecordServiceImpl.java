@@ -83,7 +83,6 @@ public class WtrecordServiceImpl implements WtrecordService {
 				/*添加非上机题目记录*/
 				if(topicWithBLOBs.getWtrecord().getResult()!=null) {
 					wtrecord.setResult(topicWithBLOBs.getWtrecord().getResult());
-					System.out.println(topicWithBLOBs.getWtrecord().getResult());
 					list.add(wtrecord);	//添加题目记录对象
 					
 				}
@@ -119,9 +118,19 @@ public class WtrecordServiceImpl implements WtrecordService {
 					Workgrade workgrade=new Workgrade();	//学生成绩对象
 					workgrade.setUid( obj.getStu().getSid());	//学生id
 					workgrade.setWid(obj.getId());				//作业id
-					workgrade.setRank(null);					//评分等级 A B C D
 					int score=wtrecordMapper.queryByWidAndSidSumScore(obj.getId(), obj.getStu().getSid());
 					workgrade.setScore(score); 					//得分
+					int worksumscore=workinstanceMapper.querySumScoreById(obj.getWid());
+					//及格
+					if(score>=worksumscore*0.9) {
+						workgrade.setRank("A");					//评分等级 A B C D
+					}else if(score>=worksumscore*0.8 && score<worksumscore*0.9) {
+						workgrade.setRank("B");					//评分等级 A B C D
+					}else if(score>=worksumscore*0.6 && score<worksumscore*0.8) {
+						workgrade.setRank("C");					//评分等级 A B C D
+					}else if(score<worksumscore*0.6) {
+						workgrade.setRank("D");					//评分等级 A B C D
+					}
 					return workgradeMapper.inserStuScore(workgrade);
 				}
 			}
@@ -137,6 +146,19 @@ public class WtrecordServiceImpl implements WtrecordService {
 	@Override
 	public List<BadTopicVO> queryBadKnowledagePointBySid(Integer sId) {
 		return wtrecordMapper.queryBadKnowledagePointBySid(sId);
+	}
+
+	@Override
+	public Wtrecord queryTopicById(Integer id) {
+		// TODO Auto-generated method stub
+		return wtrecordMapper.queryTopicById(id);
+	}
+	
+	//手动批改作业
+	@Override
+	public int updateScoreByWidSidTid(Wtrecord obj) {
+		// TODO Auto-generated method stub
+		return wtrecordMapper.updateScoreByWidSidTid(obj);
 	}
 
 }

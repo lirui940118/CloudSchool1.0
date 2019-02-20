@@ -42,4 +42,10 @@ public class ClassroomServiceImpl implements ClassroomService{
 		return clr.insertSelective(record);
 	}
 
+	@Override
+	public Classroom queryByroomid(Integer id) {
+		// TODO Auto-generated method stub
+		return clr.queryByroomid(id);
+	}
+
 }

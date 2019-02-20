@@ -1,5 +1,7 @@
 package com.CloudSchool.dao;
 
+import java.util.Map;
+
 import com.CloudSchool.domain.Testinfo;
 
 public interface TestinfoMapper {
@@ -14,4 +16,6 @@ public interface TestinfoMapper {
     int updateByPrimaryKeySelective(Testinfo record);
 
     int updateByPrimaryKey(Testinfo record);
+    
+    int insertList(Map<String, Object> map);
 }

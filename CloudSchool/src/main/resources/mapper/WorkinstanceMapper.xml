@@ -212,6 +212,7 @@
 		<result column="name" property="name" />
 		<result column="startTime" property="startTime" />
 		<result column="endTime" property="endTime" />
+		<result column="cid" property="cid" />
 		<result column="cName" property="cName" />
 		<result column="wStatus" property="wStatus" />
 		<result column="wType" property="wType" />
@@ -242,7 +243,7 @@
 	<select id="queryPublishWorkByTid"
 		resultMap="queryPublishWorkByTidMap">
 		SELECT
-		workinstance.`id`,workmould.`name`,workinstance.`startTime`,workinstance.`endTime`,clazz.`cname`,participationworkclass.`wStatus`,workmould.`wType`
+		workinstance.`id`,workmould.`name`,workinstance.`startTime`,workinstance.`endTime`,clazz.`id` as cid,clazz.`cname`,participationworkclass.`wStatus`,workmould.`wType`
 		FROM workinstance
 		INNER JOIN workmould ON
 		workmould.`id`=workinstance.`wid`
@@ -302,4 +303,14 @@
 		LEFT JOIN workgrade ON workgrade.`wId`=workinstance.`id`
 		AND participationworkstu.`sId`=workgrade.`uId`
 	</select>
+	
+	
+	<!--根据作业实例id 查询作业模板总分  -->
+  <select id="querySumScoreById" resultType="int">
+  		SELECT SUM(topic.`user1`) AS sumscore FROM workinstance
+		INNER JOIN workmould ON workinstance.`wid`=workmould.`id`
+		INNER JOIN workinfo ON workinfo.`wId`=workmould.`id`
+		INNER JOIN topic ON topic.`id`=workinfo.`tId`
+		WHERE workinstance.`id`=#{id}
+  </select>
 </mapper>

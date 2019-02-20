@@ -26,4 +26,6 @@ public interface WorkinstanceMapper {
     
     //根据作业id查询参加本次作业的完成情况
     Workinstance queryWorkStuInfo(Integer id);
+    
+    int querySumScoreById(Integer id);
 }

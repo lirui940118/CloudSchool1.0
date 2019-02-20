@@ -37,4 +37,8 @@ public interface WtrecordMapper {
     //write by lirui 查询学员的劣势知识点 (作业和考试)
     public List<BadTopicVO> queryBadKnowledagePointBySid(Integer sId);
     
+    public Wtrecord queryTopicById(Integer id);
+    
+    //老师手动批改作业给分
+    public int updateScoreByWidSidTid(Wtrecord obj);
 }	

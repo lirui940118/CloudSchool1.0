@@ -35,5 +35,7 @@ public interface ClazzstudentMapper {
     //在一个班级中添加一个学员
     public int insertOne(Clazzstudent record);
 	
+    //查询一个班级中所有正常的学员
+    public List<Clazzstudent> queryBystatusAndid(Integer cid);
    
 }

@@ -17,6 +17,16 @@
     <result column="user4" jdbcType="VARCHAR" property="user4" />
     <result column="user5" jdbcType="VARCHAR" property="user5" />
   </resultMap>
+  
+  <resultMap id="BaseResultMap2" type="com.CloudSchool.domain.ZzyEventType">
+    <result column="etid" jdbcType="INTEGER" property="etid" />
+    <result column="event_name" jdbcType="VARCHAR" property="event_name" />
+    <result column="returned_value" jdbcType="INTEGER" property="returned_value" />
+    <result column="creat_time" jdbcType="DATE" property="creat_time" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+
+  </resultMap>
+  
   <insert id="insert" parameterType="com.CloudSchool.domain.ZzyRealtimeClassroom">
     insert into zzy_realtime_classroom (rcid, tid, sid, 
       etid, creat_time, modificationtime, 
@@ -120,4 +130,73 @@
       </if>
     </trim>
   </insert>
+  
+
+  
+  
+  
+  <!-- 学员课堂表现，统计用 write by lirui -->
+  <select id="queryRealtimeBysIdAndgId" resultType="int">
+	  SELECT 
+		(
+			(
+			SELECT COUNT(zzy_event_type.`returned_value`) FROM `zzy_realtime_classroom`
+			INNER JOIN zzy_event_type  ON `zzy_event_type`.`etid` = zzy_realtime_classroom.`etid`
+			INNER JOIN clazz ON zzy_realtime_classroom.`user1` = `clazz`.`id`#班级
+			WHERE zzy_realtime_classroom.sid = #{sId} #学员id
+			<if test="gId!=null">
+			AND  clazz.`gid` = #{gId}  #年级
+			</if>
+			AND zzy_event_type.`returned_value` = 1 #表扬
+			) -
+			(
+			SELECT COUNT(zzy_event_type.`returned_value`) FROM `zzy_realtime_classroom`
+			INNER JOIN zzy_event_type  ON `zzy_event_type`.`etid` = zzy_realtime_classroom.`etid`
+			INNER JOIN clazz ON zzy_realtime_classroom.`user1` = `clazz`.`id`#班级
+			WHERE zzy_realtime_classroom.sid = #{sId}#学员id
+			<if test="gId!=null">
+			AND  clazz.`gid` = #{gId}  #年级
+			</if>
+			AND zzy_event_type.`returned_value` = 0 #批评
+			)
+		)
+		/
+		(
+		#上课次数
+		SELECT COUNT(*) FROM`zzy_class_schedule`
+		INNER JOIN clazz ON clazz.`id` = zzy_class_schedule.`clid`
+		INNER JOIN `clazzstudent` ON clazzstudent.`cid` = clazz.`id`
+		WHERE clazzstudent.`sid` = #{sId} #学员id
+		<if test="gId!=null">
+			AND  clazz.`gid` = #{gId}  #年级
+		</if>
+		AND zzy_class_schedule.`time` &lt;=  CURDATE()
+		)
+		* 100
+	AS rate
+  </select>
+  
+  <!-- 根据教师id查询教师自定义的按钮 -->
+  <select id="queryByuid" resultMap="BaseResultMap2">
+  		SELECT * FROM `zzy_event_type` WHERE uid=#{uid}
+  </select>
+  
+ <!-- 根据老师id 学生id 班级id  查询这个老师点 这个学生提了多少了问题回答出来了多少次 -->
+ <select id="queryByHuida" resultType="INTEGER">
+ 		SELECT COUNT(*) FROM `zzy_realtime_classroom` WHERE tid =#{tid} AND sid=#{sid} AND etid IN(3,4) AND user1=#{cid}
+ </select>
+ <select id="queryByHuidaTure" resultType="INTEGER">
+  		SELECT COUNT(*) FROM `zzy_realtime_classroom` WHERE tid =#{tid} AND sid=#{sid} AND etid =3 AND user1=#{cid}
+ </select>
+ 
+ <!-- 教员添加自定义按钮 -->
+ <insert id="insertZidingyi" >
+ 	INSERT INTO `cloudSchool`.`zzy_event_type` (`event_name`,`returned_value`,`uid`)
+	VALUE(#{event_name},#{returned_value},#{uid})
+ </insert>
+ 
+ <!-- 新增一条实时课堂记录 -->
+ <insert id="insertTSEid">
+ 	INSERT INTO `cloudSchool`.`zzy_realtime_classroom` (`tid`,`sid`,`etid`,`user1`)VALUES(#{tid},#{sid},#{etid},#{user1});
+ </insert>
 </mapper>

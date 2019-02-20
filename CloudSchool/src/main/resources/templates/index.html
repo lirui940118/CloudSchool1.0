@@ -30,7 +30,7 @@ iframe{padding-left:260px;}
 	<div class="wrapper">
 		<div class="main-header">
 			<div class="logo-header">
-				<a href="goHome" class="logo"> 智慧校园 </a>
+				<a href="" class="logo"> 智慧校园 </a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button"
 					data-toggle="collapse" data-target="collapse"
 					aria-controls="sidebar" aria-expanded="false"
@@ -51,17 +51,17 @@ iframe{padding-left:260px;}
 						</ul>
 					</div>
 					<!--查看更多-->
-					<ul id="moreBtnSec" class="nav nav-pills nav-primary">
+				<!-- 	<ul id="moreBtnSec" class="nav nav-pills nav-primary">
 						<li class="nav-item" id="leftBtn"><a class="nav-link"> <i
 								class="la la-caret-left"></i>
 						</a></li>
 						<li class="nav-item" id="rightBtn"><a class="nav-link"> <i
 								class="la la-caret-right"></i>
 						</a></li>
-					</ul>
+					</ul> -->
 					<!--选项卡-->
 					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-						<li class="nav-item dropdown hidden-caret"><a
+						 <!-- <li class="nav-item dropdown hidden-caret"><a
 							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 							role="button" data-toggle="dropdown" aria-haspopup="true"
 							aria-expanded="false"> <i class="la la-envelope"></i>
@@ -71,7 +71,7 @@ iframe{padding-left:260px;}
 									class="dropdown-item" href="#">Another action</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="#">Something else here</a>
-							</div></li>
+							</div></li> -->
 						<li class="nav-item dropdown hidden-caret"><a
 							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 							role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -124,12 +124,15 @@ iframe{padding-left:260px;}
 											all notifications</strong> <i class="la la-angle-right"></i>
 								</a></li>
 							</ul></li>
-						<li class="nav-item dropdown"><a
+						<li class="nav-item dropdown"><!-- <a
 							class="dropdown-toggle profile-pic" data-toggle="dropdown"
 							href="#" aria-expanded="false"> <img src="img/profile.jpg"
 								alt="user-img" width="36" class="img-circle"><span>Hizrian</span></span>
-						</a>
-							<ul class="dropdown-menu dropdown-user">
+								
+						</a> -->
+						<a class="dropdown-item" name="exit" href="#"><i class="fa fa-power-off"></i>
+									退出登录</a>
+						<!-- 	<ul class="dropdown-menu dropdown-user">
 								<li>
 									<div class="user-box">
 										<div class="u-img">
@@ -143,7 +146,7 @@ iframe{padding-left:260px;}
 										</div>
 									</div>
 								</li>
-							<!-- 	<div class="dropdown-divider"></div>
+								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="#"><i class="ti-user"></i> My
 									Profile</a>
 								<a class="dropdown-item" href="#"></i> My Balance</a>
@@ -152,10 +155,10 @@ iframe{padding-left:260px;}
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="#"><i class="ti-settings"></i>
 									Account Setting</a>
-								<div class="dropdown-divider"></div> -->
+								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="#"><i class="fa fa-power-off"></i>
 									退出登录</a>
-							</ul> <!-- /.dropdown-user --></li>
+							</ul>  --><!-- /.dropdown-user --></li>
 					</ul>
 				</div>
 			</nav>
@@ -203,7 +206,7 @@ iframe{padding-left:260px;}
 		</div>
 		<!--页面-->
 		<div id="iframeSec">
-			<iframe src="/user/goHome" width="100%" border="0" frameborder="0"></iframe>
+			<iframe v-bind:src="userinfo.homeUrl" width="100%" border="0" frameborder="0"></iframe>
 		</div>
 		<!--页面-->
 	</div>
@@ -256,7 +259,12 @@ iframe{padding-left:260px;}
 				v.userinfo=data;
 				console.log(data);
 			}
-		}) 
+		});
+		
+		$('[name="exit"]').click(function(){
+			window.location.href="/user/exit";
+		});
+		
 	})
 	
 	
@@ -265,6 +273,7 @@ iframe{padding-left:260px;}
 		
 		
 	})
+	
 	
 	
 	//左侧导航

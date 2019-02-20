@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>事例</title>
+		<title>发布模板</title>
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 		<link rel="stylesheet" href="../static/css/bootstrap.min.css">
 		<link rel="stylesheet" href="../static/css/ready.css">
@@ -90,30 +90,30 @@
 								<div class="form-group courseselect">
 									<label class="card-category">考题类别</label>
 									<label class="form-radio-label">
-										<input class="form-radio-input" type="radio" name="optionsRadios" value="" >
+										<input class="form-radio-input" type="radio" name="topicClass" value="" >
 										<span class="form-radio-sign">理解</span>
 									</label>
 									<label class="form-radio-label">
-										<input class="form-radio-input" type="radio" name="optionsRadios" value="" >
+										<input class="form-radio-input" type="radio" name="topicClass" value="" >
 										<span class="form-radio-sign">应用</span>
 									</label>
 									<label class="form-radio-label">
-										<input class="form-radio-input" type="radio" name="optionsRadios" value="">
+										<input class="form-radio-input" type="radio" name="topicClass" value="">
 										<span class="form-radio-sign">识记</span>
 									</label>
 								</div>
 								<div class="form-group courseselect">
 									<label class="card-category">题目级别</label>
 									<label class="form-radio-label">
-										<input class="form-radio-input" type="radio" name="optionsRadios" value="" >
+										<input class="form-radio-input" type="radio" name="topicLevel" value="" >
 										<span class="form-radio-sign">易</span>
 									</label>
 									<label class="form-radio-label">
-										<input class="form-radio-input" type="radio" name="optionsRadios" value="" >
+										<input class="form-radio-input" type="radio" name="topicLevel" value="" >
 										<span class="form-radio-sign">中</span>
 									</label>
 									<label class="form-radio-label">
-										<input class="form-radio-input" type="radio" name="optionsRadios" value="" >
+										<input class="form-radio-input" type="radio" name="topicLevel" value="" >
 										<span class="form-radio-sign">难</span>
 									</label>
 								</div>
@@ -142,7 +142,7 @@
 											</label>
 											</td>
 											<td colspan="4">
-												<p class="text-muted">{{obj.topicconten}}</p>
+												<p class="text-muted"><span v-if="obj.tid==1">（选择题）</span><span v-if="obj.tid==2">（简答题）</span><span v-if="obj.tid==3">（上机题）</span>{{obj.topicconten}}</p>
 												</span>
 											</td>
 										</tr>
@@ -221,20 +221,6 @@
 </html>
 <script src="../static/js/core/jquery.min.js"></script>
 <script src="../static/js/core/vue.js"></script>
-<!--<script src="js/core/jquery.3.2.1.min.js"></script>
-<script src="js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<script src="js/core/popper.min.js"></script>
-<script src="js/core/bootstrap.min.js"></script>
-<script src="js/plugin/chartist/chartist.min.js"></script>
-<script src="js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
-<script src="js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-<script src="js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-<script src="js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
-<script src="js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
-<script src="js/plugin/chart-circle/circles.min.js"></script>
-<script src="js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-<script src="js/ready.min.js"></script>
-<script src="js/demo.js"></script>-->
 <script>
 	var ids=[]		//选中的题目id
 	//题目类型
@@ -284,6 +270,7 @@
 			url:"http://127.0.0.1:8080/topicWarehouseController/conditionsQueryTopci",
 			data:{cur:cur},
 			success:function(data){
+				console.log(JSON.stringify(data))
 				$("#previousPage").attr("data-pre",data.prePage)
 				$("#nextPage").attr("data-next",data.nextPage)
 				topiclist.obj=data

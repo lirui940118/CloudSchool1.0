@@ -1,192 +1,368 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.CloudSchool.dao.ParticipationworkstuMapper">
-  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.Participationworkstu">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="wId" jdbcType="INTEGER" property="wid" />
-    <result column="sId" jdbcType="INTEGER" property="sid" />
-    <result column="isTrue" jdbcType="INTEGER" property="istrue" />
-    <result column="isCorrect" jdbcType="INTEGER" property="iscorrect" />
-    <result column="time" jdbcType="TIMESTAMP" property="time" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="user1" jdbcType="VARCHAR" property="user1" />
-    <result column="user2" jdbcType="VARCHAR" property="user2" />
-    <result column="user3" jdbcType="VARCHAR" property="user3" />
-    <result column="user4" jdbcType="VARCHAR" property="user4" />
-    <result column="user5" jdbcType="VARCHAR" property="user5" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, wId, sId, isTrue, isCorrect, time, status, user1, user2, user3, user4, user5
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from participationWorkStu
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from participationWorkStu
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.CloudSchool.domain.Participationworkstu">
-    insert into participationWorkStu (id, wId, sId, 
-      isTrue, isCorrect, time, 
-      status, user1, user2, 
-      user3, user4, user5
-      )
-    values (#{id,jdbcType=INTEGER}, #{wid,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, 
-      #{istrue,jdbcType=INTEGER}, #{iscorrect,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER}, #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, 
-      #{user3,jdbcType=VARCHAR}, #{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.CloudSchool.domain.Participationworkstu">
-    insert into participationWorkStu
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="wid != null">
-        wId,
-      </if>
-      <if test="sid != null">
-        sId,
-      </if>
-      <if test="istrue != null">
-        isTrue,
-      </if>
-      <if test="iscorrect != null">
-        isCorrect,
-      </if>
-      <if test="time != null">
-        time,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="user1 != null">
-        user1,
-      </if>
-      <if test="user2 != null">
-        user2,
-      </if>
-      <if test="user3 != null">
-        user3,
-      </if>
-      <if test="user4 != null">
-        user4,
-      </if>
-      <if test="user5 != null">
-        user5,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="wid != null">
-        #{wid,jdbcType=INTEGER},
-      </if>
-      <if test="sid != null">
-        #{sid,jdbcType=INTEGER},
-      </if>
-      <if test="istrue != null">
-        #{istrue,jdbcType=INTEGER},
-      </if>
-      <if test="iscorrect != null">
-        #{iscorrect,jdbcType=INTEGER},
-      </if>
-      <if test="time != null">
-        #{time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="user1 != null">
-        #{user1,jdbcType=VARCHAR},
-      </if>
-      <if test="user2 != null">
-        #{user2,jdbcType=VARCHAR},
-      </if>
-      <if test="user3 != null">
-        #{user3,jdbcType=VARCHAR},
-      </if>
-      <if test="user4 != null">
-        #{user4,jdbcType=VARCHAR},
-      </if>
-      <if test="user5 != null">
-        #{user5,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.Participationworkstu">
-    update participationWorkStu
-    <set>
-      <if test="wid != null">
-        wId = #{wid,jdbcType=INTEGER},
-      </if>
-      <if test="sid != null">
-        sId = #{sid,jdbcType=INTEGER},
-      </if>
-      <if test="istrue != null">
-        isTrue = #{istrue,jdbcType=INTEGER},
-      </if>
-      <if test="iscorrect != null">
-        isCorrect = #{iscorrect,jdbcType=INTEGER},
-      </if>
-      <if test="time != null">
-        time = #{time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="user1 != null">
-        user1 = #{user1,jdbcType=VARCHAR},
-      </if>
-      <if test="user2 != null">
-        user2 = #{user2,jdbcType=VARCHAR},
-      </if>
-      <if test="user3 != null">
-        user3 = #{user3,jdbcType=VARCHAR},
-      </if>
-      <if test="user4 != null">
-        user4 = #{user4,jdbcType=VARCHAR},
-      </if>
-      <if test="user5 != null">
-        user5 = #{user5,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.Participationworkstu">
-    update participationWorkStu
-    set wId = #{wid,jdbcType=INTEGER},
-      sId = #{sid,jdbcType=INTEGER},
-      isTrue = #{istrue,jdbcType=INTEGER},
-      isCorrect = #{iscorrect,jdbcType=INTEGER},
-      time = #{time,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
-      user1 = #{user1,jdbcType=VARCHAR},
-      user2 = #{user2,jdbcType=VARCHAR},
-      user3 = #{user3,jdbcType=VARCHAR},
-      user4 = #{user4,jdbcType=VARCHAR},
-      user5 = #{user5,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  
-  <!--参加这次考试的学生  -->
-  <insert id="insertList">
-  	insert into participationWorkStu(id, wId, sId,isCorrect,user1,time) values
-  	<foreach collection="list" separator="," item="obj">
-  		(0,#{wid},#{obj},0,#{user1},now())
-  	</foreach>
-  </insert>
- <!--  根据作业id修改状态 -->
-  <update id="updateIscorrectByid">
-  	UPDATE `participationworkstu` SET `isCorrect` = #{isCorrect}
-  	<if test="isCorrect==3">
-  		,user2=now()
-  	</if>
-  	 WHERE `wid` = #{id} and sid=#{sid};
-  </update>
+<mapper
+	namespace="com.CloudSchool.dao.ParticipationworkstuMapper">
+	<resultMap id="BaseResultMap"
+		type="com.CloudSchool.domain.Participationworkstu">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="wId" jdbcType="INTEGER" property="wid" />
+		<result column="sId" jdbcType="INTEGER" property="sid" />
+		<result column="isTrue" jdbcType="INTEGER" property="istrue" />
+		<result column="isCorrect" jdbcType="INTEGER"
+			property="iscorrect" />
+		<result column="time" jdbcType="TIMESTAMP" property="time" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="user1" jdbcType="VARCHAR" property="user1" />
+		<result column="user2" jdbcType="VARCHAR" property="user2" />
+		<result column="user3" jdbcType="VARCHAR" property="user3" />
+		<result column="user4" jdbcType="VARCHAR" property="user4" />
+		<result column="user5" jdbcType="VARCHAR" property="user5" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, wId, sId, isTrue, isCorrect, time, status, user1,
+		user2, user3,
+		user4, user5
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from participationWorkStu
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from participationWorkStu
+		where id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.CloudSchool.domain.Participationworkstu">
+		insert into participationWorkStu (id, wId, sId,
+		isTrue,
+		isCorrect, time,
+		status, user1, user2,
+		user3, user4, user5
+		)
+		values
+		(#{id,jdbcType=INTEGER}, #{wid,jdbcType=INTEGER},
+		#{sid,jdbcType=INTEGER},
+		#{istrue,jdbcType=INTEGER},
+		#{iscorrect,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER}, #{user1,jdbcType=VARCHAR},
+		#{user2,jdbcType=VARCHAR},
+		#{user3,jdbcType=VARCHAR},
+		#{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.CloudSchool.domain.Participationworkstu">
+		insert into participationWorkStu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="wid != null">
+				wId,
+			</if>
+			<if test="sid != null">
+				sId,
+			</if>
+			<if test="istrue != null">
+				isTrue,
+			</if>
+			<if test="iscorrect != null">
+				isCorrect,
+			</if>
+			<if test="time != null">
+				time,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="user1 != null">
+				user1,
+			</if>
+			<if test="user2 != null">
+				user2,
+			</if>
+			<if test="user3 != null">
+				user3,
+			</if>
+			<if test="user4 != null">
+				user4,
+			</if>
+			<if test="user5 != null">
+				user5,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="wid != null">
+				#{wid,jdbcType=INTEGER},
+			</if>
+			<if test="sid != null">
+				#{sid,jdbcType=INTEGER},
+			</if>
+			<if test="istrue != null">
+				#{istrue,jdbcType=INTEGER},
+			</if>
+			<if test="iscorrect != null">
+				#{iscorrect,jdbcType=INTEGER},
+			</if>
+			<if test="time != null">
+				#{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="user1 != null">
+				#{user1,jdbcType=VARCHAR},
+			</if>
+			<if test="user2 != null">
+				#{user2,jdbcType=VARCHAR},
+			</if>
+			<if test="user3 != null">
+				#{user3,jdbcType=VARCHAR},
+			</if>
+			<if test="user4 != null">
+				#{user4,jdbcType=VARCHAR},
+			</if>
+			<if test="user5 != null">
+				#{user5,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.CloudSchool.domain.Participationworkstu">
+		update participationWorkStu
+		<set>
+			<if test="wid != null">
+				wId = #{wid,jdbcType=INTEGER},
+			</if>
+			<if test="sid != null">
+				sId = #{sid,jdbcType=INTEGER},
+			</if>
+			<if test="istrue != null">
+				isTrue = #{istrue,jdbcType=INTEGER},
+			</if>
+			<if test="iscorrect != null">
+				isCorrect = #{iscorrect,jdbcType=INTEGER},
+			</if>
+			<if test="time != null">
+				time = #{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="user1 != null">
+				user1 = #{user1,jdbcType=VARCHAR},
+			</if>
+			<if test="user2 != null">
+				user2 = #{user2,jdbcType=VARCHAR},
+			</if>
+			<if test="user3 != null">
+				user3 = #{user3,jdbcType=VARCHAR},
+			</if>
+			<if test="user4 != null">
+				user4 = #{user4,jdbcType=VARCHAR},
+			</if>
+			<if test="user5 != null">
+				user5 = #{user5,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.CloudSchool.domain.Participationworkstu">
+		update participationWorkStu
+		set wId =
+		#{wid,jdbcType=INTEGER},
+		sId = #{sid,jdbcType=INTEGER},
+		isTrue =
+		#{istrue,jdbcType=INTEGER},
+		isCorrect = #{iscorrect,jdbcType=INTEGER},
+		time = #{time,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		user1 = #{user1,jdbcType=VARCHAR},
+		user2 = #{user2,jdbcType=VARCHAR},
+		user3 = #{user3,jdbcType=VARCHAR},
+		user4 = #{user4,jdbcType=VARCHAR},
+		user5 = #{user5,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!--参加这次考试的学生 -->
+	<insert id="insertList">
+		insert into participationWorkStu(id, wId, sId,isCorrect,user1,time)
+		values
+		<foreach collection="list" separator="," item="obj">
+			(0,#{wid},#{obj},0,#{user1},now())
+		</foreach>
+	</insert>
+	<!-- 根据作业id修改状态 -->
+	<update id="updateIscorrectByid">
+		UPDATE `participationworkstu` SET `isCorrect` =
+		#{isCorrect},user2=now()
+		WHERE `wid` = #{id} and sid=#{sid};
+	</update>
+
+	<!-- 根据班级id和作业id查询本次作业详细信息 -->
+	<select
+		resultType="com.CloudSchool.domain.zjfvo.WorkinstanceInfo"
+		id="queryByCidAndWidShowInfo">
+		SELECT
+		workinstance.`id`,cqj_student.`studentname`,participationworkstu.`id`
+		AS
+		pstuid,participationworkstu.`time`,participationworkstu.`sId`,participationworkstu.`user2`
+		AS
+		commitTime,
+		participationworkstu.`isCorrect`,participationworkstu.user1,workgrade.`id` AS
+		workid,workgrade.`score`,workgrade.`rank`
+		FROM workinstance
+		INNER JOIN
+		participationworkstu ON workinstance.`id`=participationworkstu.`wId`
+		INNER JOIN cqj_student ON
+		cqj_student.`studentid`=participationworkstu.`sId`
+		INNER JOIN
+		participationworkclass ON
+		participationworkclass.`id`=participationworkstu.`user1`
+		inner join
+		workmould on workmould.`id`=workinstance.`wid`
+		AND
+		workinstance.`id`=#{wid} AND participationworkclass.`cId`=#{cid} AND
+		workinstance.`status`=0
+		LEFT JOIN workgrade ON
+		workgrade.`wId`=workinstance.`id` AND
+		cqj_student.`studentid`=workgrade.`uId`
+	</select>
+
+	<resultMap type="com.CloudSchool.domain.zjfvo.StuWorkInfo"
+		id="StuWorkInfoMap">
+		<id column="id" property="id" />
+		<result column="score" property="score" />
+		<result column="tcount" property="tcount" />
+		<result column="ismodification" property="ismodification"/>
+		<association property="clazzobj"
+			javaType="com.CloudSchool.domain.Clazz">
+			<id column="clazzid" property="id" />
+			<result column="cname" property="cname" />
+		</association>
+		<association property="cqjstudentobj"
+			javaType="com.CloudSchool.domain.CqjStudent">
+			<id column="studentid" property="studentid" />
+			<result column="studentname" property="studentname" />
+			<result column="studentnub" property="studentnub" />
+		</association>
+		<collection property="list"
+			ofType="com.CloudSchool.domain.TopicWithBLOBs">
+			<id column="topicid" property="id" />
+			<result column="topicConten" property="topicconten" />
+			<result column="analysis" property="analysis" />
+			<result column="tid" property="tid"/>
+			<result column="topicscore" property="user1"/>
+			<association property="workinfoobj" javaType="com.CloudSchool.domain.Workinfo">
+				<id column="workinfoid" property="id"/>
+				<result column="user1" property="user1"/>
+			</association>
+			<association property="wtrecord"
+				javaType="com.CloudSchool.domain.Wtrecord">
+				<id column="wtrecordid" property="id" />
+				<result column="wtrecorduser1" property="user1" />
+				<result column="result" property="result" />
+				<result column="wtrecordscore" property="score" />
+			</association>
+		</collection>
+	</resultMap>
+	<!--查询学生的作业详情 参数:作业id,学生id -->
+	<select resultMap="StuWorkInfoMap" id="queryStuWorkInfo">
+		SELECT
+		workinstance.`id`,topic.`id` AS
+		topicid,topic.`topicConten`,topic.`analysis`,topic.`tId`,topic.user1 as topicscore,wtrecord.`id` AS
+		wtrecordid,wtrecord.`result`,cqj_student.`studentid`,cqj_student.`studentname`,cqj_student.`studentnub`,
+		clazz.`id` AS clazzid,clazz.`cname`,workinfo.`id` AS
+		workinfoid,workinfo.`user1`,wtrecord.`id` AS
+		wtrecordid,wtrecord.`user1` AS wtrecorduser1,wtrecord.`score` AS wtrecordscore,temp.score,
+		(
+		SELECT
+		COUNT(*) FROM workinfo WHERE workinfo.`wId`=workmould.`id`
+		) AS tcount,
+		(SELECT COUNT(*) AS
+		score FROM wtrecord WHERE
+		wtrecord.`wId`=workinstance.`id` AND
+		wtrecord.`sId`=participationworkstu.`sId` AND wtrecord.`score` IS NOT
+		NULL) AS ismodification
+		FROM participationworkstu
+		INNER JOIN cqj_student
+		ON
+		participationworkstu.`sId`=cqj_student.`studentid` AND
+		participationworkstu.`sId`=#{sid} AND
+		participationworkstu.`wId`=#{wid}
+		INNER JOIN participationworkclass ON
+		participationworkstu.`user1`=participationworkclass.`id`
+		INNER JOIN
+		clazz ON clazz.`id`=participationworkclass.`cId`
+		INNER JOIN
+		workinstance ON workinstance.`id`=participationworkstu.`wId`
+		INNER JOIN
+		workmould ON workinstance.`wid`=workmould.`id`
+		INNER JOIN workinfo ON
+		workinfo.`wId`=workmould.`id`
+		INNER JOIN topic ON
+		workinfo.`tId`=topic.`id`
+		AND topic.`tid`!=1
+		INNER JOIN (
+		SELECT SUM(wtrecord.score) AS
+		score FROM wtrecord WHERE wtrecord.`wId`=#{wid} AND
+		wtrecord.`sId`=#{sid}
+		)
+		AS temp
+		inner JOIN wtrecord ON
+		topic.`id`=wtrecord.`tId` AND
+		participationworkstu.`sId`=wtrecord.`sId` AND
+		workinstance.`id`=wtrecord.`wId`
+		ORDER BY workinfo.`user1`
+		limit
+		#{cur},#{pagesize}
+	</select>
+
+	<select id="queryStuWorkInfoCount" resultType="int">
+		SELECT COUNT(*)
+		FROM participationworkstu
+		INNER JOIN cqj_student ON
+		participationworkstu.`sId`=cqj_student.`studentid` AND
+		participationworkstu.`sId`=#{sid} AND
+		participationworkstu.`wId`=#{wid}
+		INNER JOIN participationworkclass ON
+		participationworkstu.`user1`=participationworkclass.`id`
+		INNER JOIN
+		clazz ON clazz.`id`=participationworkclass.`cId`
+		INNER JOIN
+		workinstance ON workinstance.`id`=participationworkstu.`wId`
+		INNER JOIN
+		workmould ON workinstance.`wid`=workmould.`id`
+		INNER JOIN workinfo ON
+		workinfo.`wId`=workmould.`id`
+		INNER JOIN topic ON
+		workinfo.`tId`=topic.`id`
+		AND topic.`tid`!=1
+		INNER JOIN (
+		SELECT SUM(wtrecord.score) AS
+		score FROM wtrecord WHERE wtrecord.`wId`=6 AND
+		wtrecord.`sId`=#{sid}
+		)
+		AS temp
+		inner JOIN wtrecord ON topic.`id`=wtrecord.`tId` AND
+		participationworkstu.`sId`=wtrecord.`sId` AND
+		workinstance.`id`=wtrecord.`wId`
+		ORDER BY workinfo.`user1`
+	</select>
+	
+	<!--查询参与本次作业的学生作业是否全部批改完  -->
+	<select id="queryNotCorrectCountByUser1" resultType="int">
+		SELECT COUNT(*) FROM participationworkstu WHERE user1=#{user1} AND isCorrect!=#{iscorrect}
+	</select>
+	
 </mapper>

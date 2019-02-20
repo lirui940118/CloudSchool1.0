@@ -11,4 +11,5 @@ public interface ClassroomService {
 	public Classroom selectByid(Integer id);
 	public int update(Classroom cls);
 	int insertSelective(Classroom record);
+	 public Classroom queryByroomid(Integer id);
 }

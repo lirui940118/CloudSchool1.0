@@ -198,4 +198,17 @@
 		WHERE clazzcourseteacher.`tid` = #{staffId}
 		ORDER BY clazzcourseteacher.starttime DESC 
 	</select>
+	<!-- 查询所有正常状态的班级-->
+	<select id="queryAll" resultMap="BaseResultMap">
+		select * from `clazz` where status=2
+	</select>
+	
+
+	<!-- 改变班级的状态(升班陈桥君) -->
+	<update id="updateStatusByCid">
+    update clazz
+    set 
+      `status` = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

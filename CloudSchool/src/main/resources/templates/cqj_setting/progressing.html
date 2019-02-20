@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>角色设置</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+<link rel="stylesheet" th:href="@{/static/css/load.css}">
+<style type="text/css">
+.card {
+	margin-bottom: 10px;
+}
+
+#hezi {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: #f2f3f8;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+}
+
+.zxc {
+	top: 80px;
+}
+</style>
+</head>
+
+<body>
+	<div class="main-panel">
+		
+		<div class="content">
+			<div class="container-fluid">
+				<h4 class="page-title">升班管理</h4>
+
+				<div class="row">
+				<div class="col-md-12">
+						<div class="card">
+							<div class="card-body">
+								<p class="demo">
+									<button name="progressing" class="btn btn-success">一键升班</button>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-body">
+								<table class="table table-bordered table-head-bg-info table-bordered-bd-info mt-12">
+
+									<thead>
+										<tr>
+											<th scope="col">名称</th>
+											<th scope="col">倾向</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(s,index) in students">
+											<td>{{s.studentname}}</td>
+											<td>{{s.standby1}}</td>
+											<td v-bind:bgcolor="st.testScore/st.testSumScore>0.6?'':'ff646d'"   v-for="(st,indexs) in s.stList">
+											<font v-bind:color="st.testScore/st.testSumScore>0.6?'':'#fff'">{{st.testname}}-{{st.testScore/st.testSumScore>0.6?'及格':'不及格'}}-{{st.testScore}}</font>
+											</td>
+											<td>
+													<label  class="form-check-label">
+									                <input v-if = "s.standby2>0"  class="form-check-input" type="checkbox" v-bind:value="index"> 
+									                <input  v-else class="form-check-input" checked type="checkbox" v-bind:value="index" > 	
+									                	<span class="form-check-sign" >升班</span>
+													</label>
+											</td>
+											<td>
+												<font v-if="s.standby2==0">成绩全合格自动升班</font>
+												<font v-if="s.standby2==1">成绩出现不合格,参与测试次数不够</font>
+												<font v-if="s.standby2==2">成绩出现不合格</font>
+												<font v-if="s.standby2==3">参与测试次数不够</font>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	</div>
+	
+
+</body>
+<script th:src="@{/static/js/core/jquery.min.js}"></script>
+<script th:src="@{/static/js/core/vue.js}" type="text/javascript"
+	charset="utf-8"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+<script th:src="@{/static/js/core/popper.min.js}"></script>
+<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+<script th:src="@{/static/js/ready.min.js}"></script>
+<script th:src="@{/static/js/cqj_infoBut.js}"></script>
+<script th:src="@{/static/js/axios.min.js}" type="text/javascript"
+	charset="utf-8"></script>
+<script th:src="@{/static/js/lodash.min.js}" type="text/javascript"
+	charset="utf-8"></script>
+<script type="text/javascript">
+	var v=new Vue({
+		el : ".content",
+		data : {
+			students : {},
+			count:0
+		}
+	})
+	var progressInfo={};
+	$(function(){
+		GetInfo();
+		$.ajax({
+			url : "/student/queryStudetnTest",
+			data : null,
+			type : "post",
+			dataType : "json",
+			success : function(data) {
+				v.students=data;
+				console.log(data);
+			}
+		})
+		$('[name="progressing"]').click(function(){
+			var arry=[];
+			 $.each($('input:checkbox:checked'),function(index,element){
+				 var json={};
+				 json.studentid=v.students[$(this).val()].studentid;
+				 console.log($(this).val());
+				 if(v.students[$(this).val()].standby3==0){
+					 json.isnormal=1;
+				 }else{
+					 json.isnormal=0;
+				 }
+				 json.user1=v.students[$(this).val()].standby4;
+				 json.tagetgId=progressInfo.ngid;
+				 json.currentgId=progressInfo.gid;
+				 arry.push(json);
+	         });
+		        console.log(arry);
+			 /*  $.ajax({
+					url : "/student/addStudentUpGrade?cid=1",
+					data :JSON.stringify(arry),
+					type : "post",
+					contentType: "application/json",
+					success : function(data) {
+						
+					}
+				})  */
+			
+		});
+	})
+	function GetRequest() { 
+		var url = location.search; //获取url中"?"符后的字串 
+		var theRequest = new Object(); 
+		if (url.indexOf("?") != -1) { 
+		var str = url.substr(1); 
+		strs = str.split("&"); 
+		for(var i = 0; i < strs.length; i ++) { 
+		theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+		} 
+		} 
+		return theRequest; 
+	} 
+	function GetInfo(){
+		$.ajax({
+			url : "/student/getProgressInfo",
+			success : function(data) {
+				progressInfo=data;
+			}
+		})
+	}
+</script>
+
+</html>

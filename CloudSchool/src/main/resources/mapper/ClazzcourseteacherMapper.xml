@@ -179,4 +179,9 @@
 	LIMIT 0,1# 最正常
   </select>
   
+  <!-- 根据班级id以及课程id查询这个班级的这个课程是谁教的 -->
+  <select id="queryClidAndCid" resultType="INTEGER">
+  		SELECT tid FROM `clazzcourseteacher` WHERE clazzid=#{clid} AND courseid=#{cid}
+  </select>
+
 </mapper>
