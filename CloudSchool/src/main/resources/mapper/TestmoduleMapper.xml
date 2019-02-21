@@ -204,4 +204,14 @@
 		) and status=0
 		GROUP BY tid
 	</select>
+	<select id="queryTestModule" resultMap="BaseResultMap">
+		select * from testmodule
+		where testmodule.`status`=0 and uid=#{uid}
+		order by `time` desc
+		limit #{cur},#{pagesize}
+	</select>
+	<select id="queryTestModuleCount" resultType="int">
+		select count(*) from testmodule
+		where testmodule.`status`=0 and uid=#{uid}
+	</select>
 </mapper>

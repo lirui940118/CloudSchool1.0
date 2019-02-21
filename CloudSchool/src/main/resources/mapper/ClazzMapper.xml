@@ -211,4 +211,100 @@
       `status` = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <resultMap type="com.CloudSchool.domain.Clazz"
+		id="queryAllClazzMap">
+		<id column="id" property="id" />
+		<result column="cname" property="cname" />
+		<association property="zzygradeobj"
+			javaType="com.CloudSchool.domain.ZzyGrade">
+			<id column="gid" property="gid" />
+			<result column="grade_name" property="gradeName" />
+		</association>
+	</resultMap>
+	<!-- 查询所有班级 -->
+	<select id="queryAllClazz" resultMap="queryAllClazzMap">
+		SELECT
+		clazz.`id`,clazz.`cname`,zzy_grade.`gid`,zzy_grade.`grade_name`
+		FROM
+		clazz
+		INNER JOIN zzy_grade ON clazz.`gid`=zzy_grade.`gid`
+		<if test="cid!=null">
+			and zzy_grade.`gid`=#{cid}
+		</if>
+		limit
+		#{cur},#{pagesize}
+	</select>
+	<!-- 查询所有班级数量 -->
+	<select id="queryAllClazzCount" resultType="int">
+		SELECT
+		count(*) FROM
+		clazz
+		INNER JOIN zzy_grade ON
+		clazz.`gid`=zzy_grade.`gid`
+		<if test="cid!=null">
+			and zzy_grade.`gid`=#{cid}
+		</if>
+	</select>
+
+	<!-- 查询老师所管理的班级数量 -->
+	<select id="queryByTidAdminClazzCount" resultType="int">
+		SELECT
+		count(*) FROM
+		clazzcourseteacher
+		INNER JOIN clazz ON
+		clazzcourseteacher.`clazzid`=clazz.`id`
+		INNER JOIN zzy_grade ON
+		zzy_grade.`gid`=clazz.`gid`
+		AND clazzcourseteacher.`status`=0 AND
+		clazz.`status`=0 AND
+		zzy_grade.state=0
+		AND
+		clazzcourseteacher.`tid`=#{sid}
+		<if test="cid!=null">
+			and zzy_grade.`gid`=#{cid}
+		</if>
+	</select>
+	<!-- 查询老师所管理的班级 -->
+	<select id="queryByTidAdminClazz" resultMap="queryAllClazzMap">
+		SELECT clazz.`id`,clazz.`cname`,zzy_grade.`gid`,zzy_grade.`grade_name`
+		FROM
+		clazzcourseteacher
+		INNER JOIN clazz ON
+		clazzcourseteacher.`clazzid`=clazz.`id`
+		INNER JOIN zzy_grade ON
+		zzy_grade.`gid`=clazz.`gid`
+		AND clazzcourseteacher.`status`=0 AND
+		clazz.`status`=0 AND
+		zzy_grade.state=0
+		AND
+		clazzcourseteacher.`tid`=#{sid}
+		<if test="cid!=null">
+			and zzy_grade.`gid`=#{cid}
+		</if>
+		limit #{cur},#{pagesize}
+	</select>
+	
+	<resultMap type="com.CloudSchool.domain.Clazz" id="queryByClazzidAllStuMap" >
+		<id column="id" property="id"/>
+		<result column="cname" property="cname"/>
+		<collection property="list2" ofType="com.CloudSchool.domain.CqjStudent">
+			<id column="studentid" property="studentid"/>
+			<result column="studentname" property="studentname"/>
+		</collection>
+	</resultMap>
+	<!-- 根据班级id查询所有学生 -->
+	<select id="queryByClazzidAllStu" resultMap="queryByClazzidAllStuMap">
+		SELECT
+		clazz.`id`,clazz.`cname`,cqj_student.`studentid`,cqj_student.`studentname`
+		FROM clazz
+		INNER JOIN clazzstudent ON clazz.`id`=clazzstudent.`cid`
+		INNER JOIN cqj_student ON clazzstudent.`sid`=cqj_student.`studentid`
+		AND clazz.`id` IN
+		(
+		<foreach collection="array" item="obj" separator=",">
+			#{obj}
+		</foreach>
+		)
+	</select>
+  
 </mapper>

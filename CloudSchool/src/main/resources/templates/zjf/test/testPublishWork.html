@@ -3,78 +3,78 @@
 
 <head>
 <meta charset="UTF-8">
-<title>发布作业</title>
+<title>发布试卷</title>
 <meta
 	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
 	name='viewport' />
 <link rel="stylesheet" href="../static/css/bootstrap.min.css">
 <link rel="stylesheet" href="../static/css/ready.css">
 <style>
-ul,
-			h2 {
-				padding: 0;
-				margin: 0;
-			}
-			
-			li {
-				list-style: none;
-			}
-			
-			#list {
-				width: 240px;
-				border: 1px solid #ccc;
-				margin: 0 auto;
-			}
-			
-			#list .lis {}
-			
-			#list h2 {
-				height: 30px;
-				line-height: 30px;
-				text-indent: 20px;
-				/*文字缩进20px*/
-				background: url(img/ico1.gif) no-repeat 5px center pink;
-				/*前面小箭头*/
-				cursor: pointer;
-			}
-			
-			.h2,
-			h2 {
-				font-size: 1rem;
-			}
-			
-			#list .active {
-				/* 点击时添加的类名 */
-				background: url(img/ico2.gif) no-repeat 5px center #ff9;
-			}
-			
-			#list ul {
-				display: none;
-			}
-			
-			#list ul li {
-				line-height: 24px;
-				border-bottom: 2px solid #fc4;
-				text-indent: 24px;
-				/*文字缩进24px*/
-			}
-			
-			#stulist [type="checkbox"]:not(:checked)+.form-check-sign:after,
-			#stulist [type="checkbox"]:checked+.form-check-sign:after {
-				content: "\f17b";
-				display: inline-block;
-				position: absolute;
-				top: -1px;
-				left: -22px;
-				width: 18px;
-				height: 18px;
-				text-align: center;
-				font-size: 1.5em;
-				line-height: 0.8;
-				color: #4D7CFE;
-				transition: all .2s;
-				font-family: LineAwesome;
-			}
+ul, h2 {
+	padding: 0;
+	margin: 0;
+}
+
+li {
+	list-style: none;
+}
+
+#list {
+	width: 240px;
+	border: 1px solid #ccc;
+	margin: 0 auto;
+}
+
+#list .lis {
+	
+}
+
+#list h2 {
+	height: 30px;
+	line-height: 30px;
+	text-indent: 20px;
+	/*文字缩进20px*/
+	background: url(img/ico1.gif) no-repeat 5px center pink;
+	/*前面小箭头*/
+	cursor: pointer;
+}
+
+.h2, h2 {
+	font-size: 1rem;
+}
+
+#list .active {
+	/* 点击时添加的类名 */
+	background: url(img/ico2.gif) no-repeat 5px center #ff9;
+}
+
+#list ul {
+	display: none;
+}
+
+#list ul li {
+	line-height: 24px;
+	border-bottom: 2px solid #fc4;
+	text-indent: 24px;
+	/*文字缩进24px*/
+}
+
+#stulist [type="checkbox"]:not (:checked )+.form-check-sign:after,
+	#stulist [type="checkbox"]:checked+.form-check-sign:after {
+	content: "\f17b";
+	display: inline-block;
+	position: absolute;
+	top: -1px;
+	left: -22px;
+	width: 18px;
+	height: 18px;
+	text-align: center;
+	font-size: 1.5em;
+	line-height: 0.8;
+	color: #4D7CFE;
+	transition: all .2s;
+	font-family: LineAwesome;
+}
 
 .has-success .form-control {
 	border-color: #ced4da;
@@ -115,6 +115,15 @@ ul,
 	display: flex;
 	justify-content: space-between;
 }
+#box1{
+	display:none;
+}
+#box2{
+	display:none;
+}
+#box3{
+	display:none;
+}
 </style>
 </head>
 
@@ -130,15 +139,15 @@ ul,
 								<h4 class="card-title">选择班级</h4>
 							</div>
 							<div class="card-body">
-							<div class="form-group has-success">
-									<label for="successInput">年级</label> 
-									<select class="form-control input-square" name="grade" id="squareSelect">
-										<option value="1">S1</option>
-										<option value="2">S2</option>
-										<option value="3">Y2</option>
-									</select>
+								<div name="grade">
+									<div class="form-group has-success" v-if="list" id="gradediv">
+										<label for="successInput">年级</label> <select
+											class="form-control input-square" id="squareSelect">
+											<option v-bind:value="obj.gid" v-for="(obj,index) in list">{{obj.gradeName}}</option>
+										</select>
+									</div>
 								</div>
-								<table
+								<table style="text-align: center;"
 									class="table table-bordered table-bordered-bd-warning mt-4"
 									id="AdminclassDatas">
 									<thead>
@@ -149,56 +158,39 @@ ul,
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="(obj,index) in list">
-											<td><label
-												class="form-check-label"><!--  <input
-													class="clazzInput" type="checkbox" value=""  v-bind:data-id="obj.id"> -->
-													<input type="checkbox" class="clazzInput" v-bind:data-id="obj.id">
-													<span class="form-check-sign"></span></td>
+										<tr v-for="(obj,index) in obj.list">
+											<td><label class="form-check-label">
+													<input type="checkbox" class="clazzInput"
+													v-bind:data-id="obj.id"> <span
+													class="form-check-sign"></span></td>
 											<td>{{obj.cname}}</td>
-											<td>{{obj.greaName}}</td>
+											<td>{{obj.zzygradeobj.gradeName}}</td>
 										</tr>
-										<!-- <tr>
-												<td>
-													<label class="form-check-label">
-													<input class="form-check-input" type="checkbox" value="">
-													<span class="form-check-sign"></span>
-												</td>
-												<td>S1</td>
-												<td>1803</td>
-											</tr>
-											<tr>
-												<td>
-													<label class="form-check-label">
-													<input class="form-check-input" type="checkbox" value="">
-													<span class="form-check-sign"></span>
-												</td>
-												<td>Y2</td>
-												<td>java20</td>
-											</tr> -->
 									</tbody>
 								</table>
-								<div id="pagebox">
-								<p class="demo">
-								<ul class="pagination pg-primary">
-									<li class="page-item"><a class="page-link"
-										href="javascript:void(0)" aria-label="Previous"
-										id="previousPage"> <span aria-hidden="true">&laquo;</span>
-											<span class="sr-only">Previous</span>
-									</a></li>
-									<li class="page-item active"><a class="page-link" href="#">1</a>
-									</li>
-									<li class="page-item"><a class="page-link" href="#">2</a>
-									</li>
-									<li class="page-item"><a class="page-link" href="#">3</a>
-									</li>
-									<li class="page-item"><a class="page-link"
-										href="javascript:void(0)" aria-label="Next" id="nextPage">
-											<span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
-									</a></li>
-								</ul>
-								</p>
-							</div>
+								<div id="gradepagebox"
+									style="display: flex; justify-content: flex-end;">
+									<p class="demo">
+									<ul class="pagination pg-primary">
+										<li class="page-item"><a class="page-link"
+											href="javascript:void(0)" aria-label="Previous"
+											id="gradepreviousPage"> <span aria-hidden="true">&laquo;</span>
+												<span class="sr-only">Previous</span>
+										</a></li>
+										<li class="page-item active"><a class="page-link"
+											href="#">1</a></li>
+										<li class="page-item"><a class="page-link" href="#">2</a>
+										</li>
+										<li class="page-item"><a class="page-link" href="#">3</a>
+										</li>
+										<li class="page-item"><a class="page-link"
+											href="javascript:void(0)" aria-label="Next"
+											id="gradenextPage"> <span aria-hidden="true">&raquo;</span>
+												<span class="sr-only">Next</span>
+										</a></li>
+									</ul>
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -209,25 +201,28 @@ ul,
 							</div>
 							<div class="card-body">
 								<div class="form-group has-success">
-									<label for="successInput">作业名称</label> 
-									<input type="hidden"
-										 class="form-control" name="wid">
-									<input type="text"
-										 class="form-control" name="workname" readonly="readonly">
+									<label for="successInput">考试名称</label> <input type="hidden"
+										class="form-control" name="wid"> <input type="text"
+										class="form-control" name="workname" readonly="readonly">
 								</div>
 								<div class="form-group has-success">
-									<label for="successInput">开始时间</label> <!-- <input type="text"
+									<label for="successInput">开始时间</label>
+									<!-- <input type="text"
 										id="successInput" class="form-control" name="starttime"> -->
-										<input type="date" id="successInput" class="form-control"  name="starttime"/>
+									<input type="datetime-local" id="successInput"
+										class="form-control" name="starttime" />
 								</div>
 								<div class="form-group has-success">
-									<label for="successInput">结束时间</label><!--  <input type="text"
+									<label for="successInput">结束时间</label>
+									<!--  <input type="text"
 										id="successInput" class="form-control" name="endtime"> -->
-										<input type="date" id="successInput" class="form-control"  name="endtime"/>
+									<input type="datetime-local" id="successInput"
+										class="form-control" name="endtime" />
 								</div>
 								<div class="form-group">
 									<label for="comment">备注</label>
-									<textarea class="form-control" id="comment" rows="5" name="message">
+									<textarea class="form-control" id="comment" rows="5"
+										name="message">
 
 										</textarea>
 								</div>
@@ -242,16 +237,17 @@ ul,
 					<div class="col-md-6">
 						<div class="card">
 							<div class="card-header">
-								<h4 class="card-title">作业模板</h4>
+								<h4 class="card-title">试卷模板</h4>
 							</div>
 							<div class="card-body" id="WorkMould">
 								<div class="modalbox" v-for="(obj,index) in obj.list">
 									<div class="modelinfo">
 										<p>
-											作业名称:<span>{{obj.name}}</span>
-											
+											试卷名称:<span>{{obj.name}}</span>
+
 											<button class="btn btn-success use" v-bind:data-id="obj.id">使用</button>
-											<button class="btn btn-success toPage" v-bind:data-id="obj.id">查看</button>
+											<button class="btn btn-success toPage"
+												v-bind:data-id="obj.id">查看</button>
 										</p>
 										<p>
 											发布时间:<span>{{obj.time}}</span>
@@ -259,9 +255,9 @@ ul,
 										<!-- <p>
 											级别:<span>难</span>
 										</p> -->
-										<p>
+										<!-- <p>
 											使用次数:<span>{{obj.count}}</span>
-										</p>
+										</p> -->
 									</div>
 								</div>
 								<!-- <div class="modalbox">
@@ -284,7 +280,8 @@ ul,
 							<div id="pagebox">
 								<p class="demo">
 								<ul class="pagination pg-primary">
-									<li class="page-item"><a class="page-link" href="#"
+									<li class="page-item"><a class="page-link"
+										id="previousPage" href="javascript:void(0)"
 										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 											<span class="sr-only">Previous</span>
 									</a></li>
@@ -294,12 +291,41 @@ ul,
 									</li>
 									<li class="page-item"><a class="page-link" href="#">3</a>
 									</li>
-									<li class="page-item"><a class="page-link" href="#"
-										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-											<span class="sr-only">Next</span>
+									<li class="page-item"><a class="page-link" id="nextPage"
+										href="javascript:void(0)" aria-label="Next"> <span
+											aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
 									</a></li>
 								</ul>
 								</p>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">考试设置</h4>
+							</div>
+							<div class="card-body">
+								<table style="text-align: center;"
+									class="table table-bordered table-bordered-bd-warning mt-4"
+									>
+									<thead>
+										<tr>
+											<th scope="col">年级</th>
+											<th scope="col">班级</th>
+											<th scope="col">操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>S2</td>
+											<td>1717</td>
+											<td>
+											<button class="btn btn-success" name="box1">设置监考人</button>
+											<button class="btn btn-success" name="box2">设置考室</button>
+											<button class="btn btn-success" name="box3">设置阅卷人</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -311,14 +337,20 @@ ul,
 							<div class="card-body">
 								<div id="stulist">
 									<ul id="list">
-										<li class="lis" v-for="(obj,index) in list" v-bind:data-id="obj.cid">
-											<h2>{{obj.cname}}</h2>
+										<li class="lis" v-for="(obj,index) in list"
+											v-bind:data-id="obj.cid">
+											<h2>
+											{{obj.cname}}
+											</h2>
+									</h2>
 											<ul>
-												<li style="display: flex; justify-content: space-around" v-for="(obj,index) in obj.list">
+												<li style="display: flex; justify-content: space-around"
+													v-for="(obj,index) in obj.list2">
 													<div>
 														<label class="form-check-label"> <input
-															class="stuinput" type="checkbox" value="" v-bind:data-id="obj.studentid">
-															<span class="form-check-sign"></span>
+															class="stuinput" type="checkbox" value=""
+															v-bind:data-id="obj.studentid"> <span
+															class="form-check-sign"></span>
 														</label>
 													</div>
 													<div>
@@ -345,10 +377,152 @@ ul,
 							</div>
 						</div>
 					</div>
+					<!--设置监考人  -->
+					<div class="col-md-6" id="box1">
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">设置监考人</h4>
+							</div>
+							<div class="card-body">
+								<div id="stulist">
+									<ul id="list">
+										<li class="lis">
+											<h2>
+											</h2>
+									</h2>
+											<ul>
+												<li style="display: flex; justify-content: space-around"
+													>
+													<div>
+														<label class="form-check-label"> <input
+															class="stuinput" type="checkbox" value=""
+															> <span
+															class="form-check-sign"></span>
+														</label>
+													</div>
+													<div>
+														</span>大苏打<span>
+													</div>
+
+												</li>
+												<!-- <li style="display: flex; justify-content: space-around">
+													<div>
+														<label class="form-check-label"> <input
+															class="form-check-input" type="checkbox" value="">
+															<span class="form-check-sign"></span>
+														</label> </label>
+													</div>
+													<div>
+														</span>小明<span>
+													</div>
+
+												</li> -->
+											</ul>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 选择教室 -->
+					<div class="col-md-6" id="box2">
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">选择教室</h4>
+							</div>
+							<div class="card-body">
+								<div id="stulist">
+									<ul id="list">
+										<li class="lis">
+											<h2>
+											</h2>
+									</h2>
+											<ul>
+												<li style="display: flex; justify-content: space-around"
+													>
+													<div>
+														<label class="form-check-label"> <input
+															class="stuinput" type="checkbox" value=""
+															> <span
+															class="form-check-sign"></span>
+														</label>
+													</div>
+													<div>
+														</span>大苏打<span>
+													</div>
+
+												</li>
+												<!-- <li style="display: flex; justify-content: space-around">
+													<div>
+														<label class="form-check-label"> <input
+															class="form-check-input" type="checkbox" value="">
+															<span class="form-check-sign"></span>
+														</label> </label>
+													</div>
+													<div>
+														</span>小明<span>
+													</div>
+
+												</li> -->
+											</ul>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- 选择阅卷人 -->
+					<div class="col-md-6" id="box3">
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">选择阅卷人</h4>
+							</div>
+							<div class="card-body">
+								<div id="stulist">
+									<ul id="list">
+										<li class="lis">
+											<h2>
+											</h2>
+									</h2>
+											<ul>
+												<li style="display: flex; justify-content: space-around"
+													>
+													<div>
+														<label class="form-check-label"> <input
+															class="stuinput" type="checkbox" value=""
+															> <span
+															class="form-check-sign"></span>
+														</label>
+													</div>
+													<div>
+														</span>大苏打<span>
+													</div>
+
+												</li>
+												<!-- <li style="display: flex; justify-content: space-around">
+													<div>
+														<label class="form-check-label"> <input
+															class="form-check-input" type="checkbox" value="">
+															<span class="form-check-sign"></span>
+														</label> </label>
+													</div>
+													<div>
+														</span>小明<span>
+													</div>
+
+												</li> -->
+											</ul>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>		
 </body>
 
 </html>
@@ -356,175 +530,366 @@ ul,
 <script src="../static/js/core/vue.js"></script>
 <script src="../static/js/core/jquery.cookie.js"></script>
 <script>
+	//选中的班级
+	var clazzs=[];
+	
 	//作业模板
 	var v = new Vue({
 		el : "#WorkMould",
 		data : {
-			obj : null
+			obj : null,
+			pre : null,
+			next : null
 		}
 	})
-	//管理的班级
+	//班级
 	var classdatas = new Vue({
 		el : "#AdminclassDatas",
 		data : {
+			obj : null,
+			pre : null,
+			next : null,
+			cid : null
+		},
+		updated : function() {
+			var tr=$("tbody tr")
+			$("tbody tr input[type=checkbox]").removeAttr("checked")
+			for(var i=0;i<tr.length;i++){
+				var id=$(tr[i]).find("[type=checkbox]").attr("data-id")
+				for(var j=0; j<clazzs.length;j++){
+					if(id==clazzs[j]){
+						$(tr[i]).find("[type=checkbox]").prop("checked","checked")
+					}
+				}
+			}
+
+		}
+	})
+	//年级
+	var grade = new Vue({
+		el : "[name=grade]",
+		data : {
 			list : null
+		},
+		updated : function() {
+			getClassPage(1)
+
 		}
 	})
 	//管理的班级所有学生
-	var listStu=new Vue({
-		el:"#stulist",
-		data:{
-			list:null
-		},updated:function(){
-				var list = document.getElementById('list');
-				var ah2 = list.getElementsByTagName('h2');
-				var uls = list.getElementsByTagName('ul');
-				// h2要和下面的ul进行匹配，所以我们要用索引值，给h2身上添加索引值
-				for(var i = 0; i < ah2.length; i++) {
-					ah2[i].index = i; //给h2添加索引值，点击谁就给谁添加索引值
-					ah2[i].onclick = function() {
-						if(this.className == '') { //判断所点击的h2标签是否有类，
-							//this.index指h2身上的索引数，this指h2，h2的索引值为this.index
-							uls[this.index].style.display = 'block';
-							this.className = 'active'; //给当前点击的h2添加类，更改箭头方向
-						} else {
-							uls[this.index].style.display = 'none';
-							this.className = '';
-						}
+	var listStu = new Vue({
+		el : "#stulist",
+		data : {
+			list : null
+		},
+		updated : function() {
+			var list = document.getElementById('list');
+			var ah2 = list.getElementsByTagName('h2');
+			var uls = list.getElementsByTagName('ul');
+			// h2要和下面的ul进行匹配，所以我们要用索引值，给h2身上添加索引值
+			for (var i = 0; i < ah2.length; i++) {
+				ah2[i].index = i; //给h2添加索引值，点击谁就给谁添加索引值
+				ah2[i].onclick = function() {
+					if (this.className == '') { //判断所点击的h2标签是否有类，
+						//this.index指h2身上的索引数，this指h2，h2的索引值为this.index
+						uls[this.index].style.display = 'block';
+						this.className = 'active'; //给当前点击的h2添加类，更改箭头方向
+					} else {
+						uls[this.index].style.display = 'none';
+						this.className = '';
 					}
 				}
+			}
 		}
 	})
-	/*查询模板(分页)  */
+	/*查询试卷模板(分页)  */
 	function getMouldPageData(cur, tid) {
 		$.ajax({
 			type : "post",
-			url : "http://127.0.0.1:8080/topicWarehouseController/queryByTidMould",
+			url : "http://127.0.0.1:8080/TestInstance/queryTestModule",
 			data : {
-				tid : tid,
-						cur : cur
+				uid : tid,
+				cur : cur
 			},
 			success : function(data) {
+				//console.log(JSON.stringify(data))
 				v.obj = data
+				v.pre = data.prePage
+				v.next = data.nextPage
 			}
 		})
 	}
+	//查询班级分页
+	function getClassPage(cur, cid) {
+		//是否发起查询所有班级请求
+		var id = 0; //无权限
+		if (grade.list) {
+			id = 1; //有权限
+		}
+		$.ajax({
+			type : "get",
+			url : "http://127.0.0.1:8080/TestInstance/queryClass",
+			data : {
+				id : id,
+				sid : 1, //教师id
+				cur : cur,
+				cid : cid
+			},
+			success : function(data) {
+				console.log(JSON.stringify(data))
+				classdatas.obj = data;
+				classdatas.pre = data.prePage
+				classdatas.next = data.nextPage
+				classdatas.cid = cid
+
+			}
+		})
+	}
+	//查询班级中的所有学生
+/* 	function getClassStu(clazzs){
+		$.ajax({
+			type : "post",
+			url : "http://127.0.0.1:8080/TestInstance/queryByClazzidAllStu",
+			contentType : 'application/json',
+			data :JSON.stringify(clazzs),
+			success : function(data) {
+				console.log(JSON.stringify(data))
+				listStu.list = data;
+			}
+		})
+	} */
+	//有空老师
+	var teach=new Vue({
+		el:"",
+		data:{
+			list:null
+		}
+	})
+	//空教室
+	var classroom=new Vue({
+		el:"",
+		data:{
+			list:null
+		}
+	})
 	$(function() {
 		/*查询模板(分页)  */
 		getMouldPageData(1, 1)
-		/*查询教员管理的班级*/
-		$.ajax({
-				type : "post",
-				url : "http://127.0.0.1:8080/topicWarehouseController/queryByTidResultClass",
-				data : {
-						tid : 1
-					/* 暂时死值 tid教员id */
-				},
-				success : function(data) {
-					/* console.log(JSON.stringify(data)) */
-					classdatas.list = data;
-				}
-		})
-		/* 查询管理的所有班级的学生 */
-		$.ajax({
-			type : "post",
-			url : "http://127.0.0.1:8080/topicWarehouseController/queryByTidAdminStuAll",
-			data : {
-					tid : 1
-					/* 暂时死值 tid教员id */
-			},
-			success : function(data) {
-				listStu.list=data;
-			}
-		})
-		/*选中年级 并且选中所有的学生  */
-		$("body").on("click",".clazzInput",function(){
-				var id=$(this).attr("data-id")
-				var li=$("#list").find(".lis[data-id="+id+"]")
-			if($(this).is(":checked")){
-				$(li).find("input[type=checkbox]").attr("checked","checked");
-			}else{
-				$(li).find("input[type=checkbox]").removeAttr("checked");
-			}
-				
-		})
-		 $("body").on("click",".stuinput",function(){
-			var id=$(this).parents(".lis").attr("data-id")
-			if($(this).is(":checked")){
-				$(".clazzInput[data-id="+id+"]").attr("checked","checked");
-			}else{
-				$(".clazzInput[data-id="+id+"]").removeAttr("checked");
-			}
-		}) 
 		
-		$("body").on("click",".use",function(){
-			var name=$(this).prev().html();
+		
+		/*选中年级 并且选中所有的学生  */
+		$("body").on("click", ".clazzInput", function() {
+			var id = $(this).attr("data-id")
+			if ($(this).is(":checked")) {
+				if(clazzs.length==0){
+					clazzs.push(id)
+				}
+				for(var i=0;i<clazzs.length;i++){
+					if(id==clazzs[i]){
+						break;
+					}
+					if(i==clazzs.length-1){
+						clazzs.push(id)
+					}
+				}
+			} else {
+				for(var i=0;i<clazzs.length;i++){
+					if(id==clazzs[i]){
+						clazzs.splice(i,1)
+					}
+				}
+			}
+			console.log(JSON.stringify(clazzs))
+			getClassStu(clazzs)
+
+		})
+		$("body").on("click", ".use", function() {
+			var name = $(this).prev().html();
 			$("[name=workname]").val(name)
-			var id=$(this).attr("data-id")
+			var id = $(this).attr("data-id")
 			$("[name=wid]").val(id)
 		})
-		
-		$("#publish").click(function(){
-			var obj={}
-			var temp=[]
-			if($("[name=wid]").val().trim()!="" && $("[name=workname]").val()!=""){
-				$.each($(".clazzInput[type=checkbox]:checked"),function(){
-					var obj={}
-					obj.cid=$(this).attr("data-id")
-					temp.push(obj)
-				})
-				for(var i=0 ;i<temp.length;i++){
-						var list=[]
-					$.each($(".stuinput[type=checkbox]:checked"),function(){
-						if(temp[i].cid==$(this).parents(".lis").attr("data-id")){
-							list.push($(this).attr("data-id"))
-						}
-					})
-					temp[i].stus=list
-				}
-				var Workinstance={}
-				Workinstance.starttime=$("[name=starttime]").val().trim()
-				Workinstance.endtime=$("[name=endtime]").val().trim()
-				Workinstance.message=$("[name=message]").val().trim()
-				Workinstance.wid=$("[name=wid]").val()
-				Workinstance.tid=1		//暂时死值
-				obj.obj=Workinstance
-				obj.list=temp;
-				console.log(JSON.stringify(obj))
-				$.ajax({
-					type : "post",
-					url : "http://127.0.0.1:8080/topicWarehouseController/WorkPublishParam",
-					data :JSON.stringify(obj),
-					contentType: 'application/json',
-					success : function(data) {
-						if(data>0){
-							alert("作业发布成功！")
-						}
-	
-					}
-				})
-			}else{
-				alert("请选择试卷模板")
-			}
-			
-			
-			
-		})
+
+		$("#publish")
+				.click(
+						function() {
+							var obj = {}
+							var temp = []
+							if ($("[name=wid]").val().trim() != ""
+									&& $("[name=workname]").val() != "") {
+								$.each($(".clazzInput[type=checkbox]:checked"),
+										function() {
+											var obj = {}
+											obj.cid = $(this).attr("data-id")
+											temp.push(obj)
+										})
+								for (var i = 0; i < temp.length; i++) {
+									var list = []
+									$
+											.each(
+													$(".stuinput[type=checkbox]:checked"),
+													function() {
+														if (temp[i].cid == $(
+																this).parents(
+																".lis").attr(
+																"data-id")) {
+															list
+																	.push($(
+																			this)
+																			.attr(
+																					"data-id"))
+														}
+													})
+									temp[i].stus = list
+								}
+								var Workinstance = {}
+								Workinstance.starttime = $("[name=starttime]")
+										.val().trim()
+								Workinstance.endtime = $("[name=endtime]")
+										.val().trim()
+								Workinstance.message = $("[name=message]")
+										.val().trim()
+								Workinstance.wid = $("[name=wid]").val()
+								Workinstance.tid = 1 //暂时死值
+								obj.obj = Workinstance
+								obj.list = temp;
+								//console.log(JSON.stringify(obj))
+								$
+										.ajax({
+											type : "post",
+											url : "http://127.0.0.1:8080/topicWarehouseController/WorkPublishParam",
+											data : JSON.stringify(obj),
+											contentType : 'application/json',
+											success : function(data) {
+												if (data > 0) {
+													alert("作业发布成功！")
+												}
+
+											}
+										})
+							} else {
+								alert("请选择试卷模板")
+							}
+
+						})
 		//跳转到作业模板
-		$("body").on("click",".toPage",function(){
-			var id=$(this).attr("data-id")
-			location.href="http://127.0.0.1:8080/WorkModel/toWorkModel?id="+id
-			/* window.open("http://127.0.0.1:8080/WorkModel/toWorkModel") */
-		})
-		
+		$("body")
+				.on(
+						"click",
+						".toPage",
+						function() {
+							var id = $(this).attr("data-id")
+							location.href = "http://127.0.0.1:8080/WorkModel/toWorkModel?id="
+									+ id
+							/* window.open("http://127.0.0.1:8080/WorkModel/toWorkModel") */
+						})
+
 		//年级渲染
 		$.ajax({
-			type:"get",
-			url:"http://127.0.0.1:8080/TestInstance/queryGrade",
-			data:{id:1},
-			success:function(data){
-				console.log(JSON.stringify(data))
+			type : "get",
+			url : "http://127.0.0.1:8080/TestInstance/queryGrade",
+			data : {
+				id : 1
+			},
+			success : function(data) {
+				grade.list = data;
+				//console.log(JSON.stringify(data))
 			}
 		})
+
+		//班级上一页
+		$("body").on("click", "#gradepreviousPage", function() {
+			getClassPage(classdatas.pre, classdatas.cid)
+		})
+		//班级下一页
+		$("body").on("click", "#gradenextPage", function() {
+			getClassPage(classdatas.next, classdatas.cid)
+		})
+
+		//试卷模板上一页
+		$("body").on("click", "#previousPage", function() {
+			var tid = 1; //教师id
+			getMouldPageData(v.pre, tid)
+		})
+		//试卷模板下一页
+		$("body").on("click", "#nextPage", function() {
+			var tid = 1; //教师id
+			getMouldPageData(v.next, tid)
+		})
+
+		$("body").on("change", "#gradediv", function() {
+			var cid = $("#gradediv option:selected").val()
+			getClassPage(1, cid)
+		})
+		
+		
+		//点击设置监考人
+		$("body").on("click","button[name=box1]",function(){
+			$("#box1").show();
+			$("#box2").hide();
+			$("#box3").hide();
+		})
+		
+		//点击设置教室
+		$("body").on("click","button[name=box2]",function(){
+			$("#box1").hide();
+			$("#box2").show();
+			$("#box3").hide();
+		})
+		
+		//点击设置阅卷人
+		$("body").on("click","button[name=box3]",function(){
+			$("#box3").show();
+			$("#box1").hide();
+			$("#box2").hide();
+		})
+		
+		$("body").on("change","[name=starttime]",function(){
+			var starttime = $("[name=starttime]").val().trim()
+			var endtime = $("[name=endtime]").val().trim()
+			alert(1)
+			//查询这个时间段空教室
+			$.ajax({
+				type:"get",
+				url:"http://127.0.0.1:8080/TestInstance/queryClassRoomAll",
+				data:{},
+				success:function(data){
+					alert("1")
+				}
+			})
+			//查询这个时间有空的老师
+			$.ajax({
+				type:"",
+				url:"",
+				data:"",
+				success:function(){
+					
+				}
+			})
+		})
+		$("body").on("change","[name=endtime]",function(){
+			var starttime = $("[name=starttime]").val().trim()
+			var endtime = $("[name=endtime]").val().trim()
+			//查询这个时间段空教室
+			$.ajax({
+				type:"get",
+				url:"http://127.0.0.1:8080/TestInstance/queryClassRoomAll",
+				data:{},
+				success:function(data){
+					alert("赵举峰")
+				}
+			})
+			//查询这个时间有空的老师
+			$.ajax({
+				type:"",
+				url:"",
+				data:"",
+				success:function(){
+					
+				}
+			})
+			
+		})
+		
 	})
 </script>

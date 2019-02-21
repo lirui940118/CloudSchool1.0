@@ -36,8 +36,17 @@ public class Clazz {
     
     //学员集合
     private List<CqjStudent> list2;
-
+    
+    private ZzyGrade zzygradeobj;
   
+	public ZzyGrade getZzygradeobj() {
+		return zzygradeobj;
+	}
+
+	public void setZzygradeobj(ZzyGrade zzygradeobj) {
+		this.zzygradeobj = zzygradeobj;
+	}
+
 	public List<CqjStudent> getList2() {
 		return list2;
 	}
@@ -133,7 +142,7 @@ public class Clazz {
     public void setPc(String pc) {
         this.pc = pc;
     }
-
+    
     public Integer getStatus() {
         return status;
     }
