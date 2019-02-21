@@ -126,4 +126,10 @@ public class ClazzServiceImpl implements ClazzService {
 		// TODO Auto-generated method stub
 		return cm.queryAllBanJi();
 	}
+	//根据班级班级id查询班级下所有学生
+	@Override
+	public List<Clazz> queryByClazzidAllStu(Integer[] clazzs) {
+		// TODO Auto-generated method stub
+		return cm.queryByClazzidAllStu(clazzs);
+	}
 }

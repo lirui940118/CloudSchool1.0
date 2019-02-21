@@ -52,4 +52,16 @@ public interface ClazzMapper {
     public List<Clazz> queryAll();
     //改变班级的状态(升班陈桥君)
     public int updateStatusByCid(@Param("status") Integer status,@Param("status") Integer id);
+
+    
+    //查询所有班级
+    List<Clazz> queryAllClazz(@Param("cur")Integer cur,@Param("pagesize")Integer pagesize,@Param("cid")Integer cid);
+    
+    List<Clazz> queryByTidAdminClazz(@Param("sid")Integer sid,@Param("cur")Integer cur,@Param("pagesize")Integer pagesize,@Param("cid")Integer cid);
+    
+    int queryAllClazzCount(@Param("cid")Integer cid);
+    
+    int queryByTidAdminClazzCount(@Param("sid")Integer sid,@Param("cid")Integer cid);
+    
+    List<Clazz> queryByClazzidAllStu(Integer[] clazzs);
 }

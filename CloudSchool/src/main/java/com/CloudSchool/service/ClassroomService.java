@@ -12,4 +12,8 @@ public interface ClassroomService {
 	public int update(Classroom cls);
 	int insertSelective(Classroom record);
 	 public Classroom queryByroomid(Integer id);
+	
+	
+	//查询到所有这个时间段空教室
+	List<Classroom> queryClassRoomAll(String startTime,String endTime);
 }

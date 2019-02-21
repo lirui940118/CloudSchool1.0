@@ -145,4 +145,16 @@ public class TopicWarehouseController {
 		return workinStanceService.publishWork(obj);
 	}
 	
+	@RequestMapping("queryTopicById")
+	@ResponseBody
+	public TopicWithBLOBs queryTopicById(Integer id) {
+		return topicService.queryTopicById(id);
+	}
+	
+	@RequestMapping("toTopicShow")
+	public String toTopicShow() {
+		return "zjf/topicShow";
+	}
+	
+	
 }

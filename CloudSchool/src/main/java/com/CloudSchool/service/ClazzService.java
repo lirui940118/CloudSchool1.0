@@ -30,4 +30,6 @@ public interface ClazzService {
 	//write by lirui
 	public List<ClazzBaseInfoVO> queryClazzListByStaffId(Integer staffId);
 
+	
+	List<Clazz> queryByClazzidAllStu(Integer[] clazzs);
 }

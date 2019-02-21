@@ -26,4 +26,8 @@ public interface TopicService {
     Integer queryCurrentTotalTopicAccuracyBysIdAndgId(Integer sId,Integer gId,Integer eId);
     /*当前进度下，上机题目正确率*/
     Integer queryApplicationAbilityRateBysIdAndgId(Integer sId, Integer gId,Integer tId);
+
+	
+	//根据题目id查询题目
+    TopicWithBLOBs queryTopicById(Integer id);
 }
