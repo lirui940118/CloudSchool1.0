@@ -116,4 +116,14 @@ public class ClazzServiceImpl implements ClazzService {
 	public List<ClazzBaseInfoVO> queryClazzListByStaffId(Integer staffId) {
 		return cm.queryClazzListByStaffId(staffId);
 	}
+	@Override
+	public Clazz queryBanJiByUserid(Integer uid) {
+		// TODO Auto-generated method stub
+		return cm.queryBanJiByUserid(uid);
+	}
+	@Override
+	public List<Clazz> queryAllBanJi() {
+		// TODO Auto-generated method stub
+		return cm.queryAllBanJi();
+	}
 }

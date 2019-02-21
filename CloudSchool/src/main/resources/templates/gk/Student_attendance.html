@@ -27,58 +27,55 @@
 				<div class="container-fluid">
 					<h4 class="page-title">查询学生考勤信息</h4>
 					
-					<div class="row">
+					<div class="row"  id="shuaxin">
 						<div class="card col-lg-12">
 							<div class="card-body">
 								<h6>展示列</h6>
 								<label class="form-check-label">
-									<input class="form-check-input task-select" type="checkbox">
-									<span class="form-check-sign">职位</span>
-								</label>
-								<label class="form-check-label">
-									<input class="form-check-input task-select" type="checkbox">
-									<span class="form-check-sign">出勤天数</span>
-								</label>
-								<label class="form-check-label">
-									<input class="form-check-input task-select" type="checkbox">
-									<span class="form-check-sign">休息天数</span>
-								</label>
-								<label class="form-check-label">
-									<input class="form-check-input task-select" type="checkbox">
-									<span class="form-check-sign">迟到次数</span>
-								</label>
-								<label class="form-check-label">
-									<input class="form-check-input task-select" type="checkbox">
-									<span class="form-check-sign">早退次数</span>
-								</label>
-								<label class="form-check-label">
-									<input class="form-check-input task-select" type="checkbox">
-									<span class="form-check-sign">状态</span>
-								</label>
-								<label class="form-check-label">
-									<input class="form-check-input task-select" type="checkbox">
+									<input class="form-check-input task-select" type="checkbox" name="zhanshilie">
 									<span class="form-check-sign">姓名</span>
 								</label>
 								<label class="form-check-label">
-									<input class="form-check-input task-select" type="checkbox">
+									<input class="form-check-input task-select" type="checkbox" name="zhanshilie">
+									<span class="form-check-sign">正常天数</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox" name="zhanshilie">
+									<span class="form-check-sign">迟到次数</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox" name="zhanshilie">
+									<span class="form-check-sign">早退次数</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox" name="zhanshilie">
+									<span class="form-check-sign">请假天数</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox" name="zhanshilie">
+									<span class="form-check-sign">缺勤天数</span>
+								</label>
+								<label class="form-check-label">
+									<input name="zhanshilie" class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">查看详情</span>
+								</label>
+								<label class="form-check-label">
+									<input class="form-check-input task-select" type="checkbox" name="zhanshilie">
 									<span class="form-check-sign">复选框</span>
 								</label>
 								<div class="col-lg-12 row">
 									<div class="col-lg-6 col-md-9 col-sm-12 row">
-										<input type="datetime-local" class="form-control form-control col-lg-5"/><span>至</span><input type="datetime-local" class="form-control form-control col-lg-5"/>
+										<input v-model="starttime" type="date" class="form-control form-control col-lg-5"/>
+										<span>至</span>
+										<input v-model="endtime" type="date" class="form-control form-control col-lg-5"/>
 									</div>
 									<div class="col-lg-3 col-md-9 col-sm-12 row">
-										<select class="form-control input-fixed" id="position">
-											<option value="primary">班级</option>
-											<option value="primary">1716</option>
-											<option value="info">1717</option>
-											<option value="success">1718</option>
-											<option value="warning">1719</option>
-											<option value="danger">1720</option>
+										<select v-model="cid" class="form-control input-fixed" id="position">
+											<option th:each="list:${banji}" th:value="${list.id}"><span th:text="${list.cname}"></span></option>
 										</select>
 									</div>
 									<div class="col-lg-3 col-md-9 col-sm-12 row">
-										<input type="text" class="form-control form-control" id="defaultInput" placeholder="姓名">
+										<input type="text" class="form-control form-control" id="defaultInput" placeholder="姓名"  v-model="studentname">
 									</div>
 								</div>
 							</div>
@@ -88,112 +85,267 @@
 								<button class="btn btn-danger">删除</button>
 								<button class="btn btn-primary">导入</button>
 								<button class="btn btn-info">导出</button>
+								<label class="form-check-label">
+									<input onclick="quanxuan()" name="quanxuan" class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">全选</span>
+								</label>
 							</div>
 						</div>
 	
-							<div class="card col-lg-12">
-								<div class="card-body">
-									<table class="table table-head-bg-success table-striped table-hover">
-										<thead>
-											<tr>
-												<th scope="col">编号</th>
-												<th scope="col">职位</th>
-												<th scope="col">出勤天数</th>
-												<th scope="col">休息天数</th>
-												<th scope="col">迟到次数</th>
-												<th scope="col">早退次数</th>
-												<th scope="col">状态</th>
-												<th scope="col">姓名</th>
-												<th scope="col">复选框</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td name="编号">1</td>
-												<td name="职位">班长</td>
-												<td name="出勤天数">1</td>
-												<td name="休息天数">1</td>
-												<td name="迟到次数">1</td>
-												<td name="早退次数">1</td>
-												<td name="状态">正常</td>
-												<td name="姓名">小数点</td>
-												<td name="复选框">
-													<label class="form-check-label">
-														<input class="form-check-input task-select" type="checkbox">
-														<span class="form-check-sign">选择</span>
-													</label>
-												</td>
-											</tr>
-											<tr>
-												<td name="编号">2</td>
-												<td name="职位">体育委员</td>
-												<td name="出勤天数">1</td>
-												<td name="休息天数">1</td>
-												<td name="迟到次数">1</td>
-												<td name="早退次数">1</td>
-												<td name="状态">正常</td>
-												<td name="姓名">爽肤水</td>
-												<td name="复选框">
-													<label class="form-check-label">
-														<input class="form-check-input task-select" type="checkbox">
-														<span class="form-check-sign">选择</span>
-													</label>
-												</td>
-											</tr>
-											<tr>
-												<td name="编号">3</td>
-												<td name="职位">副班长</td>
-												<td name="出勤天数">1</td>
-												<td name="休息天数">1</td>
-												<td name="迟到次数">1</td>
-												<td name="早退次数">1</td>
-												<td name="状态">正常</td>
-												<td name="姓名">路人甲</td>
-												<td name="复选框">
-													<label class="form-check-label">
-														<input class="form-check-input task-select" type="checkbox">
-														<span class="form-check-sign">选择</span>
-													</label>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-						</div>
-						
-						
-						<div class="col-lg-12">
-							<button class="btn btn-success">上一页</button>
-							<button class="btn btn-success">下一页</button>
+						<div class="card col-lg-12">
+							<div class="card-body">
+								<table class="table table-head-bg-success table-striped table-hover">
+									<thead>
+										<tr>
+											<th scope="col">姓名</th>
+											<th scope="col">正常天数</th>
+											<th scope="col">迟到次数</th>
+											<th scope="col">早退次数</th>
+											<th scope="col">请假天数</th>
+											<th scope="col">缺勤天数</th>
+											<th scope="col">查看详情</th>
+											<th scope="col">复选框</th>
+										</tr>
+									</thead>
+									<tbody v-if="page">
+										<tr v-for="item in page.list" >
+										
+											<td name="姓名"><span>{{item.studentname}}</span></td>
+											<td name="正常天数"><span>{{item.yi}}</span></td>
+											<td name="迟到次数"><span>{{item.er}}</span></td>
+											<td name="早退次数"><span>{{item.san}}</span></td>
+											<td name="请假天数"><span>{{item.si}}</span></td>
+											<td name="旷工天数"><span>{{item.wu}}</span></td>
+											<td name="查看详情" v-on:click="djtr(item.userid,item.studentname)"  infoBut moduleUrl="/queryFangTanDetailsByftid"  data-toggle="modal" data-target=".bs-example-modal-lg">查看详情</td>
+											<td name="复选框">
+												<label class="form-check-label">
+													<input v-on:click="panduan()" v-bind:abc="item.kqId" name="xuanze" class="form-check-input task-select" type="checkbox">
+													<span class="form-check-sign">选择</span>
+												</label>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<ul class="pagination pg-primary">
+									<li class="page-item active">
+										<a v-on:click="go(1)" class="page-link">首页</a>
+									</li>
+									<li class="page-item">
+										<a v-on:click="go(page.prevPage)" class="page-link" aria-label="Previous">
+											<span aria-hidden="true">«</span>
+											<span class="sr-only">Previous</span>
+										</a>
+									</li>
+									<li class="page-item active">
+										<a v-on:click="go(page.currentPage)" class="page-link">{{page.currentPage}}</a>
+									</li>
+									<li class="page-item" v-if="page.currentPage + 1 <= page.totalPage">
+										<a v-on:click="go(page.currentPage + 1)" class="page-link">{{page.currentPage + 1}}</a>
+									</li>
+									<li class="page-item" v-if="page.currentPage + 2 <= page.totalPage">
+							 			<a v-on:click="go(page.currentPage + 2)" class="page-link">{{page.currentPage + 2}}</a>
+									</li>
+									<li class="page-item">
+										<a v-on:click="go(page.nextPage)" class="page-link" aria-label="Next">
+											<span aria-hidden="true">»</span>
+											<span class="sr-only">Next</span>
+										</a>
+									</li>
+									<li class="page-item active">
+										<a v-on:click="go(page.totalPage)" class="page-link">尾页</a>
+									</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
+
+<!-- Modal -->
+		<div id="modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		  <div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="content">
+					<div class="container-fluid">
+						<div v-if="username" class="col-lg-12 row">
+							<h4 class="page-title col-lg-6">{{username}}考勤详情</h4>
+						</div>
+						<div class="row">
+							<div v-if="kq" class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">迟到日期</h4>
+									</div>
+									<div v-for="item in kq" v-if="item.kqStateId == 2" class="card-footer">
+										{{item.kqTime}}
+									</div>
+								</div>
+							</div>
+							<div v-if="kq" class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">早退日期</h4>
+									</div>
+									<div v-for="item in kq" v-if="item.kqStateId == 3" class="card-footer">
+										{{item.kqTime}}
+									</div>
+								</div>
+							</div>
+							<div v-if="kq" class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">请假日期</h4>
+									</div>
+									<div v-for="item in kq" v-if="item.kqStateId == 4" class="card-footer">
+										{{item.kqTime}}
+									</div>
+								</div>
+							</div>
+							<div v-if="kq" class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">缺勤日期</h4>
+									</div>
+									<div v-for="item in kq" v-if="item.kqStateId == 5" class="card-footer">
+										{{item.kqTime}}
+									</div>
+								</div>
+							</div>
+							
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		  </div>
+		</div>
+
+
+
 	</body>
-	<script th:src="@{/static/core/jquery.min.js}"></script>
-	<script th:src="@{/static/core/vue.js}" type="text/javascript" charset="utf-8"></script>
-	<script th:src="@{/static/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
-	<script th:src="@{/static/core/popper.min.js}"></script>
-	<script th:src="@{/static/plugin/chartist/chartist.min.js}"></script>
-	<script th:src="@{/static/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
-	<script th:src="@{/static/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
-	<script th:src="@{/static/core/bootstrap.min.js}"></script>
-	<script th:src="@{/static/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
-	<script th:src="@{/static/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
-	<script th:src="@{/static/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
-	<script th:src="@{/static/plugin/chart-circle/circles.min.js}"></script>
-	<script th:src="@{/static/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
-	<script th:src="@{/static/ready.min.js}"></script>
+	<script th:src="@{/static/js/core/jquery.min.js}"></script>
+	<script th:src="@{/static/js/core/vue.js}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+	<script th:src="@{/static/js/core/popper.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+	<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+	<script th:src="@{/static/js/ready.min.js}"></script>
 
 	<script>
+		
 		/* 加载事件，默认全部复选框选中 */
 		$(function(){
-			$("input[type='checkbox']").attr("checked",'true');
+			$("input[name='zhanshilie']").attr("checked",'true');
+			queryAllKaoQinBanJi(1,this.cid,this.studentname,this.starttime,this.endtime);
 		});
+		
+		/* 查询所有学生考勤信息 */
+		var V = new Vue({
+			  el:"#shuaxin",
+			  data:{
+				  page:{},
+				  cid:null,
+				  studentname:null,
+				  starttime:null,
+				  endtime:null
+			  },methods:{
+					go:function(currentPage){
+						queryAllKaoQinBanJi(currentPage,this.cid,this.studentname,this.starttime,this.endtime)
+					},xiangqin:function(ftid){
+						xiangqin(ftid);
+					},panduan:function(){
+						panduan();
+					},djtr:function(userid,username){
+						djtr(userid,this.starttime,this.endtime,username);
+					}
+			  },watch:{
+				  	cid:function(){
+				  		queryAllKaoQinBanJi(1,this.cid,this.studentname,this.starttime,this.endtime)
+					},
+					studentname:function(){
+				  		queryAllKaoQinBanJi(1,this.cid,this.studentname,this.starttime,this.endtime)
+					},
+					starttime:function(){
+				  		queryAllKaoQinBanJi(1,this.cid,this.studentname,this.starttime,this.endtime)
+					},
+					endtime:function(){
+				  		queryAllKaoQinBanJi(1,this.cid,this.studentname,this.starttime,this.endtime)
+					},
+				}
+		  });
+		
+		/* 查询考勤详情 */
+		var M = new Vue({
+			el:"#modal",
+			data:{
+				kq:null,
+				username:null
+			}
+		});
+		/* 查询考勤详情 */
+		function djtr(userid,starttime,endtime,username){
+			$.ajax({
+				url:"queryKaoQinYuanGongXiangByTime",
+				data:"userid="+userid+"&startStr="+starttime+"&endStr="+endtime,
+				  success:function(result){
+					  M.kq = result;
+					  M.username = username;
+				  }
+			});
+		}
+		/* 查询所有学生考勤信息 */
+		function queryAllKaoQinBanJi(currentPage,cid,studentname,starttime,endtime){			
+			var kq={};
+			kq.currentPage=currentPage;
+			kq.cid=cid;
+			kq.studentname=studentname;
+			kq.startStr=starttime;
+			kq.endStr=endtime;
+			$.ajax({
+				  url:"queryAllKaoQinBanJi",
+				  type:"post",
+				  dataType:"json",
+				  data:kq,
+				  success:function(result){
+					  console.log(result);
+					  	V.page = result;
+				  }
+			  });
+		}
+		//全选反选
+		function quanxuan(){
+			if($("input[name='quanxuan']").prop("checked")){
+				$("input[name='xuanze']").prop("checked",true);
+			}else{
+				$("input[name='xuanze']").prop("checked",false);
+			}
+		}
+		//判断是否全部选中
+		function panduan(){
+			var num=0;
+			var pd = $("input[name='xuanze']");
+			for(var i =0;i<pd.length;i++){
+				if(pd[i].checked == true){
+					num++;
+				}
+			}
+			if(num == pd.length){
+				$("input[name='quanxuan']").prop("checked",true);
+			}else{
+				$("input[name='quanxuan']").prop("checked",false);
+			}
+		}
 		/* 复选框单击事件*/
-		$("input[type='checkbox']").click(function(){
+		$("input[name='zhanshilie']").click(function(){
 			var ziji = $(this);
 			var checkboxname = $(this).next().html();
 			$("th[scope='col']").each(function(index,element){

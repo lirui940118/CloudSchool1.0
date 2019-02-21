@@ -141,5 +141,9 @@ public class CqjStudentServiceImpl implements CqjStudentService{
 		sugm.addStudentUpGrades(Studentupgrade);
 		return cm.updateStatusByCid(-1, cid);
 	}
+	public List<CqjStudent> queryTongXueByUserid(Integer uid) {
+		// TODO Auto-generated method stub
+		return cqjStudentMapper.queryTongXueByUserid(uid);
+	}
 
 }

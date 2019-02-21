@@ -47,6 +47,7 @@ public class GkFangTanServiceImpl implements GkFangTanService{
 	@Override
 	public int insertFangTan(GkInterview ft,Integer[] shuzu) {
 		// TODO Auto-generated method stub
+		
 		return gkInterviewMapper.insertFangTan(ft,shuzu);
 	}
 	@Override
@@ -65,8 +66,28 @@ public class GkFangTanServiceImpl implements GkFangTanService{
 		return gkInterviewMapper.queryAllJiaZhang(name);
 	}
 	@Override
-	public List<GkInterview> queryFangTanByWWC(Integer ftObject) {
+	public List<GkInterview> queryFangTanByWWCB(Integer ftObject) {
 		// TODO Auto-generated method stub
-		return gkInterviewMapper.queryFangTanByWWC(ftObject);
+		return gkInterviewMapper.queryFangTanByWWCB(ftObject);
+	}
+	@Override
+	public int updateFangTanWS(Integer ftId, String ftObjectExplain) {
+		// TODO Auto-generated method stub
+		return gkInterviewMapper.updateFangTanWS(ftId, ftObjectExplain);
+	}
+	@Override
+	public List<GkInterview> queryFangTanByWWCW(Integer ftPeople) {
+		// TODO Auto-generated method stub
+		return gkInterviewMapper.queryFangTanByWWCW(ftPeople);
+	}
+	@Override
+	public List<GkInterview> queryFangTanByYWCW(Integer ftPeople) {
+		// TODO Auto-generated method stub
+		return gkInterviewMapper.queryFangTanByYWCW(ftPeople);
+	}
+	@Override
+	public List<GkInterview> queryFangTanByYWCB(Integer ftObject) {
+		// TODO Auto-generated method stub
+		return gkInterviewMapper.queryFangTanByYWCB(ftObject);
 	}
 }

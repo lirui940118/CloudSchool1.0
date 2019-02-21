@@ -12,8 +12,20 @@ import com.CloudSchool.domain.GkInterview;
 import com.CloudSchool.domain.GkPageBean;
 
 public interface GkFangTanService {
-	//查询未完成的访谈
-	List<GkInterview> queryFangTanByWWC(Integer ftObject);
+	//完善未完成的访谈
+	int updateFangTanWS(Integer ftId,String ftObjectExplain);
+	
+	
+	//查询未完成的访谈,别人发起
+	List<GkInterview> queryFangTanByWWCB(Integer ftObject);
+	//查询未完成的访谈,我发起
+	List<GkInterview> queryFangTanByWWCW(Integer ftPeople);
+	//查询已完成的访谈,我发起
+	List<GkInterview> queryFangTanByYWCW(Integer ftPeople);
+	//查询已完成的访谈,别人发起
+	List<GkInterview> queryFangTanByYWCB(Integer ftObject);
+		
+		
 	//查询所有访谈
 	GkPageBean<GkInterview> queryAllFangTan(GkInterview ft);
 	//同过访谈id查询访谈详情

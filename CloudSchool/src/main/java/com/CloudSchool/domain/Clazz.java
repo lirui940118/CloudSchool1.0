@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class Clazz {
+	//gk年级名称
+	private String gradeName;
+	
     private Integer id;
 
     private String cname;
@@ -40,6 +43,14 @@ public class Clazz {
   
 	public List<CqjStudent> getList2() {
 		return list2;
+	}
+
+	public String getGradeName() {
+		return gradeName;
+	}
+
+	public void setGradeName(String gradeName) {
+		this.gradeName = gradeName;
 	}
 
 	public void setList2(List<CqjStudent> list2) {

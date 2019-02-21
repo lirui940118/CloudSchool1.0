@@ -15,6 +15,12 @@
     <result column="by5" jdbcType="VARCHAR" property="by5" />
     <result column="totalCount" property="totalCount" />
   </resultMap>
+  
+  <!-- 查询所有考勤状态 -->
+  <select id="queryAllKaoQinState" resultMap="BaseResultMap">
+  	SELECT * FROM `gk_kaoqin_state`
+  </select>
+  
   <sql id="Base_Column_List">
     kq_state_id, kq_state_name, creation_time, update_time, founder, status, by1, by2, 
     by3, by4, by5

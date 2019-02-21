@@ -2,17 +2,50 @@ package com.CloudSchool.domain;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class GkKaoqin {
     private Integer kqId;
-
+    //用户id
     private Integer uid;
+    //用户userid
+    private Integer userid;
+	public Integer getUserid() {
+		return userid;
+	}
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
+	public Integer getCid() {
+		return cid;
+	}
+	public void setCid(Integer cid) {
+		this.cid = cid;
+	}
 
-    private Date kqTime;
-
+	//班级id
+    private Integer cid;
+    //年级id
+    private Integer gid;
+    //考勤状态id
     private Integer kqStateId;
+    
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date kqTime;
+    
+    public Integer getGid() {
+		return gid;
+	}
+	public void setGid(Integer gid) {
+		this.gid = gid;
+	}
 
-    private Date creationTime;
+	private Date creationTime;
 
     private Date updateTime;
 
@@ -68,7 +101,7 @@ public class GkKaoqin {
 	}
 
 	private String positionname; //职位名称
-    private String staffname;	 //姓名
+    private String staffname;	 //员工姓名
     private String startStr;
 	private String endStr;
 	private Date starttime;		//开始时间
@@ -77,7 +110,17 @@ public class GkKaoqin {
 	private Integer pageSize;	//每页显示行数
 	
 	
+
+    private String studentname;	 //学生姓名
 	
+	
+	
+	public String getStudentname() {
+		return studentname;
+	}
+	public void setStudentname(String studentname) {
+		this.studentname = studentname;
+	}
 	public String getStartStr() {
 		return startStr;
 	}

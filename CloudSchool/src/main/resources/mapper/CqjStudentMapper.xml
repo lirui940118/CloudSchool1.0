@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.CloudSchool.dao.CqjStudentMapper">
+<<<<<<< HEAD
 	<resultMap id="BaseResultMap"
 		type="com.CloudSchool.domain.CqjStudent">
 		<id column="studentid" jdbcType="INTEGER" property="studentid" />
@@ -415,4 +416,258 @@
 		GROUP BY tm.`id`
 		ORDER BY tm.`id`
 	</select>
+=======
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.CqjStudent">
+    <id column="studentid" jdbcType="INTEGER" property="studentid" />
+    <result column="studentname" jdbcType="VARCHAR" property="studentname" />
+    <result column="studentnub" jdbcType="VARCHAR" property="studentnub" />
+    <result column="positionid" jdbcType="INTEGER" property="positionid" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="standby1" jdbcType="VARCHAR" property="standby1" />
+    <result column="standby2" jdbcType="VARCHAR" property="standby2" />
+    <result column="standby3" jdbcType="VARCHAR" property="standby3" />
+    <result column="standby4" jdbcType="VARCHAR" property="standby4" />
+    <result column="standby5" jdbcType="VARCHAR" property="standby5" />
+ 	<result column="className" property="className"/>
+  	<result column="statusValue" property="statusValue"/>
+  	<result column="endtime" property="endtime"/>
+  	<result column="url" property="url"/>
+  </resultMap>
+  
+  
+  <!-- gk通过学生id查询所在班级所有学生 -->
+  <select id="queryTongXueByUserid" resultMap="BaseResultMap">
+	SELECT *,c.cname AS 'className',u.userid FROM `cqj_student` AS s
+	JOIN `clazzstudent` AS z ON (s.studentid = z.sid) AND `status`= 0
+	JOIN `clazz` AS c ON (c.id = z.cid)
+	JOIN `cqj_user` AS u ON (u.usertypeid = s.studentid) AND `usertypenub` = 1
+	WHERE `studentid` IN (SELECT `sid` FROM `clazzstudent` 
+	WHERE `cid` = (SELECT `cid` FROM `clazzstudent` WHERE `sid` = #{uid} AND `status` = 0))
+  </select>
+  <sql id="Base_Column_List">
+    studentid, studentname, studentnub, positionid, sex, age, phone, idcard, birthday, 
+    address, email, standby1, standby2, standby3, standby4, standby5
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cqj_student
+    where studentid = #{studentid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cqj_student
+    where studentid = #{studentid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.CloudSchool.domain.CqjStudent">
+    insert into cqj_student (studentid, studentname, studentnub, 
+      positionid, sex, age, 
+      phone, idcard, birthday, 
+      address, email, standby1, 
+      standby2, standby3, standby4, 
+      standby5)
+    values (#{studentid,jdbcType=INTEGER}, #{studentname,jdbcType=VARCHAR}, #{studentnub,jdbcType=VARCHAR}, 
+      #{positionid,jdbcType=INTEGER}, #{sex,jdbcType=INTEGER}, #{age,jdbcType=INTEGER}, 
+      #{phone,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{standby1,jdbcType=VARCHAR}, 
+      #{standby2,jdbcType=VARCHAR}, #{standby3,jdbcType=VARCHAR}, #{standby4,jdbcType=VARCHAR}, 
+      #{standby5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.CloudSchool.domain.CqjStudent">
+    insert into cqj_student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="studentid != null">
+        studentid,
+      </if>
+      <if test="studentname != null">
+        studentname,
+      </if>
+      <if test="studentnub != null">
+        studentnub,
+      </if>
+      <if test="positionid != null">
+        positionid,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="idcard != null">
+        idcard,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="standby1 != null">
+        standby1,
+      </if>
+      <if test="standby2 != null">
+        standby2,
+      </if>
+      <if test="standby3 != null">
+        standby3,
+      </if>
+      <if test="standby4 != null">
+        standby4,
+      </if>
+      <if test="standby5 != null">
+        standby5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="studentid != null">
+        #{studentid,jdbcType=INTEGER},
+      </if>
+      <if test="studentname != null">
+        #{studentname,jdbcType=VARCHAR},
+      </if>
+      <if test="studentnub != null">
+        #{studentnub,jdbcType=VARCHAR},
+      </if>
+      <if test="positionid != null">
+        #{positionid,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="standby1 != null">
+        #{standby1,jdbcType=VARCHAR},
+      </if>
+      <if test="standby2 != null">
+        #{standby2,jdbcType=VARCHAR},
+      </if>
+      <if test="standby3 != null">
+        #{standby3,jdbcType=VARCHAR},
+      </if>
+      <if test="standby4 != null">
+        #{standby4,jdbcType=VARCHAR},
+      </if>
+      <if test="standby5 != null">
+        #{standby5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.CqjStudent">
+    update cqj_student
+    <set>
+      <if test="studentname != null">
+        studentname = #{studentname,jdbcType=VARCHAR},
+      </if>
+      <if test="studentnub != null">
+        studentnub = #{studentnub,jdbcType=VARCHAR},
+      </if>
+      <if test="positionid != null">
+        positionid = #{positionid,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="standby1 != null">
+        standby1 = #{standby1,jdbcType=VARCHAR},
+      </if>
+      <if test="standby2 != null">
+        standby2 = #{standby2,jdbcType=VARCHAR},
+      </if>
+      <if test="standby3 != null">
+        standby3 = #{standby3,jdbcType=VARCHAR},
+      </if>
+      <if test="standby4 != null">
+        standby4 = #{standby4,jdbcType=VARCHAR},
+      </if>
+      <if test="standby5 != null">
+        standby5 = #{standby5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where studentid = #{studentid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.CqjStudent">
+    update cqj_student
+    set studentname = #{studentname,jdbcType=VARCHAR},
+      studentnub = #{studentnub,jdbcType=VARCHAR},
+      positionid = #{positionid,jdbcType=INTEGER},
+      sex = #{sex,jdbcType=INTEGER},
+      age = #{age,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      address = #{address,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      standby1 = #{standby1,jdbcType=VARCHAR},
+      standby2 = #{standby2,jdbcType=VARCHAR},
+      standby3 = #{standby3,jdbcType=VARCHAR},
+      standby4 = #{standby4,jdbcType=VARCHAR},
+      standby5 = #{standby5,jdbcType=VARCHAR}
+    where studentid = #{studentid,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  
+  <!-- 查询该学员个人信息 -->
+  <select id="queryStudentInfoBySid" resultMap="BaseResultMap">
+  	SELECT cqj_student.studentid,cqj_student.`studentname`,cqj_student.`sex`,clazz.`cname` as className,cqj_student.`standby1`,img.`url`,clazzstudent.`endtime` FROM `cqj_student` 
+	INNER JOIN `clazzstudent` ON `clazzstudent`.`sid` = `cqj_student`.`studentid` 
+	INNER JOIN `clazz` ON clazz.`id` = clazzstudent.`cid`
+	INNER JOIN `zzy_grade` ON `zzy_grade`.`gid` = clazz.`gid` 
+	INNER JOIN img ON img.`id` = cqj_student.studentid
+	WHERE `cqj_student`.`studentid` = #{sId} AND  img.`style` = 0 ORDER BY clazzstudent.`starttime` DESC LIMIT 1
+  </select>
+  
+  <!-- 根据学员id查询个人信息 -->
+  <select id="queryBysid" resultMap="BaseResultMap">
+  		SELECT * FROM `cqj_student` WHERE studentid=#{sid}
+  </select>
+>>>>>>> refs/heads/gk3.0
 </mapper>
