@@ -6,6 +6,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class CqjStudent {
 	
+	//gk用户id
+	private Integer userid;
+	public Integer getUserid() {
+		return userid;
+	}
+
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
+
 	//write by lirui 
 	//当前所在班级名称
 	private String className;
@@ -34,7 +44,7 @@ public class CqjStudent {
     
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss") 
     private Date birthday;
-
+    
     private String address;
 
     private String email;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.CloudSchool.dao.GkKaoqinMapper">
-  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.GkKaoqin">
+  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.GkKaoqin" >
     <id column="kq_id" jdbcType="INTEGER" property="kqId" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="kq_time" jdbcType="TIMESTAMP" property="kqTime" />
@@ -17,6 +17,144 @@
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
   
+  
+  <!-- 查询某段时间内的考勤状况by userid -->
+  <select id="queryKaoQinYuanGongXiangByTime" resultMap="BaseResultMap">
+  	SELECT * FROM `gk_kaoqin`
+  	<where>
+		and `uid` = #{userid} AND kq_state_id != 1
+		<if test="startStr and endStr">
+			AND kq_time BETWEEN  #{startStr} AND #{endStr}
+		</if>
+		<if test="startStr and !endStr">
+			AND kq_time BETWEEN  #{startStr} AND NOW()
+		</if>
+		<if test="!startStr and endStr">
+			AND kq_time &lt;= #{endStr}
+		</if>
+	</where>
+  </select>
+
+  <!-- 修改班级当天考勤状态 -->
+  <update id="updateKaoQinBanJi">
+	UPDATE `gk_kaoqin`
+	<set>
+		`kq_state_id` = #{kqStateId}
+	</set>
+	WHERE `uid` = #{uid} AND DATE(`kq_time`) = DATE(NOW())
+  </update>
+  <!-- 判断班级当天是否考勤 -->
+  <select id="queryKaoQinPanDuan" resultMap="BaseResultMap">
+  	SELECT * FROM `gk_kaoqin`
+	WHERE uid = #{userid} AND DATE(`kq_time`) = DATE(NOW())
+  </select>
+  <!-- 新增班级当天考勤 -->
+  <insert id="insertBanJiKaoQin">
+		INSERT INTO `gk_kaoqin`
+		(`uid`,`kq_time`,`kq_state_id`,`creation_time`,`status`,`by1`,`by2`)VALUES
+		<foreach collection="list" close=";"  separator="," item="l">
+			(#{l.uid},NOW(),#{l.kqStateId},NOW(),0,0,0)
+		</foreach>
+  </insert>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+	<!-- 查询班级考勤 -->
+	<select id="queryAllKaoQinBanJi" resultMap="BaseResultMap">
+		SELECT 
+		*
+		FROM `cqj_user` AS u
+		JOIN `cqj_student` AS xs ON (xs.studentid = u.usertypeid) AND u.`usertypenub` = 1
+		JOIN `clazzstudent` AS cs ON (xs.`studentid` = cs.sid)
+		RIGHT JOIN 
+		(SELECT uid, SUM(IF(kq_state_id=1, 1, 0)) yi,
+		SUM(IF(kq_state_id=2, 1, 0)) er, 
+		SUM(IF(kq_state_id=3, 1, 0)) san, 
+		SUM(IF(kq_state_id=4, 1, 0)) si, 
+		SUM(IF(kq_state_id=5, 1, 0)) wu
+		FROM `gk_kaoqin` AS kq 
+			<if test="startStr==null and endStr==null">
+				GROUP BY kq.uid
+			</if>
+		<where>
+			<if test="startStr!=null and endStr!=null">
+				AND kq_time BETWEEN  #{startStr} AND #{endStr} GROUP BY kq.uid
+			</if>
+			<if test="startStr!=null and endStr==null">
+				AND kq_time BETWEEN  #{startStr} AND NOW() GROUP BY kq.uid
+			</if>
+			<if test="startStr==null and endStr!=null">
+				AND kq_time &lt;= #{endStr} GROUP BY kq.uid
+			</if>
+		</where>
+		) kq ON (u.userid = kq.uid) 
+		<where>
+			<if test="cid">
+				AND cs.`cid` = #{cid} 
+			</if>
+		</where>
+		<where>
+			<if test="studentname">
+				AND cs.sid IN (
+					SELECT studentid FROM `cqj_student` WHERE `studentname` LIKE concat('%',#{studentname},'%')
+					) AND cs.`status` = 0
+			</if>
+		</where>
+		LIMIT #{currentPage},#{pageSize}
+	</select>
+	<!-- 查询班级考勤行数 -->
+	<select id="queryAllKaoQinBanJiCount" resultType="int">
+		SELECT 
+		COUNT(*)
+		FROM `cqj_user` AS u
+		JOIN `cqj_student` AS xs ON (xs.studentid = u.usertypeid) AND u.`usertypenub` = 1
+		JOIN `clazzstudent` AS cs ON (xs.`studentid` = cs.sid)
+		RIGHT JOIN 
+		(SELECT uid, SUM(IF(kq_state_id=1, 1, 0)) yi,
+		SUM(IF(kq_state_id=2, 1, 0)) er, 
+		SUM(IF(kq_state_id=3, 1, 0)) san, 
+		SUM(IF(kq_state_id=4, 1, 0)) si, 
+		SUM(IF(kq_state_id=5, 1, 0)) wu
+		FROM `gk_kaoqin` AS kq 
+			<if test="startStr==null and endStr==null">
+				GROUP BY kq.uid
+			</if>
+		<where>
+			<if test="startStr!=null and endStr!=null">
+				AND kq_time BETWEEN  #{startStr} AND #{endStr} GROUP BY kq.uid
+			</if>
+			<if test="startStr!=null and endStr==null">
+				AND kq_time BETWEEN  #{startStr} AND NOW() GROUP BY kq.uid
+			</if>
+			<if test="startStr==null and endStr!=null">
+				AND kq_time &lt;= #{endStr} GROUP BY kq.uid
+			</if>
+		</where>
+		) kq ON (u.userid = kq.uid) 
+		<where>
+			<if test="cid">
+				AND cs.`cid` = #{cid} 
+			</if>
+		</where>
+		
+		AND cs.sid IN (
+		SELECT studentid FROM `cqj_student` WHERE `studentname` LIKE concat('%',#{studentname},'%')
+		) AND cs.`status` = 0
+	</select>
+	
+	
+	
+	
+	
+	
+	
+
   <!-- 查询所有员工考勤 -->
   <select id="queryAllKaoQinYuanGong" resultMap="BaseResultMap">
 	  SELECT zw.`positionname`,yg.`staffname`,u.*, kq.*
@@ -56,11 +194,6 @@
 	</where>
 	LIMIT #{currentPage},#{pageSize}
   </select>
-  
-  
-  
-  
-  
   <!-- 查询所有员工考勤行数 -->
   <select id="queryAllKaoQinYuanGongCount" resultType="int">
   	SELECT COUNT(*)

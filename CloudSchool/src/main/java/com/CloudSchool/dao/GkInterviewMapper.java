@@ -12,8 +12,18 @@ import com.CloudSchool.domain.GkInterview;
 
 public interface GkInterviewMapper {
 	
-	//查询未完成的访谈
-	List<GkInterview> queryFangTanByWWC(Integer ftObject);
+	//完善未完成的访谈
+	int updateFangTanWS(Integer ftId,String ftObjectExplain);
+	
+	//查询未完成的访谈,别人发起
+	List<GkInterview> queryFangTanByWWCB(Integer ftObject);
+	//查询未完成的访谈,我发起
+	List<GkInterview> queryFangTanByWWCW(Integer ftPeople);
+	//查询已完成的访谈,我发起
+	List<GkInterview> queryFangTanByYWCW(Integer ftPeople);
+	//查询已完成的访谈,别人发起
+	List<GkInterview> queryFangTanByYWCB(Integer ftObject);
+	
 	//查询所有访谈记录
 	List<GkInterview> queryAllFangTan(GkInterview ft);
 	//查询所有访谈记录行数

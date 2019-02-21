@@ -57,7 +57,11 @@
 								</label>
 								<label class="form-check-label">
 									<input class="form-check-input task-select" type="checkbox" name="zhanshilie">
-									<span class="form-check-sign">旷工天数</span>
+									<span class="form-check-sign">缺勤天数</span>
+								</label>
+								<label class="form-check-label">
+									<input name="zhanshilie" class="form-check-input task-select" type="checkbox">
+									<span class="form-check-sign">查看详情</span>
 								</label>
 								<label class="form-check-label">
 									<input class="form-check-input task-select" type="checkbox" name="zhanshilie">
@@ -103,12 +107,13 @@
 											<th scope="col">迟到次数</th>
 											<th scope="col">早退次数</th>
 											<th scope="col">请假天数</th>
-											<th scope="col">旷工天数</th>
+											<th scope="col">缺勤天数</th>
+											<th scope="col">查看详情</th>
 											<th scope="col">复选框</th>
 										</tr>
 									</thead>
 									<tbody v-if="page">
-										<tr v-for="item in page.list">
+										<tr v-for="item in page.list" >
 											<td name="姓名"><span>{{item.staffname}}</span></td>
 											<td name="职位"><span>{{item.positionname}}</span></td>
 											<td name="正常天数"><span>{{item.yi}}</span></td>
@@ -116,6 +121,7 @@
 											<td name="早退次数"><span>{{item.san}}</span></td>
 											<td name="请假天数"><span>{{item.si}}</span></td>
 											<td name="旷工天数"><span>{{item.wu}}</span></td>
+											<td name="查看详情" v-on:click="djtr(item.userid,item.staffname)"  infoBut moduleUrl="/queryFangTanDetailsByftid"  data-toggle="modal" data-target=".bs-example-modal-lg">查看详情</td>
 											<td name="复选框">
 												<label class="form-check-label">
 													<input v-on:click="panduan()" v-bind:abc="item.kqId" name="xuanze" class="form-check-input task-select" type="checkbox">
@@ -161,6 +167,68 @@
 			</div>
 		</div>
 
+
+<!-- Modal -->
+		<div id="modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		  <div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="content">
+					<div class="container-fluid">
+						<div v-if="username" class="col-lg-12 row">
+							<h4 class="page-title col-lg-6">{{username}}考勤详情</h4>
+						</div>
+						<div class="row">
+							<div v-if="kq" class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">迟到日期</h4>
+									</div>
+									<div v-for="item in kq" v-if="item.kqStateId == 2" class="card-footer">
+										{{item.kqTime}}
+									</div>
+								</div>
+							</div>
+							<div v-if="kq" class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">早退日期</h4>
+									</div>
+									<div v-for="item in kq" v-if="item.kqStateId == 3" class="card-footer">
+										{{item.kqTime}}
+									</div>
+								</div>
+							</div>
+							<div v-if="kq" class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">请假日期</h4>
+									</div>
+									<div v-for="item in kq" v-if="item.kqStateId == 4" class="card-footer">
+										{{item.kqTime}}
+									</div>
+								</div>
+							</div>
+							<div v-if="kq" class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">缺勤日期</h4>
+									</div>
+									<div v-for="item in kq" v-if="item.kqStateId == 5" class="card-footer">
+										{{item.kqTime}}
+									</div>
+								</div>
+							</div>
+							
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		  </div>
+		</div>
+
+
+
 	</body>
 	<script th:src="@{/static/js/core/jquery.min.js}"></script>
 	<script th:src="@{/static/js/core/vue.js}" type="text/javascript" charset="utf-8"></script>
@@ -178,10 +246,11 @@
 	<script th:src="@{/static/js/ready.min.js}"></script>
 
 	<script>
+		
 		/* 加载事件，默认全部复选框选中 */
 		$(function(){
 			$("input[name='zhanshilie']").attr("checked",'true');
-			queryAllKaoQinYuanGong(1,this.positionname,this.staffname,this.starttime,this.endtime);
+			queryAllWenJuanFaBuJiLu(1,this.positionname,this.staffname,this.starttime,this.endtime);
 		});
 		
 		/* 查询所有员工考勤信息 */
@@ -195,29 +264,51 @@
 				  endtime:null
 			  },methods:{
 					go:function(currentPage){
-						queryAllKaoQinYuanGong(currentPage,this.positionname,this.staffname,this.starttime,this.endtime)
+						queryAllWenJuanFaBuJiLu(currentPage,this.positionname,this.staffname,this.starttime,this.endtime)
 					},xiangqin:function(ftid){
 						xiangqin(ftid);
 					},panduan:function(){
 						panduan();
+					},djtr:function(userid,username){
+						djtr(userid,this.starttime,this.endtime,username);
 					}
 			  },watch:{
 				  	positionname:function(){
-				  		queryAllKaoQinYuanGong(1,this.positionname,this.staffname,this.starttime,this.endtime)
+				  		queryAllWenJuanFaBuJiLu(1,this.positionname,this.staffname,this.starttime,this.endtime)
 					},
 					staffname:function(){
-				  		queryAllKaoQinYuanGong(1,this.positionname,this.staffname,this.starttime,this.endtime)
+				  		queryAllWenJuanFaBuJiLu(1,this.positionname,this.staffname,this.starttime,this.endtime)
 					},
 					starttime:function(){
-				  		queryAllKaoQinYuanGong(1,this.positionname,this.staffname,this.starttime,this.endtime)
+				  		queryAllWenJuanFaBuJiLu(1,this.positionname,this.staffname,this.starttime,this.endtime)
 					},
 					endtime:function(){
-				  		queryAllKaoQinYuanGong(1,this.positionname,this.staffname,this.starttime,this.endtime)
+				  		queryAllWenJuanFaBuJiLu(1,this.positionname,this.staffname,this.starttime,this.endtime)
 					},
 				}
 		  });
+		
+		/* 查询考勤详情 */
+		var M = new Vue({
+			el:"#modal",
+			data:{
+				kq:null,
+				username:null
+			}
+		});
+		/* 查询考勤详情 */
+		function djtr(userid,starttime,endtime,username){
+			$.ajax({
+				url:"queryKaoQinYuanGongXiangByTime",
+				data:"userid="+userid+"&startStr="+starttime+"&endStr="+endtime,
+				  success:function(result){
+					  M.kq = result;
+					  M.username = username;
+				  }
+			});
+		}
 		/* 查询所有员工考勤信息 */
-		function queryAllKaoQinYuanGong(currentPage,positionname,staffname,starttime,endtime){			
+		function queryAllWenJuanFaBuJiLu(currentPage,positionname,staffname,starttime,endtime){			
 			var kq={};
 			kq.currentPage=currentPage;
 			kq.positionname=positionname;
@@ -225,11 +316,12 @@
 			kq.startStr=starttime;
 			kq.endStr=endtime;
 			$.ajax({
-				  url:"queryAllKaoQinYuanGong",
+				  url:"queryAllWenJuanFaBuJiLu",
 				  type:"post",
 				  dataType:"json",
 				  data:kq,
 				  success:function(result){
+					  console.log(result);
 					  	V.page = result;
 				  }
 			  });

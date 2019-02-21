@@ -21,5 +21,10 @@ public class GkKaoqinStateServiceImpl implements GkKaoqinStateService{
 	public List<GkKaoqinState> queryKqTotalInfoByStaffId(Integer staffId) {
 		return gkKaoqinStateMapper.queryKqTotalInfoByStaffId(staffId);
 	}
+	@Override
+	public List<GkKaoqinState> queryAllKaoQinState() {
+		// TODO Auto-generated method stub
+		return gkKaoqinStateMapper.queryAllKaoQinState();
+	}
 
 }

@@ -1,5 +1,7 @@
 package com.CloudSchool.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,11 @@ public class CqjStudentServiceImpl implements CqjStudentService{
 	@Override
 	public CqjStudent queryStudentInfoBySid(Integer sId) {
 		return cqjStudentMapper.queryStudentInfoBySid(sId);
+	}
+	@Override
+	public List<CqjStudent> queryTongXueByUserid(Integer uid) {
+		// TODO Auto-generated method stub
+		return cqjStudentMapper.queryTongXueByUserid(uid);
 	}
 
 }

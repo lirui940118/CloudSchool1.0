@@ -3,7 +3,93 @@ package com.CloudSchool.domain;
 import java.util.Date;
 
 public class GkQuestionnaire {
-    private Integer wjId;
+	//员工名称
+	private String staffname;
+	//问卷类型名称
+	private String wjTypeName;
+	//问卷选项类型名称
+	private String wjxxTypeName;
+	
+	public String getWjxxTypeName() {
+		return wjxxTypeName;
+	}
+
+	public void setWjxxTypeName(String wjxxTypeName) {
+		this.wjxxTypeName = wjxxTypeName;
+	}
+
+	public String getWjTypeName() {
+		return wjTypeName;
+	}
+
+	public void setWjTypeName(String wjTypeName) {
+		this.wjTypeName = wjTypeName;
+	}
+
+	private String startStr;
+	private String endStr;
+	private Date starttime;		//开始时间
+	private Date endtime;		//结束时间
+	private Integer currentPage;//当前页
+	private Integer pageSize;	//每页显示行数
+	
+    public String getStartStr() {
+		return startStr;
+	}
+
+	public void setStartStr(String startStr) {
+		this.startStr = startStr;
+	}
+
+	public String getEndStr() {
+		return endStr;
+	}
+
+	public void setEndStr(String endStr) {
+		this.endStr = endStr;
+	}
+
+	public Date getStarttime() {
+		return starttime;
+	}
+
+	public void setStarttime(Date starttime) {
+		this.starttime = starttime;
+	}
+
+	public Date getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(Date endtime) {
+		this.endtime = endtime;
+	}
+
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	public Integer getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public String getStaffname() {
+		return staffname;
+	}
+
+	public void setStaffname(String staffname) {
+		this.staffname = staffname;
+	}
+
+	private Integer wjId;
 
     private String wjName;
 
@@ -182,4 +268,10 @@ public class GkQuestionnaire {
     public void setBy5(String by5) {
         this.by5 = by5;
     }
+    
+    public GkQuestionnaire() {
+		// TODO Auto-generated constructor stub
+		this.currentPage=1;
+		this.pageSize=1;
+	}
 }

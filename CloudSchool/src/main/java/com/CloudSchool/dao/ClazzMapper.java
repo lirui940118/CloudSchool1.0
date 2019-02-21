@@ -7,12 +7,18 @@ import org.apache.ibatis.annotations.Param;
 
 import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.ClazzInfo;
+import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.statistics.ClazzBaseInfoVO;
 import com.CloudSchool.domain.statistics.StudentInfoVO;
 
 
 @Mapper
 public interface ClazzMapper {
+	//gk查询所有班级
+	public List<Clazz> queryAllBanJi();
+	//gk通过id查询班级和年级名称
+	public Clazz queryBanJiByUserid(Integer uid);
+	
     int deleteByPrimaryKey(Integer id);
 
     int insert(ClazzInfo record);
