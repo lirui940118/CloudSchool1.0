@@ -6,13 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.CloudSchool.dao.ClassroomMapper;
+import com.CloudSchool.dao.ZzyClassScheduleMapper;
 import com.CloudSchool.domain.Classroom;
 import com.CloudSchool.service.ClassroomService;
+import com.alibaba.fastjson.JSON;
 @Service
 public class ClassroomServiceImpl implements ClassroomService{
 	@Autowired
 	ClassroomMapper clr;
-	
+	@Autowired
+	ZzyClassScheduleMapper zzyClassScheduleMapper;
 	public List<Classroom> query(){
 		return clr.query();
 	}
@@ -40,6 +43,16 @@ public class ClassroomServiceImpl implements ClassroomService{
 	@Override
 	public int insertSelective(Classroom record) {
 		return clr.insertSelective(record);
+	}
+	
+	//查询到所有这个时间段空教室
+	@Override
+	public List<Classroom> queryClassRoomAll(String startTime, String endTime) {
+		List<Classroom> list=clr.query();
+		/*for (Classroom classroom : list) {
+			zzyClassScheduleMapper
+		}*/
+		return null;
 	}
 
 }

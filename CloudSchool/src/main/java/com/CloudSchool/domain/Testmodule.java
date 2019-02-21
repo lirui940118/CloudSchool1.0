@@ -2,11 +2,19 @@ package com.CloudSchool.domain;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlElement;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Testmodule {
     private Integer id;
 
     private String name;
-
+    
+    @JsonFormat(pattern="yyy-MM-dd hh:ss",timezone="GMT+8")//出去数据格式
+    @DateTimeFormat(pattern="yyyy-MM-dd")		//进来数据格式
     private Date time;
 
     private Integer tid;

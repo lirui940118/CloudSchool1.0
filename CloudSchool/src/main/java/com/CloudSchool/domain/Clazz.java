@@ -36,6 +36,17 @@ public class Clazz {
     
     //学员集合
     private List<CqjStudent> list2;
+    
+    public ZzyGrade getZzygradeobj() {
+		return zzygradeobj;
+	}
+
+	public void setZzygradeobj(ZzyGrade zzygradeobj) {
+		this.zzygradeobj = zzygradeobj;
+	}
+
+	//所属年级
+    private ZzyGrade zzygradeobj;
 
   
 	public List<CqjStudent> getList2() {

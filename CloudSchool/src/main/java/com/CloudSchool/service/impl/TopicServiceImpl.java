@@ -127,5 +127,13 @@ public class TopicServiceImpl implements TopicService {
 		}
 		return 0;
 	}
+	
+	
+	//根据题目id查询题目
+	@Override
+	public TopicWithBLOBs queryTopicById(Integer id) {
+		// TODO Auto-generated method stub
+		return topicMapper.queryTopicById(id);
+	}
 
 }

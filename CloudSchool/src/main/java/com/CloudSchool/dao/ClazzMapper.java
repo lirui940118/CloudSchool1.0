@@ -39,4 +39,15 @@ public interface ClazzMapper {
 
     //write by lirui 查询班级基础信息(统计lirui)
     public List<ClazzBaseInfoVO> queryClazzBaseInfo(Integer clazzId);
+    
+    //查询所有班级
+    List<Clazz> queryAllClazz(@Param("cur")Integer cur,@Param("pagesize")Integer pagesize,@Param("cid")Integer cid);
+    
+    List<Clazz> queryByTidAdminClazz(@Param("sid")Integer sid,@Param("cur")Integer cur,@Param("pagesize")Integer pagesize,@Param("cid")Integer cid);
+    
+    int queryAllClazzCount(@Param("cid")Integer cid);
+    
+    int queryByTidAdminClazzCount(@Param("sid")Integer sid,@Param("cid")Integer cid);
+    
+    List<Clazz> queryByClazzidAllStu(Integer[] clazzs);
 }

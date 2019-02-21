@@ -23,4 +23,7 @@ public interface TopicMapper {
     int updateByPrimaryKey(Topic record);
     int queryCount(Topic obj);
     List<Topic> conditionsQueryTopci(@Param("obj")Topic obj,@Param("cur")Integer cur,@Param("pagesize")Integer pagesize);
+    
+    //根据题目id查询题目
+    TopicWithBLOBs queryTopicById(Integer id);
 }

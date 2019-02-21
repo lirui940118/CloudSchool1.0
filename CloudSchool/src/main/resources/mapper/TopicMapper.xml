@@ -1,287 +1,369 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.CloudSchool.dao.TopicMapper">
-  <resultMap id="BaseResultMap" type="com.CloudSchool.domain.Topic">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="tId" jdbcType="INTEGER" property="tid" />
-    <result column="time" jdbcType="TIMESTAMP" property="time" />
-    <result column="uId" jdbcType="INTEGER" property="uid" />
-    <result column="cId" jdbcType="INTEGER" property="cid" />
-    <result column="kid" jdbcType="INTEGER" property="kid" />
-    <result column="rank" jdbcType="INTEGER" property="rank" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="examdot" jdbcType="INTEGER" property="examdot" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="user1" jdbcType="VARCHAR" property="user1" />
-    <result column="user2" jdbcType="VARCHAR" property="user2" />
-    <result column="user3" jdbcType="VARCHAR" property="user3" />
-    <result column="user4" jdbcType="VARCHAR" property="user4" />
-    <result column="user5" jdbcType="VARCHAR" property="user5" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.CloudSchool.domain.TopicWithBLOBs">
-    <result column="topicConten" jdbcType="LONGVARCHAR" property="topicconten" />
-    <result column="result" jdbcType="LONGVARCHAR" property="result" />
-    <result column="analysis" jdbcType="LONGVARCHAR" property="analysis" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, tId, time, uId, cId, kid, rank, url, examdot, status, user1, user2, user3, user4, 
-    user5
-  </sql>
-  <sql id="Blob_Column_List">
-    topicConten, result, analysis
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from topic
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from topic
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.CloudSchool.domain.TopicWithBLOBs">
-    insert into topic (id, tId, time, 
-      uId, cId, kid, rank, 
-      url, examdot, status, 
-      user1, user2, user3, 
-      user4, user5, topicConten, 
-      result, analysis)
-    values (#{id,jdbcType=INTEGER}, #{tid,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
-      #{uid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{kid,jdbcType=INTEGER}, #{rank,jdbcType=INTEGER}, 
-      #{url,jdbcType=VARCHAR}, #{examdot,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{user1,jdbcType=VARCHAR}, #{user2,jdbcType=VARCHAR}, #{user3,jdbcType=VARCHAR}, 
-      #{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR}, #{topicconten,jdbcType=LONGVARCHAR}, 
-      #{result,jdbcType=LONGVARCHAR}, #{analysis,jdbcType=LONGVARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.CloudSchool.domain.TopicWithBLOBs" useGeneratedKeys="true" keyProperty="id">
-    insert into topic
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="tid != null">
-        tId,
-      </if>
-      <if test="time != null || time==null">
-        time,
-      </if>
-      <if test="uid != null">
-        uId,
-      </if>
-      <if test="cid != null">
-        cId,
-      </if>
-      <if test="kid != null">
-        kid,
-      </if>
-      <if test="rank != null">
-        rank,
-      </if>
-      <if test="url != null">
-        url,
-      </if>
-      <if test="examdot != null">
-        examdot,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="user1 != null">
-        user1,
-      </if>
-      <if test="user2 != null">
-        user2,
-      </if>
-      <if test="user3 != null">
-        user3,
-      </if>
-      <if test="user4 != null">
-        user4,
-      </if>
-      <if test="user5 != null">
-        user5,
-      </if>
-      <if test="topicconten != null">
-        topicConten,
-      </if>
-      <if test="result != null">
-        result,
-      </if>
-      <if test="analysis != null">
-        analysis,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="tid != null">
-        #{tid,jdbcType=INTEGER},
-      </if>
-       <if test="time != null || time==null">
-       now(),
-      </if>
-      <if test="uid != null">
-        #{uid,jdbcType=INTEGER},
-      </if>
-      <if test="cid != null">
-        #{cid,jdbcType=INTEGER},
-      </if>
-      <if test="kid != null">
-        #{kid,jdbcType=INTEGER},
-      </if>
-      <if test="rank != null">
-        #{rank,jdbcType=INTEGER},
-      </if>
-      <if test="url != null">
-        #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="examdot != null">
-        #{examdot,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="user1 != null">
-        #{user1,jdbcType=VARCHAR},
-      </if>
-      <if test="user2 != null">
-        #{user2,jdbcType=VARCHAR},
-      </if>
-      <if test="user3 != null">
-        #{user3,jdbcType=VARCHAR},
-      </if>
-      <if test="user4 != null">
-        #{user4,jdbcType=VARCHAR},
-      </if>
-      <if test="user5 != null">
-        #{user5,jdbcType=VARCHAR},
-      </if>
-      <if test="topicconten != null">
-        #{topicconten,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="result != null">
-        #{result,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="analysis != null">
-        #{analysis,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.CloudSchool.domain.TopicWithBLOBs">
-    update topic
-    <set>
-      <if test="tid != null">
-        tId = #{tid,jdbcType=INTEGER},
-      </if>
-      <if test="time != null">
-        time = #{time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="uid != null">
-        uId = #{uid,jdbcType=INTEGER},
-      </if>
-      <if test="cid != null">
-        cId = #{cid,jdbcType=INTEGER},
-      </if>
-      <if test="kid != null">
-        kid = #{kid,jdbcType=INTEGER},
-      </if>
-      <if test="rank != null">
-        rank = #{rank,jdbcType=INTEGER},
-      </if>
-      <if test="url != null">
-        url = #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="examdot != null">
-        examdot = #{examdot,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="user1 != null">
-        user1 = #{user1,jdbcType=VARCHAR},
-      </if>
-      <if test="user2 != null">
-        user2 = #{user2,jdbcType=VARCHAR},
-      </if>
-      <if test="user3 != null">
-        user3 = #{user3,jdbcType=VARCHAR},
-      </if>
-      <if test="user4 != null">
-        user4 = #{user4,jdbcType=VARCHAR},
-      </if>
-      <if test="user5 != null">
-        user5 = #{user5,jdbcType=VARCHAR},
-      </if>
-      <if test="topicconten != null">
-        topicConten = #{topicconten,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="result != null">
-        result = #{result,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="analysis != null">
-        analysis = #{analysis,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.CloudSchool.domain.TopicWithBLOBs">
-    update topic
-    set tId = #{tid,jdbcType=INTEGER},
-      time = #{time,jdbcType=TIMESTAMP},
-      uId = #{uid,jdbcType=INTEGER},
-      cId = #{cid,jdbcType=INTEGER},
-      kid = #{kid,jdbcType=INTEGER},
-      rank = #{rank,jdbcType=INTEGER},
-      url = #{url,jdbcType=VARCHAR},
-      examdot = #{examdot,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      user1 = #{user1,jdbcType=VARCHAR},
-      user2 = #{user2,jdbcType=VARCHAR},
-      user3 = #{user3,jdbcType=VARCHAR},
-      user4 = #{user4,jdbcType=VARCHAR},
-      user5 = #{user5,jdbcType=VARCHAR},
-      topicConten = #{topicconten,jdbcType=LONGVARCHAR},
-      result = #{result,jdbcType=LONGVARCHAR},
-      analysis = #{analysis,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.CloudSchool.domain.Topic">
-    update topic
-    set tId = #{tid,jdbcType=INTEGER},
-      time = #{time,jdbcType=TIMESTAMP},
-      uId = #{uid,jdbcType=INTEGER},
-      cId = #{cid,jdbcType=INTEGER},
-      kid = #{kid,jdbcType=INTEGER},
-      rank = #{rank,jdbcType=INTEGER},
-      url = #{url,jdbcType=VARCHAR},
-      examdot = #{examdot,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      user1 = #{user1,jdbcType=VARCHAR},
-      user2 = #{user2,jdbcType=VARCHAR},
-      user3 = #{user3,jdbcType=VARCHAR},
-      user4 = #{user4,jdbcType=VARCHAR},
-      user5 = #{user5,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="queryCount" resultType="int">
-  	SELECT count(*) FROM topic
-  	<where>
-  		<if test="tid!=null">
-  			tid=#{tid}
-  		</if>
-  	</where>
-  </select>
-  <select id="conditionsQueryTopci" resultMap="ResultMapWithBLOBs">
-  	SELECT * FROM topic
-  	<where>
-  		<if test="obj.tid!=null">
-  			tid=#{obj.tid}
-  		</if>
-  	</where>
-  	limit #{cur},#{pagesize}
-  </select>
+	<resultMap id="BaseResultMap"
+		type="com.CloudSchool.domain.Topic">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="tId" jdbcType="INTEGER" property="tid" />
+		<result column="time" jdbcType="TIMESTAMP" property="time" />
+		<result column="uId" jdbcType="INTEGER" property="uid" />
+		<result column="cId" jdbcType="INTEGER" property="cid" />
+		<result column="kid" jdbcType="INTEGER" property="kid" />
+		<result column="rank" jdbcType="INTEGER" property="rank" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
+		<result column="examdot" jdbcType="INTEGER" property="examdot" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="user1" jdbcType="VARCHAR" property="user1" />
+		<result column="user2" jdbcType="VARCHAR" property="user2" />
+		<result column="user3" jdbcType="VARCHAR" property="user3" />
+		<result column="user4" jdbcType="VARCHAR" property="user4" />
+		<result column="user5" jdbcType="VARCHAR" property="user5" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.CloudSchool.domain.TopicWithBLOBs">
+		<result column="topicConten" jdbcType="LONGVARCHAR"
+			property="topicconten" />
+		<result column="result" jdbcType="LONGVARCHAR"
+			property="result" />
+		<result column="analysis" jdbcType="LONGVARCHAR"
+			property="analysis" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, tId, time, uId, cId, kid, rank, url, examdot, status,
+		user1, user2,
+		user3, user4,
+		user5
+	</sql>
+	<sql id="Blob_Column_List">
+		topicConten, result, analysis
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from topic
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from topic
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.CloudSchool.domain.TopicWithBLOBs">
+		insert into topic (id, tId, time,
+		uId, cId, kid, rank,
+		url, examdot, status,
+		user1, user2, user3,
+		user4, user5, topicConten,
+		result, analysis)
+		values (#{id,jdbcType=INTEGER},
+		#{tid,jdbcType=INTEGER},
+		#{time,jdbcType=TIMESTAMP},
+		#{uid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER},
+		#{kid,jdbcType=INTEGER},
+		#{rank,jdbcType=INTEGER},
+		#{url,jdbcType=VARCHAR}, #{examdot,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER},
+		#{user1,jdbcType=VARCHAR},
+		#{user2,jdbcType=VARCHAR},
+		#{user3,jdbcType=VARCHAR},
+		#{user4,jdbcType=VARCHAR}, #{user5,jdbcType=VARCHAR},
+		#{topicconten,jdbcType=LONGVARCHAR},
+		#{result,jdbcType=LONGVARCHAR},
+		#{analysis,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.CloudSchool.domain.TopicWithBLOBs"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into topic
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="tid != null">
+				tId,
+			</if>
+			<if test="time != null || time==null">
+				time,
+			</if>
+			<if test="uid != null">
+				uId,
+			</if>
+			<if test="cid != null">
+				cId,
+			</if>
+			<if test="kid != null">
+				kid,
+			</if>
+			<if test="rank != null">
+				rank,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="examdot != null">
+				examdot,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="user1 != null">
+				user1,
+			</if>
+			<if test="user2 != null">
+				user2,
+			</if>
+			<if test="user3 != null">
+				user3,
+			</if>
+			<if test="user4 != null">
+				user4,
+			</if>
+			<if test="user5 != null">
+				user5,
+			</if>
+			<if test="topicconten != null">
+				topicConten,
+			</if>
+			<if test="result != null">
+				result,
+			</if>
+			<if test="analysis != null">
+				analysis,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="tid != null">
+				#{tid,jdbcType=INTEGER},
+			</if>
+			<if test="time != null || time==null">
+				now(),
+			</if>
+			<if test="uid != null">
+				#{uid,jdbcType=INTEGER},
+			</if>
+			<if test="cid != null">
+				#{cid,jdbcType=INTEGER},
+			</if>
+			<if test="kid != null">
+				#{kid,jdbcType=INTEGER},
+			</if>
+			<if test="rank != null">
+				#{rank,jdbcType=INTEGER},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="examdot != null">
+				#{examdot,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="user1 != null">
+				#{user1,jdbcType=VARCHAR},
+			</if>
+			<if test="user2 != null">
+				#{user2,jdbcType=VARCHAR},
+			</if>
+			<if test="user3 != null">
+				#{user3,jdbcType=VARCHAR},
+			</if>
+			<if test="user4 != null">
+				#{user4,jdbcType=VARCHAR},
+			</if>
+			<if test="user5 != null">
+				#{user5,jdbcType=VARCHAR},
+			</if>
+			<if test="topicconten != null">
+				#{topicconten,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="result != null">
+				#{result,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="analysis != null">
+				#{analysis,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.CloudSchool.domain.TopicWithBLOBs">
+		update topic
+		<set>
+			<if test="tid != null">
+				tId = #{tid,jdbcType=INTEGER},
+			</if>
+			<if test="time != null">
+				time = #{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="uid != null">
+				uId = #{uid,jdbcType=INTEGER},
+			</if>
+			<if test="cid != null">
+				cId = #{cid,jdbcType=INTEGER},
+			</if>
+			<if test="kid != null">
+				kid = #{kid,jdbcType=INTEGER},
+			</if>
+			<if test="rank != null">
+				rank = #{rank,jdbcType=INTEGER},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="examdot != null">
+				examdot = #{examdot,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="user1 != null">
+				user1 = #{user1,jdbcType=VARCHAR},
+			</if>
+			<if test="user2 != null">
+				user2 = #{user2,jdbcType=VARCHAR},
+			</if>
+			<if test="user3 != null">
+				user3 = #{user3,jdbcType=VARCHAR},
+			</if>
+			<if test="user4 != null">
+				user4 = #{user4,jdbcType=VARCHAR},
+			</if>
+			<if test="user5 != null">
+				user5 = #{user5,jdbcType=VARCHAR},
+			</if>
+			<if test="topicconten != null">
+				topicConten = #{topicconten,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="result != null">
+				result = #{result,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="analysis != null">
+				analysis = #{analysis,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs"
+		parameterType="com.CloudSchool.domain.TopicWithBLOBs">
+		update topic
+		set tId = #{tid,jdbcType=INTEGER},
+		time =
+		#{time,jdbcType=TIMESTAMP},
+		uId = #{uid,jdbcType=INTEGER},
+		cId =
+		#{cid,jdbcType=INTEGER},
+		kid = #{kid,jdbcType=INTEGER},
+		rank =
+		#{rank,jdbcType=INTEGER},
+		url = #{url,jdbcType=VARCHAR},
+		examdot =
+		#{examdot,jdbcType=INTEGER},
+		status = #{status,jdbcType=INTEGER},
+		user1
+		= #{user1,jdbcType=VARCHAR},
+		user2 = #{user2,jdbcType=VARCHAR},
+		user3 =
+		#{user3,jdbcType=VARCHAR},
+		user4 = #{user4,jdbcType=VARCHAR},
+		user5 =
+		#{user5,jdbcType=VARCHAR},
+		topicConten =
+		#{topicconten,jdbcType=LONGVARCHAR},
+		result =
+		#{result,jdbcType=LONGVARCHAR},
+		analysis =
+		#{analysis,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.CloudSchool.domain.Topic">
+		update topic
+		set tId = #{tid,jdbcType=INTEGER},
+		time =
+		#{time,jdbcType=TIMESTAMP},
+		uId = #{uid,jdbcType=INTEGER},
+		cId =
+		#{cid,jdbcType=INTEGER},
+		kid = #{kid,jdbcType=INTEGER},
+		rank =
+		#{rank,jdbcType=INTEGER},
+		url = #{url,jdbcType=VARCHAR},
+		examdot =
+		#{examdot,jdbcType=INTEGER},
+		status = #{status,jdbcType=INTEGER},
+		user1
+		= #{user1,jdbcType=VARCHAR},
+		user2 = #{user2,jdbcType=VARCHAR},
+		user3 =
+		#{user3,jdbcType=VARCHAR},
+		user4 = #{user4,jdbcType=VARCHAR},
+		user5 =
+		#{user5,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="queryCount" resultType="int">
+		SELECT count(*) FROM topic
+		<where>
+			<if test="tid!=null">
+				tid=#{tid}
+			</if>
+		</where>
+	</select>
+	<select id="conditionsQueryTopci" resultMap="ResultMapWithBLOBs">
+		SELECT * FROM topic
+		<where>
+			<if test="obj.tid!=null">
+				tid=#{obj.tid}
+			</if>
+		</where>
+		limit #{cur},#{pagesize}
+	</select>
+
+	<resultMap type="com.CloudSchool.domain.TopicWithBLOBs"
+		id="queryTopicByIdMap">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="tId" jdbcType="INTEGER" property="tid" />
+		<result column="time" jdbcType="TIMESTAMP" property="time" />
+		<result column="uId" jdbcType="INTEGER" property="uid" />
+		<result column="cId" jdbcType="INTEGER" property="cid" />
+		<result column="kid" jdbcType="INTEGER" property="kid" />
+		<result column="rank" jdbcType="INTEGER" property="rank" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
+		<result column="examdot" jdbcType="INTEGER" property="examdot" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="user1" jdbcType="VARCHAR" property="user1" />
+		<result column="user2" jdbcType="VARCHAR" property="user2" />
+		<result column="user3" jdbcType="VARCHAR" property="user3" />
+		<result column="user4" jdbcType="VARCHAR" property="user4" />
+		<result column="user5" jdbcType="VARCHAR" property="user5" />
+		<result column="topicConten" jdbcType="LONGVARCHAR"
+			property="topicconten" />
+		<result column="result" jdbcType="LONGVARCHAR"
+			property="result" />
+		<result column="analysis" jdbcType="LONGVARCHAR"
+			property="analysis" />
+		<collection property="topicoptionList"
+			ofType="com.CloudSchool.domain.Topicoption">
+    		<result column="topicoptionid" jdbcType="INTEGER" property="id" />
+    		<result column="option" jdbcType="VARCHAR" property="option" />
+    		<result column="IsTrue" jdbcType="INTEGER" property="istrue" />
+   		 	<result column="time" jdbcType="TIMESTAMP" property="time" />
+    		<result column="status" jdbcType="INTEGER" property="status" />
+    		<result column="optionConten"  property="optionconten" />
+		</collection>
+	</resultMap>
+	<select id="queryTopicById" resultMap="queryTopicByIdMap">
+		SELECT topic.*,topicoption.`id` AS topicoptionid,topicoption.`tid` AS
+		topicoptiontid,topicoption.`option`,topicoption.`optionConten`,topicoption.`IsTrue`
+		,topicoption.`time`,topicoption.`status`
+		FROM topic
+		LEFT JOIN topicoption ON topic.`id`=topicoption.`tId` WHERE topic.`id`=25
+	</select>
 </mapper>

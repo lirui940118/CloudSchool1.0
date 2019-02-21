@@ -16,4 +16,8 @@ public interface TopicService {
 	PageBean conditionsQueryTopci(Topic obj,Integer cur,Integer pagesize);
 	
 	int workTemplateCreate(Workmould obj);
+	
+	
+	//根据题目id查询题目
+    TopicWithBLOBs queryTopicById(Integer id);
 }

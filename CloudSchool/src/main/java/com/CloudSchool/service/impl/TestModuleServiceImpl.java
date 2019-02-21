@@ -1,6 +1,7 @@
 package com.CloudSchool.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.CloudSchool.dao.TestinfoMapper;
 import com.CloudSchool.dao.TestmoduleMapper;
 import com.CloudSchool.dao.WorkmouldMapper;
+import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.Testmodule;
 import com.CloudSchool.service.TestModuleService;
 @Service
@@ -58,4 +60,10 @@ public class TestModuleServiceImpl implements TestModuleService{
     			}
     			return 0;
     }
+	@Override
+	public PageBean queryTestModule(Integer uid, Integer cur, Integer pagesize) {
+		int datas=testmoduleMapper.queryTestModuleCount(uid);
+		PageBean page=new PageBean(datas, pagesize, testmoduleMapper.queryTestModule(uid, (cur-1)*pagesize, pagesize), cur);
+		return page;
+	}
 }
