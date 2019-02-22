@@ -13,6 +13,18 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="normalCount" jdbcType="INTEGER" property="normalCount" />
   </resultMap>
+  
+  <!-- 查询所有班级gk -->
+  <select id="queryAllBanJi" resultMap="BaseResultMap">
+  	SELECT * FROM `clazz`
+  </select>
+  <!-- 通过id查询班级和年级名称gk -->
+  <select id="queryBanJiByUserid" resultMap="BaseResultMap">
+	SELECT *,g.grade_name AS 'gradeName' FROM `clazz` AS c
+	JOIN `clazzstudent` AS s ON (s.cid = c.id)
+	JOIN `zzy_grade` AS g ON (g.gid = c.gid)
+	WHERE s.sid = #{uid} AND s.`status` = 0
+  </select>
   <sql id="Base_Column_List">
     id, cname, gid, mid, startdate, count, enddate, pc, status
   </sql>

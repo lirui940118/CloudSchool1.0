@@ -20,7 +20,68 @@
     <result column="by3" jdbcType="VARCHAR" property="by3" />
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
+    
+    
+    <result column="wj_type_name" jdbcType="VARCHAR" property="wjTypeName" />
+    <result column="wjxx_type_name" jdbcType="VARCHAR" property="wjxxTypeName" />
   </resultMap>
+  
+  <!-- 查询问卷发布记录 -->
+  <select id="queryAllWenJuanFaBuJiLu" resultMap="BaseResultMap">
+  	SELECT * FROM `cqj_user` AS u
+	JOIN `gk_questionnaire` AS wj ON (wj.`wj_publisher` = u.userid) AND wj.`status`=0
+	JOIN `gk_questionnaire_type` AS wjtype ON (wjtype.`wj_type_id` = wj.`wj_type_id`)
+	JOIN `gk_questionnairexx_type` AS wjxxtype ON (wjxxtype.`wjxx_type_id` = wj.`wjxx_type_id`)
+	JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0 
+	<where>
+		<if test="wjObject">
+			AND wj.`wj_object` LIKE concat('%',#{wjObject},'%')
+		</if>
+		<if test="staffname">
+			AND yg.`staffname` LIKE concat('%',#{staffname},'%')
+		</if>
+		<if test="startStr and endStr">
+			AND wj.`wj_fb_time` BETWEEN  #{startStr} AND #{endStr}
+		</if>
+		<if test="startStr and !endStr">
+			AND wj.`wj_fb_time` BETWEEN  #{startStr} AND NOW()
+		</if>
+		<if test="!startStr and endStr">
+			AND wj.`wj_fb_time` &lt;= #{endStr}
+		</if>
+	</where>
+	LIMIT #{currentPage},#{pageSize}
+  </select>
+  <!-- 查询问卷发布记录行数 -->
+  <select id="queryAllWenJuanFaBuJiLuCount" resultType="int">
+  	SELECT COUNT(*) FROM `cqj_user` AS u
+	JOIN `gk_questionnaire` AS wj ON (wj.`wj_publisher` = u.userid)
+	JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0 
+	<where>
+		<if test="wjObject">
+			AND wj.`wj_object` LIKE concat('%',#{wjObject},'%')
+		</if>
+		<if test="staffname">
+			AND yg.`staffname` LIKE concat('%',#{staffname},'%')
+		</if>
+		<if test="startStr and endStr">
+			AND wj.`wj_fb_time` BETWEEN  #{startStr} AND #{endStr}
+		</if>
+		<if test="startStr and !endStr">
+			AND wj.`wj_fb_time` BETWEEN  #{startStr} AND NOW()
+		</if>
+		<if test="!startStr and endStr">
+			AND wj.`wj_fb_time` &lt;= #{endStr}
+		</if>
+	</where>
+  </select>
+  
+  
+  
+  
+  
+  
+  
   <sql id="Base_Column_List">
     wj_id, wj_name, wj_type_id, wj_publisher, wj_object, wj_fb_time, wjxx_type_id, wj_Explain, 
     wj_num, creation_time, update_time, founder, status, by1, by2, by3, by4, by5

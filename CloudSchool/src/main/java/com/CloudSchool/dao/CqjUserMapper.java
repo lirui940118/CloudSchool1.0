@@ -37,5 +37,7 @@ public interface CqjUserMapper {
     List<CqjUser> queryStduents();
     //批量分配学生的系统登录账号user
     int insertAll(List<CqjUser> u);
+    //gk通过userid判断是否为学生，if是，则带出当前班级id插入访谈记录表 -->
+	Integer queryCidByUserid(Integer userid);
     
 }

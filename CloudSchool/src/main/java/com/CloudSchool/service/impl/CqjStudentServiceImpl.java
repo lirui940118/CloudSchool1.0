@@ -160,5 +160,9 @@ public class CqjStudentServiceImpl implements CqjStudentService{
 		// TODO Auto-generated method stub
 		return sugm.updateStudentUpGrade(Studentupgrade);
 	}
+	public List<CqjStudent> queryTongXueByUserid(Integer uid) {
+		// TODO Auto-generated method stub
+		return cqjStudentMapper.queryTongXueByUserid(uid);
+	}
 
 }

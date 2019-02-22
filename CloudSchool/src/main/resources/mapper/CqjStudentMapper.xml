@@ -451,4 +451,13 @@
 		FROM `cqj_student` cs INNER JOIN `studentupgrade` sug ON
 		cs.`studentid`=sug.`studentId` AND sug.`tagetgId`=-1 AND sug.`user2`=0
 	</select>
+	  <!-- gk通过学生id查询所在班级所有学生 -->
+  <select id="queryTongXueByUserid" resultMap="BaseResultMap">
+	SELECT *,c.cname AS 'className',u.userid FROM `cqj_student` AS s
+	JOIN `clazzstudent` AS z ON (s.studentid = z.sid) AND `status`= 0
+	JOIN `clazz` AS c ON (c.id = z.cid)
+	JOIN `cqj_user` AS u ON (u.usertypeid = s.studentid) AND `usertypenub` = 1
+	WHERE `studentid` IN (SELECT `sid` FROM `clazzstudent` 
+	WHERE `cid` = (SELECT `cid` FROM `clazzstudent` WHERE `sid` = #{uid} AND `status` = 0))
+  </select>
 </mapper>

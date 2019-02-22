@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>考勤输入</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+		<style type="text/css">
+			/** {
+				margin: 0px;
+				padding: 0px;
+				
+			}*/
+			
+			.card {
+				margin-bottom: 10px;
+			}
+			.card-title{
+				display:flex;
+				justify-content: space-between;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title">考勤录入</h4>
+					
+					<div id="vueid" class="row">
+						<div v-if="shuju" class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<div class="card-title">
+											<font style="vertical-align: inherit;">班级：<span th:text="${banjiname.cname}"></span></font>
+											<font style="vertical-align: inherit;">日期：<span th:text="${time}"></span></font>
+										</div>
+									</div>
+									<div class="card-body">
+										<table class="table table-striped mt-3">
+											<thead>
+												<tr>
+													<th scope="col"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">姓名</font></font></th>
+													<th scope="col"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">状态</font></font></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr v-for="item in shuju" class="kq" v-bind:uid="item.userid">
+													<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.studentname}}</font></font></td>
+													<td>
+														<select  class="form-control input-fixed state" id="position">
+															<option class="kqStateId" th:each="list:${kqstate}" th:value="${list.kqStateId}"><span th:text="${list.kqStateName}"></span></option>
+														</select>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+										
+										
+										
+										
+										<div class="card-action">
+											<button class="btn btn-success" onclick="tijiao()"><font style="vertical-align: inherit;">提交</font></button>
+											<button class="btn btn-danger"><font style="vertical-align: inherit;">取消</font></button>
+										</div>
+									</div>
+							</div>
+						
+						
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+<script th:src="@{/static/js/core/jquery.min.js}"></script>
+<script th:src="@{/static/js/core/vue.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+<script th:src="@{/static/js/core/popper.min.js}"></script>
+<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+<script th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+<script th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+<script th:src="@{/static/js/ready.min.js}"></script>
+<script type="text/javascript">
+	$(function(){
+		shuaxin();
+	})
+
+	var V = new Vue({
+		el:"#vueid",
+		data:{
+			shuju:null
+		}
+	});
+	function shuaxin(){
+		$.ajax({
+			url:"queryTongXueByUserid",
+			success:function(result){
+				console.log(result);
+				V.shuju = result;
+			}
+		});
+	}
+	//提交
+	function tijiao(){
+		//判断是否已考勤
+		$.ajax({
+			url:"queryKaoQinPanDuan",
+			type:"post",
+			success:function(result){
+				if(result == 1){
+					if(confirm("今天已考勤，是否更新？")){
+						var jihe = [];
+						$.each($(".kq"),function(index,element){
+							var xx = {};
+							xx.uid = $(element).attr("uid");
+							xx.kqStateId=$(element).find(".state").val();
+							jihe.push(xx);
+				        });
+						$.ajax({
+							url:"updateKaoQinBanJi",
+							data:JSON.stringify(jihe),
+							type:"post",
+							contentType:"application/json",
+							success:function(result){
+								if(result > 0){
+									alert("成功！！！");
+								}else{
+									alert("失败！！！");
+								}
+							}
+						});
+					}else{
+						return;
+					}
+				}else{
+					var jihe = [];
+					$.each($(".kq"),function(index,element){
+						var xx = {};
+						xx.uid = $(element).attr("uid");
+						xx.kqStateId=$(element).find(".state").val();
+						jihe.push(xx);
+			        });
+					$.ajax({
+						url:"insertBanJiKaoQin",
+						data:JSON.stringify(jihe),
+						type:"post",
+						contentType:"application/json",
+						success:function(result){
+							if(result > 0){
+								alert("成功！！！");
+							}else{
+								alert("失败！！！");
+							}
+						}
+					});
+				}
+			}
+		});
+		
+		
+	}
+	
+</script>
+
+</html>

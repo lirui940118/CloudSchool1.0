@@ -17,6 +17,10 @@
 		.card {
 			margin-bottom: 10px;
 		}
+		#shou{
+			display:flex;
+			justify-content: space-around;
+		}
 	</style>
 </head>
 
@@ -24,43 +28,139 @@
 	<div class="main-panel">
 		<div class="content">
 			<div class="container-fluid">
-				<h4 class="page-title">填写访谈</h4>
-				
-				<form th:each="ft:${fangtan}" th:action="@{/}" method="post">
-				
-				<div class="row">
-					<div class="col-md-12">
-					<div class="card">
-						<div class="card-header">
-							<div class="card-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请填写完整表格</font></font></div>
-						</div>
-						<div class="card-body">
-							<div class="form-group">
-								<p class="text-warning right"><span th:text="${ft.ftStarttime}"></span></p>
-								<p class="text-success"><span th:text="${ft.}"></span>教学部张起灵对你发起了一次访谈</p>
-							</div>
-							<div class="form-group">
-								<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">访谈原因</font></font></label>
-								<textarea readonly="readonly" class="form-control" id="comment" rows="5"></textarea>
-							</div>
-							<div class="form-group">
-								<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">给出的建议</font></font></label>
-								<textarea readonly="readonly" class="form-control" id="comment" rows="5"></textarea>
-							</div>
-							<div class="form-group">
-								<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">你的想法</font></font></label>
-								<textarea class="form-control" id="comment" rows="5"></textarea>
-							</div>
-							<div class="card-action">
-								<input type="submit">
-								<button class="btn btn-success"><font style="vertical-align: inherit;">提交</font></button>
-								<button class="btn btn-danger"><font style="vertical-align: inherit;">取消</font></button>
+				<h4 class="page-title">我的访谈</h4>
+				<div id="shou">
+					<div><button onclick="wy()" class="btn btn-success">我发起，已完成</button></div>
+					<div><button onclick="by()" class="btn btn-default">别人发起，已完成</button></div>
+					<div><button onclick="ww()" class="btn btn-default">我发起，未完成</button></div>
+					<div><button onclick="bw()" class="btn btn-default">别人发起，未完成</button></div>
+				</div>
+				<!-- 已完成，我发起 -->
+				<div id="YWCW">
+					<div class="row" v-if="fangtan">
+						<div class="col-md-12">
+							<div v-for="item in fangtan" class="card">
+								<div class="card-body">
+									<div class="form-group">
+										<p class="text-warning right"><span>{{item.ftStarttime}}</span></p>
+										<p class="text-success">我对“<span>{{item.peoplename}}</span>”发起了一次访谈</p>
+									</div>
+									
+									<div class="form-group">
+										<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">访谈原因</font></font></label>
+										<textarea readonly="readonly" class="form-control" id="comment" rows="5">{{item.ftProblem}}</textarea>
+									</div>
+									<div class="form-group">
+										<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">我的建议</font></font></label>
+										<textarea readonly="readonly" class="form-control" id="comment" rows="5">{{item.peopleProposal}}</textarea>
+									</div>
+									<div class="form-group">
+										<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.peoplename}}的想法</font></font></label>
+										<textarea readonly="readonly" class="form-control" id="comment" rows="5" >{{item.ftObjectExplain}}</textarea>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				<!-- 已完成，别人发起 -->
+				<div id="YWCB">
+					<div class="row" v-if="fangtan">
+						<div class="col-md-12">
+							<div v-for="item in fangtan" class="card">
+								<div class="card-body">
+									<div class="form-group">
+										<p class="text-warning right"><span>{{item.ftStarttime}}</span></p>
+										<p class="text-success">“<span>{{item.peoplename}}</span>”对我发起了一次访谈</p>
+									</div>
+									
+									<div class="form-group">
+										<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">访谈原因</font></font></label>
+										<textarea readonly="readonly" class="form-control" id="comment" rows="5">{{item.ftProblem}}</textarea>
+									</div>
+									<div class="form-group">
+										<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.peoplename}}的建议</font></font></label>
+										<textarea readonly="readonly" class="form-control" id="comment" rows="5">{{item.peopleProposal}}</textarea>
+									</div>
+									<div class="form-group">
+										<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">我的想法</font></font></label>
+										<textarea readonly="readonly" class="form-control" id="comment" rows="5" >{{item.ftObjectExplain}}</textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 未完成，我发起 -->
+				<div id="WWCW">
+					<div class="row" v-if="fangtan">
+						<div class="col-md-12">
+							<div v-for="item in fangtan" class="card">
+								<div class="card-body">
+									<div class="form-group">
+										<p class="text-warning right"><span>{{item.ftStarttime}}</span></p>
+										<p class="text-success">我对“<span>{{item.peoplename}}</span>”发起了一次访谈</p>
+									</div>
+									
+									<div class="form-group">
+										<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">访谈原因</font></font></label>
+										<textarea readonly="readonly" class="form-control" id="comment" rows="5">{{item.ftProblem}}</textarea>
+									</div>
+									<div class="form-group">
+										<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">我的建议</font></font></label>
+										<textarea readonly="readonly" class="form-control" id="comment" rows="5">{{item.peopleProposal}}</textarea>
+									</div>
+									<div class="form-group">
+										<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.peoplename}}的想法</font></font></label>
+										<textarea readonly="readonly" class="form-control" id="comment" rows="5" >{{item.ftObjectExplain}}</textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- 未完成，别人发起 -->
+				<div id="WWCB">
+				<div v-if="fangtan">
+				
+					<form v-for="item in fangtan" action="updateFangTanWS" method="post">
+					<textarea hidden="hidden" class="form-control" id="comment" rows="5" name="ftId">{{item.ftId}}</textarea>
+					<div class="row">
+						<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								<div class="card-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">请填写完整表格</font></font></div>
+							</div>
+							<div class="card-body">
+								<div class="form-group">
+									<p class="text-warning right"><span>{{item.ftStarttime}}</span></p>
+									<p class="text-success"><span>{{item.peoplename}}</span>对你发起了一次访谈</p>
+								</div>
+								
+								<div class="form-group">
+									<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">访谈原因</font></font></label>
+									<textarea readonly="readonly" class="form-control" id="comment" rows="5">{{item.ftProblem}}</textarea>
+								</div>
+								<div class="form-group">
+									<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">给出的建议</font></font></label>
+									<textarea readonly="readonly" class="form-control" id="comment" rows="5">{{item.peopleProposal}}</textarea>
+								</div>
+								<div class="form-group">
+									<label for="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">你的想法</font></font></label>
+									<textarea class="form-control" id="comment" rows="5" name="ftObjectExplain"></textarea>
+								</div>
+								<div class="card-action">
+									<input class="btn btn-success" type="submit">
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</form>
+				</div>
 			</div>
-			</form>
 			
 			
 		</div>
@@ -82,7 +182,104 @@
 <script th:src="@{/static/js/ready.min.js}"></script>
 
 <script type="text/javascript">
+	$(function(){
+		YWCW();
+		WWCW();
+		YWCB();
+		WWCB();
+		wy();
+	})
+	//提交后刷新
+	$("form").submit(function () {
+		bw();
+	})
+	//单击按钮切换
+	function wy(){
+		$("#YWCW").show();
+		$("#YWCB").hide();
+		$("#WWCB").hide();
+		$("#WWCW").hide();
+	}
+	function ww(){
+		$("#YWCW").hide();
+		$("#YWCB").hide();
+		$("#WWCB").hide();
+		$("#WWCW").show();
+	}
+	function by(){
+		$("#YWCW").hide();
+		$("#YWCB").show();
+		$("#WWCB").hide();
+		$("#WWCW").hide();
+	}
+	function bw(){
+		$("#YWCW").hide();
+		$("#YWCB").hide();
+		$("#WWCB").show();
+		$("#WWCW").hide();
+	}
+	//查询已完成，我发起
+	var Vywcw = new Vue({
+		el:"#YWCW",
+		data:{
+			fangtan:null
+		}
+	});
+	function YWCW(){
+		$.ajax({
+			url:"queryFangTanByYWCW",
+			success:function(result){
+				Vywcw.fangtan = result;
+			}
+		});
+	}
 	
+	
+	//查询已完成，别人发起
+	var Vywcb = new Vue({
+		el:"#YWCB",
+		data:{
+			fangtan:null
+		}
+	});
+	function YWCB(){
+		$.ajax({
+			url:"queryFangTanByYWCB",
+			success:function(result){
+				Vywcb.fangtan = result;
+			}
+		});
+	}
+	//查询未完成，我发起
+	var Vwwcw = new Vue({
+		el:"#WWCW",
+		data:{
+			fangtan:null
+		}
+	});
+	function WWCW(){
+		$.ajax({
+			url:"queryFangTanByWWCW",
+			success:function(result){
+				Vwwcw.fangtan = result;
+			}
+		});
+	}
+	//查询未完成，别人发起
+	var Vwwcb = new Vue({
+		el:"#WWCB",
+		data:{
+			fangtan:null
+		}
+	});
+	function WWCB(){
+		$.ajax({
+			url:"queryFangTanByWWCB",
+			success:function(result){
+				Vwwcb.fangtan = result;
+			}
+		});
+	}
 </script>
 
 </html>

@@ -9,6 +9,12 @@ import com.CloudSchool.domain.Clazzcourseteacher;
 import com.CloudSchool.domain.statistics.ClazzBaseInfoVO;
 
 public interface ClazzService {
+	//gk查询所有班级
+	public List<Clazz> queryAllBanJi();
+	//gk通过id查询班级和年级名称
+	public Clazz queryBanJiByUserid(Integer uid);
+	
+	
 	public int CreateClass(ClazzInfo c);
 	
 

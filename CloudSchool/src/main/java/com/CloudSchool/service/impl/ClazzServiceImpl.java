@@ -121,4 +121,13 @@ public class ClazzServiceImpl implements ClazzService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public Clazz queryBanJiByUserid(Integer uid) {
+		// TODO Auto-generated method stub
+		return cm.queryBanJiByUserid(uid);
+	}
+	@Override
+	public List<Clazz> queryAllBanJi() {
+		// TODO Auto-generated method stub
+		return cm.queryAllBanJi();
+	}
 }
