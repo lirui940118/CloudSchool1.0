@@ -1,10 +1,12 @@
 package com.CloudSchool.service.impl;
 
 import java.text.ParseException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,9 @@ public class ClazzServiceImpl implements ClazzService {
 	@Override
 	public int CreateClass(ClazzInfo c) {
 		System.out.println("开班----开始执行");
+		c.setStatus(1);
+		c.setCname(getClazzName(0, null));
+		c.setPc(getClazzPC(c.getGid()));
 //		int jg=cm.insert(c);
 //		System.out.println("开班----clazz-"+jg+"-"+c.getId()+"-"+c.getCname());
 		//绑定老师
@@ -172,5 +177,71 @@ public class ClazzServiceImpl implements ClazzService {
 	public List<Clazz> queryAllBanJi() {
 		// TODO Auto-generated method stub
 		return cm.queryAllBanJi();
+	}
+	public String getClazzName(int id,int[] array) {
+		//0分配开学新班名称,1分配升学后新班名称，
+        Date date = new Date();
+        //EE为fri/thu简称 EEEEEE为英文全名 Local.US
+//        DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss EE", Locale.CHINA);
+//        System.out.println("当前时间："+df2.format(date));
+//        Date date2 = df2.parse("2007-11-30 02:51:07 星期五"); //将字符转换为日期
+        int y=date.getYear()+1900;
+		String cname=null;
+		switch (id) {
+		case 0:
+			System.out.println("自动创建一个新的班级名！");
+			String lastcname=cm.getLastClazzName();
+			System.out.println("最后的一个班级名称为：:"+lastcname);
+			int num=1;
+			if(null!=lastcname) {
+				num=Integer.parseInt(lastcname.substring(4))+1;
+			}
+			if(num<10) {
+				cname="AT"+(y+"").substring(2)+"0"+num;
+			}else {
+				cname="AT"+(y+"").substring(2)+num;
+			}
+			break;
+		case 1:
+			if(null==array) {
+				break;
+			}
+			List<String> list=cm.getClazzNameBeforeGradeUp(array);
+			if(0==list.size()) {
+				System.out.println("未查询到原班级名称或已占用！");
+				cname=getClazzName(0,null);
+			}else {
+				cname=list.get(0);
+			}
+			break;
+		default:
+			System.out.println("输入数字指令不是0/1，");
+			cname=getClazzName(0,null);
+			break;
+		}
+		System.out.println("分配的班级名称为：:"+cname);
+		return cname;
+	}
+	@Override
+	public String getClazzPC(int gid) {
+		// TODO Auto-generated method stub
+		Clazz c=cm.getLastClazzPC(gid);
+        Date date = new Date();
+        int y=date.getYear()+1900;
+		String pc=null;
+		if(null==c) {
+			System.out.println("本年第一个批次");
+			pc=""+y+"01";
+		}else {
+			System.out.println("年级id为："+gid+"，最后的一个班级批次为：:"+c.getPc()+",班级数："+c.getCount()+",相隔天数："+c.getNormalCount());
+			//设置批次限制最多4个班或startdate为30天间隔，否则是新批次
+			if(c.getCount()<4&&c.getNormalCount()<=30) {
+				pc=c.getPc();
+			}else {
+				pc=""+(Integer.parseInt(c.getPc())+1);
+			}
+		}
+		System.out.println("分配的批次为："+pc);
+		return pc;
 	}
 }

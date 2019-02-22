@@ -70,7 +70,7 @@
 	,zzy_course.`mid`
 	FROM zzy_course 
 	LEFT JOIN zzy_teacher_ability ON  zzy_teacher_ability.`cid` = zzy_course.`cid` #教学能力
-	LEFT JOIN cqj_staff ON cqj_staff.`staffid` = zzy_teacher_ability.cid #教员id
+	LEFT JOIN cqj_staff ON cqj_staff.`staffid` = zzy_teacher_ability.tid #教员id
 	WHERE zzy_course.gid = #{gId}
 	<if test="mId==0">
 		AND ISNULL(zzy_course.`mid`)

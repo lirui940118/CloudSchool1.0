@@ -29,10 +29,14 @@ public interface ClazzService {
 	//write by lirui
 	public List<ClazzBaseInfoVO> queryClazzListByStaffId(Integer staffId);
 	
-	List<Clazz> queryByClazzidAllStu(Integer[] clazzs);
 	
 	
 	//根据时间段查询空教室(赵举峰)
 	public List<Classroom> queryClassRoomAll(String time,Integer status);
+	List<Clazz> queryByClazzidAllStu(Integer[] clazzs);
+	//分配班级名称 0入学新班-自动分配新的编号名(array数组填null)，1升学开班-继承原班名(array数组填必填，否则自动分配新的编号名)
+	public String getClazzName(int id,int[] array);
+	//分配班级名称 0入学新班-自动分配新的编号名(array数组填null)，1升学开班-继承原班名(array数组填必填，否则自动分配新的编号名)
+	public String getClazzPC(int gid);
 
 }

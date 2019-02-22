@@ -73,7 +73,7 @@ public class StudentWorkController {
 	@RequestMapping("pageSaveClose")
 	@ResponseBody
 	public int pageSaveClose(@RequestBody Workinstance obj) {
-		System.out.println(JSON.toJSONString(obj));
+		/*System.out.println(JSON.toJSONString(obj));*/
 		return  wtrecordService.pageSaveClose(obj);
 	}
 	

@@ -42,7 +42,7 @@ public class StaffVO implements Comparable{
 	public int compareTo(Object obj) {
 		StaffVO staffVO = (StaffVO) obj;
 		
-		return this.staffScore - staffVO.staffScore;
+		return staffVO.staffScore - this.staffScore;
 	}
 	
 }
