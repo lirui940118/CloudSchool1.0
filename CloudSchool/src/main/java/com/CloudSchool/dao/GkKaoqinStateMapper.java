@@ -6,6 +6,9 @@ import com.CloudSchool.domain.GkKaoqinState;
 
 public interface GkKaoqinStateMapper {
 	
+	//查询所有考勤状态
+	public List<GkKaoqinState> queryAllKaoQinState();
+	
 	//write by lirui
 	//查詢學員考情情況（write by lirui 考情匯總) 按情況分類顯示總數
 	public List<GkKaoqinState> queryKqTotalInfoBySidAndGid(Integer sId,Integer gId);

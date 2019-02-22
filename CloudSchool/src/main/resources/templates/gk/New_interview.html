@@ -289,14 +289,17 @@
 		});
 		//提交
 		function tijiao(){
-			var shuzu = "";
+			var shuzu = [];
 			$.each($("#tbody input:checkbox"),function(){
-				shuzu += $(this).attr("abc")+",";
+				var dx = {};
+				dx.userid = $(this).attr("abc");
+				//shuzu += $(this).attr("abc")+",";
+				shuzu.push(dx);
 			});
-			if(shuzu.length > 0){
+			/* if(shuzu.length > 0){
 				shuzu = shuzu.substring(0, shuzu.length - 1);
-			}
-			if(shuzu == ""){
+			} */
+			if(!shuzu){
 				alert("请选择要访谈的对象！！！");
 				return;
 			}
@@ -320,12 +323,14 @@
 			ft.ftTime = $("#ftTime").val();
 			ft.ftProblem = $("#ftProblem").val();
 			ft.peopleProposal = $("#peopleProposal").val();
-			ft.shuzu = shuzu;
+			ft.list = shuzu;
+			console.log(JSON.stringify(ft));
 			$.ajax({
 				url:"insertFangTan",
 				type:"post",
 				dataType:"json",
-				data:ft,
+				data: JSON.stringify(ft),
+				contentType:"application/json",
 				success:function(result){
 					if(result > 0){
 						alert("已发送");
@@ -450,9 +455,9 @@
 			var leixing = $("#xialakuang").val();
 			if(leixing == "学生"){
 				$("#jz").hide();
-				$("input[name='quanxuanJZ']").prop("display",none);
+				//$("input[name='quanxuanJZ']").prop("display",none);
 				$("#yg").hide();
-				$("input[name='quanxuanYG']").prop("display",none);
+				//$("input[name='quanxuanYG']").prop("display",none);
 				$("#xs").show();
 				var name = $("#tongyong").val();
 				$.ajax({

@@ -22,16 +22,63 @@
   </resultMap>
   <!-- 新增访谈 -->
   <insert id="insertFangTan"  parameterType="com.CloudSchool.domain.GkInterview">
-  	INSERT INTO `gk_interview`(`ft_people`,`ft_object`,`ft_starttime`,`ft_time`,`ft_problem`,`people_proposal`,`creation_time`,`update_time`)
+  	INSERT INTO `gk_interview`(`ft_people`,`ft_object`,`ft_starttime`,`ft_time`,`ft_problem`,`people_proposal`,`creation_time`,`update_time`,`by2`)
 	VALUES
-	<foreach collection="shuzu" close=";" separator="," item="l">
-			(#{ft.ftPeople},#{l},#{ft.ftStarttime},#{ft.ftTime},#{ft.ftProblem},#{ft.peopleProposal},NOW(),NOW())
+	<foreach collection="list" close=";" separator="," item="l">
+			(#{ft.ftPeople},#{l.userid},#{ft.ftStarttime},#{ft.ftTime},#{ft.ftProblem},#{ft.peopleProposal},NOW(),NOW(),#{l.cid})
 	</foreach>
   </insert>
-  <!-- 查询未完成的访谈 -->
-  <select id="queryFangTanByWWC" resultMap="BaseResultMap">
-  	SELECT * FROM `gk_interview` WHERE `by1` = 0 AND `ft_object` = #{ftObject}
+  <!-- 完善未完成的访谈 -->
+  <update id="updateFangTanWS" parameterType="com.CloudSchool.domain.GkInterview">
+  	UPDATE `gk_interview`
+	SET `ft_object_explain` = #{ftObjectExplain} , `by1` = 1
+	WHERE ft_id = #{ftId}
+  </update>
+  
+  
+  
+  <!-- 查询未完成的访谈(个人,别人发起) -->
+  <select id="queryFangTanByWWCB" resultMap="BaseResultMap">
+  	SELECT ft.*,CONCAT_WS('',s.`studentname`,yg.`staffname`,jz.`parentsname`)AS `peoplename` 
+	FROM `cqj_user` AS u
+	LEFT JOIN `cqj_student` AS s ON (s.studentid = u.usertypeid) AND u.`usertypenub` = 1
+	LEFT JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	LEFT JOIN `cqj_parents` AS jz ON (jz.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+	JOIN `gk_interview` AS ft ON (u.userid = ft.`ft_people`)
+	WHERE `by1` = 0 AND ft.`ft_object` = #{ftObject}
   </select>
+  <!-- 查询未完成的访谈(个人,我发起) -->
+  <select id="queryFangTanByWWCW" resultMap="BaseResultMap">
+  	SELECT ft.*, CONCAT_WS('',s.`studentname`,yg.`staffname`,jz.`parentsname`)AS `peoplename` 
+	FROM `cqj_user` AS u
+	LEFT JOIN `cqj_student` AS s ON (s.studentid = u.usertypeid) AND u.`usertypenub` = 1
+	LEFT JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	LEFT JOIN `cqj_parents` AS jz ON (jz.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+	JOIN `gk_interview` AS ft ON (u.userid = ft.`ft_object`)
+	WHERE `by1` = 0 AND ft.`ft_people` = #{ftPeople}
+  </select>
+  <!-- 查询已完成的访谈(个人,别人发起) -->
+  <select id="queryFangTanByYWCB" resultMap="BaseResultMap">
+  	SELECT ft.*, CONCAT_WS('',s.`studentname`,yg.`staffname`,jz.`parentsname`)AS `peoplename` 
+	FROM `cqj_user` AS u
+	LEFT JOIN `cqj_student` AS s ON (s.studentid = u.usertypeid) AND u.`usertypenub` = 1
+	LEFT JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	LEFT JOIN `cqj_parents` AS jz ON (jz.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+	JOIN `gk_interview` AS ft ON (u.userid = ft.`ft_people`)
+	WHERE `by1` = 1 AND ft.`ft_object` = #{ftObject}
+  </select>
+  <!-- 查询已完成的访谈(个人,我发起) -->
+  <select id="queryFangTanByYWCW" resultMap="BaseResultMap">
+  	SELECT ft.*, CONCAT_WS('',s.`studentname`,yg.`staffname`,jz.`parentsname`)AS `peoplename` 
+	FROM `cqj_user` AS u
+	LEFT JOIN `cqj_student` AS s ON (s.studentid = u.usertypeid) AND u.`usertypenub` = 1
+	LEFT JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	LEFT JOIN `cqj_parents` AS jz ON (jz.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+	JOIN `gk_interview` AS ft ON (u.userid = ft.`ft_object`)
+	WHERE `by1` = 1 AND ft.`ft_people` = #{ftPeople}
+  </select>
+  
+  
   <!-- 查询所有家长(按姓名模糊查) -->
   <select id="queryAllJiaZhang" resultMap="BaseResultMap">
   	SELECT * FROM `cqj_user` AS u

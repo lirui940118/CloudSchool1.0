@@ -3,6 +3,7 @@ package com.CloudSchool.domain;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,7 +15,18 @@ public class GkInterview implements Serializable {
 
 	private Integer ftId;
 
-    private Integer ftPeople;
+	private List<GkInterview> list;
+	
+	
+
+	public List<GkInterview> getList() {
+		return list;
+	}
+	public void setList(List<GkInterview> list) {
+		this.list = list;
+	}
+
+	private Integer ftPeople;
 
     private Integer ftObject;
 
@@ -52,7 +64,16 @@ public class GkInterview implements Serializable {
     private String peoplename;
     private String objectname;
     private Integer userid;
-    private String startStr;
+    private Integer cid;
+    
+    public Integer getCid() {
+		return cid;
+	}
+	public void setCid(Integer cid) {
+		this.cid = cid;
+	}
+
+	private String startStr;
 	private String endStr;
 	private Integer currentPage;//当前页
 	private Integer pageSize;	//每页显示行数

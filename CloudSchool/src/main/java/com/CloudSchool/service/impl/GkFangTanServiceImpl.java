@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.CloudSchool.dao.CqjUserMapper;
 import com.CloudSchool.dao.GkInterviewMapper;
 import com.CloudSchool.domain.CqjParents;
 import com.CloudSchool.domain.CqjStaff;
@@ -19,6 +20,8 @@ import com.CloudSchool.service.GkFangTanService;
 public class GkFangTanServiceImpl implements GkFangTanService{
 	@Autowired
 	GkInterviewMapper gkInterviewMapper;
+	@Autowired
+	CqjUserMapper cqjUserMapper;
 	//查询所有访谈
 	public GkPageBean<GkInterview> queryAllFangTan(GkInterview ft) {
 		GkInterview ft2 = new GkInterview();
@@ -45,9 +48,13 @@ public class GkFangTanServiceImpl implements GkFangTanService{
 		return gkInterviewMapper.deleteFangTanByftId(shuzu);
 	}
 	@Override
-	public int insertFangTan(GkInterview ft,Integer[] shuzu) {
+	public int insertFangTan(GkInterview ft) {
 		// TODO Auto-generated method stub
-		return gkInterviewMapper.insertFangTan(ft,shuzu);
+		List<GkInterview> list = ft.getList();
+		for(int i = 0 ; i < list.size() ; i++) {
+			list.get(i).setCid(cqjUserMapper.queryCidByUserid(list.get(i).getUserid()));
+		}
+		return gkInterviewMapper.insertFangTan(ft,list);
 	}
 	@Override
 	public List<GkInterview> queryAllXueSheng(String name) {
@@ -65,8 +72,28 @@ public class GkFangTanServiceImpl implements GkFangTanService{
 		return gkInterviewMapper.queryAllJiaZhang(name);
 	}
 	@Override
-	public List<GkInterview> queryFangTanByWWC(Integer ftObject) {
+	public List<GkInterview> queryFangTanByWWCB(Integer ftObject) {
 		// TODO Auto-generated method stub
-		return gkInterviewMapper.queryFangTanByWWC(ftObject);
+		return gkInterviewMapper.queryFangTanByWWCB(ftObject);
+	}
+	@Override
+	public int updateFangTanWS(Integer ftId, String ftObjectExplain) {
+		// TODO Auto-generated method stub
+		return gkInterviewMapper.updateFangTanWS(ftId, ftObjectExplain);
+	}
+	@Override
+	public List<GkInterview> queryFangTanByWWCW(Integer ftPeople) {
+		// TODO Auto-generated method stub
+		return gkInterviewMapper.queryFangTanByWWCW(ftPeople);
+	}
+	@Override
+	public List<GkInterview> queryFangTanByYWCW(Integer ftPeople) {
+		// TODO Auto-generated method stub
+		return gkInterviewMapper.queryFangTanByYWCW(ftPeople);
+	}
+	@Override
+	public List<GkInterview> queryFangTanByYWCB(Integer ftObject) {
+		// TODO Auto-generated method stub
+		return gkInterviewMapper.queryFangTanByYWCB(ftObject);
 	}
 }

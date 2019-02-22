@@ -581,4 +581,11 @@ ORDER BY stuinfo
 	    	(0,#{s.username},'123',1,#{s.usertypeid},1,DATE(now()),null,0,#{s.uid},null,null,null,null,null,null)
 	    </foreach>
 	</insert>
+	<!-- gk通过userid判断是否为学生，if是，则带出当前班级id插入访谈记录表 -->
+	<select id="queryCidByUserid" resultType="Integer">
+		SELECT cs.cid FROM `cqj_user` AS u
+		JOIN `cqj_student` AS s ON (u.`usertypeid` = s.`studentid`) AND u.`usertypenub` = 1
+		JOIN `clazzstudent` AS cs ON (s.studentid = cs.`sid`) AND cs.`status` = 0
+		WHERE u.userid = #{userid}
+	</select>
 </mapper>

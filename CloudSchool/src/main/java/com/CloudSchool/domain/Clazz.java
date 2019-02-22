@@ -6,9 +6,20 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class Clazz {
+	//gk年级名称
+	private String gradeName;
+	
     private Integer id;
 
-    private String cname;
+    public String getGradeName() {
+		return gradeName;
+	}
+
+	public void setGradeName(String gradeName) {
+		this.gradeName = gradeName;
+	}
+
+	private String cname;
 
     private Integer gid;
 
