@@ -298,20 +298,20 @@
 
 
 	<!-- 查询该学员个人信息 -->
-	<select id="queryStudentInfoBySid" resultMap="BaseResultMap">
+	<select id="queryStudentInfoBySid" resultType="com.CloudSchool.domain.statistics.StudentBaseInfoVO">
 		SELECT
-		cqj_student.studentid,cqj_student.`studentname`,cqj_student.`sex`,clazz.`cname`
-		as className,cqj_student.`standby1`,img.`url`,clazzstudent.`endtime`
+		cqj_student.studentid AS studentId,cqj_student.studentnub AS studentNo,cqj_student.`studentname` AS studentName,cqj_student.`sex`,`cqj_student`.`age`AS studentAge,
+		cqj_student.`standby1`,img.`url` #standby1 0在读/1毕业 sex性别 0男 1女生
 		FROM `cqj_student`
 		INNER JOIN `clazzstudent` ON `clazzstudent`.`sid` =
 		`cqj_student`.`studentid`
 		INNER JOIN `clazz` ON clazz.`id` =
 		clazzstudent.`cid`
-		INNER JOIN `zzy_grade` ON `zzy_grade`.`gid` =
-		clazz.`gid`
-		INNER JOIN img ON img.`id` = cqj_student.studentid
+		INNER JOIN `cqj_user` ON `cqj_user`.`usertypeid` = cqj_student.`studentid` AND `cqj_user`.usertypenub = 1
+		INNER JOIN img ON img.`id` = `cqj_user`.`userid` 
 		WHERE
-		`cqj_student`.`studentid` = #{sId} AND img.`style` = 0 ORDER BY
+		`cqj_student`.`studentid` = #{sId}
+		ORDER BY
 		clazzstudent.`starttime` DESC LIMIT 1
 	</select>
 

@@ -4,7 +4,7 @@ package com.CloudSchool.domain.statistics;
  * @author leerui
  *
  */
-public class StaffVO {
+public class StaffVO implements Comparable{
 	//教员id
 	private Integer staffId;
 	//教员名称
@@ -12,7 +12,7 @@ public class StaffVO {
 	//教员年龄
 	private Integer staffAge;
 	//评价分数
-	private Double staffScore;
+	private Integer staffScore;
 	public Integer getStaffId() {
 		return staffId;
 	}
@@ -31,11 +31,18 @@ public class StaffVO {
 	public void setStaffAge(Integer staffAge) {
 		this.staffAge = staffAge;
 	}
-	public Double getStaffScore() {
+	public Integer getStaffScore() {
 		return staffScore;
 	}
-	public void setStaffScore(Double staffScore) {
+	public void setStaffScore(Integer staffScore) {
 		this.staffScore = staffScore;
+	}
+	//重写排序
+	@Override
+	public int compareTo(Object obj) {
+		StaffVO staffVO = (StaffVO) obj;
+		
+		return this.staffScore - staffVO.staffScore;
 	}
 	
 }

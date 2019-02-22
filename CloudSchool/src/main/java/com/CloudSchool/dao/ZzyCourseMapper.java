@@ -18,8 +18,6 @@ public interface ZzyCourseMapper {
     public ZzyCourse queryBycid(Integer cid);
     
 
-    //开办选老师
-  	public List<CourseVO>  queryStaffsAboutOpenClass(@Param("gId") Integer gId,@Param("mId") Integer mId);
 
     //根据年级id 专业id查询课程
     public List<ZzyCourse> queryBygidAndmid(@Param("gid")Integer gid,@Param("mid")Integer mid);

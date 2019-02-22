@@ -144,16 +144,26 @@
 								<button class="btn btn-danger btn-xs">差</button>
 							</div>
 							<div class="card-footer row">
-								<i class="col-md-3 la la-circle text-primary">查看详情</i>
+								<!-- <i class="col-md-3 la la-circle text-primary">查看详情</i> -->
 								<!-- 下载 -->
-								<div class="col-md-3 demo-icon"> 
+								<div id="searchBtn" class="col-md-2 demo-icon"> 
 									<div class="icon-preview">
-										<i class="la la-adjust"></i>
+										<i class="la la-search"></i>
 									</div>
-									<div style="display: inline;" class="icon-class">
+									<div class="icon-class">
+										查看详情
+									</div> 
+								</div>
+		
+								<a id="downLoadBtn" download="考试详情.xls" class="col-md-2 demo-icon" href="#" onclick="return ExcellentExport.excel(this, 'knowledgePointSec', 'sheet');"> 
+									<div class="icon-preview">
+										<i class="la la-file-excel-o"></i>
+									</div>
+									<div class="icon-class">
 										下载报表
 									</div> 
-								</div> 
+								</a>
+								
 							</div>
 						</div>
 						<!--试卷分析-->
@@ -174,6 +184,7 @@
 	</body><script type="text/javascript" th:src="@{/static/js/core/vue.js}"></script>
 	<script type="text/javascript" th:src="@{/static/js/common.js}"></script>
 	<script type="text/javascript" th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/excellentexport.js}"></script>
 	<script type="text/javascript">
 	<!--读取配置 -->
 	var goodRate = 0.8;
@@ -181,7 +192,6 @@
 	<!--读取配置 -->
 	 $(function(){
 		 initData();
-		 
 	 })
 	 function initData(){
 		 $.ajax({
@@ -225,6 +235,8 @@
 							testBaseInfo:data
 						}
 					})
+					//设置报表名称
+					$("#downLoadBtn").attr("download",vue2.testBaseInfo.studentNo+vue2.testBaseInfo.studentName+"-"+vue2.testBaseInfo.testName);
 					console.log(JSON.stringify(data));
 				}
 		 });
@@ -257,5 +269,10 @@
 		 $("#totalRate").html(((understandFinnalScore+memorizationFinnalScore)/(understandFinnalTotalScore+memorizationFinnalTotalScore)).toFixed(3)*100+"%");
 	 
 	 }
+	 //查看详情
+	 $("#searchBtn").live("click",function(){
+		 //修改文件名称
+		 
+	 })
 	</script>
 </html>

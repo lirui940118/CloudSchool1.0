@@ -31,4 +31,6 @@ public interface GkKaoqinMapper {
     
     /*学员考勤到勤率*/
     Double querykaoqinRateBygIdAndsId(@Param("sId") Integer sId,@Param("gId") Integer gId);
+    /*员工考勤道勤率*/
+    Double querykaoqinRateByStaffId(Integer staffId);
 }

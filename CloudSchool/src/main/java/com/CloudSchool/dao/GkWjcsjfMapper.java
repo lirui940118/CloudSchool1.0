@@ -19,4 +19,6 @@ public interface GkWjcsjfMapper {
     
     /* 能力问卷调查，评分  统计使用*/
     Integer queryAbilitWjBysIdAndgId(@Param("sId") Integer sId,@Param("gId") Integer gId,@Param("tId") Integer tId);
+    /* 能力问卷调查，评分  统计使用*/
+    Integer queryAbilitWjByStaffId(@Param("staffId")Integer staffId,@Param("tId") Integer tId);
 }

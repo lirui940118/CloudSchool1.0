@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.CloudSchool.dao.LrStaffAbilityMapper">
+	<!-- ========就业和升学======= -->
+  <!-- 升学率 教员和班主任通用 -->
+  <select id="getUpRateByStaffId" resultType="double">
+  	CALL getUpRateByStaffId(#{staffId},#{typeId});
+  </select>
+  <!-- 就业率 教员和班主任通用 -->
+  <select id="getWorkRateByStaffId" resultType="double">
+  	CALL getWorkRateByStaffId(#{staffId},#{typeId});
+  </select>
+  
+  
+  
+  <!-- ========责任心（班主任）======= -->
+  <!-- 谈心（访谈） 覆盖率（广度rate） -->
+  <select id="getTalkRateByStaffId" resultType="double">
+  	CALL getTalkRateByStaffId(#{staffId});
+  </select>
+  <!-- 谈心（访谈） 基本次数（深度count） -->
+  <select id="getTalkCountRateByStaffId" resultType="double">
+  	CALL getTalkCountRateByStaffId(#{staffId},#{talkStandarCount});
+  </select>
+  
+  
+  
+   <!-- ========责任心（教员）======= -->
+  <!-- 平均布置作业次数  --> 
+  <select id="getWorkCountReteByStaffId" resultType="double">
+  	CALL getWorkCountReteByStaffId(#{staffId},#{workStandarCount});
+  </select>
+  <!-- 平均布置考试次数  -->
+  <select id="getTestCountReteByStaffId" resultType="double">
+  	CALL getTestCountReteByStaffId(#{staffId},#{testStandarCount});
+  </select>
+  
+  
+  
+  <!-- 教学质量（教员） -->
+  <!-- 学员做题数量 -->
+  <select id="getStudentRealTopicCountRateByStaffId" resultType="double">
+  	CALL getStudentRealTopicCountRateByStaffId(#{staffId});
+  </select>
+  <!-- 学生做题正确率 -->
+  <select id="getStudentRightTopicRateByStaffId" resultType="double">
+  	CALL getStudentRightTopicRateByStaffId(#{staffId});
+  </select>
+  
+  
+  
+  
+  
+  
+  <!-- 开办选教员 -->
+  <resultMap type="com.CloudSchool.domain.statistics.CourseVO" id="openClazzStaffList">
+  	<id column="courseId" property="courseId"/>
+  	<result column="courseName" property="courseName"/>
+  	<collection property="staffVOList" ofType="com.CloudSchool.domain.statistics.StaffVO">
+  		<id column="staffId" property="staffId" />
+  		<result column="staffName" property="staffName" />
+  		<result column="staffName" property="staffName" />
+  		<result column="staffAge" property="staffAge" />
+  		<result column="staffScore" property="staffScore" />
+  	</collection>
+	
+  </resultMap>
+  <select id="queryStaffAboutOPenStaffBygIdAndmId" resultMap="openClazzStaffList">
+  	SELECT zzy_course.`cid`AS courseId,zzy_course.`course_name`AS courseName,cqj_staff.`staffid`AS staffId,cqj_staff.`staffname`AS staffName,cqj_staff.`age`AS staffAge
+	,zzy_course.`mid`
+	FROM zzy_course 
+	LEFT JOIN zzy_teacher_ability ON  zzy_teacher_ability.`cid` = zzy_course.`cid` #教学能力
+	LEFT JOIN cqj_staff ON cqj_staff.`staffid` = zzy_teacher_ability.cid #教员id
+	WHERE zzy_course.gid = #{gId}
+	<if test="mId==0">
+		AND ISNULL(zzy_course.`mid`)
+	</if>
+	<if test="mId!=0">
+		AND zzy_course.`mid` = #{mId}
+	</if>
+  </select>
+  
+  <!-- 教员某一门课程下得分 -->
+  <select id="getStaffScoreAboutOpenCLazzByStaffIdAndCourseId" resultType="int">
+	CALL getStaffScoreAboutOpenCLazzByStaffIdAndCourseId(#{staffId},#{courseId});
+  </select>
+  
+  
+  
+  
+  
+  
+</mapper>

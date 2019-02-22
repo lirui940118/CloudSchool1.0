@@ -12,5 +12,6 @@ public interface GkKaoQinService {
 	
 	/*学员考勤到勤率*/
     Double querykaoqinRateBygIdAndsId(Integer sId,Integer gId);
-
+    /*员工考勤道勤率*/
+    Double querykaoqinRateByStaffId(Integer staffId);
 }

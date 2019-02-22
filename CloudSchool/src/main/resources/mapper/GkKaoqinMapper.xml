@@ -284,5 +284,10 @@
 	</if>
   </select>
   
-  
+  <!-- 教员考情道勤率 -->
+  <select id="querykaoqinRateByStaffId" resultType="double">
+	SELECT IFNULL(SUM(kq_state_id=1)/COUNT(kq_id)*100,0) FROM `gk_kaoqin`
+	INNER JOIN `cqj_user` ON `cqj_user`.userid = gk_kaoqin.uid AND cqj_user.usertypenub = 0 #学员类型
+	WHERE cqj_user.usertypeid = #{staffId}
+  </select>
 </mapper>

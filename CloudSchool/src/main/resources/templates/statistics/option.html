@@ -31,6 +31,8 @@
 					<div class="row" id="configSec">
 						<div class="card col-lg-12">
 							<div class="card-header">
+								<!-- 标题 -->
+								<span class="h3">学员</span>
 								<h4 class="card-title">学员理解能力系数</h4>
 								<p class="card-category">
 									做题数量（理解类型）：实际刷题数量/当前进度下题目总数。
@@ -187,7 +189,200 @@
 								 </div>
 							</div>
 							
+							
+							
+							<div class="card-header">
+								<!-- 标题 -->
+								<span class="h3">教员</span>
+								<h4 class="card-title">升学率和就业系数</h4>
+								<p class="card-category">
+									升学率：一次性升学人数/总人数         
+									<br>
+									就业率： 就业人数/总人数
+									<br>
+									说明：只要带过的班级，就影响该教员或班主任的就业率。
+								</p>
+							</div>
+							<div class="card-body row" style="justify-content: flex-start;display: flex;">
+								 <div class="col-lg-4" >
+								   <span>升学率</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config14" data-name="config14">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>就业率</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config15" data-name="config15">
+								     <span></span>
+								   </div>
+								 </div>
+							</div>
+							
+							
+							
+							<div class="card-header">
+								<h4 class="card-title">教员教学质量系数</h4>
+								<p class="card-category">
+									学员做题数量：实际答题量/题目总数
+									<br>
+									学生做题正确率：正确答题/答题量  说明：重复答题超过五次 && 正确率过高（包含）80% 计为 无效数据排除
+									<br>
+									学员评价：上过该教员课的学员对其教学进行的评价（问卷调查的形式）。
+								</p>
+							</div>
+							<div class="card-body row" style="justify-content: flex-start;display: flex;">
+								 <div class="col-lg-4" >
+								   <span>学员做题数量</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config16" data-name="config16">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>学生做题正确率</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config17" data-name="config17">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>学员评价</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config18" data-name="config18">
+								     <span></span>
+								   </div>
+								 </div>
+							</div>
+							
+							
+							
+							<div class="card-header">
+								<h4 class="card-title">责任心（教员）系数</h4>
+								<p class="card-category">
+									平均布置作业次数 平均布置作业次数>=是否达到标准次数
+									<br>
+									平均布置考试次数 平均布置考试次数>=是否达到标准次数   说明：只算日常小考，不算交班测试
+									<br>
+									考勤率
+									<br>
+									学员评价：上过该教员课的学员对其责任心进行的评价（问卷调查的形式）。
+								</p>
+							</div>
+							<div class="card-body row" style="justify-content: flex-start;display: flex;">
+								 <div class="col-lg-4" >
+								   <span>布置作业标准次数（每课程）</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="次" v-model="configInfo.config19" data-name="config19">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>布置考试标准次数（每课程）</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="次" v-model="configInfo.config20" data-name="config20">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>平均布置作业次数系数</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config21" data-name="config21">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>平均布置考试次数系数</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config22" data-name="config22">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>考勤率</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config23" data-name="config23">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>学员评价</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config24" data-name="config24">
+								     <span></span>
+								   </div>
+								 </div>
+							</div>
+							
+							
+							
+							
+							<div class="card-header">
+								<h4 class="card-title">责任心（班主任）系数</h4>
+								<p class="card-category">
+									班主任标准访谈次数（每班级）
+									<br>
+									谈心（访谈）覆盖率（广度rate）
+									<br>
+									谈心（访谈） 基本次数（深度count）  
+									<br>
+									考勤率
+									<br>
+									学员评价：班主任带过的学员对其责任心进行的评价（问卷调查的形式）。
+								</p>
+							</div>
+							<div class="card-body row" style="justify-content: flex-start;display: flex;">
+								 <div class="col-lg-4" >
+								   <span>班主任标准访谈次数</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="次" v-model="configInfo.config25" data-name="config25">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>谈心（访谈）覆盖率（广度rate）</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config26" data-name="config26">
+								     <span></span>
+								   </div>
+								 </div>
+								 <div class="col-lg-4" >
+								   <span>谈心（访谈） 基本次数（深度count）  </span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config27" data-name="config27">
+								     <span></span>
+								   </div>
+								 </div>
+								  <div class="col-lg-4" >
+								   <span>考勤率</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config28" data-name="config28">
+								     <span></span>
+								   </div>
+								 </div>
+								  <div class="col-lg-4" >
+								   <span>学员评价</span>
+								   <div class="input-group">
+								     <input type="number" class="form-control" placeholder="%" v-model="configInfo.config29" data-name="config29">
+								     <span></span>
+								   </div>
+								 </div>
+							</div>
+							
+							
+							
 						</div>
+						
+						
+						
+						
+						
+						
+							
+							
+						
+						
 						
 						
 						

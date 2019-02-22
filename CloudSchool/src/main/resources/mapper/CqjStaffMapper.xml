@@ -260,5 +260,18 @@
   </select>
   
   
+  <!-- 查询职工职位id write by lirui-->
+  <select id="queryPositionIdByStaffId" resultType="int">
+  	SELECT cqj_staff.`positionid` FROM `cqj_staff`
+	WHERE cqj_staff.staffid = #{staffId}
+  </select>
   
+  <!-- 查询所有的班主任基本信息  write by lirui-->
+  <select id="queryALlMaster" resultType="com.CloudSchool.domain.statistics.StaffVO">
+  	SELECT cqj_staff.`staffid` AS staffId,cqj_staff.`staffname`AS staffName,cqj_staff.`age` AS staffAge
+	FROM `cqj_staff`
+	WHERE cqj_staff.positionid = 6 #班主任职位id
+	AND ISNULL(standby2) #在职员工
+  </select>
+  	
 </mapper>

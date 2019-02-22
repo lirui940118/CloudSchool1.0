@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.Studentupgrade;
+import com.CloudSchool.domain.statistics.StudentBaseInfoVO;
 
 public interface CqjStudentService {
 	// 查询学员信息
-	public CqjStudent queryStudentInfoBySid(Integer sId);
+	public StudentBaseInfoVO queryStudentInfoBySid(Integer sId);
 
 	public int addStudents(List<CqjStudent> student);
 	

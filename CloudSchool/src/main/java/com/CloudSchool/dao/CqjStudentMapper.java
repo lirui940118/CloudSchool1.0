@@ -6,11 +6,12 @@ import org.apache.ibatis.annotations.Param;
 
 import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.cqjvo.StudentTestVo;
+import com.CloudSchool.domain.statistics.StudentBaseInfoVO;
 
 public interface CqjStudentMapper {
 	//write by lirui
 	//查询学员信息
-	public CqjStudent queryStudentInfoBySid(Integer sId);
+	public StudentBaseInfoVO queryStudentInfoBySid(Integer sId);
 	
 	
     int deleteByPrimaryKey(Integer studentid);

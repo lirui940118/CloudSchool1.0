@@ -1,6 +1,5 @@
 package com.CloudSchool.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.GkKaoqinState;
 import com.CloudSchool.domain.LrConfigrate;
@@ -21,6 +19,7 @@ import com.CloudSchool.domain.statistics.CourseVO;
 import com.CloudSchool.domain.statistics.GradeVO;
 import com.CloudSchool.domain.statistics.KnowledgePointUpVO;
 import com.CloudSchool.domain.statistics.StaffBaseVO;
+import com.CloudSchool.domain.statistics.StudentBaseInfoVO;
 import com.CloudSchool.domain.statistics.StudentInfoVO;
 import com.CloudSchool.domain.statistics.TestInfo;
 import com.CloudSchool.domain.statistics.WorkGradeVo;
@@ -124,7 +123,7 @@ public class StatisticsController {
 	/* 查询该学员个人信息 */
 	@RequestMapping("/queryStudentInfoBySid")
 	@ResponseBody
-	public CqjStudent queryStudentInfoBySid(Integer sId, HttpSession session) {
+	public StudentBaseInfoVO queryStudentInfoBySid(Integer sId, HttpSession session) {
 		// 當前登陸賬號信息
 		CqjUser cqjUser = (CqjUser) session.getAttribute("user");
 		if (sId != null) {// 查其他学员
@@ -202,7 +201,7 @@ public class StatisticsController {
 		return wtrecordService.queryBadKnowledagePointBySid(sId);
 	}
 
-	// 劣势知识点上报
+	// 作业完成情况
 	@RequestMapping("getDataAboutWorkInfo")
 	@ResponseBody
 	public List<WorkGradeVo> getDataAboutWorkInfo(Integer sId, Integer gId,HttpSession session) {
@@ -212,11 +211,12 @@ public class StatisticsController {
 		} else {// 查本人（学员）
 			sId = cqjUser.getUsertypeid();// doto session获取登陆学员的id
 		}
-		List<WorkGradeVo> list = workgradeService.queryStudentWorkInfoBysIdAndgId(sId, gId);
+		List<WorkGradeVo> list = workgradeService.queryStudentWorkInfoBysIdAndgId(4, 15);
 		return list;
 	}
 	
-	// 作业完成情况
+	
+	// 劣势知识点上报
 	@RequestMapping("submitBadKnowledage")
 	@ResponseBody
 	public Integer submitBadKnowledage(Integer courseId, Integer sId, Integer knowledageId) {
@@ -345,8 +345,14 @@ public class StatisticsController {
 	}
 	
 	
-	
-	
+	// =======================教学能力计算=====================================
+	@RequestMapping("/queryStaffAbility")
+	@ResponseBody
+	public List<Integer> queryStaffAbility(Integer staffId) {
+		List<Integer> list = cqjStaffService.queryStaffAbility(staffId);
+		return list;
+	}
+
 	
 	
 	
@@ -356,9 +362,7 @@ public class StatisticsController {
 	public List<Integer> queryStudentAbility(Integer sId, Integer gId) {
 		if (gId == -1)
 			gId = null;
-		// 测试
-		List<Integer> list = StudentAbilityService.queryStudentAbility(4, 15);
-		// List<Integer> list = StudentAbilityService.queryStudentAbility(sId, gId);
+		List<Integer> list = StudentAbilityService.queryStudentAbility(sId, gId);
 		return list;
 	}
 
