@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>用户管理-新增用户</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+<link rel="stylesheet" th:href="@{/static/css/load.css}">
+<style type="text/css">
+.card {
+	margin-bottom: 10px;
+}
+
+#hezi {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: #f2f3f8;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+}
+
+.zxc {
+	top: 80px;
+}
+</style>
+</head>
+
+<body>
+	<div class="main-panel">
+		<!-- <div id="hezi">
+			<div class="spinner">
+				<div class="spinner-container container1">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+				<div class="spinner-container container2">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+				<div class="spinner-container container3">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+			</div>
+		</div> -->
+		<div class="content">
+			<div class="container-fluid">
+				<h4 class="page-title">新增用户</h4>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-group" style="display: none">
+									<label for="fileUpdate-input">Example file input</label>
+									<input  type="file" class="form-control-file"
+										id="fileUpdate-input" onchange="importf(this)" >
+								</div>
+								    <a href="" download="未就业毕业生表.xlsx" id="downloadA"></a>
+								
+								<p class="demo">
+									<button name="getStudentInfo" class="btn btn-success">查看未就业毕业生表</button>
+									<button name="getExce" class="btn btn-success">导出未就业毕业生表</button>
+									<button id="fileUpdate-button" name="goInsertStudent" class="btn btn-success">导入毕业生就业情况表</button>
+								</p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-body">
+							
+							<table class="table table-striped mt-12">
+
+									<thead>
+										<tr>
+											<th scope="col">姓名</th>
+											<th scope="col">学号</th>
+											<th scope="col">手机</th>
+											<th scope="col">邮箱</th>
+											<th scope="col">地址</th>
+											<th scope="col">就业情况</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(e,index) in excelJson">
+											<td>{{e.studentname}}</td>
+											<td>{{e.studentnub}}</td>
+											<td>{{e.phone}}</td>
+											<td>{{e.email}}</td>
+											<td>{{e.address}}</td>
+											<td>{{e.standby2==0?'未就业':'已就业'}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+	</div>
+
+</body>
+<script th:src="@{/static/js/core/jquery.min.js}"></script>
+<script th:src="@{/static/js/core/vue.js}" type="text/javascript"
+	charset="utf-8"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+<script th:src="@{/static/js/core/popper.min.js}"></script>
+<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+<script th:src="@{/static/js/ready.min.js}"></script>
+<script th:src="@{/static/js/cqj_infoBut.js}"></script>
+<script th:src="@{/static/js/axios.min.js}" type="text/javascript"
+	charset="utf-8"></script>
+<script th:src="@{/static/js/lodash.min.js}" type="text/javascript"
+	charset="utf-8"></script>
+	<script th:src="@{/static/js/xlsx.full.min.js}"></script>
+	
+<script type="text/javascript">
+	var v = new Vue({
+		el : ".content",
+		data : {
+			excelJson:{}
+		}
+	});
+	$(function(){
+		
+		 //上传文件处理
+	    var fileUpdate_button = document.getElementById("fileUpdate-button");
+	    var fileUpdate_input = document.getElementById("fileUpdate-input");
+	    fileUpdate_button.onclick = function () {
+	        fileUpdate_input.click();
+	    }
+		
+		$('[name="getStudentInfo"]').click(function(){
+			$.ajax({
+				url : "/student/getStudentJobInfo",
+				type : "post",
+				contentType: "application/json",
+				success : function(data) {
+					v.excelJson=data;
+				}
+			})
+		
+		});
+		$('[name="getExce"]').click(function(){
+			var excel = JSON.parse(JSON.stringify(v.excelJson).replace(/studentname/g,"学生姓名")
+            		.replace(/studentnub/g,"学生学号")
+            		.replace(/studentid/g,"学生系统号")
+            		.replace(/phone/g,"学生手机")
+            		.replace(/address/g,"学生地址")
+            		.replace(/email/g,"学生邮箱")
+            		.replace(/standby2/g,"就业情况")
+            		);
+			downloadExl(excel);
+		});
+	})
+	//=======================================================================================================导出
+	var wb;//读取完成的数据
+    var rABS = false; //是否将文件读取为二进制字符串
+
+    //开始导入
+    function importf(obj) {
+        if(!obj.files) {
+            return;
+        }
+        var f = obj.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var data = e.target.result;
+            if(rABS) {
+                wb = XLSX.read(btoa(fixdata(data)), {//手动转化
+                    type: 'base64'
+                });
+            } else {
+                wb = XLSX.read(data, {
+                    type: 'binary'
+                });
+            }
+            /**
+             * wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
+             * wb.Sheets[Sheet名]获取第一个Sheet的数据
+             */
+            var excelJson = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+            
+            excelJson.name=excelJson.姓名;
+            delete  excelJson.姓名;
+           
+            
+            excelJson = JSON.parse(JSON.stringify(excelJson).replace(/学生姓名/g,"studentname")
+            		.replace(/学生学号/g,"studentnub")
+            		.replace(/学生系统号/g,"studentid")
+            		.replace(/学生手机/g,"phone")
+            		.replace(/学生地址/g,"address")
+            		.replace(/学生邮箱/g,"email")
+            		.replace(/就业情况/g,"standby2")
+            		);
+            v.excelJson=excelJson;
+            console.log(excelJson)
+            $.ajax({
+			url : "/student/updateStudentUpGrade",
+			data :JSON.stringify(excelJson),
+			type : "post",
+			contentType: "application/json",
+			success : function(data) {
+				alert("成了")
+			}
+        })
+        };
+        if(rABS) {
+            reader.readAsArrayBuffer(f);
+        } else {
+            reader.readAsBinaryString(f);
+        }
+        
+        
+    }
+
+    //文件流转BinaryString
+    function fixdata(data) { 
+        var o = "",
+            l = 0,
+            w = 10240;
+        for(; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
+        o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
+        return o;
+    }
+	
+    
+
+    var tmpDown; //导出的二进制对象
+    function downloadExl(json, type) {
+    	//根据json数据，获取excel的第一行(例如:姓名、年龄、性别)存至map
+        var tmpdata = json[0];
+        json.unshift({});
+        var keyMap = []; //获取keys
+        for (var k in tmpdata) {
+            keyMap.push(k);
+            json[0][k] = k;
+        }
+        
+        //=======================================================================================================导出
+
+      	var tmpdata = [];
+        json.map((v, i) => keyMap.map((k, j) => Object.assign({}, {
+            v: v[k],
+            position: (j > 25 ? getCharCol(j) : String.fromCharCode(65 + j)) + (i + 1)
+        }))).reduce((prev, next) => prev.concat(next)).forEach((v, i) => tmpdata[v.position] = {
+            v: v.v
+        });
+      	
+      	//设置区域,比如表格从A1到D10
+        var outputPos = Object.keys(tmpdata); 
+        var tmpWB = {
+            SheetNames: ['mySheet'], //保存的表标题
+            Sheets: {
+                'mySheet': Object.assign({},
+                    tmpdata, //内容
+                    {
+                        '!ref': outputPos[0] + ':' + outputPos[outputPos.length - 1] //设置填充区域
+                    })
+            }
+        };
+      	//创建二进制对象写入转换好的字节流
+        tmpDown = new Blob([s2ab(XLSX.write(tmpWB, 
+            {bookType: (type == undefined ? 'xlsx':type),bookSST: false, type: 'binary'}//这里的数据是用来定义导出的格式类型
+            ))], {
+            type: ""
+        });
+      	
+        var href = URL.createObjectURL(tmpDown); //创建对象超链接
+        document.getElementById("downloadA").href = href; //绑定a标签
+        document.getElementById("downloadA").click(); //模拟点击实现下载
+        setTimeout(function() { //延时释放
+            URL.revokeObjectURL(tmpDown); //用URL.revokeObjectURL()来释放这个object URL
+        }, 100);
+    }
+
+  	//字符串转字符流
+    function s2ab(s) { 
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+  	
+    //将指定的自然数转换为26进制表示。映射关系：[0-25] -> [A-Z]。
+    function getCharCol(n) {
+        let temCol = '',
+        s = '',
+        m = 0
+        while (n > 0) {
+            m = n % 26 + 1
+            s = String.fromCharCode(m + 64) + s
+            n = (n - m) / 26
+        }
+        return s
+    }
+	
+    function updateStudentJob(json){
+    	
+    
+    }
+</script>
+
+</html>

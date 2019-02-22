@@ -146,4 +146,15 @@
  		<insert id="insertOne">
  				insert into  `clazzstudent`(`cid`,`sid`,`status`) value(#{cid},#{sid},0)
  		</insert>
+ <!-- 通过cid 将状态全部改为 指定-->
+ 		<update id="updateStatusBycid">
+ 				update  `clazzstudent` set `status`=#{status} where `cid`=#{cid};
+ 		</update>
+ <!-- 通过list 更改一群学生和班级的状态 -->
+ 		<update id="updateStatusByMap">
+ 				update  `clazzstudent` set `status`=#{status} where `cid`=#{cid} and `sid` in
+ 				<foreach collection="list" item="i" index="index" separator="," open="(" close=")">
+						#{i.studentid}
+				</foreach>
+ 		</update>
 </mapper>

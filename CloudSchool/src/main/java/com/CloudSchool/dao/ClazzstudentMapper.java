@@ -1,6 +1,9 @@
 package com.CloudSchool.dao;
 
+import java.util.HashMap;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 import com.CloudSchool.domain.ClazzInfo;
 import com.CloudSchool.domain.Clazzstudent;
@@ -37,5 +40,8 @@ public interface ClazzstudentMapper {
 	
     //查询一个班级中所有正常的学员
     public List<Clazzstudent> queryBystatusAndid(Integer cid);
-   
+    //通过cid 将状态全部改为 指定
+    public int updateStatusBycid(@Param("status") Integer status,@Param("cid") Integer cid);
+    //更改一群学生和班级的状态
+    public int updateStatusByMap(HashMap<String, Object> map);
 }

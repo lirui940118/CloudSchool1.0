@@ -38,4 +38,7 @@ public interface CqjStudentMapper {
     
     List<StudentTestVo> queryTestByCidAndGid(@Param("cid")Integer cid,@Param("gid")Integer gid);
     
+    //查看未就业的毕业生
+    List<CqjStudent> queryStudentJob();
+    
 }
