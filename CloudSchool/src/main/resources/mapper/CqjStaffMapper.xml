@@ -274,4 +274,42 @@
 	AND ISNULL(standby2) #在职员工
   </select>
   	
+<!-- 	<resultMap id="BaseResultMap1"
+		type="com.CloudSchool.domain.CqjStaff">
+		<id column="staffid" jdbcType="INTEGER" property="staffid" />
+		<result column="staffname" jdbcType="VARCHAR"
+			property="staffname" />
+		<result column="staffnub" jdbcType="VARCHAR"
+			property="staffnub" />
+		<result column="positionid" jdbcType="INTEGER"
+			property="positionid" />
+		<result column="sex" jdbcType="INTEGER" property="sex" />
+		<result column="age" jdbcType="INTEGER" property="age" />
+		<result column="phone" jdbcType="VARCHAR" property="phone" />
+		<result column="idcard" jdbcType="VARCHAR" property="idcard" />
+		<result column="birthday" jdbcType="TIMESTAMP"
+			property="birthday" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="standby1" jdbcType="VARCHAR"
+			property="standby1" />
+		<result column="standby2" jdbcType="VARCHAR"
+			property="standby2" />
+		<result column="standby3" jdbcType="VARCHAR"
+			property="standby3" />
+		<result column="standby4" jdbcType="VARCHAR"
+			property="standby4" />
+		<result column="standby5" jdbcType="VARCHAR"
+			property="standby5" />
+	</resultMap> -->
+	
+	
+	
+	<!--查询所有老师  赵举峰-->
+	<select resultMap="BaseResultMap" id="queryTeachAll">
+		SELECT cqj_staff.* FROM cqj_staff
+		INNER JOIN cqj_position
+		ON cqj_staff.`positionid`=cqj_position.`positionid`
+		WHERE cqj_position.`positionname`='任课老师'
+	</select>
 </mapper>

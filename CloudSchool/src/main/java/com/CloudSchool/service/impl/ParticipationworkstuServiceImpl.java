@@ -16,6 +16,7 @@ import com.CloudSchool.domain.Workgrade;
 import com.CloudSchool.domain.Workinstance;
 import com.CloudSchool.domain.Wtrecord;
 import com.CloudSchool.domain.zjfvo.StuWorkInfo;
+import com.CloudSchool.domain.zjfvo.StudentWork;
 import com.CloudSchool.service.ParticipationworkstuService;
 import com.alibaba.fastjson.JSON;
 @Service
@@ -72,6 +73,12 @@ public class ParticipationworkstuServiceImpl implements ParticipationworkstuServ
 			return workgradeMapper.inserStuScore(object);
 		}
 		return i;
+	}
+	@Override
+	public PageBean queryStuWorkBySid(Integer sid,Integer cur,Integer pagesize,Integer isCorrect) {
+		int datas=participationworkstuMapper.queryStuWorkBySidCount(sid,isCorrect);
+		PageBean page=new PageBean(datas, pagesize, participationworkstuMapper.queryStuWorkBySid(sid,(cur-1)*pagesize,pagesize,isCorrect), cur);
+		return page;
 	}
 
 }

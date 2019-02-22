@@ -30,9 +30,14 @@ public interface CqjStaffMapper {
     public StaffBaseVO queryStaffBaseVOBySid(Integer staffId);
     
     
+
     //查询职工职位id write by lirui
     public Integer queryPositionIdByStaffId(Integer staffId);
     
     //查询所有的班主任基本信息  write by lirui
     public List<StaffVO> queryALlMaster();
+
+    //查询到所有任课老师(赵举峰)
+    List<CqjStaff> queryTeachAll();
+
 }

@@ -189,12 +189,14 @@ ul,
 								<div class="form-group has-success">
 									<label for="successInput">开始时间</label> <!-- <input type="text"
 										id="successInput" class="form-control" name="starttime"> -->
-										<input type="date" id="successInput" class="form-control"  name="starttime"/>
+										<input type="datetime-local" id="successInput"
+										class="form-control" name="starttime" />
 								</div>
 								<div class="form-group has-success">
 									<label for="successInput">结束时间</label><!--  <input type="text"
 										id="successInput" class="form-control" name="endtime"> -->
-										<input type="date" id="successInput" class="form-control"  name="endtime"/>
+										<input type="datetime-local" id="successInput"
+										class="form-control" name="endtime" />
 								</div>
 								<div class="form-group">
 									<label for="comment">备注</label>
@@ -438,6 +440,8 @@ ul,
 		$("#publish").click(function(){
 			var obj={}
 			var temp=[]
+		/* 	var time=$("[name=starttime]").val().trim()
+			alert(time) */
 			if($("[name=wid]").val().trim()!="" && $("[name=workname]").val()!=""){
 				$.each($(".clazzInput[type=checkbox]:checked"),function(){
 					var obj={}
@@ -470,6 +474,14 @@ ul,
 					success : function(data) {
 						if(data>0){
 							alert("作业发布成功！")
+							/* $.ajax({
+								type:"post",
+								url:"http://127.0.0.1:8080/WorkInfo/as",
+								data:{time:time},
+								success:function(data){
+									
+								}
+							}) */
 						}
 	
 					}

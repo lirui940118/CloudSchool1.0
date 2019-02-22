@@ -2,7 +2,7 @@ package com.CloudSchool.service;
 
 import java.util.List;
 
-
+import com.CloudSchool.domain.Classroom;
 import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.ClazzInfo;
 import com.CloudSchool.domain.Clazzcourseteacher;
@@ -30,5 +30,9 @@ public interface ClazzService {
 	public List<ClazzBaseInfoVO> queryClazzListByStaffId(Integer staffId);
 	
 	List<Clazz> queryByClazzidAllStu(Integer[] clazzs);
+	
+	
+	//根据时间段查询空教室(赵举峰)
+	public List<Classroom> queryClassRoomAll(String time,Integer status);
 
 }

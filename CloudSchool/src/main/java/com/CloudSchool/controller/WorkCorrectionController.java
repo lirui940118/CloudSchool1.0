@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -13,6 +14,7 @@ import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.Participationworkclass;
 import com.CloudSchool.domain.Wtrecord;
 import com.CloudSchool.domain.zjfvo.StuWorkInfo;
+import com.CloudSchool.domain.zjfvo.StudentWork;
 import com.CloudSchool.domain.zjfvo.WorkinstanceInfo;
 import com.CloudSchool.service.ParticipationworkclassService;
 import com.CloudSchool.service.ParticipationworkstuService;
@@ -105,6 +107,22 @@ public class WorkCorrectionController {
 	@ResponseBody
 	public int updateStatusById(Participationworkclass obj) {
 		return participationworkclassService.updateStatusById(obj);
+	}
+	
+	//跳转到我的作业历史
+	@RequestMapping("toStuworkCorrectInfo")
+	public String toStuworkCorrectInfo() {
+		return "zjf/student/StuworkCorrectInfo";
+	}
+	
+	@RequestMapping("queryStuWorkBySid")
+	@ResponseBody
+	public PageBean queryStuWorkBySid(Integer cur,Integer pagesize,Integer isCorrect){
+		if(pagesize==null) {
+			pagesize=1;
+		}
+		Integer sid=1;
+		return participationworkstuService.queryStuWorkBySid(sid,cur,pagesize,isCorrect);
 	}
 	
 	
