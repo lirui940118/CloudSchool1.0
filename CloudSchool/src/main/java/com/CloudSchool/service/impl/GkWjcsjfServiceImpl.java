@@ -19,4 +19,10 @@ public class GkWjcsjfServiceImpl implements GkWjcsjfService{
 		return gkWjcsjfMapper.queryAbilitWjBysIdAndgId(sId, gId,tId);
 	}
 
+
+	@Override
+	public Integer queryAbilitWjByStaffId(Integer staffId,Integer tId) {
+		return gkWjcsjfMapper.queryAbilitWjByStaffId(staffId,tId);
+	}
+
 }

@@ -154,7 +154,7 @@
 	<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
 	<script type="text/javascript">
 		//点进员工的id
-		var gotoStaff = 3;//null;//如果为null（登陆人点入）
+		var gotoStaff = 100;//null;//如果为null（登陆人点入）
 		//初始化
 		$(function(){
 			//员工基础信息初始化
@@ -165,6 +165,8 @@
 			initBadKonwledagepoint();
 			//考勤情况初始化
 			initKqInfo();
+			//能力雷达图初始化
+			initAbilityInfo();
 		})
 		
 		
@@ -464,6 +466,74 @@
 					myChar2.hideLoading();
 				}
 			});//ajax结束
+		}
+		
+		
+		function initAbilityInfo(){
+			myChar.showLoading();
+			$.ajax({
+				type:"post",
+				url:adress.url +"/statistics/" +"queryStaffAbility",
+				async:true,
+				data:{
+					staffId:gotoStaff
+				},
+				success:function(data){
+					//数据筛选
+					
+					option = {
+							title: {
+								
+							},
+							tooltip: {},
+							legend: {
+								data: ['学员能力值', '所在班级学员能力平均值']
+							},
+							radar: {
+								center: ['50%', '55%'],
+								// shape: 'circle',
+								name: {
+									textStyle: {
+										color: '#fff',
+										backgroundColor: '#999',
+										borderRadius: 3,
+										padding: [3, 5]
+									}
+								},
+								indicator: [{
+										name: '升学率和就业',
+										max: 100
+									},
+									{
+										name: '教学质量',
+										max: 100
+									},
+									{
+										name: '责任心',
+										max: 100
+									}
+								]
+							},
+							series: [{
+								type: 'radar',
+								// areaStyle: {normal: {}},
+								data: [{
+										value: data,
+										label:{
+											show:true,                  //是否显示标签。
+										    position:"insideTop",          //标签的位置。// 绝对的像素值[10, 10],// 相对的百分比['50%', '50%'].'top','left','right','bottom','inside','insideLeft','insideRight','insideTop','insideBottom','insideTopLeft','insideBottomLeft','insideTopRight','insideBottomRight'
+										    offset:[-10, 0],             //是否对文字进行偏移。默认不偏移。例如：[30, 40] 表示文字在横向上偏移 30，纵向上偏移 40。
+										    formatter:'{c}',       //标签内容格式器。模板变量有 {a}、{b}、{c}，分别表示系列名，数据名，数据值。
+										},
+										name: '员工能力值'
+									}
+								]
+							}]
+						};
+						myChar.hideLoading();
+						myChar.setOption(option,true);
+				}
+			});
 		}
 	</script>
 

@@ -9,6 +9,7 @@
 	name='viewport' />
 <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/static/css/ready.css}">
+<link rel="stylesheet" th:href="@{/static/css/demo.css}">
 <style type="text/css">
 * {
 	margin: 0px;
@@ -60,9 +61,11 @@ img {
 								<!-- <img th:src="@{/static/image/studentImg.png}"> -->
 								<img v-bind:src="url+studentInfo.url">
 							</div>
-							<p>姓名：{{studentInfo.studentname}}</p>
-							<p>学号：{{studentInfo.studentid}}</p>
-							<p v-if="studentInfo.standby1==0&&studentInfo.endtime==null">班级：{{studentInfo.className}}</p>
+							<p>学号：{{studentInfo.studentNo}}</p>
+							<p>姓名：{{studentInfo.studentName}}</p>
+							<p v-if="studentInfo.sex == 0">性别：男</p>
+							<p v-if="studentInfo.sex == 1">性别：女</p>
+							<p>年龄：{{studentInfo.studentAge}}</p>
 							<p v-if="studentInfo.standby1==0">状态：在读</p>
 							<p v-if="studentInfo.standby1==1">状态：毕业</p>
 						</div>
@@ -97,25 +100,46 @@ img {
 						</div>
 						<div class="card-body" id="workTableSec">
 							<!-- 作业情况饼状图 -->
-							<table v-if="workInfoList.length!=0" class="table table-bordered" style="text-align: center;">
+							<table id="studentWorkInfoTable" v-if="workInfoList.length!=0" class="table table-bordered" style="text-align: center;">
 								<thead>
 									<tr>
 										<th scope="col">等级</th>
 										<th scope="col">次数</th>
+										<th scope="col">比重</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr v-for="item in workInfoList">
 										<td>{{item.rankName}}</td>
 										<td>{{item.workCount}}</td>
+										<td>{{item.workCount/workTotalCount*100}}%</td>
+									</tr>
+									<tr>
+										<td>合计</td>
+										<td colspan='2'>{{workTotalCount}}</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
-						<div class="card-footer">
-							<div class="legend">
-								<i class="la la-circle text-primary"></i> 查看很多
+						<div class="card-footer row">
+							<!-- 查询详情 -->
+							<div id="searchWorkBtn" class="col-md-2 demo-icon"> 
+								<div class="icon-preview">
+									<i class="la la-search"></i>
+								</div>
+								<div class="icon-class">
+									查看详情
+								</div> 
 							</div>
+							<!-- 下载报表 -->
+							<a id="downLoadWorkBtn" download="学员作业情况表.xls" class="col-md-2 demo-icon" href="#" onclick="return ExcellentExport.excel(this, 'studentWorkInfoTable', 'sheet');"> 
+								<div class="icon-preview">
+									<i class="la la-file-excel-o"></i>
+								</div>
+								<div class="icon-class">
+									下载报表
+								</div> 
+							</a>
 						</div>
 					</div>
 					<!--日常考勤-->
@@ -184,6 +208,7 @@ img {
 	th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
 <script src="/static/js/echarts.js"></script>
 <script src="/static/js/core/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/static/js/excellentexport.js}"></script>
 <script type="text/javascript">
 	//初始化echars实例
 	var sId = null;
@@ -722,12 +747,24 @@ img {
 				var vue =new Vue({
 					el:"#workTableSec",
 					data:{
-						workInfoList:data
+						workInfoList:data,
+						workTotalCount:0
+					},
+					 beforeMount:function(){
+						 this.workTotalCount =  0;//清0
+						//计算作业上交总数
+						for(var i = 0;i< this.workInfoList.length;i++){
+							this.workTotalCount = this.workTotalCount+this.workInfoList[0].workCount;
+						}
 					}
 				});
 				if(data.length == 0){//无数据
 					myChar3.setOption(noDataLoadingOption,true);
+					//隐藏下载报表按钮（作业）
+					$("#downLoadWorkBtn").hide();
 				}else{
+					//显示下载报表按钮(作业)
+					$("#downLoadWorkBtn").show();
 					//筛选数据
 					var rankNameArr = [];
 					var workDataArr = [];
@@ -775,7 +812,9 @@ img {
 			}
 		});
 			
-		
+		function updateXlsxName(name){/* name为固定名称 */
+			
+		}
 	}
 </script>
 

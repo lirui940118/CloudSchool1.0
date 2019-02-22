@@ -89,5 +89,10 @@ public class GkKaoQinServiceImpl implements GkKaoQinService{
 
 
 
+	@Override
+	public Double querykaoqinRateByStaffId(Integer staffId) {
+		return gkKaoqinMapper.querykaoqinRateByStaffId(staffId);
+	}
+
 	
 }

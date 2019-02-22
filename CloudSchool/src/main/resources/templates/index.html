@@ -47,7 +47,7 @@ iframe{padding-left:260px;}
 					<div id="card-body" class="navSec">
 						<ul class="nav nav-pills nav-primary">
 							<li class="nav-item"><a class="nav-link active"
-								data-adress="home.html">首页</a></li>
+								v-bind:data-adress="userinfo.homeUrl">首页</a></li>
 						</ul>
 					</div>
 					<!--查看更多-->
@@ -258,6 +258,7 @@ iframe{padding-left:260px;}
 			success: function(data){
 				v.userinfo=data;
 				console.log(data);
+				adressArr.push(v.userinfo.homeUrl);
 			}
 		});
 		
@@ -277,7 +278,7 @@ iframe{padding-left:260px;}
 	
 	
 	//左侧导航
-	var adressArr = [ "home.html" ];//默认加载首页
+	var adressArr = [];//默认加载首页
 	var newAdressArr = [];
 	function simNavClick(th){
 		var adressName = th.getAttribute("data-adress");

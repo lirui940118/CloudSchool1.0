@@ -141,9 +141,9 @@
   
   
   
-  <!-- 能力问卷调查，评分  统计使用-->
+  <!-- 能力问卷调查(学员被调查)，评分  统计使用-->
   <select id="queryAbilitWjBysIdAndgId" resultType="int">
-  SELECT IFNULL(ROUND(SUM(gk_wjcsjf.`tm_score`)/SUM(gk_wjcsjf.`tm_sum`)*100),0) AS 得分  FROM gk_wjcsjf
+    SELECT IFNULL(ROUND(SUM(gk_wjcsjf.`tm_score`)/SUM(gk_wjcsjf.`tm_sum`)*100),0) AS 得分  FROM gk_wjcsjf
 	INNER JOIN gk_questionnairetm ON `gk_questionnairetm`.`wjtm_id` = gk_wjcsjf.`tm_id`#题目表
 	INNER JOIN `gk_questionnairetm_type` ON `gk_questionnairetm_type`.`wjtm_type_id` = gk_questionnairetm.`wjtm_type_id`#题目类型表
 	INNER JOIN `cqj_user` ON `cqj_user`.userid = gk_wjcsjf.o_id AND cqj_user.usertypenub = 1 #学员类型
@@ -153,7 +153,15 @@
 	AND gk_wjcsjf.`g_id` = #{gId} #被调查的对象处于的年级
 	</if>
   </select>
-  
+  <!--   能力问卷调查（教员被调查），评分  统计使用 -->
+  <select id="queryAbilitWjByStaffId" resultType="int">
+    SELECT IFNULL(ROUND(SUM(gk_wjcsjf.`tm_score`)/SUM(gk_wjcsjf.`tm_sum`)*100),0) AS 得分  FROM gk_wjcsjf
+	INNER JOIN gk_questionnairetm ON `gk_questionnairetm`.`wjtm_id` = gk_wjcsjf.`tm_id`#题目表
+	INNER JOIN `gk_questionnairetm_type` ON `gk_questionnairetm_type`.`wjtm_type_id` = gk_questionnairetm.`wjtm_type_id`#题目类型表
+	INNER JOIN `cqj_user` ON `cqj_user`.userid = gk_wjcsjf.o_id AND cqj_user.usertypenub = 0 #教员类型
+	WHERE gk_questionnairetm_type.`wjtm_type_id` = #{tId} #6教员教学质量
+	AND cqj_user.`usertypeid` = #{staffId} #被调查对象 教员id
+  </select>
   
   
 </mapper>

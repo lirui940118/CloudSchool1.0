@@ -21,6 +21,7 @@ import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.Studentupgrade;
 import com.CloudSchool.domain.cqjvo.StudentTestVo;
+import com.CloudSchool.domain.statistics.StudentBaseInfoVO;
 import com.CloudSchool.service.CqjStudentService;
 @Service
 @Transactional
@@ -41,7 +42,7 @@ public class CqjStudentServiceImpl implements CqjStudentService{
 	@Autowired
 	ClazzstudentMapper csm;
 	@Override
-	public CqjStudent queryStudentInfoBySid(Integer sId) {
+	public StudentBaseInfoVO queryStudentInfoBySid(Integer sId) {
 		return cqjStudentMapper.queryStudentInfoBySid(sId);
 	}
 	@Override
