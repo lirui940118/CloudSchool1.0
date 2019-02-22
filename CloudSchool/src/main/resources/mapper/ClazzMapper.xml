@@ -12,6 +12,7 @@
     <result column="pc" jdbcType="VARCHAR" property="pc" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="normalCount" jdbcType="INTEGER" property="normalCount" />
+    <result column="weekcount" jdbcType="INTEGER" property="weekcount" />
   </resultMap>
   
   <!-- 查询所有班级gk -->
@@ -210,9 +211,11 @@
 		WHERE clazzcourseteacher.`tid` = #{staffId}
 		ORDER BY clazzcourseteacher.starttime DESC 
 	</select>
-	<!-- 查询所有正常状态的班级-->
+	<!-- 查询所有正常状态的班级,并带出上周排课次数-->
 	<select id="queryAll" resultMap="BaseResultMap">
-		select * from `clazz` where status=2
+		SELECT *,
+		(SELECT COUNT(*) FROM `zzy_class_schedule` WHERE clid=`clazz`.`id` AND `time`&lt;=#{starttime} AND `time`&gt;=#{endtime}) AS weekcount 
+		FROM `clazz` WHERE `status`=2 ORDER BY weekcount
 	</select>
 	
 
@@ -337,4 +340,8 @@
   <select id="getLastClazzPC" resultMap="BaseResultMap">
   	SELECT pc,COUNT(*) AS `count`,DATEDIFF(NOW(),MAX(startdate)) AS normalCount FROM clazz WHERE `status` &gt;=-2 AND startdate &gt;CONCAT(YEAR(NOW()),'-1-1') AND gid=#{gid} GROUP BY pc ORDER BY pc DESC LIMIT 1
   </select>
+	<!-- 查询所有正常状态的班级-->
+	<select id="queryAllWtj" resultMap="BaseResultMap">
+		SELECT * FROM `clazz` WHERE `status`=2 
+	</select>
 </mapper>

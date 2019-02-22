@@ -60,6 +60,10 @@ public interface ClazzMapper {
     int queryAllClazzCount(@Param("cid")Integer cid);
     
     int queryByTidAdminClazzCount(@Param("sid")Integer sid,@Param("cid")Integer cid);
+    public List<Clazz> queryAll(@Param("starttime")String starttime,@Param("endtime")String endtime);
+    
+    
+    public List<Clazz> queryAllWtj();
     
 
     List<Clazz>  queryByClazzidAllStu(Integer[] stus);

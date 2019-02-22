@@ -8,7 +8,17 @@
 		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
 		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
 		<style type="text/css">
-
+				tr td,th{
+						text-align: center;
+				}
+				td span{
+					display:inline-block;
+					padding:20px;
+					color: orange;
+				}
+				ul li{
+					list-style: none;
+				}
 		</style>
 	</head>
 
@@ -31,101 +41,43 @@
 					</div>
 					<div class="col-lg-12">
 						<div class="card">
-							<div class="card-header"><h6>2019年1月6日&nbsp;&nbsp;星期一</h4></div>
-							<div class="card-body">
-								<div class="card-sub">									
-									今日共有<span style="color: red;">10</span>个班级上课&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									教室利用率<span style="color: red;">60%</span>
-								</div>
-							</div>
-							<div class="card-footer">
+							<div class="card-herd" v-for=" l in clazzlist">
+								<h6 style="padding-left:10px;padding-top:10px;">{{l.cname}}</h6>
 								<table class="table table-head-bg-success">
 												<thead>
 													<tr>
-														<th scope="col">#</th>
-														<th scope="col">教室</th>
-														<th scope="col">区间</th>
-														<th scope="col">班级</th>
+														<th scope="col"></th>
+														<th scope="col">周一</th>
+														<th scope="col">周二</th>
+														<th scope="col">周三</th>
+														<th scope="col">周四</th>
+														<th scope="col">周五</th>
+														<th scope="col">周六</th>
+														<th scope="col">周日</th>
 													</tr>
 												</thead>
 												<tbody>
 													<tr>
-														<td>1</td>
-														<td>101</td>
-														<td>上午</td>
-														<td>java20(唐勇/初识java/第一章)</td>
-													</tr>
-													<tr>
-														<td>2</td>
-														<td>101</td>
-														<td>下午</td>
-														<td>java20(唐勇/初识java/第二章)</td>
-													</tr>
-													<tr>
-														<td>3</td>
-														<td>102</td>
-														<td>上午</td>
-														<td>java21(唐虎/初识java/第五章)</td>
-													</tr>
-													<tr>
-														<td>4</td>
-														<td>102</td>
-														<td>下午</td>
-														<td>java21(唐虎/初识java/第五章)</td>
+														<td><span>上午</span><br><span>下午</span></td>
+														<td v-for="dg in l.xarry">
+															<ul>
+																<li v-if="dg.am.state>0">{{dg.am.courseevents.eventName}}<li>
+																<li v-if="dg.am.state==0">上课<br>教室:{{dg.am.claroom.name}}<br>教员:{{dg.am.cqjstaff.staffname}}<br>课程:{{dg.am.zzycourse.courseName}}<li>
+																<li v-if="dg.am.state==-1">自习<br>教室:{{dg.am.claroom.name}}<li>
+																<li v-if="dg.am.state==-2">放假<li>
+																
+															</ul>
+															<ul>
+																<li v-if="dg.pm.state>0">{{dg.pm.courseevents.eventName}}<li>
+																<li v-if="dg.pm.state==0">上课<br>教室:{{dg.pm.claroom.name}}<br>教员:{{dg.pm.cqjstaff.staffname}}<br>课程:{{dg.pm.zzycourse.courseName}}<li>
+																<li v-if="dg.pm.state==-1">自习<br>教室:{{dg.pm.claroom.name}}<li>
+																<li v-if="dg.pm.state==-2">放假<li>
+															</ul>
+														</td>
 													</tr>
 												</tbody>
 											</table>
-	
-							</div>
-						</div>
-						</div>
-					<div class="col-lg-12">
-						<div class="card">
-							<div class="card-header"><h6>2019年1月6日&nbsp;&nbsp;星期一</h4></div>
-							<div class="card-body">
-								<div class="card-sub">									
-									今日共有<span style="color: red;">10</span>个班级上课&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									教室利用率<span style="color: red;">60%</span>
-								</div>
-							</div>
-							<div class="card-footer">
-								<table class="table table-head-bg-success">
-												<thead>
-													<tr>
-														<th scope="col">#</th>
-														<th scope="col">教室</th>
-														<th scope="col">区间</th>
-														<th scope="col">班级</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td>1</td>
-														<td>101</td>
-														<td>上午</td>
-														<td>java20(唐勇/初识java/第一章)</td>
-													</tr>
-													<tr>
-														<td>2</td>
-														<td>101</td>
-														<td>下午</td>
-														<td>java20(唐勇/初识java/第二章)</td>
-													</tr>
-													<tr>
-														<td>3</td>
-														<td>102</td>
-														<td>上午</td>
-														<td>java21(唐虎/初识java/第五章)</td>
-													</tr>
-													<tr>
-														<td>4</td>
-														<td>102</td>
-														<td>下午</td>
-														<td>java21(唐虎/初识java/第五章)</td>
-													</tr>
-												</tbody>
-											</table>
-	
+
 							</div>
 						</div>
 						</div>
@@ -152,17 +104,60 @@
 	<script th:src="@{/static/js/ready.min.js}"></script>
 	<script type="text/javascript">
 		$(function(){
+			var v =new Vue({
+				el:'.main-panel',
+				data:{
+					clazzlist:null,
+				}
+			})
 			$("#click").click(function(){
 				//获取选择的时间
 				var time =$("#time").val()+" ";
-				console.log(time); 
+				console.log(time);
+				
 				$.ajax({
 					url:'arrangement?time='+time,
 					type:'POST',
 					success:function(data){
-						
+						$.ajax({
+							url:"queryKbBytime?time="+time,
+							type:'POST',
+							dataType:"json",
+							success:function(date2){
+								console.log(date2);
+								$.each(date2,function(i,obj){
+									//定义一个新的对象数组 一个元素代表一天 对象里面有一天的上午 和下午两条课表记录 
+									var xarry=[];
+									//定义一个循环的记录  循环达到两次 重置
+									var count=0;
+									var kb={};
+									$.each(obj.schlist,function(i2,obj2){
+										//定义一个对象 代表班级 一天的课表
+										if(i2%2==0){
+											kb.am=obj2;
+											count++;
+										}else if(i2%2==1){
+											kb.pm=obj2;
+											count++;
+										}
+										if(count==2){
+											count=0;
+											xarry.push(kb);
+											kb={};
+										}
+										
+									})
+									obj.xarry=xarry;
+									
+								})
+								
+								v.clazzlist=date2;
+								console.log(v.clazzlist);
+							}
+						})
 					}
 				})
+				
 			})
 		})
 	</script>

@@ -39,8 +39,60 @@ public class ZzyClassSchedule {
     private String user4;
 
     private String user5;
+    
+    //课表中的班级对象
+    private Clazz cla;
+    //课表中的教室对象
+    private Classroom claroom;
+    //课表中的教员对象
+    private CqjStaff cqjstaff;
+    //课表中的课程对象
+    private ZzyCourse zzycourse;
+    //课表中的事件对象
+    private ZzyCourseEvents courseevents;
+    
 
-    public Integer getCsid() {
+    public ZzyCourseEvents getCourseevents() {
+		return courseevents;
+	}
+
+	public void setCourseevents(ZzyCourseEvents courseevents) {
+		this.courseevents = courseevents;
+	}
+
+	public Clazz getCla() {
+		return cla;
+	}
+
+	public void setCla(Clazz cla) {
+		this.cla = cla;
+	}
+
+	public Classroom getClaroom() {
+		return claroom;
+	}
+
+	public void setClaroom(Classroom claroom) {
+		this.claroom = claroom;
+	}
+
+	public CqjStaff getCqjstaff() {
+		return cqjstaff;
+	}
+
+	public void setCqjstaff(CqjStaff cqjstaff) {
+		this.cqjstaff = cqjstaff;
+	}
+
+	public ZzyCourse getZzycourse() {
+		return zzycourse;
+	}
+
+	public void setZzycourse(ZzyCourse zzycourse) {
+		this.zzycourse = zzycourse;
+	}
+
+	public Integer getCsid() {
         return csid;
     }
 

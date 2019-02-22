@@ -49,6 +49,12 @@ public class Clazz {
     private List<CqjStudent> list2;
     
     private ZzyGrade zzygradeobj;
+    //班级上周排课次数
+    private Integer weekcount;
+    
+    //班级本周排的课程集合
+    private List<ZzyClassSchedule> schlist;
+
   
 	public ZzyGrade getZzygradeobj() {
 		return zzygradeobj;
@@ -56,6 +62,21 @@ public class Clazz {
 
 	public void setZzygradeobj(ZzyGrade zzygradeobj) {
 		this.zzygradeobj = zzygradeobj;
+	}
+	public List<ZzyClassSchedule> getSchlist() {
+		return schlist;
+	}
+
+	public void setSchlist(List<ZzyClassSchedule> schlist) {
+		this.schlist = schlist;
+	}
+
+	public Integer getWeekcount() {
+		return weekcount;
+	}
+
+	public void setWeekcount(Integer weekcount) {
+		this.weekcount = weekcount;
 	}
 
 	public List<CqjStudent> getList2() {

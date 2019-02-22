@@ -12,4 +12,6 @@ public interface ZzyCourseEventsMapper {
     int insertSelective(ZzyCourseEvents record);
     
     public Integer filtrateEvebts(@Param("time")Date time,@Param("user1")int user1,@Param("cid")int cid);
+    
+    public ZzyCourseEvents queryBysjid(Integer ceid);
 }
