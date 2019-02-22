@@ -22,4 +22,7 @@ public interface ZzyClassScheduleMapper {
    
     
     public Integer insertkebiao(ZzyClassSchedule ins);
+       
+    // 查询time(这一天)没课的老师  （赵举峰）
+    int queryBytimeTeach(@Param("tid")Integer tid,@Param("time")Date time);
 }

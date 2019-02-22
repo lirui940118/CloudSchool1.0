@@ -161,4 +161,10 @@
   <insert id="insertkebiao">
   		INSERT INTO `cloudSchool`.`zzy_class_schedule` (`clid`,`rid`,`tid`,`cid`,`time`,`temporal_interva`,`state`)VALUES(#{clid},#{rid},#{tid},#{cid},#{time},#{temporalInterva},#{state});
   </insert>
+  
+  
+  <!-- 查询time(这一天)没课的老师  （赵举峰）-->
+  <select id="queryBytimeTeach" resultType="INTEGER">
+  	SELECT COUNT(*) FROM `zzy_class_schedule` WHERE tid= 1 AND `time`='2019-02-22' AND state=0
+  </select>
 </mapper>

@@ -206,6 +206,14 @@ li {
 										class="form-control" name="workname" readonly="readonly">
 								</div>
 								<div class="form-group has-success">
+									<label for="successInput">升学年级</label>
+								 		<select class="form-control form-control" id="defaultSelect">
+											<option>S1</option>
+											<option>S2</option>
+											<option>Y2</option>
+										</select>
+								</div>
+								<div class="form-group has-success">
 									<label for="successInput">开始时间</label>
 									<!-- <input type="text"
 										id="successInput" class="form-control" name="starttime"> -->
@@ -245,7 +253,7 @@ li {
 										<p>
 											试卷名称:<span>{{obj.name}}</span>
 
-											<button class="btn btn-success use" v-bind:data-id="obj.id">使用</button>
+											<button class="btn btn-success use" v-bind:data-id="obj.id" v-bind:tid="obj.tid">使用</button>
 											<button class="btn btn-success toPage"
 												v-bind:data-id="obj.id">查看</button>
 										</p>
@@ -384,43 +392,26 @@ li {
 								<h4 class="card-title">设置监考人</h4>
 							</div>
 							<div class="card-body">
-								<div id="stulist">
-									<ul id="list">
-										<li class="lis">
-											<h2>
-											</h2>
-									</h2>
-											<ul>
-												<li style="display: flex; justify-content: space-around"
-													>
-													<div>
-														<label class="form-check-label"> <input
-															class="stuinput" type="checkbox" value=""
-															> <span
-															class="form-check-sign"></span>
-														</label>
-													</div>
-													<div>
-														</span>大苏打<span>
-													</div>
-
-												</li>
-												<li style="display: flex; justify-content: space-around">
-													<div>
-														<label class="form-check-label"> <input
-															class="form-check-input" type="checkbox" value="">
-															<span class="form-check-sign"></span>
-														</label> </label>
-													</div>
-													<div>
-														</span>小明<span>
-													</div>
-
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</div>
+								<table style="text-align: center;"
+									class="table table-bordered table-bordered-bd-warning mt-4"
+									>
+									<thead>
+										<tr>
+											<th scope="col">工号</th>
+											<th scope="col">姓名</th>
+											<th scope="col">操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(obj,index) in list">
+											<td>{{obj.staffnub}}</td>
+											<td>{{obj.staffname}}</td>
+											<td>
+											<button class="btn btn-success" name="box1">占用</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -462,43 +453,26 @@ li {
 								<h4 class="card-title">选择阅卷人</h4>
 							</div>
 							<div class="card-body">
-								<div id="stulist">
-									<ul id="list">
-										<li class="lis">
-											<h2>
-											</h2>
-									</h2>
-											<ul>
-												<li style="display: flex; justify-content: space-around"
-													>
-													<div>
-														<label class="form-check-label"> <input
-															class="stuinput" type="checkbox" value=""
-															> <span
-															class="form-check-sign"></span>
-														</label>
-													</div>
-													<div>
-														</span>大苏打<span>
-													</div>
-
-												</li>
-												<li style="display: flex; justify-content: space-around">
-													<div>
-														<label class="form-check-label"> <input
-															class="form-check-input" type="checkbox" value="">
-															<span class="form-check-sign"></span>
-														</label> </label>
-													</div>
-													<div>
-														</span>小明<span>
-													</div>
-
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</div>
+								<table style="text-align: center;"
+									class="table table-bordered table-bordered-bd-warning mt-4"
+									>
+									<thead>
+										<tr>
+											<th scope="col">工号</th>
+											<th scope="col">姓名</th>
+											<th scope="col">操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(obj,index) in list">
+											<td>{{obj.staffnub}}</td>
+											<td>{{obj.staffname}}</td>
+											<td>
+											<button class="btn btn-success" name="box1">占用</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -641,9 +615,16 @@ li {
 			}
 		})
 	}
-	//有空老师
+	//有空老师（监考）
 	var teach=new Vue({
-		el:"",
+		el:"#box1",
+		data:{
+			list:null
+		}
+	})
+	//有空老师(阅卷)
+	var teachTwo=new Vue({
+		el:"#box3",
 		data:{
 			list:null
 		}
@@ -682,8 +663,10 @@ li {
 					}
 				}
 			}
-			console.log(JSON.stringify(clazzs))
-			getClassStu(clazzs)
+			if(clazzs.length!=0){
+				console.log(JSON.stringify(clazzs))
+				getClassStu(clazzs)
+			}
 
 		})
 		$("body").on("click", ".use", function() {
@@ -860,6 +843,22 @@ li {
 						console.log(JSON.stringify(data))
 					}
 				})
+				//有空老师
+				$.ajax({
+					type:"get",
+					url:"http://127.0.0.1:8080/TestInstance/queryTeachAll",
+					data:{
+						time:time,
+						status:status
+					},
+					success:function(data){
+						teach.list=data
+						teachTwo.list=data;
+						console.log(JSON.stringify(data))
+					}
+				})
+			}else{
+				alert("请选择正确的时间区间")
 			}
 		})
 		$("body").on("change","[name=endtime]",function(){
@@ -882,6 +881,7 @@ li {
 				}
 				var month=parseInt(date1.getMonth())+1
 				var time=date1.getFullYear()+"-"+month+"-"+date1.getDate();
+				//空教室
 				$.ajax({
 					type:"get",
 					url:"http://127.0.0.1:8080/TestInstance/queryClassRoomAll",
@@ -894,6 +894,22 @@ li {
 						console.log(JSON.stringify(data))
 					}
 				})
+				//有空老师
+				$.ajax({
+					type:"get",
+					url:"http://127.0.0.1:8080/TestInstance/queryTeachAll",
+					data:{
+						time:time,
+						status:status
+					},
+					success:function(data){
+						teach.list=data
+						teachTwo.list=data;
+						console.log(JSON.stringify(data))
+					}
+				})
+			}else{
+				alert("请选择正确的时间区间")
 			}
 		})
 		

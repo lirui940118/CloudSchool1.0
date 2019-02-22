@@ -35,4 +35,7 @@ public interface ClassroomMapper {
     //根据教室id查询教室对象
     public Classroom queryByroomid(Integer id);
     
+    //查询某一天空教室(赵举峰)
+    int queryBytimeRoom(@Param("rid")Integer rid,@Param("time")Date time);
+    
 }

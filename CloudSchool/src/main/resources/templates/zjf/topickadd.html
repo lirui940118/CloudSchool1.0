@@ -85,12 +85,10 @@
 						<h4 class="card-title">题库题目新增</h4>
 					</div>
 					<div class="card-body">
-						<div class="form-group">
-							<label for="defaultSelect">年级</label> <select
-								class="form-control form-control" id="defaultSelect">
-								<option>S1</option>
-								<option>S2</option>
-								<option>Y2</option>
+						<div class="form-group" id="grade">
+							<label for="successInput">年级</label> <select
+											class="form-control input-square" id="squareSelect">
+											<option v-bind:value="obj.gid" v-for="(obj,index) in list">{{obj.gradeName}}</option>
 							</select>
 						</div>
 						<div class="form-group">
@@ -220,23 +218,27 @@
 	</div>
 </body>
 </html>
-<!--<script src="js/core/jquery.3.2.1.min.js"></script>
-<script src="js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<script src="js/core/popper.min.js"></script>
-<script src="js/core/bootstrap.min.js"></script>
-<script src="js/plugin/chartist/chartist.min.js"></script>
-<script src="js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
-<script src="js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-<script src="js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-<script src="js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
-<script src="js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
-<script src="js/plugin/chart-circle/circles.min.js"></script>
-<script src="js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-<script src="js/ready.min.js"></script>
-<script src="js/demo.js"></script>-->
 <script src="../static/js/core/jquery.min.js"></script>
+<script src="../static/js/core/vue.js"></script>
 <script>
+	var grade=new Vue({
+		el:"#grade",
+		data:{
+			list:null
+		}
+	})
 	$(function() {
+		//年级渲染
+		$.ajax({
+			type : "get",
+			url : "http://127.0.0.1:8080/TestInstance/queryGrade",
+			data : {
+				id : 1
+			},
+			success : function(data) {
+				grade.list = data;
+			}
+		})
 		$("#topictype").change(function() {
 			var value = $("#topictype").val()
 			if (value == -1) {

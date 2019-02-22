@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.CloudSchool.domain.Classroom;
 import com.CloudSchool.domain.Clazz;
+import com.CloudSchool.domain.CqjStaff;
 import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.ZzyGrade;
 import com.CloudSchool.service.ClassroomService;
 import com.CloudSchool.service.ClazzService;
+import com.CloudSchool.service.CqjStaffService;
 import com.CloudSchool.service.TestInstanceService;
 import com.CloudSchool.service.TestModuleService;
 
@@ -31,6 +33,8 @@ public class TestInstanceController {
 	TestModuleService testModuleService;
 	@Autowired
 	ClazzService clazzService;
+	@Autowired
+	CqjStaffService cqjStaffService;
 	//跳转到试卷发布
 	@RequestMapping("toTestPublishWork")
 	public String toTestPublishWork() {
@@ -87,8 +91,8 @@ public class TestInstanceController {
 	//查询到所有这个时间段有空的老师
 	@RequestMapping("queryTeachAll")
 	@ResponseBody
-	public String queryTeachAll(String startTime,String endTime) {
-		return null;
+	public List<CqjStaff> queryTeachAll(String time,Integer status) {
+		return cqjStaffService.queryNullTeach(time, status);
 	}
 	
 	//查询到所有这个时间段空教室

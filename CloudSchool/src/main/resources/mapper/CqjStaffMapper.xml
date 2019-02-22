@@ -310,6 +310,6 @@
 		SELECT cqj_staff.* FROM cqj_staff
 		INNER JOIN cqj_position
 		ON cqj_staff.`positionid`=cqj_position.`positionid`
-		WHERE cqj_position.`positionname`='任课老师'
+		WHERE cqj_position.`positionid`=5
 	</select>
 </mapper>
