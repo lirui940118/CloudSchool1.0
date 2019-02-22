@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.CloudSchool.dao.ClazzMapper;
+import com.CloudSchool.dao.ClazzstudentMapper;
 import com.CloudSchool.dao.CqjParentsMapper;
 import com.CloudSchool.dao.CqjParentsStudentMapper;
 import com.CloudSchool.dao.CqjStudentMapper;
@@ -37,6 +38,8 @@ public class CqjStudentServiceImpl implements CqjStudentService{
 	StudentupgradeMapper sugm;
 	@Autowired
 	ClazzMapper cm;
+	@Autowired
+	ClazzstudentMapper csm;
 	@Override
 	public CqjStudent queryStudentInfoBySid(Integer sId) {
 		return cqjStudentMapper.queryStudentInfoBySid(sId);
@@ -139,7 +142,23 @@ public class CqjStudentServiceImpl implements CqjStudentService{
 	public int addStudentUpGrade(List<Studentupgrade> Studentupgrade,Integer cid) {
 		// TODO Auto-generated method stub
 		sugm.addStudentUpGrades(Studentupgrade);
+		csm.updateStatusBycid(3, cid);
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		map.put("status", 5);
+		map.put("cid", cid);
+		map.put("list", Studentupgrade);
+		csm.updateStatusByMap(map);
 		return cm.updateStatusByCid(-1, cid);
+	}
+	@Override
+	public List<CqjStudent> queryStudentJob() {
+		// TODO Auto-generated method stub
+		return cqjStudentMapper.queryStudentJob();
+	}
+	@Override
+	public int updateStudentUpGrade(List<CqjStudent> Studentupgrade) {
+		// TODO Auto-generated method stub
+		return sugm.updateStudentUpGrade(Studentupgrade);
 	}
 
 }

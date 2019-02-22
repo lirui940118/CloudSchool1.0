@@ -155,22 +155,23 @@
 				 }else{
 					 json.isnormal=0;
 				 }
+				 json.status=0;
 				 json.user1=v.students[$(this).val()].standby4;
+				 json.user2=0;
 				 json.tagetgId=progressInfo.ngid;
 				 json.currentgId=progressInfo.gid;
+				 json.user3=progressInfo.cid;
 				 arry.push(json);
 	         });
 		        console.log(arry);
-			 /*  $.ajax({
-					url : "/student/addStudentUpGrade?cid=1",
+		        $.ajax({
+					url : "/student/addStudentUpGrade",
 					data :JSON.stringify(arry),
 					type : "post",
 					contentType: "application/json",
 					success : function(data) {
 						
-					}
-				})  */
-			
+					}})
 		});
 	})
 	function GetRequest() { 

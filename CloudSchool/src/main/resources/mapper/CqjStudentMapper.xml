@@ -35,35 +35,51 @@
 		<result column="parentsid" jdbcType="INTEGER"
 			property="parentsid" />
 	</resultMap>
-	
-	
-<resultMap id="StudentTest"
+
+
+	<resultMap id="StudentTest"
 		type="com.CloudSchool.domain.CqjStudent">
 		<id column="sid" jdbcType="INTEGER" property="studentid" />
 		<result column="studentname" jdbcType="VARCHAR"
 			property="studentname" />
-			<result column="standby1" jdbcType="VARCHAR"
+		<result column="standby1" jdbcType="VARCHAR"
 			property="standby1" />
-			<result column="standby2" jdbcType="VARCHAR"
+		<result column="standby2" jdbcType="VARCHAR"
 			property="standby2" />
-			<result column="standby3" jdbcType="VARCHAR"
+		<result column="standby3" jdbcType="VARCHAR"
 			property="standby3" />
-			<result column="standby4" jdbcType="VARCHAR"
+		<result column="standby4" jdbcType="VARCHAR"
 			property="standby4" />
-		<collection property="stList" ofType="com.CloudSchool.domain.cqjvo.StudentTestVo" column="sid">
-			<result column="testSumScore" property="testSumScore"/>
-			<result column="testScore" property="testScore"/>
-			<result column="testname" property="testname"/>
-			<result column="testTypeName" property="testTypeName"/>
-			<result column="testid" property="testid"/>
-			<result column="tc" property="tc"/>
-			<result column="mid" property="mid"/>
+		<collection property="stList"
+			ofType="com.CloudSchool.domain.cqjvo.StudentTestVo" column="sid">
+			<result column="testSumScore" property="testSumScore" />
+			<result column="testScore" property="testScore" />
+			<result column="testname" property="testname" />
+			<result column="testTypeName" property="testTypeName" />
+			<result column="testid" property="testid" />
+			<result column="tc" property="tc" />
+			<result column="mid" property="mid" />
 		</collection>
 	</resultMap>
 
-	<resultMap type="com.CloudSchool.domain.cqjvo.StudentTestVo" id="StudentTestVo">
-			<result column="testname" property="testname"/>
-			<result column="testTypeName" property="testTypeName"/>
+	<resultMap type="com.CloudSchool.domain.cqjvo.StudentTestVo"
+		id="StudentTestVo">
+		<result column="testname" property="testname" />
+		<result column="testTypeName" property="testTypeName" />
+	</resultMap>
+	
+	<resultMap id="StudentJobMap"
+		type="com.CloudSchool.domain.cqjvo.StudentJob">
+		<id column="studentid" jdbcType="INTEGER" property="studentid" />
+		<result column="studentname" jdbcType="VARCHAR"
+			property="studentname" />
+		<result column="studentnub" jdbcType="VARCHAR"
+			property="studentnub" />
+		<result column="phone" jdbcType="VARCHAR" property="phone" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="standby2" jdbcType="VARCHAR"
+			property="standby2" />
 	</resultMap>
 	
 	<sql id="Base_Column_List">
@@ -341,59 +357,80 @@
 		</foreach>
 	</insert>
 
-	<select id="queryNullParentsId" resultMap="BaseResultMap" >
+	<select id="queryNullParentsId" resultMap="BaseResultMap">
 		SELECT
 		cs.`studentid`,cs.`standby4`,cp.`phone`,cp.`parentsid` FROM
 		cqj_student cs
-		LEFT JOIN cqj_parents_student cps ON cps.`studentid`=cs.`studentid`
-		LEFT JOIN cqj_parents cp ON cp.`phone`=cs.`standby4`
+		LEFT JOIN cqj_parents_student cps ON
+		cps.`studentid`=cs.`studentid`
+		LEFT JOIN cqj_parents cp ON
+		cp.`phone`=cs.`standby4`
 		WHERE cps.`parentsid` IS NULL
 	</select>
 	<select id="queryStudetnTestByCidAndGid" resultMap="StudentTest">
-		SELECT cu.`userid`,cs.`studentname`,clstu.`cid`,clstu.`sid`,tg.`score` AS testScore,tm.`score` AS testSumScore,tm.`name` testname,tt.`name` testTypeName, 
-			zm.`major_name` AS standby1,tm.`id` AS testid,
-			IF(tg.`score`/tm.`score`>0.6,0,1) AS nub,tcount.tc AS tc,tm.id AS `mid`,zm.`mid` AS standby4
-			
-			FROM clazzstudent clstu LEFT JOIN `testgrade` tg
-			ON  clstu.`sid`=tg.`sId` 
-			LEFT JOIN cqj_student cs 
-			ON cs.`studentid`=clstu.`sid`
-			LEFT JOIN `testinstance` tins
-			ON tg.`tid`=tins.`id`
-			LEFT JOIN `testmodule` tm
-			ON tins.`tId`=tm.`id`
-			LEFT JOIN `testtype` tt
-			ON tm.`tId`=tt.`id` 
-			LEFT JOIN `cqj_user`  cu
-			ON cu.`usertypeid`=clstu.`sid` AND cu.`usertypenub`=1
-			LEFT JOIN `gk_wjcs` gw
-			ON gw.`uid`=cu.`userid` AND gw.`wjtm_id`=20
-			LEFT JOIN (
-				SELECT tm.`id`,COUNT(tm.`id`) AS tc,tm.`name`,tg.`sId` FROM `testgrade` tg LEFT JOIN 
-				`testinstance` ti ON 
-				tg.`tid`=ti.`id`
-				LEFT JOIN `testmodule` tm ON
-				ti.`tId`=tm.`id`  
-				LEFT JOIN `testtype` tt ON
-				tm.`tId`=tt.`id` AND (tt.`id`=2 OR tt.`id`=3)
-				WHERE tg.`sId`=1 AND (tt.`id`=2 OR tt.`id`=3)
-				GROUP BY tm.`id`
-			) AS tcount
-			ON tcount.id=tm.`id`
-			LEFT JOIN `participatetestclass` ppc ON
-			ppc.`tId`=tins.`id`
-			LEFT JOIN `zzy_major` zm 
-			ON gw.`by1`=zm.`mid`
-			WHERE clstu.`status`=0  AND ppc.`cid`=#{cid} AND tm.`user1`=#{gid} AND (tt.`id`=2 OR tt.`id`=3)
-	
+		SELECT
+		cu.`userid`,cs.`studentname`,clstu.`cid`,clstu.`sid`,tg.`score` AS
+		testScore,tm.`score` AS testSumScore,tm.`name` testname,tt.`name`
+		testTypeName,
+		zm.`major_name` AS standby1,tm.`id` AS testid,
+		IF(tg.`score`/tm.`score`>0.6,0,1) AS nub,tcount.tc AS tc,tm.id AS `mid`,zm.`mid` AS standby4
+
+		FROM clazzstudent clstu LEFT JOIN `testgrade` tg
+		ON clstu.`sid`=tg.`sId`
+		LEFT JOIN cqj_student cs
+		ON cs.`studentid`=clstu.`sid`
+		LEFT JOIN `testinstance` tins
+		ON tg.`tid`=tins.`id`
+		LEFT JOIN `testmodule` tm
+		ON tins.`tId`=tm.`id`
+		LEFT JOIN `testtype` tt
+		ON tm.`tId`=tt.`id`
+		LEFT JOIN `cqj_user` cu
+		ON cu.`usertypeid`=clstu.`sid` AND cu.`usertypenub`=1
+		LEFT JOIN `gk_wjcs` gw
+		ON gw.`uid`=cu.`userid` AND gw.`wjtm_id`=20
+		LEFT JOIN (
+		SELECT tm.`id`,COUNT(tm.`id`) AS tc,tm.`name`,tg.`sId` FROM `testgrade` tg
+		LEFT JOIN
+		`testinstance` ti ON
+		tg.`tid`=ti.`id`
+		LEFT JOIN `testmodule` tm ON
+		ti.`tId`=tm.`id`
+		LEFT JOIN `testtype` tt ON
+		tm.`tId`=tt.`id` AND (tt.`id`=2 OR tt.`id`=3)
+		WHERE tg.`sId`=1 AND (tt.`id`=2 OR tt.`id`=3)
+		GROUP BY tm.`id`
+		) AS tcount
+		ON tcount.id=tm.`id`
+		LEFT JOIN `participatetestclass` ppc ON
+		ppc.`tId`=tins.`id`
+		LEFT JOIN `zzy_major` zm
+		ON gw.`by1`=zm.`mid`
+		LEFT JOIN `clazz` cl
+		ON cl.`id`=clstu.`cid`
+		WHERE clstu.`status`=0 AND ppc.`cid`=#{cid} AND tm.`user1`=#{gid} AND
+		(tt.`id`=2 OR tt.`id`=3)  AND cl.`status`=2
+
 	</select>
 	<select id="queryTestByCidAndGid" resultMap="StudentTestVo">
-		SELECT tm.`id`,tm.`name` testname,tt.`name` testTypeName FROM `participatetestclass` ppc
-		INNER JOIN `testinstance` ti ON ppc.`tId`=ti.`id`
+		SELECT
+		tm.`id`,tm.`name` testname,tt.`name` testTypeName FROM
+		`participatetestclass` ppc
+		INNER JOIN `testinstance` ti ON
+		ppc.`tId`=ti.`id`
 		LEFT JOIN `testmodule` tm ON ti.`tId`=tm.`id`
-		LEFT JOIN `testtype` tt ON tm.`tId`=tt.`id`
-		WHERE ppc.`cId`=#{cid} AND tm.`user1`=#{gid} AND (tt.`id`=2 OR tt.`id`=3)
+		LEFT
+		JOIN `testtype` tt ON tm.`tId`=tt.`id`
+		WHERE ppc.`cId`=#{cid} AND
+		tm.`user1`=#{gid} AND (tt.`id`=2 OR tt.`id`=3)
 		GROUP BY tm.`id`
-		ORDER BY tm.`id`
+		ORDER BY
+		tm.`id`
+	</select>
+	<select id="queryStudentJob" resultMap="StudentJobMap">
+		SELECT
+		cs.`studentid`,cs.`studentname`,cs.`studentnub`,cs.`sex`,cs.`phone`,cs.`address`,cs.`email`,sug.`user2` as standby2
+		FROM `cqj_student` cs INNER JOIN `studentupgrade` sug ON
+		cs.`studentid`=sug.`studentId` AND sug.`tagetgId`=-1 AND sug.`user2`=0
 	</select>
 </mapper>

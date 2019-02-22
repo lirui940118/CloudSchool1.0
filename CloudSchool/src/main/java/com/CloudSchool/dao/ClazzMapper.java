@@ -45,5 +45,5 @@ public interface ClazzMapper {
     //查询所有在正常状态的班级
     public List<Clazz> queryAll();
     //改变班级的状态(升班陈桥君)
-    public int updateStatusByCid(@Param("status") Integer status,@Param("status") Integer id);
+    public int updateStatusByCid(@Param("status") Integer status,@Param("id") Integer id);
 }

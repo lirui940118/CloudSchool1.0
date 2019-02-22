@@ -41,6 +41,7 @@ public class CqjStudentController {
 	 @ResponseBody
 	 public void addStudentUpGrade(@RequestBody List<Studentupgrade> ids,HttpSession session) {
 		 ProgressInfo progressInfo=(ProgressInfo)session.getAttribute("progressInfo");
+		 //添加到升班
 		 css.addStudentUpGrade(ids,progressInfo.getCid());
 		 session.removeAttribute("progressInfo");
 	 }
@@ -48,5 +49,18 @@ public class CqjStudentController {
 	 @ResponseBody
 	 public Object getCGNid(HttpSession session) {
 		 return session.getAttribute("progressInfo");
+	 }
+	 
+	 @RequestMapping("getStudentJobInfo")
+	 @ResponseBody
+	 public Object getStudentJobInfo(HttpSession session) {
+		 return css.queryStudentJob();
+	 }
+	 
+	 @RequestMapping("updateStudentUpGrade")
+	 @ResponseBody
+	 public void updateStudentUpGrade(@RequestBody List<CqjStudent> ids){
+		 System.out.println(1);
+		 css.updateStudentUpGrade(ids);
 	 }
 }
