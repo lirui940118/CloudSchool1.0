@@ -322,9 +322,12 @@
 // 			alert("你有一条其他好友的消息")
 		}else if(chatid>0){
 			//其他好友的消息
-			changechatid(chatid,getusername(chatid))
-			console.log("收到其他好友消息，正在打开跳转聊天："+chatid+"-"+getusername(chatid))
-			tips("系统","你有一条系统消息","javascript:void(0)")
+			var a=addchatlist(chatid)
+			if(a==1){
+				changechatid(chatid,getusername(chatid))
+				console.log("收到其他好友消息，正在打开跳转聊天："+chatid+"-"+getusername(chatid))
+				tips("系统","你有一条系统消息","javascript:void(0)")
+			}
 		}
 	}
 	//var httpRequest = new XMLHttpRequest();
@@ -654,6 +657,10 @@
 			alert("该用户已存在于你的聊天列表！")
 			return
 		}
+		if(nid==v.user.userid){
+			alert("无法将自己加入到你的聊天列表！")
+			return
+		}
 		//不在聊天列表-加入新列表
 		console.log("选择了一个用户："+nid+"-"+name+"-"+url)
 		alert("选择了加入聊天列表："+nid+"-"+name+"你可以开始聊天了！")
@@ -665,7 +672,30 @@
 		console.log(v.chatlist)
 		console.log(v.userimg)
 	}
-	
+	//聊天列表-加入
+	function addchatlist(nid){
+		//查询用户是否存在于聊天列表
+		var isfind=0
+		for(var i=0;i<v.chatlist.length;i++){
+			if(nid==v.chatlist[i].userid){
+				isfind=1
+			}
+		}
+		if(isfind==1){
+// 			alert("该用户已存在于你的聊天列表！")
+			return 1
+		}
+		var name=getusername(nid)
+		var url=getuserimg(nid)
+		var newchat={"userid":nid,"name":name,"url":url}
+		var newimg={"userid":nid,"name":name,"url":url}
+		v.chatlist.push(newchat)
+		v.userimg.push(newimg)
+		console.log(v.chatlist)
+		console.log(v.userimg)
+		alert("新用户加入聊天列表："+nid+"-"+name+"你可以开始聊天了！")
+		return 1
+	}
 	function chooseAll(nid){
 // 		alert("chooseAll啊啊啊啊")
 		var receiver=[]
