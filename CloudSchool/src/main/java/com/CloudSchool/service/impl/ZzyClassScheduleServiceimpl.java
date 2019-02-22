@@ -71,12 +71,22 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
         }
         result.add(date2);
         
+        Calendar c = Calendar.getInstance();
+        c.setTime(date1);
+        c.add(Calendar.DAY_OF_MONTH, -7);//日期偏移,正数向前,负数向后!
+        //上一周的开始时间
+        String wstart =sdf.format(c.getTime());
+        c.setTime(date2);
+        c.add(Calendar.DAY_OF_MONTH, -7);//日期偏移,正数向前,负数向后!
+        //上一周的结束时间
+        String wend =sdf.format(c.getTime());
+        System.out.println("开始时间:"+wstart+"结束时间:"+wend);
+    	//查询到所有的正常状态班级
+        List<Clazz> ClaList=claz.queryAll(wstart,wend);
         for (Date date : result) {
         	//当前排课的日期
         	String presentDate=sdf.format(date);
-        	//查询到所有的正常状态班级
-        	List<Clazz> ClaList=claz.queryAll();
-        	//查询当前排课日期以及当前班级是否安排的事件 如果无事件进行下一步筛选 有事件则跳过当前班级
+         	//查询当前排课日期以及当前班级是否安排的事件 如果无事件进行下一步筛选 有事件则跳过当前班级
         	for (Clazz clist : ClaList) {
         		//当前班级id
         		Integer clistAndid=clist.getId();
@@ -171,7 +181,7 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
         			
         		}else {
         			//再次查询这个班级下午有事件吗
-        			Integer i2=filtrateEvebts(date, 0,clistAndid);
+        			Integer i2=filtrateEvebts(date, 1,clistAndid);
     				if(i2==null) {
     					//如果下午没有事件 那么下午休息
     					ZzyClassSchedule s1= new ZzyClassSchedule();
@@ -207,6 +217,41 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
         		
 			}
         	 
+		}
+        //当所有课程添加完成后 再次循环每一个班级
+        //再次定义一个时间集合
+        for (Clazz clazz : ClaList) {
+        	List<Date> cdate = new ArrayList<Date>();
+        	cdate.addAll(result);
+        	for (int j = 0; j < cdate.size(); j++) {
+        		  //每个班级有一个时间周集合  打包含休息 事件的日期排除出来 
+        		Integer pc=schm.querySjAndXx(sdf.format(cdate.get(j)),clazz.getId());
+        		//如果今天有事件或者休息将这一天排除出去
+        		if(pc>0) {
+        			System.out.println("ddd!!!!!!!!"+cdate.get(j));
+        			cdate.remove(cdate.get(j--));
+        		}
+			}
+        	/*for (Date objdate : cdate) {
+				  //每个班级有一个时间周集合  打包含休息 事件的日期排除出来 
+        		Integer pc=schm.querySjAndXx(sdf.format(objdate),clazz.getId());
+        		//如果今天有事件或者休息将这一天排除出去
+        		if(pc>0) {
+        			cdate.remove(objdate);
+        		}
+        		
+			}*/
+        	//循环结束后看还有多少天是上课的天数
+        	Integer size=cdate.size();
+        	System.out.println(size+"次");
+        	if(size==6){
+        		//如果每个礼拜是上了六天课 那么挑选其中的第三个改为休息
+        		schm.update(clazz.getId(), cdate.get(2));
+        	}else if(size==7) {
+        		//如果每个礼拜上了七天课那么 挑选其中的星期四和星期天休息
+        		schm.update(clazz.getId(), cdate.get(3));
+        		schm.update(clazz.getId(), cdate.get(6));
+        	}
 		}
 		return 1;
 	}
@@ -313,6 +358,7 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
 			s2.setState(i3);
 			insertkebiao(s2);
 		}
+		
 		return 1;
 	}
 	
@@ -326,7 +372,6 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
 			//如果当前教室已经被占用那么从教室集合中移除该教室
 			if(roombool==1) {
 				croom.remove(roomlist);
-			}else {
 			}
 		}
 		return croom;
@@ -409,5 +454,23 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
 	public Integer insertkebiao(ZzyClassSchedule ins) {
 		// TODO Auto-generated method stub
 		return schm.insertkebiao(ins);
+	}
+
+	@Override
+	public List<Clazz> queryKbBytime(int year,int wekk) throws ParseException {
+		// TODO Auto-generated method stub
+		//传入年和周获取某某年某周的开始时间和结束时间
+				String start=getStartDayOfWeekNo(year,wekk);
+				String end=getEndDayOfWeekNo(year,wekk);
+		        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		        //将String 转为date
+		        Date date1 = sdf.parse(start);
+		        Date date2 = sdf.parse(end);
+		        List<Clazz> ClaList=claz.queryAllWtj(); 
+		        for (Clazz clazz : ClaList) {
+		        	List<ZzyClassSchedule> list=schm.queryKbBytime(date1, date2,clazz.getId());
+		        	clazz.setSchlist(list);
+				}
+		return ClaList;
 	}
 }

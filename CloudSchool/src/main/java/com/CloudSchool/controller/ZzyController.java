@@ -377,4 +377,17 @@ public class ZzyController {
 	}
 	
 	
+	@RequestMapping("queryKbBytime")
+	@ResponseBody
+	public List<Clazz> queryKbBytime(String time) throws ParseException{
+		//将获取的时间分隔为年 周
+		String[] arry=time.split("-W");
+		//年
+		int year =Integer.parseInt(arry[0]);
+		//周
+		int week =Integer.parseInt(arry[1]);
+		return csss.queryKbBytime(year, week);
+	}
+	
+	
 }

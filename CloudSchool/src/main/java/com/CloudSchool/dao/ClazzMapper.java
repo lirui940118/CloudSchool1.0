@@ -45,6 +45,10 @@ public interface ClazzMapper {
 
     
     //查询所有在正常状态的班级
-    public List<Clazz> queryAll();
+    public List<Clazz> queryAll(@Param("starttime")String starttime,@Param("endtime")String endtime);
+    
+    
+    public List<Clazz> queryAllWtj();
+    
 
 }

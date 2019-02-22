@@ -3,6 +3,7 @@ package com.CloudSchool.dao;
 
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -22,4 +23,10 @@ public interface ZzyClassScheduleMapper {
    
     
     public Integer insertkebiao(ZzyClassSchedule ins);
+    
+    public Integer querySjAndXx(@Param("time")String time,@Param("clid")Integer clid);
+    
+    public Integer update(@Param("clid")Integer clid,@Param("time")Date time);
+    
+    public List<ZzyClassSchedule> queryKbBytime(@Param("stime")Date stime,@Param("etime")Date etime,@Param("clid") Integer clid);
 }

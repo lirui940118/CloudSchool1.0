@@ -112,5 +112,8 @@
 		WHERE `zzy_course_events`.`creat_time` &lt;=#{time} AND `zzy_course_events`.`modificationtime` &gt;=#{time} AND user1=#{user1} AND user2=#{cid}
   </select>
   
-  <!--  -->
+  <!-- 根据事件id查询事件对象 -->
+  <select id="queryBysjid" resultMap="BaseResultMap">
+  		select * from `zzy_course_events` where `ceid`=#{ceid}
+  </select>
 </mapper>

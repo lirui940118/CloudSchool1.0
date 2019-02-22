@@ -161,4 +161,27 @@
   <insert id="insertkebiao">
   		INSERT INTO `cloudSchool`.`zzy_class_schedule` (`clid`,`rid`,`tid`,`cid`,`time`,`temporal_interva`,`state`)VALUES(#{clid},#{rid},#{tid},#{cid},#{time},#{temporalInterva},#{state});
   </insert>
+  
+  <!-- 查询某个班级 某个日期是否包含了事件或者休息 -->
+  <select id="querySjAndXx" resultType="INTEGER">
+  		  SELECT COUNT(*) FROM `zzy_class_schedule` WHERE `time`=#{time} AND `clid`=#{clid} AND (state=-2 OR state&gt;0)
+  </select>
+  
+  <!--将一个班级的一天全部改为休息 -->
+  <update id="update">
+  	UPDATE `zzy_class_schedule` SET rid=NULL,tid=NULL,cid=NULL,state=-2 WHERE clid=#{clid} AND `time`=#{time}
+  </update>
+  
+  <resultMap type="com.CloudSchool.domain.ZzyClassSchedule" id="Kbjihe" extends="BaseResultMap">
+  	<association property="cla" column="clid" javaType="com.CloudSchool.domain.Clazz" select="com.CloudSchool.dao.ClazzMapper.queryZcid"></association>	
+ 	<association property="claroom" column="rid" javaType="com.CloudSchool.domain.Classroom" select="com.CloudSchool.dao.ClassroomMapper.queryByroomid"></association>	
+ 	<association property="cqjstaff" column="tid" javaType="com.CloudSchool.domain.CqjStaff" select="com.CloudSchool.dao.CqjStaffMapper.queryBytid"></association>	
+ 	<association property="zzycourse" column="cid" javaType="com.CloudSchool.domain.ZzyCourse" select="com.CloudSchool.dao.ZzyCourseMapper.queryBycid"></association>	
+ 	<association property="courseevents" column="state" javaType="com.CloudSchool.domain.ZzyCourseEvents" select="com.CloudSchool.dao.ZzyCourseEventsMapper.queryBysjid"></association>
+  </resultMap>
+  
+  <!-- 查询一个时间段的课表 --> 
+  <select id="queryKbBytime" resultMap="Kbjihe">
+  		SELECT * FROM `zzy_class_schedule` WHERE `time`&gt;=#{stime} AND `time`&lt;=#{etime} AND `clid`=#{clid} ORDER BY `time`
+  </select>
 </mapper>
