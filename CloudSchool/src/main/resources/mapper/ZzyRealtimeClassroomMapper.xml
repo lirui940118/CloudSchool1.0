@@ -138,7 +138,7 @@
   <!-- 学员课堂表现，统计用 write by lirui -->
   <select id="queryRealtimeBysIdAndgId" resultType="int">
 	  SELECT 
-		(
+		IFNULL((
 			(
 			SELECT COUNT(zzy_event_type.`returned_value`) FROM `zzy_realtime_classroom`
 			INNER JOIN zzy_event_type  ON `zzy_event_type`.`etid` = zzy_realtime_classroom.`etid`
@@ -172,7 +172,7 @@
 		</if>
 		AND zzy_class_schedule.`time` &lt;=  CURDATE()
 		)
-		* 100
+		* 100,0)
 	AS rate
   </select>
   

@@ -301,14 +301,14 @@
 	<select id="queryStudentInfoBySid" resultType="com.CloudSchool.domain.statistics.StudentBaseInfoVO">
 		SELECT
 		cqj_student.studentid AS studentId,cqj_student.studentnub AS studentNo,cqj_student.`studentname` AS studentName,cqj_student.`sex`,`cqj_student`.`age`AS studentAge,
-		cqj_student.`standby1`,img.`url` #standby1 0在读/1毕业 sex性别 0男 1女生
+		cqj_student.`standby1`,IF(ISNULL(img.`url`)=1,'/static/img/defaultStudentImg.png',img.`url`) AS url #standby1 0在读/1毕业 sex性别 0男 1女生
 		FROM `cqj_student`
 		INNER JOIN `clazzstudent` ON `clazzstudent`.`sid` =
 		`cqj_student`.`studentid`
 		INNER JOIN `clazz` ON clazz.`id` =
 		clazzstudent.`cid`
 		INNER JOIN `cqj_user` ON `cqj_user`.`usertypeid` = cqj_student.`studentid` AND `cqj_user`.usertypenub = 1
-		INNER JOIN img ON img.`id` = `cqj_user`.`userid` 
+		LEFT JOIN img ON img.`id` = `cqj_user`.`userid` 
 		WHERE
 		`cqj_student`.`studentid` = #{sId}
 		ORDER BY

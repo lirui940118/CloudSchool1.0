@@ -359,9 +359,15 @@ public class StatisticsController {
 	// =======================学员能力计算=====================================
 	@RequestMapping("/queryStudentAbility")
 	@ResponseBody
-	public List<Integer> queryStudentAbility(Integer sId, Integer gId) {
+	public List<Integer> queryStudentAbility(Integer sId, Integer gId,HttpSession session) {
 		if (gId == -1)
 			gId = null;
+		CqjUser cqjUser = (CqjUser) session.getAttribute("user");
+		if (sId != null) {// 查其他学员
+
+		} else {// 查本人（学员）
+			sId = cqjUser.getUsertypeid();// doto session获取登陆学员的id
+		}
 		List<Integer> list = StudentAbilityService.queryStudentAbility(sId, gId);
 		return list;
 	}
