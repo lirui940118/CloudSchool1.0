@@ -45,6 +45,7 @@
 								<div class="form-group">
 									<label for="exampleSelect">专业：</label>
 									<select class="form-control form-control-sm" id="smallSelect" name="mid" @change="getSelMajor(major)" v-model="major">
+										<option v-if="0==major" mid="0" value="0">该年级不分专业</option>
 										<option v-for="obj,index in selmajorlist" v-bind:mid="obj.mid" v-bind:value="obj.mid">{{obj.majorName}}</option>
 <!-- 										<optgroup v-for="obj,index in versionlist" v-bind:vid="obj.vid" label="obj.versionof"> -->
 <!-- 											<sonOfBC v-for="obj1,index in majorlist"> -->
@@ -198,52 +199,33 @@
 		el : ".tzx",
 		data : {
 			user:{userid:"2"},
-			versionlist:null,
-			gradelist:null,
-			majorlist:null,
-			selmajorlist:null,
+			versionlist:null,	//版本列表
+			gradelist:null,		//年级列表
+			majorlist:null,		//所有专业列表
+			selmajorlist:null,	//筛选出的专业列表结果
 			version:null,
 			grade:null,
-			major:null
+			major:null	//null为非正常获取  0位改年级不分专业  >0表示正常专业
 		},
 		methods:{
 			jump:function(chatid,name){
 				console.log("切换聊天对象："+chatid)
 			},
-			closechat:function(userid){
-// 				alert(userid)
-			},
 			getSelVersion:function(version){
 				console.log("选择版本："+version)
+				v.version=version
 				getAllGrade(version)
-// 				alert(version)
-				var list=[]
-				for(var i=0;i<v.majorlist.length;i++){
-					if(v.majorlist[i].user1==v.version){
-						list.push(v.majorlist[i])
-						console.log("第"+i+"次：")
-						console.log(v.majorlist[i])
-					}
-				}
-				v.selmajorlist=list
-				console.log("相关专业："+list.length)
-				console.log(v.selmajorlist)
-				if(0==list.length){
-					alert("未找到相关专业")
-					v.major=0
-					if(0!=v.majorlist.length){
-						console.log("该年级部分专业")
-						v.major=list[0].mid
-					}
-				}else{
-					v.major=list[0].mid
-				}
 			},
 			getSelGrade:function(grade){
-				alert(grade)
+				console.log("选择了年级："+grade)
+				v.grade=grade
+				//绑定版本年级对应的专业列表
+				BindingMajorListAfterselGrade()
 			},
 			getSelMajor:function(major){
 				alert(major)
+				console.log("选择专业："+version)
+				v.major=major
 			}
 		}
 	})
@@ -257,6 +239,11 @@
 	})
 	//开班
 	function createClazz(){
+		if(null==v.major){
+			alert("所选专业信息异常，无法开班")
+			return
+		}
+		console.log("版本-年级-专业："+v.version+"-"+v.grade+"-"+v.major)
 		var cname=$("[name=cname]").val()
 		var gid=$("[name=gid]").val()
 		var mid=$("[name=mid]").val()
@@ -272,9 +259,8 @@
 			console.log(obj)
 		})
 		$.each(slist,function(index,obj){
-			var studentid=$(obj).find("input[name=studentid]").val()
 			var sid=$(obj).find("[name=sid]").val()
-			data+="&slist["+(index)+"].sid="+sid
+			data+="&slist["+(index)+"].studentid="+sid
 			console.log(obj)
 		})
 		alert("添加学生："+slist.length)
@@ -293,6 +279,8 @@
 			v.versionlist=result
 			v.version=v.versionlist[0].vid
 			console.log(v.version)
+			//默认加载第一个版本的年级
+			getAllGrade(v.version)
 		})
 	}
 	//获取年级--/queryByvid  --/queryGradeAll
@@ -303,9 +291,12 @@
 			v.gradelist=result
 			if(result.length==0){
 				v.grade=null
+				v.major=null
 				alert("没有找到相关年级")
 			}else{
 				v.grade=v.gradelist[0].gid
+				//绑定版本年级对应的专业列表
+				BindingMajorListAfterselGrade()
 			}
 			console.log(v.grade)
 		})
@@ -318,14 +309,69 @@
 			v.majorlist=result
 			if(result.length==0){
 				v.major=null
-				alert("没有找到专业")
-			}else{
-				v.major=v.majorlist[0].mid
+				alert("获取数据异常：未正常查询到所有专业列表")
 			}
-			console.log(v.major)
 		})
 	}
-	
-		
+	//选择年级后判断是否需要选择专业---并----绑定专业列表
+	function BindingMajorListAfterselGrade(){
+		var majorbool=null;
+		for(var i=0;i<v.gradelist.length;i++){
+			if(v.grade==v.gradelist[i].gid){
+				var majorbool=v.gradelist[i].user1
+			}
+		}
+		if(1==majorbool){
+			console.log("该年级分了专业")
+			if(v.majorlist==null){
+				getAllMajor()
+				if(v.majorlist==null){
+					return
+				}
+			}
+			var list=[]
+			for(var i=0;i<v.majorlist.length;i++){
+				if(v.majorlist[i].user1==v.version){
+					list.push(v.majorlist[i])
+				}
+			}
+			v.selmajorlist=list
+			console.log("相关专业："+v.selmajorlist.length)
+			if(0==v.selmajorlist.length){
+				console.log("数据异常:专业列表中没有匹配的专业")
+				v.major=null
+			}else{
+				v.major=v.selmajorlist[0].mid
+			}
+			console.log(v.selmajorlist)
+		}else{
+			console.log("该年级不分专业")
+			v.major=0
+		}
+	}
+	//分配班级编号名
+	function allotClazzName(){
+		$.post("allotClazzName","",function(result){
+			console.log("获取到专业：")
+			console.log(result)
+			v.majorlist=result
+			if(result.length==0){
+				v.major=null
+				alert("获取数据异常：未正常查询到所有专业列表")
+			}
+		})
+	}
+	//分配班级批次
+	function allotClazzName(){
+		$.post("allotClazzPC","",function(result){
+			console.log("获取到专业：")
+			console.log(result)
+			v.majorlist=result
+			if(result.length==0){
+				v.major=null
+				alert("获取数据异常：未正常查询到所有专业列表")
+			}
+		})
+	}
 	</script>
 </html>

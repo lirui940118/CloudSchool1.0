@@ -319,4 +319,22 @@
 		)
 	</select>
   
+  <!-- 获取当前最新一个班级的名称编号-tzx -->
+  <select id="getLastClazzName" resultType="String">
+  	SELECT MAX(cname) FROM clazz WHERE startdate &gt;= CONCAT(YEAR(NOW()),'-1-1') AND cname LIKE CONCAT('AT',YEAR(NOW())-2000,'%') ORDER BY cname DESC;
+  </select>
+    <!-- 获取升学前班级的名称编号-tzx -->
+  <select id="getClazzNameBeforeGradeUp" resultType="String">
+  	SELECT clazz.`cname` FROM clazzstudent 
+	INNER JOIN clazz ON clazz.`id`=clazzstudent.`cid` 
+	WHERE sid IN(
+		<foreach collection="array" item="i" separator=",">#{i}</foreach>
+	)
+	AND clazz.`cname` NOT IN(SELECT cname FROM clazz WHERE clazz.`status`=2 OR  clazz.`status`=1)
+	GROUP BY clazzstudent.`cid` ORDER BY COUNT(*) DESC
+  </select>
+  <!-- 获取当前最新一个班级批次-tzx -->
+  <select id="getLastClazzPC" resultMap="BaseResultMap">
+  	SELECT pc,COUNT(*) AS `count`,DATEDIFF(NOW(),MAX(startdate)) AS normalCount FROM clazz WHERE `status` &gt;=-2 AND startdate &gt;CONCAT(YEAR(NOW()),'-1-1') AND gid=#{gid} GROUP BY pc ORDER BY pc DESC LIMIT 1
+  </select>
 </mapper>

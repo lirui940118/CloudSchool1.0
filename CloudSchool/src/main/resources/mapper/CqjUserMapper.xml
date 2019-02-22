@@ -545,7 +545,7 @@
 		LEFT JOIN `cqj_position` cp
 		ON cs.`positionid`=cp.`positionid`
 		LEFT JOIN `cqj_user` cu
-		ON cu.`usertypeid`=cs.`staffid`
+		ON cu.`usertypeid`=cs.`staffid` and cu.`usertypenub`=0
 		LEFT JOIN img ON img.`id`=cu.`userid`
 		WHERE cu.`status`=0
 	</select>
@@ -569,7 +569,7 @@ ORDER BY stuinfo
 		LEFT JOIN `clazz` clz
 		ON clz.`id`=cls.`cid`
 		LEFT JOIN `cqj_user` cu
-		ON cu.`usertypeid`=cs.`studentid` 
+		ON cu.`usertypeid`=cs.`studentid` and cu.`usertypenub`=1
 		LEFT JOIN img 
 		ON img.`id`=cu.`userid`
 		WHERE cu.`userid` IS NOT NULL AND cu.`status`=0

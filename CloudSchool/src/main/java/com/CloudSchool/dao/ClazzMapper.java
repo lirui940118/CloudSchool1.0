@@ -62,4 +62,10 @@ public interface ClazzMapper {
     int queryByTidAdminClazzCount(@Param("sid")Integer sid,@Param("cid")Integer cid);
     
     
+    //获取当前最新一个班级的名称编号-tzx
+    public String getLastClazzName();
+    //获取升学前班级的名称编号-tzx--所有升学学生的原班名称 按人数排序，人数占多在靠前
+    public List<String> getClazzNameBeforeGradeUp(int[] array);
+    //获取当前最新一个班级批次-tzx --按年级算，每个年级之间批次互不相关，各算各的批次--pc--count--normalCount存放的是班级创建日期和现在日期的天数差
+    public Clazz getLastClazzPC(int gid);
 }
