@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.CloudSchool.domain.Participationworkstu;
 import com.CloudSchool.domain.zjfvo.StuWorkInfo;
+import com.CloudSchool.domain.zjfvo.StudentWork;
 import com.CloudSchool.domain.zjfvo.WorkinstanceInfo;
 
 public interface ParticipationworkstuMapper {
@@ -33,4 +34,11 @@ public interface ParticipationworkstuMapper {
     int queryStuWorkInfoCount(@Param("wid")Integer wid,@Param("sid")Integer sid);
     
     int queryNotCorrectCountByUser1(Participationworkstu obj);
+    
+    
+    //根据学生id查询所有的作业
+    List<StudentWork> queryStuWorkBySid(@Param("sid")Integer sid,@Param("cur")Integer cur,@Param("pagesize")Integer pagesize,@Param("isCorrect")Integer isCorrect);
+    
+    //根据学生id查询所有的作业Count
+    int queryStuWorkBySidCount(@Param("sid")Integer sid,@Param("isCorrect")Integer isCorrect);
 }

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,8 @@ public class StudentWorkController {
 	@Autowired
 	WtrecordService wtrecordService;
 	@RequestMapping("studentWork")
-	public String toStudentWork() {
+	public String toStudentWork(Integer wid,HttpSession session) {
+		session.setAttribute("studentworkid", wid);
 		return "zjf/student/studentWork";
 	}
 	@RequestMapping(value="fileUploads",produces="text/plain;charset=utf-8")
@@ -61,8 +63,9 @@ public class StudentWorkController {
 	}
 	@RequestMapping("queryStudentWork")
 	@ResponseBody
-	public Workinstance queryStudentWork(Integer wid,Integer sid) {
-		/*System.out.println(JSON.toJSONString(workinStanceService.queryStudentWork(wid, sid)));*/
+	public Workinstance queryStudentWork(Integer sid,HttpSession session) {
+		sid=1;
+		Integer wid=(Integer)session.getAttribute("studentworkid");
 		return workinStanceService.queryStudentWork(wid, sid);
 	}
 	

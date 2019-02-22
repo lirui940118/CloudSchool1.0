@@ -1,5 +1,7 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
+
 import com.CloudSchool.domain.CqjStaff;
 import com.CloudSchool.domain.statistics.StaffBaseVO;
 
@@ -25,4 +27,8 @@ public interface CqjStaffMapper {
     
     //write by lirui 查询员工基本信息和所能教学的科目
     public StaffBaseVO queryStaffBaseVOBySid(Integer staffId);
+    
+    
+    //查询到所有任课老师(赵举峰)
+    List<CqjStaff> queryTeachAll();
 }

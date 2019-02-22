@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.Wtrecord;
 import com.CloudSchool.domain.zjfvo.StuWorkInfo;
+import com.CloudSchool.domain.zjfvo.StudentWork;
 import com.CloudSchool.domain.zjfvo.WorkinstanceInfo;
 
 public interface ParticipationworkstuService {
@@ -15,5 +16,7 @@ public interface ParticipationworkstuService {
 	PageBean queryStuWorkInfo(Integer wid,Integer sid,Integer cur,Integer pagesize);
 	
 	public int updateIscorrectByid(Wtrecord obj);
+	
+	PageBean queryStuWorkBySid(Integer sid,Integer cur,Integer pagesize,Integer isCorrect);
 	
 }

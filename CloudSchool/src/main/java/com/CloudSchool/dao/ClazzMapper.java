@@ -56,4 +56,6 @@ public interface ClazzMapper {
     
     int queryByTidAdminClazzCount(@Param("sid")Integer sid,@Param("cid")Integer cid);
     
+    List<Clazz>  queryByClazzidAllStu(Integer[] stus);
+    
 }

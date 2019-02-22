@@ -219,7 +219,8 @@
 		pstuid,participationworkstu.`time`,participationworkstu.`sId`,participationworkstu.`user2`
 		AS
 		commitTime,
-		participationworkstu.`isCorrect`,participationworkstu.user1,workgrade.`id` AS
+		participationworkstu.`isCorrect`,participationworkstu.user1,workgrade.`id`
+		AS
 		workid,workgrade.`score`,workgrade.`rank`
 		FROM workinstance
 		INNER JOIN
@@ -244,7 +245,7 @@
 		<id column="id" property="id" />
 		<result column="score" property="score" />
 		<result column="tcount" property="tcount" />
-		<result column="ismodification" property="ismodification"/>
+		<result column="ismodification" property="ismodification" />
 		<association property="clazzobj"
 			javaType="com.CloudSchool.domain.Clazz">
 			<id column="clazzid" property="id" />
@@ -261,11 +262,12 @@
 			<id column="topicid" property="id" />
 			<result column="topicConten" property="topicconten" />
 			<result column="analysis" property="analysis" />
-			<result column="tid" property="tid"/>
-			<result column="topicscore" property="user1"/>
-			<association property="workinfoobj" javaType="com.CloudSchool.domain.Workinfo">
-				<id column="workinfoid" property="id"/>
-				<result column="user1" property="user1"/>
+			<result column="tid" property="tid" />
+			<result column="topicscore" property="user1" />
+			<association property="workinfoobj"
+				javaType="com.CloudSchool.domain.Workinfo">
+				<id column="workinfoid" property="id" />
+				<result column="user1" property="user1" />
 			</association>
 			<association property="wtrecord"
 				javaType="com.CloudSchool.domain.Wtrecord">
@@ -280,17 +282,21 @@
 	<select resultMap="StuWorkInfoMap" id="queryStuWorkInfo">
 		SELECT
 		workinstance.`id`,topic.`id` AS
-		topicid,topic.`topicConten`,topic.`analysis`,topic.`tId`,topic.user1 as topicscore,wtrecord.`id` AS
+		topicid,topic.`topicConten`,topic.`analysis`,topic.`tId`,topic.user1
+		as topicscore,wtrecord.`id` AS
 		wtrecordid,wtrecord.`result`,cqj_student.`studentid`,cqj_student.`studentname`,cqj_student.`studentnub`,
 		clazz.`id` AS clazzid,clazz.`cname`,workinfo.`id` AS
 		workinfoid,workinfo.`user1`,wtrecord.`id` AS
-		wtrecordid,wtrecord.`user1` AS wtrecorduser1,wtrecord.`score` AS wtrecordscore,temp.score,
+		wtrecordid,wtrecord.`user1` AS wtrecorduser1,wtrecord.`score` AS
+		wtrecordscore,temp.score,
 		(
 		SELECT
-		COUNT(*) FROM workinfo WHERE workinfo.`wId`=workmould.`id`
+		COUNT(*) FROM workinfo WHERE
+		workinfo.`wId`=workmould.`id`
 		) AS tcount,
 		(SELECT COUNT(*) AS
-		score FROM wtrecord WHERE
+		score FROM
+		wtrecord WHERE
 		wtrecord.`wId`=workinstance.`id` AND
 		wtrecord.`sId`=participationworkstu.`sId` AND wtrecord.`score` IS NOT
 		NULL) AS ismodification
@@ -314,8 +320,10 @@
 		workinfo.`tId`=topic.`id`
 		AND topic.`tid`!=1
 		INNER JOIN (
-		SELECT SUM(wtrecord.score) AS
-		score FROM wtrecord WHERE wtrecord.`wId`=#{wid} AND
+		SELECT
+		SUM(wtrecord.score) AS
+		score FROM wtrecord WHERE wtrecord.`wId`=#{wid}
+		AND
 		wtrecord.`sId`=#{sid}
 		)
 		AS temp
@@ -349,20 +357,71 @@
 		workinfo.`tId`=topic.`id`
 		AND topic.`tid`!=1
 		INNER JOIN (
-		SELECT SUM(wtrecord.score) AS
+		SELECT
+		SUM(wtrecord.score) AS
 		score FROM wtrecord WHERE wtrecord.`wId`=6 AND
 		wtrecord.`sId`=#{sid}
 		)
 		AS temp
-		inner JOIN wtrecord ON topic.`id`=wtrecord.`tId` AND
+		inner JOIN wtrecord ON
+		topic.`id`=wtrecord.`tId` AND
 		participationworkstu.`sId`=wtrecord.`sId` AND
 		workinstance.`id`=wtrecord.`wId`
 		ORDER BY workinfo.`user1`
 	</select>
-	
-	<!--查询参与本次作业的学生作业是否全部批改完  -->
+
+	<!--查询参与本次作业的学生作业是否全部批改完 -->
 	<select id="queryNotCorrectCountByUser1" resultType="int">
-		SELECT COUNT(*) FROM participationworkstu WHERE user1=#{user1} AND isCorrect!=#{iscorrect}
+		SELECT
+		COUNT(*) FROM participationworkstu WHERE user1=#{user1} AND
+		isCorrect!=#{iscorrect}
 	</select>
 	
+	
+	<!--根据学生id查询所有作业  -->
+	<select id="queryStuWorkBySid" resultType="com.CloudSchool.domain.zjfvo.StudentWork">
+		SELECT workinstance.`id` AS
+		workmouldid,workmould.`name`,workinstance.`startTime`,workinstance.`endTime`,participationworkstu.`isCorrect`
+		FROM participationworkstu
+		INNER JOIN workinstance ON participationworkstu.`wId`=workinstance.`id`
+		INNER JOIN workmould ON workinstance.`wid`=workmould.`id`
+		<where>
+			participationworkstu.`sId`=#{sid} AND participationworkstu.`status`=0
+			<if test="isCorrect==0">
+				and participationworkstu.isCorrect=0
+			</if>
+			<if test="isCorrect==1">
+				and participationworkstu.isCorrect=1
+			</if>
+			<if test="isCorrect==2">
+				and participationworkstu.isCorrect=2
+			</if>
+			<if test="isCorrect==3">
+				and participationworkstu.isCorrect=3
+			</if>
+		</where>
+		limit #{cur},#{pagesize}
+	</select>
+	
+	<select id="queryStuWorkBySidCount" resultType="int">
+		SELECT count(*)
+		FROM participationworkstu
+		INNER JOIN workinstance ON participationworkstu.`wId`=workinstance.`id`
+		INNER JOIN workmould ON workinstance.`wid`=workmould.`id`
+		<where>
+			participationworkstu.`sId`=#{sid} AND participationworkstu.`status`=0
+			<if test="isCorrect==0">
+				and participationworkstu.isCorrect=0
+			</if>
+			<if test="isCorrect==1">
+				and participationworkstu.isCorrect=1
+			</if>
+			<if test="isCorrect==2">
+				and participationworkstu.isCorrect=2
+			</if>
+			<if test="isCorrect==3">
+				and participationworkstu.isCorrect=3
+			</if>
+		</where>
+	</select>
 </mapper>

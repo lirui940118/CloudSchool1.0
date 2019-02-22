@@ -405,7 +405,7 @@ li {
 													</div>
 
 												</li>
-												<!-- <li style="display: flex; justify-content: space-around">
+												<li style="display: flex; justify-content: space-around">
 													<div>
 														<label class="form-check-label"> <input
 															class="form-check-input" type="checkbox" value="">
@@ -416,7 +416,7 @@ li {
 														</span>小明<span>
 													</div>
 
-												</li> -->
+												</li>
 											</ul>
 										</li>
 									</ul>
@@ -431,43 +431,26 @@ li {
 								<h4 class="card-title">选择教室</h4>
 							</div>
 							<div class="card-body">
-								<div id="stulist">
-									<ul id="list">
-										<li class="lis">
-											<h2>
-											</h2>
-									</h2>
-											<ul>
-												<li style="display: flex; justify-content: space-around"
-													>
-													<div>
-														<label class="form-check-label"> <input
-															class="stuinput" type="checkbox" value=""
-															> <span
-															class="form-check-sign"></span>
-														</label>
-													</div>
-													<div>
-														</span>大苏打<span>
-													</div>
-
-												</li>
-												<!-- <li style="display: flex; justify-content: space-around">
-													<div>
-														<label class="form-check-label"> <input
-															class="form-check-input" type="checkbox" value="">
-															<span class="form-check-sign"></span>
-														</label> </label>
-													</div>
-													<div>
-														</span>小明<span>
-													</div>
-
-												</li> -->
-											</ul>
-										</li>
-									</ul>
-								</div>
+								<table style="text-align: center;"
+									class="table table-bordered table-bordered-bd-warning mt-4"
+									>
+									<thead>
+										<tr>
+											<th scope="col">教室类型</th>
+											<th scope="col">教室编号</th>
+											<th scope="col">操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(obj,index) in list">
+											<td>{{obj.ctname}}</td>
+											<td>{{obj.name}}</td>
+											<td>
+											<button class="btn btn-success" name="box1">占用</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -500,7 +483,7 @@ li {
 													</div>
 
 												</li>
-												<!-- <li style="display: flex; justify-content: space-around">
+												<li style="display: flex; justify-content: space-around">
 													<div>
 														<label class="form-check-label"> <input
 															class="form-check-input" type="checkbox" value="">
@@ -511,7 +494,7 @@ li {
 														</span>小明<span>
 													</div>
 
-												</li> -->
+												</li>
 											</ul>
 										</li>
 									</ul>
@@ -646,7 +629,7 @@ li {
 		})
 	}
 	//查询班级中的所有学生
-/* 	function getClassStu(clazzs){
+ 	function getClassStu(clazzs){
 		$.ajax({
 			type : "post",
 			url : "http://127.0.0.1:8080/TestInstance/queryByClazzidAllStu",
@@ -657,7 +640,7 @@ li {
 				listStu.list = data;
 			}
 		})
-	} */
+	}
 	//有空老师
 	var teach=new Vue({
 		el:"",
@@ -667,7 +650,7 @@ li {
 	})
 	//空教室
 	var classroom=new Vue({
-		el:"",
+		el:"#box2",
 		data:{
 			list:null
 		}
@@ -844,51 +827,74 @@ li {
 			$("#box2").hide();
 		})
 		
+		//开始时间
 		$("body").on("change","[name=starttime]",function(){
 			var starttime = $("[name=starttime]").val().trim()
 			var endtime = $("[name=endtime]").val().trim()
-			alert(1)
-			//查询这个时间段空教室
-			$.ajax({
-				type:"get",
-				url:"http://127.0.0.1:8080/TestInstance/queryClassRoomAll",
-				data:{},
-				success:function(data){
-					alert("1")
+			if(starttime=="" || endtime==""){
+				return;
+			}
+			var date1 = new Date(starttime);
+			var date2 = new Date(endtime);
+			if(date1.getDate()==date2.getDate()){
+				var status;
+				if(date1.getHours()<12 && date2.getHours()<12){
+					status=0;
+				}else if(date1.getHours()>=12 && date2.getHours()>=12){
+					status=1;
+				}else{
+					status=2;
 				}
-			})
-			//查询这个时间有空的老师
-			$.ajax({
-				type:"",
-				url:"",
-				data:"",
-				success:function(){
-					
-				}
-			})
+				var month=parseInt(date1.getMonth())+1
+				var time=date1.getFullYear()+"-"+month+"-"+date1.getDate();
+				alert(time)
+				$.ajax({
+					type:"get",
+					url:"http://127.0.0.1:8080/TestInstance/queryClassRoomAll",
+					data:{
+						time:time,
+						status:status
+					},
+					success:function(data){
+						classroom.list=data
+						console.log(JSON.stringify(data))
+					}
+				})
+			}
 		})
 		$("body").on("change","[name=endtime]",function(){
 			var starttime = $("[name=starttime]").val().trim()
 			var endtime = $("[name=endtime]").val().trim()
-			//查询这个时间段空教室
-			$.ajax({
-				type:"get",
-				url:"http://127.0.0.1:8080/TestInstance/queryClassRoomAll",
-				data:{},
-				success:function(data){
-					alert("赵举峰")
+			if(starttime=="" || endtime==""){
+				return;
+			}
+			var date1 = new Date(starttime);
+			var date2 = new Date(endtime);
+			/* alert(date1.getDate()==date2.getDate()) */
+			if(date1.getDate()==date2.getDate()){
+				var status;
+				if(date1.getHours()<12 && date2.getHours()<12){
+					status=0;
+				}else if(date1.getHours()>=12 && date2.getHours()>=12){
+					status=1;
+				}else{
+					status=2;
 				}
-			})
-			//查询这个时间有空的老师
-			$.ajax({
-				type:"",
-				url:"",
-				data:"",
-				success:function(){
-					
-				}
-			})
-			
+				var month=parseInt(date1.getMonth())+1
+				var time=date1.getFullYear()+"-"+month+"-"+date1.getDate();
+				$.ajax({
+					type:"get",
+					url:"http://127.0.0.1:8080/TestInstance/queryClassRoomAll",
+					data:{
+						time:time,
+						status:status
+					},
+					success:function(data){
+						classroom.list=data
+						console.log(JSON.stringify(data))
+					}
+				})
+			}
 		})
 		
 	})

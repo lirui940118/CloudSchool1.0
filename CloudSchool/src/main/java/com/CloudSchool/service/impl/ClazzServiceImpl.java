@@ -1,18 +1,23 @@
 package com.CloudSchool.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.CloudSchool.dao.ClassroomMapper;
 import com.CloudSchool.dao.ClazzMapper;
 import com.CloudSchool.dao.ClazzcourseteacherMapper;
 import com.CloudSchool.dao.ClazzstudentMapper;
 import com.CloudSchool.dao.CqjStudentMapper;
 import com.CloudSchool.dao.CqjUserMapper;
 import com.CloudSchool.dao.ImgMapper;
+import com.CloudSchool.domain.Classroom;
 import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.ClazzInfo;
 import com.CloudSchool.domain.Clazzcourseteacher;
@@ -36,6 +41,9 @@ public class ClazzServiceImpl implements ClazzService {
 	CqjUserMapper um;
 	@Autowired
 	ImgMapper im;
+	@Autowired
+	ClassroomMapper classroomMapper;
+	
 	@Override
 	public int CreateClass(ClazzInfo c) {
 		System.out.println("开班----开始执行");
@@ -119,6 +127,41 @@ public class ClazzServiceImpl implements ClazzService {
 	@Override
 	public List<Clazz> queryByClazzidAllStu(Integer[] clazzs) {
 		// TODO Auto-generated method stub
+		return cm.queryByClazzidAllStu(clazzs);
+	}
+	
+	
+	//根据时间段查询空教室(赵举峰)
+	@Override
+	public List<Classroom> queryClassRoomAll(String time,Integer status) {
+		System.out.println(time);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date date = formatter.parse(time);
+			List<Classroom> list=classroomMapper.query();
+			List<Classroom> nullroom=new ArrayList<Classroom>();	//空教室对象
+			for (Classroom classroom : list) {
+				//不是全天
+				if(status!=2) {
+					int i=classroomMapper.queryOccupyRoom(classroom.getId(), date, status);
+					if(i>0) {
+						System.out.println("占用");
+						continue;
+					}
+					System.out.println("可用");
+					nullroom.add(classroom);
+				}else {
+					System.out.println("查询全天教室无人占用的教室");
+					nullroom.add(classroom);
+				}
+				
+			}
+			return nullroom;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
+		
 	}
 }

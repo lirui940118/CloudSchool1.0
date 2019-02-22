@@ -41,10 +41,9 @@ public class WorkInfoController {
 	// 跳转到作业详情页面
 	@RequestMapping("/as")
 	@ResponseBody
-	public String aaaa() {
-		// dynamicTaskJobs.addTaskTimerJob(addScoreTaskJob, "*/5 * * * * *");
+	public String aaaa(String time) {
 		addScoreTaskJob.zzz(4, 5);
-		dynamicTaskJobs.addTaskJob(addScoreTaskJob, "2019-01-19 10:25:20");
+		dynamicTaskJobs.addTaskJob(addScoreTaskJob, time);
 		return "zj";
 	}
 	

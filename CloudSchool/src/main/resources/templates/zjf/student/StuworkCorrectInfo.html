@@ -37,14 +37,14 @@
 		<div class="main-panel">
 			<div class="content">
 				<div class="container-fluid">
-					<h4 class="page-title">作业批改</h4>
+					<h4 class="page-title">我的作业</h4>
 					<div class="card">
 						<div class="card-header">
 							<h4 class="card-title">作业状态</h4>
 						</div>
 						<div class="card-body">
 							<div class="row status">
-								<button class="btn btn-primary btn-lg col-md-2" data-status="4">全部</button>	
+								<button class="btn btn-primary btn-lg col-md-2" data-status="-1">全部</button>	
 								<button class="btn btn-primary btn-lg col-md-2"  data-status="0">未开始</button>
 								<button class="btn btn-primary btn-lg col-md-2"  data-status="1">未结束</button>
 								<button class="btn btn-primary btn-lg col-md-2" data-status="2">待批改</button>
@@ -54,7 +54,7 @@
 					</div>
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title">我布置的作业</h4>
+							<h4 class="card-title">我的作业</h4>
 						</div>
 						<div class="card-body workShow">
 							<div class="row">
@@ -84,9 +84,7 @@
 												<th scope="col">名称</th>
 												<th scope="col">开始时间</th>
 												<th scope="col">结束时间</th>
-												<th scope="col">班级</th>
 												<th scope="col">状态</th>
-												<th scope="col">作业类型</th>
 												<th scope="col" style="text-align: center;">操作</th>
 											</tr>
 										</thead>
@@ -95,20 +93,14 @@
 												<td>{{obj.name}}</td>
 												<td>{{obj.startTime}}</td>
 												<td>{{obj.endTime}}</td>
-												<td>{{obj.cName}}</td>
-												<td v-if="obj.wStatus==0">未开始</td>
-												<td v-if="obj.wStatus==1">未结束</td>
-												<td v-if="obj.wStatus==2">待批改</td>
-												<td v-if="obj.wStatus==3">已批改</td>
-												<td v-if="obj.wType==0">选择</td>
-												<td v-if="obj.wType==1">阅读</td>
-												<td v-if="obj.wType==2">上机</td>
-												<td v-if="obj.wType==3">混合</td>
+												<td v-if="obj.isCorrect==0">未领取</td>
+												<td v-if="obj.isCorrect==1">未提交</td>
+												<td v-if="obj.isCorrect==2">待批改</td>
+												<td v-if="obj.isCorrect==3">已批改</td>
 												<td style="display: flex;justify-content: center;">
-													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-cid="obj.cid" v-bind:data-wid="obj.id">查看详情</button>
-													<button class="btn btn-success workcorrection" v-bind:data-cid="obj.cid" v-bind:data-wid="obj.id"  v-if="obj.wStatus==2">批改</button>
-													<button class="btn btn-success workcorrection" v-bind:data-cid="obj.cid" v-bind:data-wid="obj.id"  v-if="obj.wStatus!=2" disabled=ture>批改</button>
-													<!-- <button class="btn btn-success workcorrection" v-bind:data-cid="obj.cid" v-bind:data-wid="obj.id"  v-if="obj.wType==0" disabled=ture>批改</button> -->
+													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-id="obj.workmouldid">{{obj.workmouldid}}查看详情</button>
+													<button class="btn btn-success workcorrection" v-bind:data-id="obj.workmouldid"  v-if="obj.isCorrect==0">领取</button>
+													<button class="btn btn-success workcorrection btnWork"  v-bind:data-id="obj.workmouldid"  v-if="obj.isCorrect==1">进入</button>
 												</td>
 											</tr>
 											<!-- <tr>
@@ -181,87 +173,55 @@
 	var v=new Vue({
 		el:".workShow",
 		data:{
-			obj:{}
-		},
-		watch:{
-			changValue:function(){
-				console.log(123)
-			}
+			obj:{},
+			pre:null,
+			next:null
 		}
 	})
 	/* 我布置的作业 */
 	function pageing(obj){
 		$.ajax({
 			type:"post",
-			url:"http://127.0.0.1:8080/WorkCorrection/queryPublishWorkByTid",
-			data:{tid:obj.tid,wStatus:obj.wStatus,cur:obj.cur},
+			url:"http://127.0.0.1:8080/WorkCorrection/queryStuWorkBySid",
+			data:{isCorrect:obj.isCorrect,cur:obj.cur},
 			success:function(data){
 				console.log(JSON.stringify(data))
-				if(data.list.length>0 && obj.wStatus!=4){
-					$("#previousPage").attr("data-status",data.list[0].wStatus)	//状态
-					$("#nextPage").attr("data-status",data.list[0].wStatus)//状态
-				}else{
-					/* 没有下一页时候*/
-					$("#previousPage").attr("data-status",-1)	//状态
-					$("#nextPage").attr("data-status",-1)		//状态
-				}
-				/* 查询全部 */
-				if(obj.wStatus==4){
-					$("#previousPage").attr("data-status",4)	//状态
-					$("#nextPage").attr("data-status",4)		//状态
-				}
-				$("#previousPage").attr("data-pre",data.prePage)	//页码
-				
-				$("#nextPage").attr("data-next",data.nextPage)	//页码
-				
 				v.obj=data;
+				v.pre=data.prePage
+				v.next=data.nextPage
 			}
 		})
 	}
 	$(function(){
 		var obj={}
-		obj.tid=1		//暂时死值
-		obj.wStatus=4
+		obj.wStatus=-1
 		obj.cur=1
 		/* 我布置的作业 */
 		pageing(obj)
 		$("body").on("click",".status button",function(){
 			var object={}
-			object.tid=1	//暂时死值  教员id
-			object.wStatus=$(this).attr("data-status")		//状态
+			object.isCorrect=$(this).attr("data-status")		//状态
 			object.cur=1
 			pageing(object)
 		})
 		/*上一页*/
 		$("body").on("click","#previousPage",function(){
 			var object={}
-			object.cur=$(this).attr("data-pre")
-			object.tid=1;
-			object.wStatus=$(this).attr("data-status")
-			console.log($(this).attr("data-status"))
+			object.cur=v.pre
+			object.isCorrect=$(this).attr("data-status")		//状态
 			pageing(object)
 		})
 		/*下一页  */
 		$("body").on("click","#nextPage",function(){
 			var object={}
-			object.tid=1;
-			object.cur=$(this).attr("data-next")
-			object.wStatus=$(this).attr("data-status")
-			console.log($(this).attr("data-status"))
+			object.cur=v.next
+			object.isCorrect=$(this).attr("data-status")		//状态
 			pageing(object)
 		})
-		
-		$("body").on("click",".workinfo",function(){
-			var cid=$(this).attr("data-cid")	//班级id
-			var wid=$(this).attr("data-wid")	//作业id
-			location.href="http://127.0.0.1:8080/WorkInfo/toWorkInfo?cid="+cid+"&wid="+wid
-		})
-		
-		
-		$("body").on("click",".workcorrection",function(){
-			var cid=$(this).attr("data-cid")	//班级id
-			var wid=$(this).attr("data-wid")	//作业id
-			location.href="http://127.0.0.1:8080/WorkCorrection/toWorkCorrect?cid="+cid+"&wid="+wid
+		//跳转到作业模板
+		$("body").on("click",".btnWork",function(){
+			var wid=$(this).attr("data-id")
+			location.href="http://127.0.0.1:8080/StudentWork/studentWork?wid="+wid
 		})
 	})
 </script>

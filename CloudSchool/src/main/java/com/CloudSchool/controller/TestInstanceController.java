@@ -1,5 +1,8 @@
 package com.CloudSchool.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.scripting.xmltags.ForEachSqlNode;
@@ -28,8 +31,6 @@ public class TestInstanceController {
 	TestModuleService testModuleService;
 	@Autowired
 	ClazzService clazzService;
-	@Autowired
-	ClassroomService classroomService;
 	//跳转到试卷发布
 	@RequestMapping("toTestPublishWork")
 	public String toTestPublishWork() {
@@ -93,11 +94,8 @@ public class TestInstanceController {
 	//查询到所有这个时间段空教室
 	@RequestMapping("queryClassRoomAll")
 	@ResponseBody
-	public String queryClassRoomAll(String startTime,String endTime) {
-		List<Classroom> list=classroomService.query();		//所有教室
-		for (Classroom classroom : list) {
-			
-		}
-		return null;
+	public List<Classroom> queryClassRoomAll(String time,Integer status){
+		System.out.println();
+		return clazzService.queryClassRoomAll(time, status);
 	}
 }
