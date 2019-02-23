@@ -144,7 +144,7 @@ public class ClazzServiceImpl implements ClazzService {
 		try {
 			Date date = formatter.parse(time);
 			List<Classroom> list=classroomMapper.query();
-			List<Classroom> nullroom=new ArrayList<Classroom>();	//空教室对象
+			List<Classroom> nullroom=new ArrayList<Classroom>();	//空教室集合
 			for (Classroom classroom : list) {
 				//不是全天
 				if(status!=2) {
@@ -156,7 +156,14 @@ public class ClazzServiceImpl implements ClazzService {
 					System.out.println("可用");
 					nullroom.add(classroom);
 				}else {
-					System.out.println("查询全天教室无人占用的教室");
+					//全天
+					int i=classroomMapper.queryBytimeRoom(classroom.getId(), date);
+					if(i>0) {
+						//占用
+						System.out.println("占用");
+						continue;
+					}
+					//空教室
 					nullroom.add(classroom);
 				}
 				

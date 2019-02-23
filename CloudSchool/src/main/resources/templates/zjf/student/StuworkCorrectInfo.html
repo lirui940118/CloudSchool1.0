@@ -98,9 +98,9 @@
 												<td v-if="obj.isCorrect==2">待批改</td>
 												<td v-if="obj.isCorrect==3">已批改</td>
 												<td style="display: flex;justify-content: center;">
-													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-id="obj.workmouldid">{{obj.workmouldid}}查看详情</button>
-													<button class="btn btn-success workcorrection" v-bind:data-id="obj.workmouldid"  v-if="obj.isCorrect==0">领取</button>
-													<button class="btn btn-success workcorrection btnWork"  v-bind:data-id="obj.workmouldid"  v-if="obj.isCorrect==1">进入</button>
+													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-id="obj.workmouldid">查看详情</button>
+													<button class="btn btn-success workcorrection" v-bind:data-id="obj.workmouldid"  v-if="obj.isCorrect==2 || obj.isCorrect==3" disabled="disabled">进入</button>
+													<button class="btn btn-success workcorrection btnWork"  v-bind:data-id="obj.workmouldid"  v-if="obj.isCorrect!=2 && obj.isCorrect!=3">进入</button>
 												</td>
 											</tr>
 											<!-- <tr>

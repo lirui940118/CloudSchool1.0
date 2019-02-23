@@ -102,4 +102,15 @@ public class ZzyCourseServiceimpl implements ZzyCourseService{
 		return cous.queryBycid(cid);
 	}
 	
+	//根据年级查询课程(赵举峰)
+	@Override
+	public List<ZzyCourse> queryBygid(Integer gid) {
+		return cous.queryBygid(gid);
+	}
+	@Override
+	public List<ZzyCourse> queryCourseAll() {
+		// TODO Auto-generated method stub
+		return cous.queryCourseAll();
+	}
+	
 }

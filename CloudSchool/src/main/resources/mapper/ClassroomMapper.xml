@@ -112,4 +112,9 @@
  <select id="queryByroomid" resultMap="BaseResultMap">
  		select * from `classroom` where id=#{id}
  </select>
+ 
+  <!-- 查询某一天空教室(赵举峰) -->
+  <select id="queryBytimeRoom" resultType="INTEGER">
+  		SELECT COUNT(*) FROM `zzy_class_schedule` WHERE rid=#{rid} AND `time`=#{time}
+  </select>
 </mapper>

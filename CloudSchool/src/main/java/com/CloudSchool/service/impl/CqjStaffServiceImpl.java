@@ -1,6 +1,9 @@
 package com.CloudSchool.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +13,14 @@ import com.CloudSchool.dao.CqjStaffMapper;
 import com.CloudSchool.dao.GkWjcsjfMapper;
 import com.CloudSchool.dao.LrConfigrateMapper;
 import com.CloudSchool.dao.LrStaffAbilityMapper;
+import com.CloudSchool.dao.ZzyClassScheduleMapper;
+import com.CloudSchool.domain.CqjStaff;
 import com.CloudSchool.domain.LrConfigrate;
 import com.CloudSchool.domain.statistics.StaffBaseVO;
 import com.CloudSchool.service.CqjStaffService;
 import com.CloudSchool.service.GkKaoQinService;
 import com.CloudSchool.service.GkWjcsjfService;
+import com.alibaba.fastjson.JSON;
 @Service
 public class CqjStaffServiceImpl implements CqjStaffService{
 
@@ -28,6 +34,8 @@ public class CqjStaffServiceImpl implements CqjStaffService{
 	GkWjcsjfService gkWjcsjfService;
 	@Autowired
 	GkKaoQinService gkKaoQinService;
+	@Autowired
+	ZzyClassScheduleMapper zzyClassScheduleMapper;
 	
 	@Override
 	public StaffBaseVO queryStaffBaseVOBySid(Integer staffId) {
@@ -120,6 +128,52 @@ public class CqjStaffServiceImpl implements CqjStaffService{
 	@Override
 	public Integer queryPositionIdByStaffId(Integer staffId) {
 		return cqjStaffMapper.queryPositionIdByStaffId(staffId);
+	}
+
+	
+	 //查询一个时间段 所有有空的任课老师（赵举峰）
+	@Override
+	public List<CqjStaff> queryNullTeach(String time, Integer status) {
+		List<CqjStaff> teachs=cqjStaffMapper.queryTeachAll();//所有任课老师
+		System.out.println(JSON.toJSONString(teachs));
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		List<CqjStaff> list=new ArrayList<CqjStaff>();		//有空的所有老师
+		try {
+			Date date = formatter.parse(time);
+			//status 0表示上午  1标识下午 2表示全天
+			if(status!=2) {
+				for (CqjStaff obj : teachs) {
+					//当前的这个老师这一天status是否有课
+					int count=zzyClassScheduleMapper.queryByyoukong(obj.getStaffid(), date, status);
+					if(count>0) {
+						//没空占用了
+						continue;
+					}
+					//有空
+					System.out.println("老师有空！");
+					list.add(obj);
+				}
+			}else {
+				//全天
+				for (CqjStaff obj : teachs) {
+					//当前的这个老师这一天status是否有课
+					Integer count=zzyClassScheduleMapper.queryBytimeTeach(obj.getStaffid(), date);
+					if(count>0) {
+						//没空
+						continue;
+					}
+					//有空
+					System.out.println("老师全天有空");
+					list.add(obj);
+				}
+			}
+			return list;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 }
