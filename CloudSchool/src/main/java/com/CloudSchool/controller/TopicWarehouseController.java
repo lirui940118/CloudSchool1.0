@@ -19,6 +19,8 @@ import com.CloudSchool.domain.TopicWithBLOBs;
 import com.CloudSchool.domain.Topictype;
 import com.CloudSchool.domain.Workinstance;
 import com.CloudSchool.domain.Workmould;
+import com.CloudSchool.domain.ZzyCourse;
+import com.CloudSchool.domain.ZzySection;
 import com.CloudSchool.domain.zjfvo.TeacherAdminStu;
 import com.CloudSchool.domain.zjfvo.WorkPublishParam;
 import com.CloudSchool.service.ClazzcourseteacherService;
@@ -26,6 +28,8 @@ import com.CloudSchool.service.TopicService;
 import com.CloudSchool.service.TopicTypeService;
 import com.CloudSchool.service.WorkMouldService;
 import com.CloudSchool.service.WorkinStanceService;
+import com.CloudSchool.service.ZzyCourseService;
+import com.CloudSchool.service.ZzySectionService;
 import com.alibaba.fastjson.JSON;
 
 @Controller
@@ -43,6 +47,12 @@ public class TopicWarehouseController {
 	
 	@Autowired
 	WorkinStanceService workinStanceService;
+	
+	@Autowired
+	ZzyCourseService zzyCourseService;
+	
+	@Autowired
+	ZzySectionService zzySectionService;
 	// 添加题目
 	@RequestMapping("addTopic")
 	@ResponseBody
@@ -144,5 +154,27 @@ public class TopicWarehouseController {
 	public int publishWork(@RequestBody WorkPublishParam obj) {
 		return workinStanceService.publishWork(obj);
 	}
+	
+	//根据年级查询课程
+	@RequestMapping("queryBygid")
+	@ResponseBody
+	public List<ZzyCourse> queryBygid(Integer cid){
+		return zzyCourseService.queryBygid(cid);
+	}
+	
+	//根据课程查询章节
+	@RequestMapping("queryBycid")
+	@ResponseBody
+	public List<ZzySection> queryBycid(Integer cid){
+		return zzySectionService.queryBycid(cid);
+	}
+	
+	@RequestMapping("queryCourseAll")
+	@ResponseBody
+	public List<ZzyCourse> queryCourseAll(){
+		return zzyCourseService.queryCourseAll();
+	}
+	
+
 	
 }

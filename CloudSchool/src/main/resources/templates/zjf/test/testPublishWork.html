@@ -312,7 +312,7 @@ li {
 								<h4 class="card-title">考试设置</h4>
 							</div>
 							<div class="card-body">
-								<table style="text-align: center;"
+								<table style="text-align: center;" id="testset"
 									class="table table-bordered table-bordered-bd-warning mt-4"
 									>
 									<thead>
@@ -323,11 +323,11 @@ li {
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>S2</td>
-											<td>1717</td>
+										<tr v-for="(obj,index) in list">
+											<td>{{obj.zzygradeobj.gradeName}}</td>
+											<td>{{obj.cname}}</td>
 											<td>
-											<button class="btn btn-success" name="box1">设置监考人</button>
+											<button class="btn btn-success" name="box1" v-bind:data-id="obj.id">设置监考人</button>
 											<button class="btn btn-success" name="box2">设置考室</button>
 											<button class="btn btn-success" name="box3">设置阅卷人</button>
 											</td>
@@ -407,7 +407,7 @@ li {
 											<td>{{obj.staffnub}}</td>
 											<td>{{obj.staffname}}</td>
 											<td>
-											<button class="btn btn-success" name="box1">占用</button>
+											<button class="btn btn-success" name="box1" v-bind:data-id="obj.staffid">占用</button>
 											</td>
 										</tr>
 									</tbody>
@@ -437,7 +437,7 @@ li {
 											<td>{{obj.ctname}}</td>
 											<td>{{obj.name}}</td>
 											<td>
-											<button class="btn btn-success" name="box1">占用</button>
+											<button class="btn btn-success" name="box1" v-bind:data-id="obj.id">占用</button>
 											</td>
 										</tr>
 									</tbody>
@@ -487,6 +487,7 @@ li {
 <script src="../static/js/core/vue.js"></script>
 <script src="../static/js/core/jquery.cookie.js"></script>
 <script>
+	var testsetlist=[]
 	//选中的班级
 	var clazzs=[];
 	
@@ -520,6 +521,13 @@ li {
 				}
 			}
 
+		}
+	})
+	//班级考试设置班级
+	var gradeSet = new Vue({
+		el : "#testset",
+		data : {
+			list :[]
 		}
 	})
 	//年级
@@ -619,7 +627,8 @@ li {
 	var teach=new Vue({
 		el:"#box1",
 		data:{
-			list:null
+			list:null,
+			cid:null
 		}
 	})
 	//有空老师(阅卷)
@@ -656,10 +665,25 @@ li {
 						clazzs.push(id)
 					}
 				}
+				
+				//把选中的班级添加到班级设置中
+				for(var i=0;i<classdatas.obj.list.length;i++){
+					if(classdatas.obj.list[i].id==id){
+						gradeSet.list.push(classdatas.obj.list[i])
+						break;
+					}
+				}
 			} else {
 				for(var i=0;i<clazzs.length;i++){
 					if(id==clazzs[i]){
 						clazzs.splice(i,1)
+					}
+				}
+				//班级设置中对象删除
+				for(var i=0;i<gradeSet.list.length;i++){
+					if(gradeSet.list[i].id==id){
+						gradeSet.list.splice(i,1)
+						break;
 					}
 				}
 			}
@@ -719,20 +743,7 @@ li {
 								Workinstance.tid = 1 //暂时死值
 								obj.obj = Workinstance
 								obj.list = temp;
-								//console.log(JSON.stringify(obj))
-								$
-										.ajax({
-											type : "post",
-											url : "http://127.0.0.1:8080/topicWarehouseController/WorkPublishParam",
-											data : JSON.stringify(obj),
-											contentType : 'application/json',
-											success : function(data) {
-												if (data > 0) {
-													alert("作业发布成功！")
-												}
-
-											}
-										})
+								console.log(JSON.stringify(obj))
 							} else {
 								alert("请选择试卷模板")
 							}
@@ -790,21 +801,64 @@ li {
 		
 		
 		//点击设置监考人
-		$("body").on("click","button[name=box1]",function(){
+		$("body").on("click","#testset button[name=box1]",function(){
+			var id=$(this).attr("data-id")		//班级id
+			teach.cid=id
+			var obj={}							//考试设置对象
+			obj.cid=id;
+			testsetlist.push(obj)
 			$("#box1").show();
 			$("#box2").hide();
 			$("#box3").hide();
 		})
 		
+		//设置监考人
+		$("body").on("click","#box1 button[name=box1]",function(){
+			var tid=$(this).attr("data-id")		//选中的教员id
+			var cid=teach.cid;					//班级id
+			for(var i=0;i<testsetlist.length;i++){
+				if(testsetlist[i].cid==cid){
+					testsetlist[i].tid=tid;
+					break;
+				}
+			}
+			//占用老师
+			for(var i=0;i<teach.list.length;i++){
+				if(tid==teach.list[i].staffid){
+					teach.list.splice(i,1)
+					break;
+				}
+			}
+			console.log(JSON.stringify(testsetlist))
+		})
 		//点击设置教室
-		$("body").on("click","button[name=box2]",function(){
+		$("body").on("click","#testset button[name=box2]",function(){
 			$("#box1").hide();
 			$("#box2").show();
 			$("#box3").hide();
 		})
+		//设置教室
+		$("body").on("click","#box2 button[name=box1]",function(){
+			var roomid=$(this).attr("data-id")		//选中的教员id
+			var cid=teach.cid;					//班级id
+			for(var i=0;i<testsetlist.length;i++){
+				if(testsetlist[i].cid==cid){
+					testsetlist[i].roomid=roomid;
+					break;
+				}
+			}
+			//占用教室
+			for(var i=0;i<classroom.list.length;i++){
+				if(roomid==classroom.list[i].id){
+					classroom.list.splice(i,1)
+					break;
+				}
+			}
+			console.log(JSON.stringify(testsetlist))
+		})
 		
 		//点击设置阅卷人
-		$("body").on("click","button[name=box3]",function(){
+		$("body").on("click","#testset button[name=box3]",function(){
 			$("#box3").show();
 			$("#box1").hide();
 			$("#box2").hide();

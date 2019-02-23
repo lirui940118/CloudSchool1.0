@@ -55,20 +55,16 @@
 						</div>
 						<div class="card-body">
 							<nav id="condition">
-								<div class="form-group courseselect">
+								<div class="form-group courseselect" id="course">
 									<label for="squareSelect">课程</label>
 									<select class="form-control input-square" id="squareSelect">
-										<option>逻辑java</option>
-										<option>MySQL数据库</option>
-										<option>ssm框架</option>
+										<option v-for="(obj,index) in list" v-bind:value="obj.cid">{{obj.courseName}}</option>
 									</select>
 								</div>
-								<div class="form-group courseselect">
+								<div class="form-group courseselect" id="chapter">
 									<label for="squareSelect">章节</label>
 									<select class="form-control input-square" id="squareSelect">
-										<option>第一章</option>
-										<option>第二章</option>
-										<option>第三章</option>
+										<option v-for="(obj,index) in list" v-bind:value="obj.secid">{{obj.sectionName}}</option>
 									</select>
 								</div>
 								<div class="form-group courseselect" id="topicType">
@@ -230,6 +226,14 @@
 			list:null,
 		}
 	})
+	
+	//章节
+	var chapter=new Vue({
+		el:"#chapter",
+		data:{
+			list:null
+		}
+	})
 	//题目
 	var topiclist=new Vue({
 		el:"#topics",
@@ -263,7 +267,12 @@
 			 })
 		}
 	})
-	
+	var course=new Vue({
+		el:"#course",
+		data:{
+			list:null
+		}
+	})
 	//分页查询题目
 	function paging(cur){
 		$.ajax({
@@ -357,6 +366,37 @@
 					}
 				})
 			}
+		})
+		$.ajax({
+			type:"get",
+			url:"http://127.0.0.1:8080/topicWarehouseController/queryCourseAll",
+			data:{},
+			success:function(data){
+				course.list=data;
+				/* console.log(JSON.stringify(data)) */
+			}
+		})
+		
+		//联动
+		$("body").on("change","#course select",function(){
+			var cid=$(this).find("option:selected").val()
+			$.ajax({
+				type:"get",
+				url:"http://127.0.0.1:8080/topicWarehouseController/queryBycid",
+				data:{cid:cid},
+				success:function(data){
+					chapter.list=data
+					/* console.log(JSON.stringify(data)) */
+				}
+			})
+		})
+		
+		
+		//课程下拉框值改变时
+		$("body").on("change","#course",function(){
+			var courseid=$("#course option:selected").val()	//课程id
+			var chapter=$("#chapter option:selected").val() //章节
+			console.log(chapter)
 		})
 	})
 </script>

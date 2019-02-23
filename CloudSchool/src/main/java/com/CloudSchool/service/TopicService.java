@@ -10,6 +10,7 @@ import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.Topic;
 import com.CloudSchool.domain.TopicWithBLOBs;
 import com.CloudSchool.domain.Workmould;
+import com.CloudSchool.domain.ZzyCourse;
 
 public interface TopicService {
 	int insertSelective(TopicWithBLOBs record,MultipartFile file);

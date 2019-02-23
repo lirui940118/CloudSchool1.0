@@ -157,4 +157,7 @@
 	<select id="queryBygidTwo" resultMap="BaseResultMap">
 		select * from `zzy_course` where gid=#{gid}
 	</select>
+	<select id="queryCourseAll" resultMap="BaseResultMap">
+		select * from `zzy_course`
+	</select>
 </mapper>
