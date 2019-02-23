@@ -11,7 +11,7 @@
 		<script src="../static/js/core/vue.js"></script>
 		<style type="text/css">
 			.jb .form-control{width: 50%;}
-			
+			.form-group, .form-check{padding: 10px 10px}
 		</style>
 	</head>
 
@@ -45,7 +45,7 @@
 								<div class="form-group">
 									<label for="exampleSelect">专业：</label>
 									<select class="form-control form-control-sm" id="smallSelect" name="mid" @change="getSelMajor(major)" v-model="major">
-										<option v-if="0==major" mid="0" value="0">该年级不分专业</option>
+										<option v-if="-1==major" mid="-1" value="-1">该年级不分专业</option>
 										<option v-for="obj,index in selmajorlist" v-bind:mid="obj.mid" v-bind:value="obj.mid">{{obj.majorName}}</option>
 <!-- 										<optgroup v-for="obj,index in versionlist" v-bind:vid="obj.vid" label="obj.versionof"> -->
 <!-- 											<sonOfBC v-for="obj1,index in majorlist"> -->
@@ -56,11 +56,11 @@
 								</div>
 								<div class="form-group">
 									<label for="exampleSelect">班主任：</label>
-									<select class="form-control form-control-sm" id="smallSelect" name="tid">
-										<option value="1">张骞</option>
-										<option value="2">李白</option>
-										<option value="3">王安石</option>
-										<option value="4">赵日天</option>
+									<select v-if="null!=mlist" class="form-control form-control-sm" id="smallSelect" name="tid">
+										<option v-for="obj,index in mlist.staffVOList" v-bind:value="obj.staffId">{{obj.staffName}}--综合评分：{{obj.staffScore}}</option>
+									</select>
+									<select v-if="null==mlist" class="form-control form-control-sm" id="smallSelect" name="tid">
+										<option value="-1">为查询到班主任</option>
 									</select>
 								</div>
 							</div>
@@ -84,55 +84,21 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr class="t-content">
-											<td><input type="hidden" name=courseid value="1" style="border: 0px;width: 100%;">JAVA</td>
-											<td>java</td>
-											<td>48</td>
-											<td>ACCP8.0</td>
+										<tr v-for="obj,index in tlist" class="t-content">
+											<td><input type="hidden" name=courseid v-bind:value="obj.courseId" style="border: 0px;width: 100%;">{{obj.courseName}}</td>
+											<td>{{getVMname(1)}}</td>
+											<td>{{obj.coursePeriod}}</td>
+											<td>{{getVMname(0)}}</td>
 											<td>30</td>
 											<td>
-												<select class="form-control form-control-sm" id="smallSelect" name=tid>
-													<option value="1">1</option>
-													<option value="2">2</option>
-													<option value="3">3</option>
-													<option value="4">4</option>
-													<option value="5">5</option>
+												<select v-if="null!=tlist" class="form-control form-control-sm" id="smallSelect" name=tid>
+													<option v-for="obj1,index1 in obj.staffVOList" v-bind:value="obj1.staffId">{{obj1.staffName}}</option>
+												</select>
+												<select v-if="null==tlist" class="form-control form-control-sm" id="smallSelect" name=tid>
+													<option value="-1">为查询到教员</option>
 												</select>
 											</td>
 										</tr>
-										<tr class="t-content">
-											<td><input type="hidden" name=courseid value="2" style="border: 0px;width: 100%;">JAVA</td>
-											<td>java</td>
-											<td>48</td>
-											<td>ACCP8.0</td>
-											<td>30</td>
-											<td>
-												<select class="form-control form-control-sm" id="smallSelect" name="tid">
-													<option value="1">1</option>
-													<option value="2">2</option>
-													<option value="3">3</option>
-													<option value="4">4</option>
-													<option value="5">5</option>
-												</select>
-											</td>
-										</tr>
-										<tr class="t-content">
-											<td><input type="hidden" name=courseid value="3" style="border: 0px;width: 100%;">JAVA</td>
-											<td>java</td>
-											<td>48</td>
-											<td>ACCP8.0</td>
-											<td>30</td>
-											<td>
-												<select class="form-control form-control-sm" id="smallSelect" name="tid">
-													<option value="1">1</option>
-													<option value="2">2</option>
-													<option value="3">3</option>
-													<option value="4">4</option>
-													<option value="5">5</option>
-												</select>
-											</td>
-										</tr>
-										
 									</tbody>
 								</table>
 							</div>
@@ -205,26 +171,41 @@
 			selmajorlist:null,	//筛选出的专业列表结果
 			version:null,
 			grade:null,
-			major:null	//null为非正常获取  0位改年级不分专业  >0表示正常专业
+			major:null,	//null为非正常获取  0位改年级不分专业  >0表示正常专业
+			teacherlist:null,
+			studentlist:null,
+			pc:null,
+			cname:null,
+			mlist:null,
+			tlist:null
 		},
 		methods:{
-			jump:function(chatid,name){
-				console.log("切换聊天对象："+chatid)
+			//获取选择的版本或专业名称-来自当前的下选框
+			getVMname:function(vm){
+				var name=""
+				if(0==vm){
+					var name=$("select[name=vid]").find("option:selected").text()
+				}else{
+					var name=$("select[name=mid]").find("option:selected").text()
+				}
+				return name
 			},
 			getSelVersion:function(version){
 				console.log("选择版本："+version)
 				v.version=version
+				v.tlist=null
 				getAllGrade(version)
 			},
 			getSelGrade:function(grade){
 				console.log("选择了年级："+grade)
 				v.grade=grade
+				v.tlist=null
 				//绑定版本年级对应的专业列表
 				BindingMajorListAfterselGrade()
 			},
 			getSelMajor:function(major){
 				alert(major)
-				console.log("选择专业："+version)
+				console.log("选择专业："+major)
 				v.major=major
 			}
 		}
@@ -255,7 +236,7 @@
 		$.each(tlist,function(index,obj){
 			var courseid=$(obj).find("input[name=courseid]").val()
 			var tid=$(obj).find("[name=tid]").val()
-			data+="&tlist["+(index+1)+"].courseid="+courseid+"&tlist["+(index+1)+"].tid="+tid+"&tlist["+(index+1)+"].isMaster=1&tlist["+(index+1)+"].isTeacher=0"
+			data+="&tlist["+(index+1)+"].courseid="+courseid+"&tlist["+(index+1)+"].tid="+tid+"&tlist["+(index+1)+"].isMaster=0&tlist["+(index+1)+"].isTeacher=1"
 			console.log(obj)
 		})
 		$.each(slist,function(index,obj){
@@ -342,16 +323,23 @@
 				v.major=null
 			}else{
 				v.major=v.selmajorlist[0].mid
+				//获取课程-教员
+				getTeacherList()
 			}
 			console.log(v.selmajorlist)
 		}else{
 			console.log("该年级不分专业")
-			v.major=0
+			v.major=-1
+			//获取课程-教员
+			getTeacherList()
 		}
 	}
 	//分配班级编号名
 	function allotClazzName(){
-		$.post("allotClazzName","",function(result){
+		var id=0
+		var array=[]
+		arrayStr="&array=5&array=6&array=9&array=10&array=12&array=13&array=14";
+		$.post("allotClazzName","id="+id+arrayStr,function(result){
 			console.log("获取到专业：")
 			console.log(result)
 			v.majorlist=result
@@ -363,13 +351,37 @@
 	}
 	//分配班级批次
 	function allotClazzName(){
-		$.post("allotClazzPC","",function(result){
+		if(v.grade==null){
+			alert("请先选择年级,才能分配到班级批次！")
+			return
+		}
+		$.post("allotClazzPC","gid="+v.grade,function(result){
 			console.log("获取到专业：")
 			console.log(result)
-			v.majorlist=result
+			v.pc=result
+		})
+	}
+	//获取课程-教员列表
+	function getTeacherList(){
+		if(v.grade==null||v.major==null){
+			alert("所选年级或专业信息不全！")
+			return
+		}
+		var gId=v.grade
+		var mId=v.major
+		console.log("查询课程-教员条件："+gId+"-"+mId)
+		$.post("statistics/getStaffsAboutOpenClass","gId="+gId+"&mId="+mId,function(result){
+			console.log("获取到课程-教员列表：")
+			console.log(result)
+			v.teacherlist=result
 			if(result.length==0){
-				v.major=null
-				alert("获取数据异常：未正常查询到所有专业列表")
+				v.teacherlist=null
+				v.mlist=null
+				v.tlist=null
+				alert("获取数据异常：未正常查询到所有课程-教员列表")
+			}else{
+				v.mlist=v.teacherlist[0]
+				v.tlist=v.teacherlist.splice(1,v.teacherlist.length-1)
 			}
 		})
 	}

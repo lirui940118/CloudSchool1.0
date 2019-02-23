@@ -14,6 +14,8 @@ public class CourseVO {
 	private Integer courseId;
 	//课程名称
 	private String courseName;
+	//课时
+	private String coursePeriod;
 	//教员集合
 	List<StaffVO> staffVOList;
 	public Integer getCourseId() {
@@ -33,6 +35,12 @@ public class CourseVO {
 	}
 	public void setStaffVOList(List<StaffVO> staffVOList) {
 		this.staffVOList = staffVOList;
+	}
+	public String getCoursePeriod() {
+		return coursePeriod;
+	}
+	public void setCoursePeriod(String coursePeriod) {
+		this.coursePeriod = coursePeriod;
 	}
 	
 }

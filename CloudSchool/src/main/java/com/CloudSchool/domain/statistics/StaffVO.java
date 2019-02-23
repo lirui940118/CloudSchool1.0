@@ -9,6 +9,8 @@ public class StaffVO implements Comparable{
 	private Integer staffId;
 	//教员名称
 	private String staffName;
+	//教员入职时间
+	private String staffGoingTime;
 	//教员年龄
 	private Integer staffAge;
 	//评价分数
@@ -43,6 +45,12 @@ public class StaffVO implements Comparable{
 		StaffVO staffVO = (StaffVO) obj;
 		
 		return staffVO.staffScore - this.staffScore;
+	}
+	public String getStaffGoingTime() {
+		return staffGoingTime;
+	}
+	public void setStaffGoingTime(String staffGoingTime) {
+		this.staffGoingTime = staffGoingTime;
 	}
 	
 }
