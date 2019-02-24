@@ -5,7 +5,7 @@ import java.util.List;
 public class GradeVO {
 	private Integer gradeId;//年级id
 	private String gradeName;//年级名称
-	private List<PCVO> pcList;//班级集合
+	private List<PCVO> pcList;//批次集合
 	public Integer getGradeId() {
 		return gradeId;
 	}
