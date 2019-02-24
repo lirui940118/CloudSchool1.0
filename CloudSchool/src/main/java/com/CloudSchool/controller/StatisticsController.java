@@ -21,6 +21,7 @@ import com.CloudSchool.domain.statistics.KnowledgePointUpVO;
 import com.CloudSchool.domain.statistics.StaffBaseVO;
 import com.CloudSchool.domain.statistics.StudentBaseInfoVO;
 import com.CloudSchool.domain.statistics.StudentInfoVO;
+import com.CloudSchool.domain.statistics.TestComprehensiveScoreVO;
 import com.CloudSchool.domain.statistics.TestInfo;
 import com.CloudSchool.domain.statistics.WorkGradeVo;
 import com.CloudSchool.domain.statistics.testBaseInfo;
@@ -31,6 +32,7 @@ import com.CloudSchool.service.CqjStaffService;
 import com.CloudSchool.service.CqjStudentService;
 import com.CloudSchool.service.GkKaoqinStateService;
 import com.CloudSchool.service.LrConfigrateService;
+import com.CloudSchool.service.LrGradeTestScoreService;
 import com.CloudSchool.service.LrKnowledagepointTeacherService;
 import com.CloudSchool.service.TestGradeService;
 import com.CloudSchool.service.WorkgradeService;
@@ -69,6 +71,8 @@ public class StatisticsController {
 	WorkgradeService workgradeService;
 	@Autowired
 	ZzyCourseService zzyCourseService;
+	@Autowired
+	LrGradeTestScoreService lrGradeTestScoreService;
 	/**
 	 * 学员首页
 	 * 
@@ -343,7 +347,13 @@ public class StatisticsController {
 		List<GradeVO> list = zzyGradeService.queryAllGradePcClazz(gId, pc);
 		return list;
 	}
-	
+	/*查询年级综合成绩*/
+	@RequestMapping("/getClazzTestsAvgScoreByPc")
+	@ResponseBody
+	public  List<TestComprehensiveScoreVO> getClazzTestsAvgScoreByPc(String pc) {
+		List<TestComprehensiveScoreVO> list = lrGradeTestScoreService.getClazzTestsAvgScoreByPc(pc);
+		return list;
+	}
 	
 	// =======================教学能力计算=====================================
 	@RequestMapping("/queryStaffAbility")
