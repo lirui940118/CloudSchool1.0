@@ -5,9 +5,12 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.GkKaoqinState;
@@ -79,7 +82,8 @@ public class StatisticsController {
 	 */
 	/* 打开学员首页 */
 	@RequestMapping("/gotoStudent")
-	public String gotoStudent() {
+	public String gotoStudent(Integer studentId,Model model) {//sId 学员id
+		model.addAttribute("gotoStudentsId", studentId);
 		return "statistics/student";
 	}
 
@@ -110,8 +114,8 @@ public class StatisticsController {
 
 	/* 打开教员统计分析 */
 	@RequestMapping("/gotoStaff")
-	public String gotoStaff(HttpSession session) {
-		
+	public String gotoStaff(Integer staffId,Model model) {//staffId 学员id
+		model.addAttribute("gotoStaffId", staffId);
 		return "statistics/staff";
 	}
 
@@ -215,7 +219,7 @@ public class StatisticsController {
 		} else {// 查本人（学员）
 			sId = cqjUser.getUsertypeid();// doto session获取登陆学员的id
 		}
-		List<WorkGradeVo> list = workgradeService.queryStudentWorkInfoBysIdAndgId(4, 15);
+		List<WorkGradeVo> list = workgradeService.queryStudentWorkInfoBysIdAndgId(sId, gId);
 		return list;
 	}
 	
@@ -316,7 +320,7 @@ public class StatisticsController {
 		CqjUser cqjUser = (CqjUser) session.getAttribute("user");
 		if (staffId != null) {// 查其他教员
 
-		} else {// 查本人（学员）
+		} else {// 查本人（员工）
 			staffId = cqjUser.getUsertypeid();// doto session获取登陆教员的id
 		}
 		List<ClazzBaseInfoVO> list = clazzService.queryClazzListByStaffId(staffId);
@@ -326,7 +330,13 @@ public class StatisticsController {
 	/* 查询该教员的上报劣势情况 */
 	@RequestMapping("/getStaffAboutBadKonwledagepoint")
 	@ResponseBody
-	public List<KnowledgePointUpVO> getStaffAboutBadKonwledagepoint(Integer staffId) {
+	public List<KnowledgePointUpVO> getStaffAboutBadKonwledagepoint(Integer staffId,HttpSession session) {
+		CqjUser cqjUser = (CqjUser) session.getAttribute("user");
+		if (staffId != null) {// 查其他教员
+
+		} else {// 查本人（员工）
+			staffId = cqjUser.getUsertypeid();// doto session获取登陆教员的id
+		}
 		List<KnowledgePointUpVO> list = lrKnowledagepointTeacherService.queryAllKnowledagepointByStaffId(staffId);
 		return list;
 	}
@@ -334,7 +344,13 @@ public class StatisticsController {
 	/* 查询员工的考勤情况(按类目分组) */
 	@RequestMapping("/getStaffAboutkqInfo")
 	@ResponseBody
-	public List<GkKaoqinState> getStaffAboutkqInfo(Integer staffId) {
+	public List<GkKaoqinState> getStaffAboutkqInfo(Integer staffId,HttpSession session) {
+		CqjUser cqjUser = (CqjUser) session.getAttribute("user");
+		if (staffId != null) {// 查其他教员
+
+		} else {// 查本人（员工）
+			staffId = cqjUser.getUsertypeid();// doto session获取登陆教员的id
+		}
 		List<GkKaoqinState> list = gkKaoqinStateService.queryKqTotalInfoByStaffId(staffId);
 		return list;
 	}
@@ -358,7 +374,13 @@ public class StatisticsController {
 	// =======================教学能力计算=====================================
 	@RequestMapping("/queryStaffAbility")
 	@ResponseBody
-	public List<Integer> queryStaffAbility(Integer staffId) {
+	public List<Integer> queryStaffAbility(Integer staffId,HttpSession session) {
+		CqjUser cqjUser = (CqjUser) session.getAttribute("user");
+		if (staffId != null) {// 查其他教员
+
+		} else {// 查本人（学员）
+			staffId = cqjUser.getUsertypeid();// doto session获取登陆教员的id
+		}
 		List<Integer> list = cqjStaffService.queryStaffAbility(staffId);
 		return list;
 	}
