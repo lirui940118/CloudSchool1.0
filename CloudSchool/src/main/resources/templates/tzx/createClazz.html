@@ -134,7 +134,7 @@
 											<td>删除</td>
 										</tr>
 										<tr v-for="obj,index in targetstulist" class="s-content">
-											<td><input type="hidden" name=sid v-bind:value="obj.studentid" style="border: 0px;width: 100%;">{{obj.studentname}}</td>
+											<td><input type="hidden" name=sid v-bind:value="obj.studentid" v-bind:studentnub="obj.studentnub" style="border: 0px;width: 100%;">{{obj.studentname}}</td>
 											<td v-if="1==obj.sex">男</td><td v-if="0==obj.sex">女</td>
 											<td>{{obj.birthday}}</td>
 											<td>{{obj.phone}}</td><td>新生</td>
@@ -290,10 +290,15 @@
 		})
 		$.each(slist,function(index,obj){
 			var sid=$(obj).find("[name=sid]").val()
+			var snub=$(obj).find("[name=sid]").attr("studentnub")
+			console.log("添加学生"+sid+""+snub)
 			data+="&slist["+(index)+"].studentid="+sid
+			if(null!=snub&&undefined!=snub){
+				data+="&slist["+(index)+"].studentnub="+snub
+			}
 			console.log(obj)
 		})
-		alert("添加学生："+slist.length)
+		alert("添加学生："+slist.length+"个")
 		data+="&count="+slist.length
 		console.log(data)
 // 		$.post("craeteClazz",data,function(result){
