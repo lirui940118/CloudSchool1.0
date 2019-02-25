@@ -140,6 +140,6 @@
   </update>
   
   <select id="queryTopicTypeAll" resultMap="BaseResultMap">
-  	select * from topicType
+  	select * from topictype
   </select>
 </mapper>

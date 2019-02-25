@@ -53,4 +53,10 @@ public class TestInstanceServiceImpl implements TestInstanceService{
 		return page;
 	}
 
+	@Override
+	public List<ZzyGrade> queryAll() {
+		// TODO Auto-generated method stub
+		return zzyGradeMapper.queryAll();
+	}
+
 }

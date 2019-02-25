@@ -102,4 +102,9 @@ public class TestInstanceController {
 		System.out.println();
 		return clazzService.queryClassRoomAll(time, status);
 	}
+	@RequestMapping("queryAll")
+	@ResponseBody
+	public List<ZzyGrade> queryAll(){
+		return testInstanceService.queryAll();
+	}
 }

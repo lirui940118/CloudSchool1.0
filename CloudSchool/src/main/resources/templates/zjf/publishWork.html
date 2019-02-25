@@ -389,10 +389,7 @@ ul,
 		$.ajax({
 				type : "post",
 				url : "http://127.0.0.1:8080/topicWarehouseController/queryByTidResultClass",
-				data : {
-						tid : 1
-					/* 暂时死值 tid教员id */
-				},
+				data :{},
 				success : function(data) {
 					/* console.log(JSON.stringify(data)) */
 					classdatas.list = data;
@@ -462,7 +459,7 @@ ul,
 				Workinstance.endtime=$("[name=endtime]").val().trim()
 				Workinstance.message=$("[name=message]").val().trim()
 				Workinstance.wid=$("[name=wid]").val()
-				Workinstance.tid=1		//暂时死值
+			/* 	Workinstance.tid=1 */		//暂时死值
 				obj.obj=Workinstance
 				obj.list=temp;
 				console.log(JSON.stringify(obj))

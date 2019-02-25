@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 import com.CloudSchool.domain.Clazzcourseteacher;
+import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.Topic;
 import com.CloudSchool.domain.TopicWithBLOBs;
@@ -56,8 +60,10 @@ public class TopicWarehouseController {
 	// 添加题目
 	@RequestMapping("addTopic")
 	@ResponseBody
-	public int addTopic(String str,MultipartFile file) {
+	public int addTopic(String str,MultipartFile file,HttpSession session) {
 		TopicWithBLOBs Topic=JSON.parseObject(str, TopicWithBLOBs.class);	//题目复杂参数
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		Topic.setUid(user.getUserid());
 		return topicService.insertSelective(Topic,file);
 	}
 	//跳转到题目添加
@@ -126,18 +132,22 @@ public class TopicWarehouseController {
 	//根据教员ID查询作业模板
 	@RequestMapping("queryByTidMould")
 	@ResponseBody
-	public PageBean queryByTidMould(Integer tid,Integer cur) {
+	public PageBean queryByTidMould(Integer tid,Integer cur,HttpSession session) {
 		Integer pagesize=2;
 		if(cur==null) {
 			cur=1;
 		}
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		tid=user.getUsertypeid();
 		return workMouldService.queryByTidMould(tid, cur, pagesize);
 	}
 	
 	//查询到教员管理的班级
 	@RequestMapping("queryByTidResultClass")
 	@ResponseBody
-	public List<Clazzcourseteacher> queryByTidResultClass(Integer tid){
+	public List<Clazzcourseteacher> queryByTidResultClass(Integer tid,HttpSession session){
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		tid=user.getUsertypeid();
 		return clazzcourseteacherService.queryByTidResultClass(tid);
 	}
 	
@@ -145,13 +155,17 @@ public class TopicWarehouseController {
 	//根据老师查询到管理的班级所有的学生
 	@RequestMapping("queryByTidAdminStuAll")
 	@ResponseBody
-	public List<TeacherAdminStu> queryByTidAdminStuAll(Integer tid) {
-		// TODO Auto-generated method stub
+	public List<TeacherAdminStu> queryByTidAdminStuAll(Integer tid,HttpSession session) {
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		tid=user.getUsertypeid();
 		return workMouldService.queryByTidAdminStuAll(tid);
 	}
 	@RequestMapping("WorkPublishParam")
 	@ResponseBody
-	public int publishWork(@RequestBody WorkPublishParam obj) {
+	public int publishWork(@RequestBody WorkPublishParam obj,HttpSession session) {
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		Integer tid=user.getUsertypeid();
+		obj.getObj().setTid(tid);
 		return workinStanceService.publishWork(obj);
 	}
 	

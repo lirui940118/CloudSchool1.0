@@ -9,4 +9,6 @@ public interface TestInstanceService {
 	public List<ZzyGrade> queryGrade(String id);
 	
 	public Object queryClass(Integer id,Integer sid,Integer cur,Integer pagesize,Integer cid);
+	
+	public List<ZzyGrade> queryAll();
 }
