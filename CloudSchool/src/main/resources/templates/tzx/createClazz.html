@@ -12,6 +12,8 @@
 		<style type="text/css">
 			.jb .form-control{width: 50%;}
 			.form-group, .form-check{padding: 10px 10px}
+			.sel input{position:relative;left:auto;}
+			.sel .btnchooseClose:hover{backgroud-color:red;}
 		</style>
 	</head>
 
@@ -112,42 +114,42 @@
 								<table class="table table-hover">
 									<thead>
 										<tr>
-											<th scope="col">学号</th>
 											<th scope="col">姓名</th>
-											<th scope="col">年级</th>
+											<th scope="col">性别</th>
 											<th scope="col">生日</th>
-											<th scope="col">版本</th>
+											<th scope="col">电话</th>
 											<th scope="col">状态</th>
+											<th scope="col">额外信息</th>
 											<th scope="col">操作</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr class="s-content">
-											<td><input type="hidden" name=sid value="1" style="border: 0px;width: 100%;">201801010001</td>
-											<td>张三</td>
-											<td>S1</td>
+											<td><input type="hidden" name=sid value="1" style="border: 0px;width: 100%;">张三</td>
+											<td>男</td>
 											<td>2000.11.11</td>
-											<td>ACCP8.0</td>
+											<td>12323123131</td>
 											<td>新生</td>
+											<td style="font-size:8px;max-width:100px;padding: 0 !important;"></td>
 											<td>删除</td>
 										</tr>
-										<tr class="s-content">
-											<td><input type="hidden" name=sid value="2" style="border: 0px;width: 100%;">201801010001</td><td>张三</td><td>S1</td><td>2000.11.11</td>
-											<td>ACCP8.0</td><td>新生</td><td>删除</td>
+										<tr v-for="obj,index in targetstulist" class="s-content">
+											<td><input type="hidden" name=sid v-bind:value="obj.studentid" style="border: 0px;width: 100%;">{{obj.studentname}}</td>
+											<td v-if="1==obj.sex">男</td><td v-if="0==obj.sex">女</td>
+											<td>{{obj.birthday}}</td>
+											<td>{{obj.phone}}</td><td>新生</td>
+											<td style="font-size:8px;max-width:100px;padding: 0 !important;">
+												<span v-if="null!=obj.studentnub">学号：{{obj.studentnub}}</span>
+												<span v-if="null!=obj.gname">原年级：{{obj.gname}}-原班级：{{obj.cname}}</span>
+												<span v-if="-1!=obj.mid&&null!=obj.mid">专业：{{obj.mname}}</span>
+												<span v-if="null!=obj.tagetgName">年级：{{obj.tagetgName}}</span>
+											</td>
+											<td onclick="delstu(this)" v-bind:studentid="obj.studentid">删除</td>
 										</tr>
-										<tr class="s-content">
-											<td><input type="hidden" name=sid value="3" style="border: 0px;width: 100%;">201801010001</td><td>张三</td><td>S1</td><td>2000.11.11</td>
-											<td>ACCP8.0</td><td>新生</td><td>删除</td>
-										</tr>
-										<tr class="s-content">
-											<td><input type="hidden" name=sid value="4" style="border: 0px;width: 100%;">201801010001</td><td>张三</td><td>S1</td><td>2000.11.11</td>
-											<td>ACCP8.0</td><td>新生</td><td>删除</td>
-										</tr>
-										
 									</tbody>
 								</table>
 								<p class="demo">
-									<button class="btn btn-primary btn-xs">添加学生</button>
+									<button onclick="showChoose()" class="btn btn-primary btn-xs">添加学生</button>
 								</p>
 							</div>
 						</div>
@@ -155,6 +157,48 @@
 							<button class="btn btn-success btn-lg" onclick="createClazz()">马上开班</button>
 							<button class="btn btn-link" disabled style="color: red;">放弃</button>
 						</p>
+						<div class="sel" style="display:none;background:rgba(255,255,255,0.6);width:100%;min-width:500px;height:100%;min-height:300px;position:fixed;top:0;left:0;">
+							<p class="demo" style="position: absolute;top: 14%;right: 9%;z-index:99;">
+								<button onclick="chooseAll()" class="btn btn-primary btn-xs">添加学生</button>
+								<button onclick="chooseClose()" class="btnchooseClose btn btn-warning btn-xs">取消</button>
+							</p>
+							<div style="background:#66ccd0;max-height: 35%;overflow-y: auto;min-width:80%;min-height:300px;position:absolute;top:13%;left:10%;">
+								<label for="exampleSelect">升学：</label>
+								<div class="card-body">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th scope="col">选择</th>
+												<th scope="col">姓名</th>
+												<th scope="col">生日</th>
+												<th scope="col">版本</th>
+												<th scope="col">年级</th>
+												<th scope="col">状态</th>
+												<th scope="col">额外信息</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="obj,index in studentlist">
+												<td><input type="checkbox" name=studentid v-bind:value="obj.studentid" v-bind:studentnub="obj.studentnub" style="position:unset;"></td>
+												<td>{{obj.studentname}}</td>
+												<td style="font-size:8px;">{{obj.birthday}}</td>
+												<td style="font-size:8px;">{{obj.vname}}</td>
+												<td v-if="null==obj.tagetgName">{{obj.gname}}</td><td v-if="null!=obj.tagetgName">{{obj.tagetgName}}</td>
+												<td v-if="null==obj.studentnub">新生</td>
+												<td v-if="null!=obj.tagetgName">升学</td>
+												<td v-if="null==obj.tagetgName&&null!=obj.studentnub">游离</td>
+												<td style="font-size:8px;">
+													<span v-if="null!=obj.gname">原年级：{{obj.gname}}-原班级：{{obj.cname}}</span>
+													<span v-if="null!=obj.studentnub&null!=obj.tagetgName">学号：{{obj.studentnub}}原班级：{{obj.cname}}-年级：{{obj.gname}}-原专业：{{obj.mname}}</span>
+												</td>
+											</tr>
+											
+										</tbody>
+									</table>
+
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -177,7 +221,8 @@
 			pc:null,
 			cname:null,
 			mlist:null,
-			tlist:null
+			tlist:null,
+			targetstulist:[]	//选中的开班学生集合
 		},
 		methods:{
 			//获取选择的版本或专业名称-来自当前的下选框
@@ -212,11 +257,15 @@
 	})
 	$(function(){
 		getAllVersion();
-// 		getAllGrade(vid)
 		getAllMajor()
+		querystudent()
 		
+		console.log(v.version)
 		
-			console.log(v.version)
+		$(".sel table tbody tr").click(function(){
+			$(this).find("input").attr("checked","checked")
+			console.log("选中")
+		})
 	})
 	//开班
 	function createClazz(){
@@ -384,6 +433,84 @@
 				v.tlist=v.teacherlist.splice(1,v.teacherlist.length-1)
 			}
 		})
+	}
+	//开班-查询学生
+	function querystudent(){
+		$.post("queryStudentForCreateClazz","",function(result){
+			console.log("开班-查询学生：")
+			console.log(result)
+			v.studentlist=result
+			if(result.length==0){
+				v.major=null
+				alert("获取数据异常：未正常查询到所有专业列表")
+			}
+		})
+	}
+	function showChoose(){
+		console.log("打开选择弹窗！")
+		$(".sel").show()
+	}
+	//弹窗-选择学生-隐藏
+	function chooseClose(){
+		console.log("关闭选择弹窗！")
+		$(".sel").hide()
+	}
+	//弹窗-选择学生-显示
+	function selStudent(){
+		if(""==v.studentlist||null==v.studentlist){
+			alert("内容为空！")
+		}else{
+			$(".sel").show()
+			
+		}
+	}
+	//弹窗-选择学生-确认选中
+	function chooseAll(nid){
+		chooseClose()
+        console.log("提交选择学生")
+		var receiver=[]
+		$(".sel table input[type='checkbox']").each(function () {
+		    if ($(this).is(":checked")) {
+				var studentid=$(this).val()
+				var studentnub=$(this).attr("studentnub")
+				receiver.push(studentid)
+				if(undefined==studentnub){
+					studentnub=null
+				}
+		        console.log($(this).val()+studentnub)
+		        //查询是否已经存在列表中
+		        var isFind=0
+		        for(var i=0;i<v.targetstulist.length;i++){
+		        	if(studentid==v.targetstulist[i].studentid){
+		        		console.log("已存在："+studentid+"不在添加")
+		        		isFind=1
+		        		return
+		        	}
+		        }
+				if(0==isFind){
+			        for(var j=0;j<v.studentlist.length;j++){
+			        	if(studentid==v.studentlist[j].studentid){
+			        		v.targetstulist.push(v.studentlist[j])
+			        		console.log("添加学生:"+studentid)
+			        		return
+			        	}
+			        }
+				}
+		    }
+		});
+		console.log("目标："+receiver)
+		console.log(v.targetstulist)
+	}
+	//删除已选择的学生
+	function delstu(th){
+		var studentid=$(th).attr("studentid")
+		console.log("查找："+studentid)
+		for(var i=0;i<v.targetstulist.length;i++){
+			if(studentid==v.targetstulist[i].studentid){
+				console.log("找到："+studentid)
+				v.targetstulist.splice(i, 1);
+			}
+		}
 	}
 	</script>
 </html>

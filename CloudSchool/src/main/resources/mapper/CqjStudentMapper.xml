@@ -460,4 +460,54 @@
 	WHERE `studentid` IN (SELECT `sid` FROM `clazzstudent` 
 	WHERE `cid` = (SELECT `cid` FROM `clazzstudent` WHERE `sid` = #{uid} AND `status` = 0))
   </select>
+  <resultMap type="com.CloudSchool.domain.StudentVO" id="StudentVO" extends="BaseResultMap">
+  	<result property="cid" column="cid"/>
+  	<result property="cname" column="cname"/>
+  	<result property="tagetgId" column="tagetgId"/>
+  	<result property="tagetgName" column="tagetgName"/>
+  	<result property="gid" column="gid"/>
+  	<result property="gname" column="gname"/>
+  	<result property="mid" column="mid"/>
+  	<result property="mname" column="mname"/>
+  	<result property="vid" column="vid"/>
+  	<result property="vname" column="vname"/>
+  </resultMap>
+  <!-- 查询开班学生来源-新生、游离、升学 -tzx -->
+  <select id="queryStudentForCreateClazz" resultMap="StudentVO">
+	SELECT cqj_student.*,clazzstudent.cid,clazz.cname,`studentupgrade`.`currentgId` AS gid,zzy_grade.grade_name AS gname,`studentupgrade`.`user1` AS `mid`,zzy_major.major_name AS mname,zzy_grade.vid,zzy_version.versionof AS vname,`studentupgrade`.`tagetgId`,grade.grade_name AS tagetgName FROM `studentupgrade`
+	INNER JOIN cqj_student ON cqj_student.studentid=`studentupgrade`.`studentId`
+	INNER JOIN clazzstudent ON clazzstudent.sid=cqj_student.studentid 
+	INNER JOIN clazz ON clazz.id=clazzstudent.cid
+	INNER JOIN (
+		SELECT clazzstudent.sid,MAX(clazzstudent.starttime) AS starttime FROM clazzstudent
+		GROUP BY clazzstudent.sid
+	) AS b ON b.sid=clazzstudent.sid AND b.starttime=clazzstudent.starttime
+	INNER JOIN zzy_grade ON zzy_grade.gid=clazz.gid
+	INNER JOIN (
+		SELECT * FROM zzy_grade
+	) AS grade ON grade.gid=studentupgrade.`tagetgId`
+	LEFT JOIN zzy_major ON zzy_major.mid=`studentupgrade`.`user1`
+	INNER JOIN zzy_version ON zzy_version.vid=grade.vid
+	WHERE studentupgrade.`tagetgId` &lt;&gt; -1 AND studentupgrade.`status`=0
+	UNION ALL 
+	SELECT cqj_student.*,clazzstudent.cid,clazz.cname,zzy_grade.gid,zzy_grade.grade_name AS gname,clazz.mid,zzy_major.major_name AS mname,zzy_grade.vid,zzy_version.versionof AS vname,NULL AS `tagetgId`,NULL AS tagetgName FROM clazzstudent
+	INNER JOIN clazz ON clazz.id=clazzstudent.cid
+	INNER JOIN cqj_student ON cqj_student.studentid=clazzstudent.sid
+	INNER JOIN (
+		SELECT clazzstudent.sid,MAX(clazzstudent.starttime) AS starttime FROM clazzstudent
+		GROUP BY clazzstudent.sid
+	) AS b ON b.sid=clazzstudent.sid AND b.starttime=clazzstudent.starttime
+	INNER JOIN zzy_grade ON zzy_grade.gid=clazz.gid
+	LEFT JOIN zzy_major ON zzy_major.mid=clazz.mid
+	INNER JOIN zzy_version ON zzy_version.vid=zzy_grade.vid
+	WHERE clazzstudent.status=3
+	UNION ALL
+	SELECT *,NULL AS cid,NULL AS cname,NULL AS gid,NULL AS gname,NULL AS `mid`,NULL AS mname,NULL AS vid,NULL AS vname,NULL AS `tagetgId`,NULL AS tagetgName FROM `cqj_student` WHERE standby1=0 AND studentnub IS NULL
+  </select>
+  <update id="setupgradeSuccess">
+  	update studentupgrade set `status`=1 where studentId in 
+	<foreach collection="array" item="item" index ="index" open="(" separator="," close=")">
+		#{item}
+	</foreach>
+  </update>
 </mapper>

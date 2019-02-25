@@ -16,13 +16,17 @@ import com.CloudSchool.domain.Clazzcourseteacher;
 import com.CloudSchool.domain.Clazzstudent;
 import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.CqjUser;
+import com.CloudSchool.domain.StudentVO;
 import com.CloudSchool.service.ClazzService;
+import com.CloudSchool.service.impl.CqjStudentServiceImpl;
 import com.alibaba.fastjson.JSON;
 
 @Controller
 public class CreateClazzController {
 	@Autowired
 	ClazzService cs;
+	@Autowired
+	CqjStudentServiceImpl ss;
 	@RequestMapping(value="/createClazz",method=RequestMethod.GET)
 	public String toCreateClazz() {
 		System.out.println("跳转页面-开班");
@@ -117,5 +121,17 @@ public class CreateClazzController {
 	public String getClazzPC(int gid) {
 		System.out.println("分配班级批次");
 		return gid==0?null:cs.getClazzPC(gid);
+	}
+	@ResponseBody
+	@RequestMapping("/queryStudentForCreateClazz")
+	public List<StudentVO> queryStudentForCreateClazz() {
+		System.out.println("开班-查询学生");
+		return ss.queryStudentForCreateClazz();
+	}
+	@ResponseBody
+	@RequestMapping("/setupgradeSuccess")
+	public int setupgradeSuccess(int[] array) {
+		System.out.println("升学成功，修改升学表中状态为1");
+		return ss.setupgradeSuccess(array);
 	}
 }

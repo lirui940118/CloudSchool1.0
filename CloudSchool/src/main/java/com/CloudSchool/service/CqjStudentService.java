@@ -3,6 +3,7 @@ package com.CloudSchool.service;
 import java.util.List;
 
 import com.CloudSchool.domain.CqjStudent;
+import com.CloudSchool.domain.StudentVO;
 import com.CloudSchool.domain.Studentupgrade;
 import com.CloudSchool.domain.statistics.StudentBaseInfoVO;
 
@@ -21,4 +22,8 @@ public interface CqjStudentService {
 	 List<CqjStudent> queryStudentJob();
 	 
 	 int updateStudentUpGrade(List<CqjStudent> Studentupgrade);
+	//查询开班学生来源--新生、游离、升学-----tzx
+	List<StudentVO> queryStudentForCreateClazz();
+    //设置升学成功-升学开班完成，修改studentupgrade表status为1
+    int setupgradeSuccess(int[] array);
 }
