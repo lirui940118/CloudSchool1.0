@@ -36,6 +36,7 @@ img {
 </head>
 
 <body>
+	<!-- <input type="hidden" th:value="${gotoStudentsId}" id="gotoStudentsId" /> -->
 	<div class="main-panel">
 		<div class="content">
 			<div class="container-fluid">
@@ -76,7 +77,7 @@ img {
 							<h4 class="card-title">学员能力雷达图</h4>
 						</div>
 						<div class="card-body" id="studentAbilityPicture"
-							style="width: 400; height: 400px;"></div>
+							style="width: 400; height: 450px;"></div>
 					</div>
 					<!--学员考试成绩-->
 					<div class=" card col-lg-12">
@@ -185,7 +186,7 @@ img {
 										<td>{{item.rate}}</td>
 										<td>{{item.totalCount}}</td>
 										<td>
-											<button class="btn btn-danger">补习</button>
+											<!-- <button class="btn btn-danger">补习</button> -->
 											<button class="btn btn-info" v-bind:studentId="item.studentId" v-bind:knowledageId="item.knowledageId" v-bind:courseId="item.courseId" v-on:click="submitKnowledagePoint($event)">上报</button>
 										</td>
 									</tr>
@@ -211,7 +212,7 @@ img {
 <script type="text/javascript" th:src="@{/static/js/excellentexport.js}"></script>
 <script type="text/javascript">
 	//初始化echars实例
-	var sId = null;
+	var sId = "[[${gotoStudentsId}]]" ? "[[${gotoStudentsId}]]" : null;
 	var myChar = echarts.init(document.querySelector("#studentAbilityPicture"));
 	//myChar.showLoading();
 	//设置图标配置和数据
@@ -276,6 +277,11 @@ img {
 	var myChar3 = echarts.init(document.querySelector("#workPicture"));
 	//初始化数据
 	$(function() {
+		//获取学员
+		//alert(sId);
+		/* sId = $("#gotoStudentsId").val();
+		if(sId == '')
+			sId = null; */
 		//基础数据加载
 		InitBaseData();
 		myChar1.setOption(initDataAboutLine,true);
