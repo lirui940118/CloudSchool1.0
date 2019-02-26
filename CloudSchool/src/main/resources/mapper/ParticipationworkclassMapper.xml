@@ -162,20 +162,25 @@
   </update>
   <!-- 发布作业添加参与班级 -->
   <insert id="insertObjList">
-  	insert into participationWorkClass(id, wId, cId,wStatus, time) values
+  	insert into participationworkclass(id, wId, cId,wStatus, time) values
   	<foreach collection="list" separator="," item="obj">
   		(0,#{wid},#{obj},0,now())
   	</foreach>
   </insert>
   
   <insert id="insertObj" useGeneratedKeys="true" keyProperty="id">
-  	insert into participationWorkClass(id, wId, cId,wStatus, time) values(0,#{wid},#{cid},0,now())
+  	insert into participationworkclass(id, wId, cId,wStatus, time) values(0,#{wid},#{cid},0,now())
   </insert>
   
   <!-- 修改本次作业状态 -->
   <update id="updateStatusById">
-  		update participationWorkClass set wStatus=#{wstatus} where id=#{id}
+  		update participationworkclass set wStatus=#{wstatus} where id=#{id}
   </update>
   
+  
+  <!-- 根据作业实例id修改状态 -->
+  <update id="updateStatusList">
+  	UPDATE participationworkclass SET wStatus=#{status} WHERE wid=#{wid}
+  </update>
   
 </mapper>

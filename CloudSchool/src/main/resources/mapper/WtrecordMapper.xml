@@ -252,7 +252,7 @@
 
 	<!-- 作业记录批量新增 -->
 	<insert id="insertWorkRecordList">
-		insert into wTrecord (id, wId, tId, sId,result, score, type, time,
+		insert into wtrecord (id, wId, tId, sId,result, score, type, time,
 		user1) values
 		<foreach collection="list" separator="," item="obj">
 			(0,#{obj.wid},#{obj.tid},#{obj.sid},#{obj.result},#{obj.score},#{obj.type},#{obj.time},#{obj.user1})

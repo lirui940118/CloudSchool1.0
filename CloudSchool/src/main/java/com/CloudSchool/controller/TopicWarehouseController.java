@@ -63,7 +63,7 @@ public class TopicWarehouseController {
 	public int addTopic(String str,MultipartFile file,HttpSession session) {
 		TopicWithBLOBs Topic=JSON.parseObject(str, TopicWithBLOBs.class);	//题目复杂参数
 		CqjUser user=(CqjUser)session.getAttribute("user");
-		Topic.setUid(user.getUserid());
+		Topic.setUid(user.getUsertypeid());
 		return topicService.insertSelective(Topic,file);
 	}
 	//跳转到题目添加
@@ -118,7 +118,9 @@ public class TopicWarehouseController {
 	//作业模板生成
 	@RequestMapping("workTemplateCreate")
 	@ResponseBody
-	public int workTemplateCreate(@RequestBody Workmould obj) {
+	public int workTemplateCreate(@RequestBody Workmould obj,HttpSession session) {
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		obj.setTid(user.getUsertypeid());
 		return topicService.workTemplateCreate(obj);
 	}
 	
@@ -148,6 +150,7 @@ public class TopicWarehouseController {
 	public List<Clazzcourseteacher> queryByTidResultClass(Integer tid,HttpSession session){
 		CqjUser user=(CqjUser)session.getAttribute("user");
 		tid=user.getUsertypeid();
+		System.out.println(tid);
 		return clazzcourseteacherService.queryByTidResultClass(tid);
 	}
 	
@@ -166,6 +169,7 @@ public class TopicWarehouseController {
 		CqjUser user=(CqjUser)session.getAttribute("user");
 		Integer tid=user.getUsertypeid();
 		obj.getObj().setTid(tid);
+		System.out.println(JSON.toJSONString(obj));
 		return workinStanceService.publishWork(obj);
 	}
 	

@@ -151,7 +151,7 @@
   </update>
   <!-- 批量添加题目 -->
   <insert id="insertList">
-  	insert into testInfo(id,testid,tid,time,status,user1) values
+  	insert into testinfo(id,testid,tid,time,status,user1) values
   	<foreach collection="ids" item="obj" separator="," index="i">
   		(0,#{testid},#{obj},now(),0,#{i})
   	</foreach>

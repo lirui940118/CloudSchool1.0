@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>题目添加</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+<link rel="stylesheet" href="../static/css/ready.css">
+<style>
+.card-body div {
+	width: 50%;
+	margin: auto;
+}
+
+.card-body .form-control	{
+	width: 80%;
+	display: inline;
+	margin-left: 20px;
+}
+
+.card-body .form-group label {
+	width: 70px;
+}
+
+.selectbox div {
+	float: left;
+}
+
+#btnsubmit button:nth-child(1) {
+	margin-top: 20px;
+	width: 100px;
+	float: left;
+}
+
+#btnsubmit button:nth-child(2) {
+	margin-top: 20px;
+	width: 100px;
+	float: right;
+}
+select,input{
+	width:250px;
+}
+</style>
+</head>
+
+<body>
+	<div class="main-panel">
+		<div class="content">
+			<div class="container-fluid">
+				<h4 class="page-title">题目详情</h4>
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">题目详情</h4>
+					</div>
+					<div class="card-body">
+						<!-- <div class="form-group">
+							<label for="defaultSelect">年级</label> <select
+								class="form-control form-control" id="defaultSelect">
+								<option>S1</option>
+								<option>S2</option>
+								<option>Y2</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="defaultSelect">课程</label> <select
+								class="form-control form-control" id="defaultSelect">
+								<option>请选择</option>
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+								<option>5</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="defaultSelect">章节</label> <select
+								class="form-control form-control" id="defaultSelect" name="cid">
+								<option value="-1">请选择</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="defaultSelect">小结</label> <select
+								class="form-control form-control" id="defaultSelect" name="kid">
+								<option value="-1">请选择</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="defaultSelect">题目类型</label> <select
+								class="form-control form-control" id="topictype" name="tid">
+								<option value="-1">请选择</option>
+								<option value="1">选择题</option>
+								<option value="2">阅读题</option>
+								<option value="3">上机题</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="defaultSelect">考点类型</label> <select
+								class="form-control form-control" id="topictype" name="examdot">
+								<option value="-1">请选择</option>
+								<option value="0">识记</option>
+								<option value="1">理解</option>
+								<option value="2">应用</option>
+							</select>
+						</div>
+					 	<div class="form-group">
+							<label for="defaultSelect">难度</label> <select
+								class="form-control form-control" id="topictype" name="rank">
+								<option value="-1">请选择</option>
+								<option value="1">简</option>
+								<option value="2">中</option>
+								<option value="3">难</option>
+							</select>
+						</div>  -->
+						<div class="form-group">
+								<label for="defaultSelect">分数</label>
+								<input type="text" readonly="readonly" class="form-control form-control" id="inlineinput" name="user1" v-bind:value="object.user1">
+							</div>
+						<div class="form-group topicconten">
+							<label for="comment" style="float: left; margin-top: 50px;">题目</label>
+							<textarea class="form-control" readonly="readonly" id="comment" rows="5" name="topiccontent">{{object.topicconten}}</textarea>
+						</div>
+						<div class="form-group analysis">
+							<label for="comment" style="float: left; margin-top: 50px;">解析</label>
+							<textarea class="form-control" readonly="readonly" id="comment" rows="5" name="analysis">{{object.analysis}}</textarea>
+						</div>
+						<div class="selectbox" v-if="object.tid==1">
+							<div class="form-group" style="margin-left: 0px; padding: 0px;" v-for="(obj,index) in object.topicoptionList">
+								<label class="form-radio-label"> 
+									<input
+									class="form-radio-input" type="radio" name="optionsRadios"
+									value=""  v-if="obj.istrue==0">
+									 <input
+									class="form-radio-input" type="radio" name="optionsRadios"
+									value="" v-if="obj.istrue==1" checked="checked"> 
+									<span class="form-radio-sign">{{obj.option}}</span>
+								</label>
+								<textarea class="form-control topicoption" readonly="readonly" id="comment" rows="5">{{obj.optionconten}}</textarea>
+							</div>
+						</div>
+						<div class="form-group upfile" v-if="object.tid==3">
+							<button class="btn btn-success submit">下载文件</button>
+						</div>
+						<div id="btnsubmit">
+							<button class="btn btn-danger">取消</button>
+							<button class="btn btn-success submit">确认</button>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script src="../static/js/core/jquery.min.js"></script>
+<script src="../static/js/core/vue.js"></script>
+<script>
+	var v=new Vue({
+		el:".content",
+		data:{
+			object:null
+		}
+	})
+	$(function() {
+		$.ajax({
+			type:"get",
+			url:"http://127.0.0.1:8080/topicWarehouseController/queryTopicById",
+			data:{
+				id:23
+			},
+			success:function(data){
+				v.object=data
+				console.log(JSON.stringify(data))
+			}
+		})
+	})
+</script>

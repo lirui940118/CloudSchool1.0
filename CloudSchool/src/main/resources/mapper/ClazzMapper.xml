@@ -270,9 +270,8 @@
 		clazzcourseteacher.`clazzid`=clazz.`id`
 		INNER JOIN zzy_grade ON
 		zzy_grade.`gid`=clazz.`gid`
-		AND clazzcourseteacher.`status`=0 AND
-		clazz.`status`=0 AND
-		zzy_grade.state=0
+		WHERE clazzcourseteacher.`status`=0 AND
+		clazzcourseteacher.`tid`=#{sid}
 		AND
 		clazzcourseteacher.`tid`=#{sid}
 		<if test="cid!=null">
@@ -288,10 +287,7 @@
 		clazzcourseteacher.`clazzid`=clazz.`id`
 		INNER JOIN zzy_grade ON
 		zzy_grade.`gid`=clazz.`gid`
-		AND clazzcourseteacher.`status`=0 AND
-		clazz.`status`=0 AND
-		zzy_grade.state=0
-		AND
+		WHERE clazzcourseteacher.`status`=0 AND
 		clazzcourseteacher.`tid`=#{sid}
 		<if test="cid!=null">
 			and zzy_grade.`gid`=#{cid}

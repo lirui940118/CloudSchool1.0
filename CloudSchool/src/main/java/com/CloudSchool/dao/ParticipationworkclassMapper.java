@@ -24,4 +24,6 @@ public interface ParticipationworkclassMapper {
     int insertObj(Participationworkclass wid);
     
     int updateStatusById(Participationworkclass obj);
+    
+    int updateStatusList(@Param("stauts")Integer status,@Param("wid")Integer wid);
 }
