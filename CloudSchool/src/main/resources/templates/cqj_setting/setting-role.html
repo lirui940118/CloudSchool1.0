@@ -217,8 +217,10 @@
 								 $.each($('input:checkbox:checked'),function(index,element){
 									 json.modules+=$(this).val()+",";
 						         }); 
-								
+								console.log($('input:radio[name="indexHome"]:checked').val());
+								if($('input:radio[name="indexHome"]:checked').val()!=undefined){
 								 json.modules+=$('input:radio[name="indexHome"]:checked').val()+",";
+								}
 								json.roleid=roleid;
 								if(roleid!=undefined){
 									$.ajax({

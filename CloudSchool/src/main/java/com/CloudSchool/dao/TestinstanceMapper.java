@@ -14,4 +14,7 @@ public interface TestinstanceMapper {
     int updateByPrimaryKeySelective(Testinstance record);
 
     int updateByPrimaryKey(Testinstance record);
+    
+    //生成作业实例
+    int insertTestInstance(Testinstance obj);
 }

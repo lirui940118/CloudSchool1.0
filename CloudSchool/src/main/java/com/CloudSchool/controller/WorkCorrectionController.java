@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.Participationworkclass;
 import com.CloudSchool.domain.Wtrecord;
@@ -44,7 +45,9 @@ public class WorkCorrectionController {
 	/*根据教师id查询发布的作业 */
 	@RequestMapping("queryPublishWorkByTid")
 	@ResponseBody
-	public PageBean queryPublishWorkByTid(Integer tid, Integer wStatus,Integer pageSize,Integer cur) {
+	public PageBean queryPublishWorkByTid(Integer tid, Integer wStatus,Integer pageSize,Integer cur,HttpSession session) {
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		tid=user.getUsertypeid();
 		if(pageSize==null) {
 			pageSize=2;
 		}
@@ -117,11 +120,12 @@ public class WorkCorrectionController {
 	
 	@RequestMapping("queryStuWorkBySid")
 	@ResponseBody
-	public PageBean queryStuWorkBySid(Integer cur,Integer pagesize,Integer isCorrect){
+	public PageBean queryStuWorkBySid(Integer cur,Integer pagesize,Integer isCorrect,HttpSession session){
 		if(pagesize==null) {
 			pagesize=1;
 		}
-		Integer sid=1;
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		Integer sid=user.getUsertypeid();
 		return participationworkstuService.queryStuWorkBySid(sid,cur,pagesize,isCorrect);
 	}
 	

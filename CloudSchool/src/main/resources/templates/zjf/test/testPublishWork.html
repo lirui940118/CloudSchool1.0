@@ -131,7 +131,7 @@ li {
 	<div class="main-panel">
 		<div class="content">
 			<div class="container-fluid">
-				<h4 class="page-title">发布作业</h4>
+				<h4 class="page-title">发布考试</h4>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="card">
@@ -205,12 +205,20 @@ li {
 										class="form-control" name="wid"> <input type="text"
 										class="form-control" name="workname" readonly="readonly">
 								</div>
-								<div class="form-group has-success">
+								<div class="form-group has-success upgrade">
 									<label for="successInput">升学年级</label>
 								 		<select class="form-control form-control" id="defaultSelect">
-											<option>S1</option>
-											<option>S2</option>
-											<option>Y2</option>
+											<option value="-1">请选择</option> 
+											<option value="1">S1</option>
+											<option value="2">S2</option>
+											<option value="3">Y2</option>
+										</select>
+								</div>
+								<div class="form-group has-success coursetest" id="course">
+									<label for="successInput">交班课程</label>
+								 		<select class="form-control form-control" id="defaultSelect">
+								 			<option value="-1">请选择</option> 
+											<option v-bind:value="obj.cid" v-for="(obj,index) in list">{{obj.courseName}}</option>
 										</select>
 								</div>
 								<div class="form-group has-success">
@@ -346,7 +354,7 @@ li {
 								<div id="stulist">
 									<ul id="list">
 										<li class="lis" v-for="(obj,index) in list"
-											v-bind:data-id="obj.cid">
+											v-bind:data-id="obj.id">
 											<h2>
 											{{obj.cname}}
 											</h2>
@@ -468,7 +476,7 @@ li {
 											<td>{{obj.staffnub}}</td>
 											<td>{{obj.staffname}}</td>
 											<td>
-											<button class="btn btn-success" name="box1">占用</button>
+											<button class="btn btn-success" name="box1" v-bind:data-id="obj.staffid">占用</button>
 											</td>
 										</tr>
 									</tbody>
@@ -638,6 +646,12 @@ li {
 			list:null
 		}
 	})
+	var course=new Vue({
+		el:"#course",
+		data:{
+			list:null
+		}
+	})
 	//空教室
 	var classroom=new Vue({
 		el:"#box2",
@@ -699,7 +713,15 @@ li {
 			var id = $(this).attr("data-id")
 			$("[name=wid]").val(id)
 		})
-
+		$.ajax({
+			type:"get",
+			url:"http://127.0.0.1:8080/topicWarehouseController/queryCourseAll",
+			data:{},
+			success:function(data){
+				course.list=data;
+				/* console.log(JSON.stringify(data)) */
+			}
+		})
 		$("#publish")
 				.click(
 						function() {
@@ -715,21 +737,11 @@ li {
 										})
 								for (var i = 0; i < temp.length; i++) {
 									var list = []
-									$
-											.each(
-													$(".stuinput[type=checkbox]:checked"),
-													function() {
-														if (temp[i].cid == $(
-																this).parents(
-																".lis").attr(
-																"data-id")) {
-															list
-																	.push($(
-																			this)
-																			.attr(
-																					"data-id"))
-														}
-													})
+									$.each($(".stuinput[type=checkbox]:checked"),function() {
+											if (temp[i].cid == $(this).parents(".lis").attr("data-id")) {
+													list.push($(this).attr("data-id"))
+											}
+									})
 									temp[i].stus = list
 								}
 								var Workinstance = {}
@@ -737,14 +749,28 @@ li {
 										.val().trim()
 								Workinstance.endtime = $("[name=endtime]")
 										.val().trim()
-								Workinstance.message = $("[name=message]")
+								Workinstance.user1 = $("[name=message]")
 										.val().trim()
-								Workinstance.wid = $("[name=wid]").val()
-								Workinstance.tid = 1 //暂时死值
+								Workinstance.tid = $("[name=wid]").val()
+								Workinstance.uid = 1 //暂时死值
+								Workinstance.endcourse=$(".coursetest option:selected").val()
+								Workinstance.upgrade=$(".coursetest option:selected").val();
 								obj.obj = Workinstance
 								obj.list = temp;
-								obj.participatetestclass=testsetlist
+								obj.clazz=testsetlist
 								console.log(JSON.stringify(obj))
+								$.ajax({
+									type:"post",
+									url : "http://127.0.0.1:8080/TestInstance/insertTestInstance",
+									data :JSON.stringify(obj),
+									contentType: 'application/json',
+									success:function(data){
+										if(data>0){
+											alert("考试发布成功！")
+										}
+									}
+									
+								})
 							} else {
 								alert("请选择试卷模板")
 							}
@@ -860,26 +886,29 @@ li {
 		
 		//点击设置阅卷人
 		$("body").on("click","#testset button[name=box3]",function(){
-			var teachTwo=$(this).attr("data-id")
-			var cid=teach.cid;					//班级id
-			for(var i=0;i<testsetlist.length;i++){
-				if(testsetlist[i].cid==cid){
-					testsetlist[i].teachTwo=teachTwo;
-					break;
-				}
-			}
-			//占用教室
-			for(var i=0;i<teachTwo.list.length;i++){
-				if(teachTwo==teachTwo.list[i].id){
-					teachTwo.list.splice(i,1)
-					break;
-				}
-			}
 			$("#box3").show();
 			$("#box1").hide();
 			$("#box2").hide();
 		})
 		
+		$("body").on("click","#box3 button[name=box1]",function(){
+			var id=$(this).attr("data-id")
+			var cid=teach.cid;					//班级id
+			for(var i=0;i<testsetlist.length;i++){
+				if(testsetlist[i].cid==cid){
+					testsetlist[i].teachTwo=id;
+					break;
+				}
+			}
+			for(var i=0;i<teachTwo.list.length;i++){
+				if(id==teachTwo.list[i].id){
+					teachTwo.list.splice(i,1)
+					break;
+				}
+			}
+			console.log(JSON.stringify(testsetlist))
+			
+		})
 		//开始时间
 		$("body").on("change","[name=starttime]",function(){
 			var starttime = $("[name=starttime]").val().trim()
@@ -900,7 +929,6 @@ li {
 				}
 				var month=parseInt(date1.getMonth())+1
 				var time=date1.getFullYear()+"-"+month+"-"+date1.getDate();
-				alert(time)
 				$.ajax({
 					type:"get",
 					url:"http://127.0.0.1:8080/TestInstance/queryClassRoomAll",
@@ -975,7 +1003,7 @@ li {
 					success:function(data){
 						teach.list=data
 						teachTwo.list=data;
-						console.log(JSON.stringify(data))
+						console.log(teachTwo.list.length)
 					}
 				})
 			}else{

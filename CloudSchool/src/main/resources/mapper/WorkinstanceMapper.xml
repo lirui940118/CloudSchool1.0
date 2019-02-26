@@ -60,7 +60,7 @@
 	<insert id="insertSelective"
 		parameterType="com.CloudSchool.domain.Workinstance"
 		useGeneratedKeys="true" keyProperty="id">
-		insert into workInstance
+		insert into workinstance
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,

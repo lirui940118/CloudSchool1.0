@@ -66,8 +66,9 @@ public class WorkinStanceServiceImpl implements WorkinStanceService{
 					return 0;
 				}
 			}
-			return count;
-			
+			if(count>0) {
+				return obj.getObj().getId();
+			}			
 		}
 		return 0;
 	}

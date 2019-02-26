@@ -1,5 +1,7 @@
 package com.CloudSchool.dao;
 
+import java.util.Map;
+
 import com.CloudSchool.domain.Participatetestclass;
 
 public interface ParticipatetestclassMapper {
@@ -14,4 +16,6 @@ public interface ParticipatetestclassMapper {
     int updateByPrimaryKeySelective(Participatetestclass record);
 
     int updateByPrimaryKey(Participatetestclass record);
+    
+    int inserList(Participatetestclass obj);
 }

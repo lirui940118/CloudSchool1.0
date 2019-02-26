@@ -38,13 +38,13 @@ public class WorkInfoController {
 		return "zjf/workInfo";
 	}
 
-	// 跳转到作业详情页面
-	@RequestMapping("/as")
+	//修改参加作业的班级状态
+	@RequestMapping("/updateWorkStatus")
 	@ResponseBody
-	public String aaaa(String time) {
-		addScoreTaskJob.zzz(4, 5);
+	public String updateWorkStatus(Integer wid,String time) {
+		addScoreTaskJob.zzz(1,wid);
 		dynamicTaskJobs.addTaskJob(addScoreTaskJob, time);
-		return "zj";
+		return null;
 	}
 	
 	@RequestMapping("queryWorkStuInfo")

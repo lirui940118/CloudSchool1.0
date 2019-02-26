@@ -274,18 +274,14 @@
 		clazzstudent.`cid`=clazz.`id`
 		INNER JOIN cqj_student ON
 		cqj_student.`studentid`=clazzstudent.`sid`
-		AND
-		clazzcourseteacher.`status`=0 AND clazz.`status`=0 AND
-		zzy_grade.state=0
-		AND clazzstudent.`status`=0
-		AND
-		clazzstudent.`status`=0 AND clazzcourseteacher.`tid`=#{tid}
+		where
+		clazzcourseteacher.`status`=0 AND clazzcourseteacher.`tid`=#{tid}
 	</select>
 
 	<!-- 根据id修改使用次数 -->
 	<update id="updateCountByid"
 		parameterType="com.CloudSchool.domain.Workmould">
-		update workMould set count=count+1 where id=#{id}
+		update workmould set count=count+1 where id=#{id}
 	</update>
 
 

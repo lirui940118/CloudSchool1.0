@@ -22,8 +22,18 @@ public class Testinfo {
     private String user4;
 
     private String user5;
+    private TopicWithBLOBs topicWithBLOBs;
+   
 
-    public Integer getId() {
+	public TopicWithBLOBs getTopicWithBLOBs() {
+		return topicWithBLOBs;
+	}
+
+	public void setTopicWithBLOBs(TopicWithBLOBs topicWithBLOBs) {
+		this.topicWithBLOBs = topicWithBLOBs;
+	}
+
+	public Integer getId() {
         return id;
     }
 
