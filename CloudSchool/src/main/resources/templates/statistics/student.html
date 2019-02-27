@@ -85,12 +85,53 @@ img {
 							<h4 class="card-title">学员考试成绩趋势图</h4>
 						</div>
 						<div class="card-body">
+							<table id="studentTestInfoTable"  class="table table-bordered" style="text-align: center;">
+								<thead>
+									<tr>
+										<th scope="col">考试名称</th>
+										<th scope="col">时间</th>
+										<th scope="col">试卷总分</th>
+										<th scope="col">试卷实际得分</th>
+										<th scope="col">试卷百分制得分</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="testItem in testList">
+										<td>{{testItem.testName}}</td>
+										<td>{{testItem.testTsime}}</td>
+										<td>{{testItem.totalScore}}</td>
+										<td>{{testItem.studentScore}}</td>
+										<td>{{testItem.studentScore100}}</td>
+									</tr>
+									<tr>
+										<td>合计考试次数</td>
+										<td colspan='2'>{{testTotalCount}}</td>
+										<td>平均分（百分制度）</td>
+										<td>{{test100TotalScore/testTotalCount | numFilter}}</td>
+									</tr>
+								</tbody>
+							</table>
 							<div id="studentTestPictrue" style="width: 400; height: 400px;"></div>
 						</div>
-						<div class="card-footer">
-							<div class="legend">
-								<i class="la la-circle text-primary"></i> 查看很多
+						<div class="card-footer row">
+							<!-- 查询详情 -->
+							<div id="searchTestBtn" class="col-md-2 demo-icon"> 
+								<div class="icon-preview">
+									<i class="la la-search"></i>
+								</div>
+								<div class="icon-class">
+									查看详情
+								</div> 
 							</div>
+							<!-- 下载报表 -->
+							<a id="downLoadTestBtn" download="学员考试情况表.xls" class="col-md-2 demo-icon" href="#" onclick="return ExcellentExport.excel(this, 'studentTestInfoTable', 'sheet');"> 
+								<div class="icon-preview">
+									<i class="la la-file-excel-o"></i>
+								</div>
+								<div class="icon-class">
+									下载报表
+								</div> 
+							</a>
 						</div>
 					</div>
 					<!--学员作业成绩-->
@@ -149,12 +190,51 @@ img {
 							<h4 class="card-title">日常考勤</h4>
 						</div>
 						<div class="card-body">
+							<!-- 表格 -->
+							<div>
+								<table v-if="kaoqinTotalCount!=0" id="kaoqinTable" style="text-align: center;" class="table table-bordered">
+									<thead>
+										<tr>
+											<th scope="col">考勤类型</th>
+											<th scope="col">次数</th>
+											<th scope="col">百分比（%）</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="kaoqinItem in kaoqinInfoList" >
+											<td>{{kaoqinItem.kqStateName}}</td>
+											<td>{{kaoqinItem.totalCount}}</td>
+											<td>{{kaoqinItem.totalCount/kaoqinTotalCount | numFilter}}</td>
+										</tr>
+										<tr>
+											<td>合计 考勤次数</td>
+											<td colspan="2">{{kaoqinTotalCount}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- 图标 -->
 							<div id="dailyPicture" style="width: 400; height: 400px;"></div>
 						</div>
-						<div class="card-footer">
-							<div class="legend">
-								<i class="la la-circle text-primary"></i> 查看很多
+						<div class="card-footer row">
+							<!-- 查看更多 -->
+							<div id="searchkaoqinBtn" class="col-md-2 demo-icon"> 
+								<div class="icon-preview">
+									<i class="la la-search"></i>
+								</div>
+								<div class="icon-class">
+									查看详情
+								</div> 
 							</div>
+							<!-- 下载报表 -->
+							<a id="downLoadkaoqinBtn" download="考勤情况.xls" class="col-md-2 demo-icon" href="#" onclick="return ExcellentExport.excel(this, 'kaoqinTable', '考勤情况');"> 
+								<div class="icon-preview">
+									<i class="la la-file-excel-o"></i>
+								</div>
+								<div class="icon-class">
+									下载报表
+								</div> 
+							</a>
 						</div>
 					</div>
 					<div class="card col-lg-12">
@@ -163,17 +243,17 @@ img {
 							<p class="card-category">
 								辅导：学员辅导学员  <br>
 								上报：保存到教员表。
-								备注：该知识点基数大于10，正确率低于60%。
+								备注：该知识点基数大于等于2，正确率低于60%。
 							</p>
 						</div>
 						<div class="card-body">
-							<table id="badKnowledageSec" class="table table-bordered" style="text-align: center;">
+							<table v-if="badKnowledageList.length>0" id="badKnowledageSec" class="table table-bordered" style="text-align: center;">
 								<thead>
 									<tr>
 										<th scope="col">课程</th>
 										<th scope="col">章节</th>
 										<th scope="col">知识点</th>
-										<th scope="col">正确率</th>
+										<th scope="col">正确率（%）</th>
 										<th scope="col">数量</th>
 										<th scope="col">操作</th>
 									</tr>
@@ -193,6 +273,19 @@ img {
 								</tbody>
 							</table>
 						</div>
+						
+						<div class="card-footer row">
+							<!-- 下载报表 -->
+							<a id="downLoadBadKnowledageBtn" download="查漏补缺情况.xls" class="col-md-2 demo-icon" href="#" onclick="return ExcellentExport.excel(this, 'badKnowledageSec', '查漏补缺');"> 
+								<div class="icon-preview">
+									<i class="la la-file-excel-o"></i>
+								</div>
+								<div class="icon-class">
+									下载报表
+								</div> 
+							</a>
+						</div>
+						
 					</div>
 				</div>
 
@@ -200,6 +293,37 @@ img {
 			</div>
 		</div>
 	</div>
+	
+	
+	
+	<!--model上报-->
+	<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<h6 class="modal-title"><i class="la la-file"></i>提示</h6>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">									
+					<p id="">查漏补缺</p>
+					<p>
+						<b>上报成功</b>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button>
+					<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	
 </body>
 <script type="text/javascript" th:src="@{/static/js/core/vue.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/common.js}"></script>
@@ -308,8 +432,14 @@ img {
 						url:adress.url
 					}
 				});
+				//更新下载表名
+				$("#downLoadkaoqinBtn").attr("download",data.studentNo+data.studentName+"考勤情况报表");
+				$("#downLoadBadKnowledageBtn").attr("download",data.studentNo+data.studentName+"查漏补缺情况报表");
+				$("#downLoadTestBtn").attr("download",data.studentNo+data.studentName+"考试情况报表");
+				$("#downLoadWorkBtn").attr("download",data.studentNo+data.studentName+"作业情况报表");
 			}
 		})
+		
 		var currentGrade;
 		//当前所在年级
 		$.ajax({
@@ -385,13 +515,33 @@ img {
 			},
 			success : function(data) {
 				console.log(data);
+				//渲染table
+				var vue = new Vue({
+					el:"#studentTestInfoTable",
+					data:{
+						testList:null,
+						testTotalCount:0,//考试合计次数
+						test100TotalScore:0//百分制总分
+					},
+					filters:{//过滤器
+						numFilter(value) {
+							let realVal = parseFloat(value).toFixed(1);
+							return parseFloat(realVal);
+						}
+					}
+				});
 				for (var i = 0; i < data.length; i++) {
 					//分数集合
 					scoreArr.push(data[i].studentScore100);
 					//日期集合+考试每次
 					TestTimeNameArr.push(data[i].testName + "\n" + data[i].testTsime);
+					vue.testTotalCount++;//考试合计次数
+					vue.test100TotalScore = vue.test100TotalScore + data[i].studentScore100;//百分制总分
 				}
 				if(data!=""){//没有查询到考试成绩数据
+					//显示下载按钮
+					$("#downLoadTestBtn").show();
+					vue.testList = data;
 					var option1 = {
 							dataZoom: [
 						    {   // 这个dataZoom组件，默认控制x轴。
@@ -489,7 +639,8 @@ img {
 					});
 				}else{
 					myChar1.setOption(noDataLoadingOption,true);
-					
+					//隐藏下载按钮
+					$("#downLoadTestBtn").hide();
 				}
 				myChar1.hideLoading();
 			}
@@ -499,6 +650,7 @@ img {
 		myChar2.showLoading();
 		var kQStateNameArr = [];//考勤類別名稱
 		var kQStateNameAndTotalArr =[];//考勤狀態名稱和狀態
+		var kaoqinTotalCount = 0;//考勤合计次数
 		$.ajax({
 			type : "post",
 			url : adress.url + "/statistics/getDataAboutQkBySidAndGid",
@@ -507,6 +659,19 @@ img {
 				gId:gId
 			},
 			success : function(data) {
+				var vue = new Vue({
+					el:"#kaoqinTable",
+					data:{
+						kaoqinInfoList:null,
+						kaoqinTotalCount:0
+					},
+					filters:{//过滤器
+						numFilter(value) {
+							let realVal = parseFloat(value).toFixed(1) * 100;
+							return parseFloat(realVal);
+						}
+					}
+				});
 				console.log(data);
 				for(var i = 0;i<data.length;i++){
 					kQStateNameArr.push(data[i].kqStateName);
@@ -514,6 +679,7 @@ img {
 					kq.value = data[i].totalCount;
 					kq.name = data[i].kqStateName;
 					kQStateNameAndTotalArr.push(kq);
+					kaoqinTotalCount += data[i].totalCount;
 				}
 				if(data!=""){
 					var option2 = {
@@ -584,8 +750,15 @@ img {
 						} ]
 					};
 					myChar2.setOption(option2,true);
+					/* 渲染表格 */
+					vue.kaoqinInfoList = data;
+					vue.kaoqinTotalCount = kaoqinTotalCount;
+					//显示下载按钮
+					$("#downLoadkaoqinBtn").show();
 				}else{//沒有數據
 					myChar2.setOption(noDataLoadingOption,true);
+					//隐藏下载按钮
+					$("#downLoadkaoqinBtn").hide();
 				}
 				myChar2.hideLoading();
 			}//success
@@ -601,6 +774,13 @@ img {
 			},
 			success : function(data) {
 				console.log(data);
+				if(data==""){
+					//隐藏下载报表按钮（查漏补缺）
+					$("#downLoadBadKnowledageBtn").hide();
+				}else{
+					//显示下载报表按钮（查漏补缺）
+					$("#downLoadBadKnowledageBtn").show();
+				}
 				var vue = new Vue({
 					el:"#badKnowledageSec",
 					data:{
@@ -623,9 +803,11 @@ img {
 								},
 								success : function(data) {
 									if(data>0){
-										alert("上报成功");
+										$("#modalUpdate").modal('show');
 										//doto
 										//禁止上报按钮
+									}else{
+										alert("上报失败！");
 									}
 								}
 							});
@@ -817,10 +999,6 @@ img {
 				myChar3.hideLoading();
 			}
 		});
-			
-		function updateXlsxName(name){/* name为固定名称 */
-			
-		}
 	}
 </script>
 
