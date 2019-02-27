@@ -398,7 +398,7 @@
 		INNER JOIN cqj_staff ON cqj_staff.`staffid`=workinstance.`tid`
 		INNER JOIN participationworkstu ON
 		participationworkstu.wid=workinstance.`id` AND
-		participationworkstu.`sId`=#{sid} AND participationworkstu.`isCorrect`=1
+		participationworkstu.`sId`=#{sid} AND participationworkstu.`isCorrect`!=3 and participationworkstu.`isCorrect`!=2
 		INNER JOIN
 		(
 		SELECT COUNT(*) AS tcount,SUM(topic.`user1`) AS score

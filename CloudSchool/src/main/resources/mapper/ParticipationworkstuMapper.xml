@@ -380,24 +380,25 @@
 	
 	<!--根据学生id查询所有作业  -->
 	<select id="queryStuWorkBySid" resultType="com.CloudSchool.domain.zjfvo.StudentWork">
-		SELECT workinstance.`id` AS
-		workmouldid,workmould.`name`,workinstance.`startTime`,workinstance.`endTime`,participationworkstu.`isCorrect`
-		FROM participationworkstu
-		INNER JOIN workinstance ON participationworkstu.`wId`=workinstance.`id`
-		INNER JOIN workmould ON workinstance.`wid`=workmould.`id`
+		SELECT workinstance.`id` AS workmouldid,workmould.`name`,workinstance.`startTime`,workinstance.`endTime`,participationworkstu.`isCorrect`,
+		 participationworkclass.`wStatus` 
+FROM participationworkstu 
+INNER JOIN workinstance ON participationworkstu.`wId`=workinstance.`id` 
+INNER JOIN workmould ON workinstance.`wid`=workmould.`id`
+INNER JOIN participationworkclass ON participationworkclass.`id`=participationworkstu.`user1`
 		<where>
-			participationworkstu.`sId`=#{sid} AND participationworkstu.`status`=0
+			 participationworkstu.`sId`=#{sid} AND participationworkstu.`status`=0 
 			<if test="isCorrect==0">
-				and participationworkstu.isCorrect=0
+				and  participationworkclass.`wStatus`=0
 			</if>
 			<if test="isCorrect==1">
-				and participationworkstu.isCorrect=1
+				and  participationworkclass.`wStatus`=1
 			</if>
 			<if test="isCorrect==2">
-				and participationworkstu.isCorrect=2
+				and  participationworkclass.`wStatus`=2
 			</if>
 			<if test="isCorrect==3">
-				and participationworkstu.isCorrect=3
+				and  participationworkclass.`wStatus`=3
 			</if>
 		</where>
 		limit #{cur},#{pagesize}
