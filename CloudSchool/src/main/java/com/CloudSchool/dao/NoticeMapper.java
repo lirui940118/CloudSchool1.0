@@ -33,5 +33,5 @@ public interface NoticeMapper {
 	 * @return
 	 */
 	int[] getNoticeReceiveByGradeidOrClazzid(@Param("gradeid")Integer gradeid,@Param("clazzid")Integer clazzid);
-	int[] getNoticeReceiveByRange(Integer receiverrange);
+	int[] getNoticeReceiveByRange(@Param("receiverrange")Integer receiverrange);
 }

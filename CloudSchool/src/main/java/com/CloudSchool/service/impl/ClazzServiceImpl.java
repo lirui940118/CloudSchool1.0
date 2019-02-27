@@ -19,6 +19,8 @@ import com.CloudSchool.dao.ClazzstudentMapper;
 import com.CloudSchool.dao.CqjStudentMapper;
 import com.CloudSchool.dao.CqjUserMapper;
 import com.CloudSchool.dao.ImgMapper;
+import com.CloudSchool.dao.StudentupgradeMapper;
+import com.CloudSchool.dao.ZzyGradeMapper;
 import com.CloudSchool.domain.Classroom;
 import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.ClazzInfo;
@@ -45,10 +47,19 @@ public class ClazzServiceImpl implements ClazzService {
 	ImgMapper im;
 	@Autowired
 	ClassroomMapper classroomMapper;
-	
+	@Autowired
+	ZzyGradeMapper gm;
+	@Autowired
+	StudentupgradeMapper stupMapper;
 	@Override
 	public int CreateClass(ClazzInfo c) {
 		System.out.println("开班----开始执行");
+		int isFirstGrade=gm.isFirstGrade(c.getGid());
+		if(1==isFirstGrade) {
+			System.out.println("新生班级");
+		}else {
+			System.out.println("升学班级");
+		}
 		c.setStatus(1);
 		c.setCname(getClazzName(0, null));
 		c.setPc(getClazzPC(c.getGid()));
@@ -61,6 +72,7 @@ public class ClazzServiceImpl implements ClazzService {
 		int jg2=cctm.insertAll(c);
 		System.out.println("开班--绑定学生--clazzstudent-"+jg2+"-----------------\n");
 		//分配学生学号studentnub/职位positionid=4
+		List<Integer> existUserList=null;	//已有学号、用户账号的学生
 		String str="-1";
 		int j=0;
 		for (int i = 1; i < c.getSlist().size()+1; i++) {
@@ -71,6 +83,8 @@ public class ClazzServiceImpl implements ClazzService {
 				}else{
 					c.getSlist().get(i-1).setStudentnub(c.getCname()+j);
 				}
+			}else {
+				existUserList.add(i-1);
 			}
 			c.getSlist().get(i-1).setPositionid(4);//设置职位编号-普通学生
 			str+=","+c.getSlist().get(i-1).getStudentid();
@@ -78,16 +92,19 @@ public class ClazzServiceImpl implements ClazzService {
 		}
 		//更新学生信息-学号、职位:分配学号、状态0在读/1毕业standby1、入学时间standby2
 		int jg3=sm.setStudentnubAfterCreateClazz(c.getSlist(),str);
-		System.out.println("开班--更新学生信息-学号、职位--cqjstudent-"+jg2+"-----------------\n");
+		System.out.println("开班--更新学生信息-学号、职位--cqjstudent-"+jg3+"-----------------\n");
 		//分配学生登录账号:账号密码都是学号usertypenub=1
 		List<CqjUser> ulist=new ArrayList<CqjUser>();
 		for (CqjStudent s : c.getSlist()) {
-			System.out.println(s.getStudentnub()+"--"+s.getStudentid());
-			CqjUser u=new CqjUser();
-			u.setUsername(s.getStudentnub());
-			u.setUsertypeid(s.getStudentid());
-			u.setUid(c.getUid());
-			ulist.add(u);
+			//排除已分配登录用户账号的学生
+			if(null!=s.getStudentnub()&&""!=s.getStudentnub()) {
+				System.out.println(s.getStudentnub()+"--"+s.getStudentid());
+				CqjUser u=new CqjUser();
+				u.setUsername(s.getStudentnub());
+				u.setUsertypeid(s.getStudentid());
+				u.setUid(c.getUid());
+				ulist.add(u);
+			}
 		}
 		int jg4=um.insertAll(ulist);
 		System.out.println("开班--分配学生登录账号--cqj_user-"+jg4+"-----------------\n");
@@ -96,6 +113,14 @@ public class ClazzServiceImpl implements ClazzService {
 		}
 		int jg5=im.insertAll(ulist);
 		System.out.println("开班--分配学生登录账号用户头像--img-"+jg5+"-----------------\n");
+		//将游离改为游离已分配
+		int jg6=csm.setStudentStatusAfterCreateClazz(c.getSlist());
+		System.out.println("开班--将游离3改为游离已分配4--clazzstuednt-"+jg6+"-----------------\n");
+		if(0==isFirstGrade) {
+			//改升学状态为1
+			int jg7= stupMapper.setStatusAfterCreateClazz(c.getSlist());
+			System.out.println("开班--改升学状态为1--studentupgrade-"+jg7+"-----------------\n");
+		}
 		return jg3;
 	}
 	/**

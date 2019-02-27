@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.CloudSchool.domain.ClazzInfo;
 import com.CloudSchool.domain.Clazzstudent;
+import com.CloudSchool.domain.CqjStudent;
 
 public interface ClazzstudentMapper {
     int deleteByPrimaryKey(Integer id);
@@ -44,4 +45,6 @@ public interface ClazzstudentMapper {
     public int updateStatusBycid(@Param("status") Integer status,@Param("cid") Integer cid);
     //更改一群学生和班级的状态
     public int updateStatusByMap(HashMap<String, Object> map);
+    //游离学生分班后将状态3游离改为4游离已分配-tzx
+    int setStudentStatusAfterCreateClazz(List<CqjStudent> list);
 }

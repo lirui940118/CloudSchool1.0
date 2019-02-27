@@ -29,8 +29,7 @@ public class NoticeServiceImpl implements NoticeService {
 	public int insert(Notice record) {
 		// TODO Auto-generated method stub
 		sendnoticeTips(record);
-//		return nm.insert(record);
-		return 1;
+		return nm.insert(record);
 	}
 
 	@Override
