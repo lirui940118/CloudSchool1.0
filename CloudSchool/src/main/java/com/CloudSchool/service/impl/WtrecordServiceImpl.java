@@ -120,7 +120,9 @@ public class WtrecordServiceImpl implements WtrecordService {
 					workgrade.setWid(obj.getId());				//作业id
 					int score=wtrecordMapper.queryByWidAndSidSumScore(obj.getId(), obj.getStu().getSid());
 					workgrade.setScore(score); 					//得分
-					int worksumscore=workinstanceMapper.querySumScoreById(obj.getWid());
+					System.out.println(JSON.toJSONString(obj));
+					int worksumscore=workinstanceMapper.querySumScoreById(obj.getTopicWithBLOBsList().get(0).getWtrecord().getWid());
+					
 					//及格
 					if(score>=worksumscore*0.9) {
 						workgrade.setRank("A");					//评分等级 A B C D

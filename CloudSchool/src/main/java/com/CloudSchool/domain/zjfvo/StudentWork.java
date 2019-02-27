@@ -6,7 +6,13 @@ public class StudentWork {
 	private String startTime;
 	private String endTime;
 	private Integer isCorrect;
-	
+	private Integer wStatus;
+	public Integer getwStatus() {
+		return wStatus;
+	}
+	public void setwStatus(Integer wStatus) {
+		this.wStatus = wStatus;
+	}
 	public Integer getWorkmouldid() {
 		return workmouldid;
 	}
