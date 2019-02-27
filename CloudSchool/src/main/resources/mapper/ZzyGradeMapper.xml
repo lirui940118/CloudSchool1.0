@@ -300,4 +300,8 @@
   <select id="queryBycid" resultMap="BaseResultMap">
   		SELECT * FROM `zzy_grade`  WHERE gid=(SELECT `clazz`.`gid` FROM `clazz` WHERE id=#{id})
   </select>
+	<!-- 查询是否属于第一个年级1是0否 -->
+	<select id="isFirstGrade" resultType="int">
+		SELECT COUNT(*) FROM zzy_grade WHERE gid NOT IN (SELECT user2 FROM zzy_grade) AND gid=#{gid};
+	</select>
 </mapper>

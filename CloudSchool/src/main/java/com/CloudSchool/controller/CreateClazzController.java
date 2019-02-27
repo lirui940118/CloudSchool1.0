@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.CloudSchool.dao.ZzyGradeMapper;
 import com.CloudSchool.domain.ClazzInfo;
 import com.CloudSchool.domain.Clazzcourseteacher;
 import com.CloudSchool.domain.Clazzstudent;
@@ -25,6 +26,8 @@ import com.alibaba.fastjson.JSON;
 public class CreateClazzController {
 	@Autowired
 	ClazzService cs;
+	@Autowired
+	ZzyGradeMapper gm;
 	@Autowired
 	CqjStudentServiceImpl ss;
 	@RequestMapping(value="/createClazz",method=RequestMethod.GET)
@@ -133,5 +136,15 @@ public class CreateClazzController {
 	public int setupgradeSuccess(int[] array) {
 		System.out.println("升学成功，修改升学表中状态为1");
 		return ss.setupgradeSuccess(array);
+	}
+	@ResponseBody
+	@RequestMapping("/isFirstGrade")
+	public int isFirstGrade(int gid) {
+		System.out.println("升学成功，修改升学表中状态为1");
+		if(gid>0) {
+			return gm.isFirstGrade(gid);
+		}else {
+			return -1;
+		}
 	}
 }
