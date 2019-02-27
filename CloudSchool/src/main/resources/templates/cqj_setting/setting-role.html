@@ -93,7 +93,8 @@
 							<div class="card-header">
 								<h4 class="card-title">权限</h4>
 								<p style="float: right;" class="demo">
-									<button data-toggle="modal" data-target="#modalUpdate" infoBut moduleUrl="/role/update"  name="baochun" class="btn btn-success">保存</button>
+								<button data-target="#modalUpdate" infoBut moduleUrl="/role/update"  name="baochun" class="btn btn-success">保存</button>
+									<!-- <button data-toggle="modal" data-target="#modalUpdate" infoBut moduleUrl="/role/update"  name="baochun" class="btn btn-success">保存</button> -->
 								</p>
 							</div>
 
@@ -120,9 +121,7 @@
 					</button>
 				</div>
 				<div class="modal-body text-center">									
-					<p id="nihao">是否保存对该角色的模块修改</p>
-					<p>
-						<b>We'll let you know when it's done</b></p>
+					<p id="nihao">修改成功</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button>
@@ -233,6 +232,7 @@
 											if(data>0){
 												console.log(1);
 												v.tishi="你好啊";
+												$("#modalUpdate").modal("show");
 											}else{
 												console.log(2);
 											}

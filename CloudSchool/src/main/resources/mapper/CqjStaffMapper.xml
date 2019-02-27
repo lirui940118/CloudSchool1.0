@@ -313,4 +313,31 @@
 		ON cqj_staff.`positionid`=cqj_position.`positionid`
 		WHERE cqj_position.`positionid`=5
 	</select>
+	
+	<insert id="addStaffs" useGeneratedKeys="true" keyProperty="staffid">
+		insert into
+		`cqj_staff`(staffname,sex,age,phone,idcard,birthday,address,email,positionid,staffnub)
+		values
+		<foreach collection="list" item="s" index="index"
+			separator=",">
+			(
+			#{s.staffname},
+			#{s.sex},
+			#{s.age},
+			#{s.phone},
+			#{s.idcard},
+			#{s.birthday},
+			#{s.address},
+			#{s.email},
+			5,
+			#{s.staffnub}
+			)
+		</foreach>
+	</insert>
+	
+	<select id="getTimeNum" resultType="String">
+		SELECT MAX(RIGHT(`cqj_staff`.`staffnub`,12))AS maxNub FROM
+			`cqj_staff`		WHERE `cqj_staff`.`staffnub` LIKE
+			CONCAT('%',YEAR(NOW()),SUBSTR(NOW(),6,2),SUBSTR(NOW(),9,2),'%')
+	</select>
 </mapper>
