@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>创建问卷</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+		<style type="text/css">
+			/** {
+				margin: 0px;
+				padding: 0px;
+				
+			}*/
+			
+			.card {
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title">创建问卷</h4>
+					
+					<div id="shuaxin" class="row">
+						<div class="card col-lg-12">
+							<div class="card-body">
+								
+								<div class="col-lg-12 row">
+									<div class="col-lg-3 col-md-3 col-sm-12 row">
+										<select v-model="wj" class="form-control input-fixed" id="wjTypeId" >
+											<option th:each="list:${wj}" th:value="${list.wjTypeId}"><span th:text="${list.wjTypeName}"></span></option>
+										</select>
+									</div>
+									<div class="col-lg-3 col-md-3 col-sm-12 row">
+										<select v-model="xx" class="form-control input-fixed" id="wjxxTypeId">
+											<option th:each="list:${xx}" th:value="${list.wjxxTypeId}"><span th:text="${list.wjxxTypeName}"></span></option>
+										</select>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-12 row">
+										<input type="text" class="form-control form-control" id="wjName" placeholder="问卷名称">
+									</div>
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="col-lg-12 row">
+									<input type="text" class="form-control form-control" id="wjExplain" placeholder="说明">
+								</div>
+							</div>
+						</div>
+	
+							<div class="card col-lg-12">
+								<div class="card-body">
+									<div class="col-lg-12 row">
+										<div class="col-lg-3">
+											<h6>已选择题目数量：</h6>
+										</div>
+										<div class="col-lg-7">
+											<h6 id="wjNum">0</h6>
+										</div>
+										<div class="col-lg-2">
+											<label class="form-check-label">
+												<input onclick="quanxuan()" name="quanxuan" class="form-check-input task-select" type="checkbox">
+												<span class="form-check-sign">全选</span>
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div v-if="tm" v-for="item in tm" class="card col-lg-12">
+									<div v-if="item.by1 == 1" class="card-body">
+										<div class="col-lg-12 row">
+											<div class="col-lg-10 row">
+												<p class="text-primary">
+													<font style="vertical-align: inherit;">
+														{{item.wjtmName}}
+													</font>
+												</p>
+											</div>
+											<div class="col-lg-2 row">
+												<label class="form-check-label">
+													<input v-on:click="panduan()" v-bind:abc="item.wjtmId" name="xuanze" class="form-check-input task-select" type="checkbox">
+													<span class="form-check-sign">选择</span>
+												</label>
+											</div>
+										</div>
+										<div class="col-lg-12 row">
+											<label v-for="xx in item.listxx" class="form-radio-label col-lg-4">
+												<span class="form-radio-sign">
+													<font style="vertical-align: inherit;">{{xx.wjxxName}}</font>
+												</span>
+											</label>
+										</div>
+									</div>
+	
+									<div v-if="item.by1 == 2" class="card-body">
+										<div class="col-lg-12 row">
+											<div class="col-lg-10 row">
+												<p class="text-primary">
+													<font style="vertical-align: inherit;">
+														{{item.wjtmName}}
+													</font>
+												</p>
+											</div>
+											<div class="col-lg-2 row">
+												<label class="form-check-label">
+													<input v-on:click="panduan()" v-bind:abc="item.wjtmId" name="xuanze" class="form-check-input task-select" type="checkbox">
+													<span class="form-check-sign">选择</span>
+												</label>
+											</div>
+										</div>
+									</div>
+							</div>
+							<div class="card-action">
+								<button onclick="tijiao()" class="btn btn-success">
+									<font style="vertical-align: inherit;">
+										提交
+									</font>
+								</button> 
+								<button class="btn btn-danger">
+									<font style="vertical-align: inherit;">
+										取消
+									</font>
+								</button>
+							</div>
+						
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script th:src="@{/static/js/core/jquery.min.js}"></script>
+	<script th:src="@{/static/js/core/vue.js}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+	<script th:src="@{/static/js/core/popper.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+	<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+	<script th:src="@{/static/js/ready.min.js}"></script>
+
+	<script>
+		//获取选中的复选框个数
+		function FXKnum(){
+			var num=0;
+			var pd = $("input[name='xuanze']");
+			for(var i =0;i<pd.length;i++){
+				if(pd[i].checked == true){
+					num++;
+				}
+			}
+			$("#wjNum").html(num);
+		}
+		//提交
+		function tijiao(){
+			var wj = {};
+			wj.wjName = $("#wjName").val();
+			wj.wjTypeId = $("#wjTypeId").val();
+			wj.wjxxTypeId = $("#wjxxTypeId").val();
+			wj.wjExplain = $("#wjExplain").val();
+			wj.wjNum = $("#wjNum").html();
+			
+			if(!wj.wjTypeId){
+				alert("请选择问卷类型！！！");
+				return;
+			}
+			if(!wj.wjxxTypeId){
+				alert("请选择问卷选项类型！！！");
+				return;
+			}
+			if(!wj.wjName){
+				alert("请输入问卷名称！！！");
+				return;
+			}
+			if(!wj.wjExplain){
+				alert("请输入问卷说明！！！");
+				return;
+			}
+			if(wj.wjNum == 0){
+				alert("请选择题目！！！");
+				return;
+			}
+			var shuzu = "";
+			$.each($("input[name=xuanze]:checked"),function(){
+				shuzu += $(this).attr("abc")+",";
+			});
+			if(shuzu.length > 0){
+				shuzu = shuzu.substring(0, shuzu.length - 1);
+			}
+			wj.shuzu = shuzu;
+			$.ajax({
+				url:"insertWenJuanCJ",
+				dataType:"json",
+				data:wj,
+				success:function(result){
+					if(result > 0){
+						alert("成功！！！");
+					}else{
+						alert("失败！！！");
+					}
+				}
+			});
+		}
+		$(function(){
+			shuaxin(this.wj,this.xx);
+		});
+		//刷新
+		var V = new Vue({
+			el:"#shuaxin",
+			data:{
+				tm:{},
+				wj:null,
+				xx:null
+			},methods:{
+				panduan:function(){
+					panduan();
+				}
+		  },watch:{
+				wj:function(){
+					shuaxin(this.wj,this.xx)
+				},
+				xx:function(){
+					shuaxin(this.wj,this.xx)
+				},
+			}
+		});
+		//刷新
+		function shuaxin(xx,wj){
+			if(xx == undefined){
+				xx = 1;
+			}
+			if(wj == undefined){
+				wj = 1;
+			}
+			$.ajax({
+				url:"queryAllTiMuByXXandwj",
+				data:"xx="+xx+"&wj="+wj,
+				success:function(result){
+					console.log(result);
+					V.tm = result;
+				}
+			});
+		}
+		//全选反选
+		function quanxuan(){
+			if($("input[name='quanxuan']").prop("checked")){
+				$("input[name='xuanze']").prop("checked",true);
+				FXKnum();
+			}else{
+				$("input[name='xuanze']").prop("checked",false);
+				FXKnum();
+			}
+		}
+		//判断是否全部选中
+		function panduan(){
+			var num=0;
+			var pd = $("input[name='xuanze']");
+			for(var i =0;i<pd.length;i++){
+				if(pd[i].checked == true){
+					num++;
+				}
+			}
+			if(num == pd.length){
+				$("input[name='quanxuan']").prop("checked",true);
+			}else{
+				$("input[name='quanxuan']").prop("checked",false);
+			}
+			FXKnum();
+		}
+	</script>
+
+</html>

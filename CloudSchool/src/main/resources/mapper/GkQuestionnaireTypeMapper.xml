@@ -14,6 +14,14 @@
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
+  
+  
+  <!-- 查询所有问卷类型 -->
+  <select id="queryAllWenJuanLeiXing" resultMap="BaseResultMap">
+  	SELECT * FROM `gk_questionnaire_type`
+  </select>
+
+  
   <sql id="Base_Column_List">
     wj_type_id, wj_type_name, creation_time, update_time, founder, status, by1, by2, 
     by3, by4, by5

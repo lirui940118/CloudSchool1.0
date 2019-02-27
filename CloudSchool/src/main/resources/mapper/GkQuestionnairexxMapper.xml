@@ -16,6 +16,13 @@
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
+  <!-- 按题目id查询题目的选项 -->
+	<select id="queryXXByTiMuId" resultMap="BaseResultMap">
+		SELECT * FROM `gk_questionnairexx` WHERE `wjxx_fk_tmid` = #{wjtm_id}
+	</select>
+  
+	
+  
   <sql id="Base_Column_List">
     wjxx_id, wjxx_name, wjxx_fk_tmid, fsbz, creation_time, update_time, founder, status, 
     by1, by2, by3, by4, by5

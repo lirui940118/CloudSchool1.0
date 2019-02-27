@@ -16,6 +16,22 @@
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
+  
+  
+  <!-- 通过问卷类型，选项类型查询题目 -->
+  <select id="queryAllTiMuByXXandwj" resultMap="queryXXByTiMuId">
+		SELECT * FROM `gk_questionnairetm` AS tm
+		JOIN `gk_questionnairexx_type` AS xxtype ON (xxtype.`wjxx_type_id` = tm.`by1`)
+		JOIN `gk_questionnaire_type` AS t ON (t.`wj_type_id` = tm.`wjtm_type_id`)
+		WHERE xxtype.`wjxx_type_id` = #{xx} AND t.`wj_type_id` = #{wj}
+  </select>
+  <resultMap  type="com.CloudSchool.domain.GkQuestionnairetm" id="queryXXByTiMuId" extends="BaseResultMap">
+  	<id column="wjtm_id" property="wjtmId"/>
+  	<collection property="listxx" column="wjtm_id" ofType="com.CloudSchool.domain.GkQuestionnairexx" select="com.CloudSchool.dao.GkQuestionnairexxMapper.queryXXByTiMuId"></collection>
+  </resultMap>
+  
+  
+
   <sql id="Base_Column_List">
     wjtm_id, wjtm_name, wjtm_type_id, chutiren_id, creation_time, update_time, founder, 
     status, by1, by2, by3, by4, by5

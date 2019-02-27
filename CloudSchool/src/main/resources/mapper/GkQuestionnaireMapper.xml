@@ -26,10 +26,18 @@
     <result column="wjxx_type_name" jdbcType="VARCHAR" property="wjxxTypeName" />
   </resultMap>
   
+  
+  
+  <!-- 创建问卷 -->
+  <insert id="insertWenJuanCJ" useGeneratedKeys="true" keyColumn="wj_id" keyProperty="wjId">
+	INSERT INTO `gk_questionnaire`(`wj_name`,`wj_type_id`,`wj_publisher`,`wj_fb_time`,`wjxx_type_id`,`wj_Explain`,`wj_num`,`creation_time`,`update_time`,`by1`)
+	VALUES(#{wjName},#{wjTypeId},#{wjPublisher},NOW(),#{wjxxTypeId},#{wjExplain},#{wjNum},NOW(),NOW(),1)
+  </insert>
+  
   <!-- 查询问卷发布记录 -->
   <select id="queryAllWenJuanFaBuJiLu" resultMap="BaseResultMap">
   	SELECT * FROM `cqj_user` AS u
-	JOIN `gk_questionnaire` AS wj ON (wj.`wj_publisher` = u.userid) AND wj.`status`=0
+	JOIN `gk_questionnaire` AS wj ON (wj.`wj_publisher` = u.userid) AND wj.`status`=0 AND wj.`by1` = 0
 	JOIN `gk_questionnaire_type` AS wjtype ON (wjtype.`wj_type_id` = wj.`wj_type_id`)
 	JOIN `gk_questionnairexx_type` AS wjxxtype ON (wjxxtype.`wjxx_type_id` = wj.`wjxx_type_id`)
 	JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0 
