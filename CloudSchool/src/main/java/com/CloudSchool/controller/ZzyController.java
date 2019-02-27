@@ -390,4 +390,17 @@ public class ZzyController {
 	}
 	
 	
+	@RequestMapping("goaddevent")
+	public String goaddevent() {
+		return "zzy/addevent.html";
+	}
+	
+	@RequestMapping("zzyGradeAndClazz")
+	@ResponseBody
+	public List<ZzyGrade> zzyGradeAndClazz(){
+		return gras.queryGradeAndClazz();
+	}
+	
+	
+	
 }

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>123</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+		<style type="text/css">
+			
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-titl1e">添加事件</h4>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<div class="form-group">
+										<label for="email">事件名:</label>
+										<input class="form-control" id="eventName" type="text"> 
+									</div>
+									<div class="form-group has-success">
+										<label for="successInput">开始时间:</label>
+										<input type="date" id="creatTime" value="专业名" class="form-control">
+									</div>
+									<div class="form-group has-success">
+										<label for="successInput">结束时间:</label>
+										<input type="date" id="modificationtime" value="专业名" class="form-control">
+									</div>
+									<div class="form-group has-success">
+										<span style="padding: 5px;">上午:</span><input  type="checkbox" id="am" style="position: static; width: 30px" >
+										<span style="padding: 5px;">下午:</span><input type="checkbox"  id="pm" style="position: static; width: 30px">
+									</div>
+								</div>
+							<div class="card-body">
+								<h6>选择影响班级<span style="margin-left: 40px;">全校:<input type="checkbox" id="quanxuan" style="position: static; width: 30px"></span></h6>
+						
+								<table v-for="l in list" class="table table-bordered table-head-bg-info table-bordered-bd-info mt-4">
+											<thead>
+												<tr>
+													<th scope="col" width="10%"><input type="checkbox" id="" class="nianji" style="position: static;"/>{{l.gradeName}}</th>
+													<th scope="col" width="30%">班级</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr v-for="ll in l.list">
+													<td><input type="checkbox" v-bind:data-id="ll.id" class="banji" style="position: static;"/></td>
+													<td>{{ll.cname}}</td>
+												</tr>
+											</tbody>
+										</table>
+							</div>
+							<div class="card-footer">
+								<div class="card-action" style="float: right;">
+									<button class="btn btn-success" id="tj">提交</button>
+									
+								</div>
+							</div>
+						</div>
+							</div>
+						</div>
+			</div>
+			</div>
+		</div>
+	</body>
+	<script th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
+	<script th:src="@{/static/js/core/vue.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+	<script th:src="@{/static/js/core/popper.min.js}"></script>
+	<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+	<script th:src="@{/static/js/ready.min.js}"></script>
+	<script type="text/javascript">
+		$(function(){
+			var v=new Vue({
+				el:'.main-panel',
+				data:{
+					list:null,
+				}
+			})
+			$.ajax({
+				url:'zzyGradeAndClazz',
+				type:'POST',
+				dataType:'json',
+				success:function(data){
+					v.list=data;
+				}
+			})
+			
+			$("body").on("click","#quanxuan",function(){
+				var ss=$(this).prop("checked");
+				$(".nianji").prop("checked", ss);
+				$(".banji").prop("checked", ss);
+			})
+			
+			$("body").on("click",".nianji",function(){
+				var ss=$(this).prop("checked");
+				$(this).parent().parent().parent().parent().find("tbody").find("input").prop("checked",ss);
+			})
+			
+			$("body").on("click",".banji",function(){
+				var ss=$(this).prop("checked");
+				if(ss==false){
+					$("#quanxuan").prop("checked",ss);
+					$(this).parent().parent().parent().parent().find("thead").find("input").prop("checked",ss);
+				}
+			})
+			
+			$("#tj").click(function(){
+				var chk_value =[];//定义一个数组  储存所有的选中班级id
+	            $('.banji:checked').each(function(){//遍历每一个名字为interest的复选框，其中选中的执行函数    
+	            	chk_value.push($(this).attr("data-id"));//将选中的值添加到数组chk_value中    
+	            });
+				//事件名称
+				var event_name =$("#eventName").val();
+				//结束时间
+				var modificationtime=$("#modificationtime").val();
+				//开始时间
+				var creatTime =$("#creatTime").val();
+				//上午是否选中
+				var am=$("#am").prop("checked");
+				//下午是否选中
+				var pm=$("#pm").prop("checked");
+				//最终传入的数据
+				 var arry=[];
+				$.each(chk_value,function(i,obj){
+					if(am){
+						//定义一个事件对象
+						var sj={};
+						sj.event_name=event_name;
+						sj.creatTime=creatTime;
+						sj.modificationtime;
+						sj.user1=0;
+						sj.user2=obj;
+						arry.push(sj);
+					}
+					if(pm){
+						//定义一个事件对象
+						var sj={};
+						sj.event_name=event_name;
+						sj.creatTime=creatTime;
+						sj.modificationtime;
+						sj.user1=1;
+						sj.user2=obj;
+						arry.push(sj);
+					}
+					
+				})
+				console.log(arry);
+				$.ajax({
+					url:'zzyGradeAndClazz',
+					type:'POST',
+					dataType:'json',
+					success:function(data){
+						alert("添加成功");
+					}
+				})
+			})
+		})
+	</script>
+</html>

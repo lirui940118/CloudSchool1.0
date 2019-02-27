@@ -15,4 +15,5 @@ public interface ZzyGradeService {
 	public List<ZzyGrade> queryAll();
 	//所有年级下所有批次下的所有班级  write by lirui
 	public List<GradeVO> queryAllGradePcClazz(Integer gId,String pc);
+	public List<ZzyGrade> queryGradeAndClazz();
 }

@@ -228,11 +228,8 @@
   </select>
   
   <!-- 循环新增年级 -->
-  <insert id="insertMap">
-		insert into `zzy_grade`(grade_name,vid,majorbool,classbool,user1) values
-		<foreach collection="list" item="l" separator="," >
-			(#{l.gradeName},#{vid},#{l.majorbool},#{l.classbool},#{l.user1})
-		</foreach>
+  <insert id="insertMap" useGeneratedKeys="true" keyProperty="gid">
+		insert into `zzy_grade`(grade_name,vid,majorbool,classbool,user1,user2 ) values(#{gradeName},#{vid},#{majorbool},#{classbool},#{user1},#{user2})
 	</insert>
 	
 	 <!-- 一对多查询年级以及年级里面的班级 -->
@@ -242,6 +239,11 @@
 			select="com.CloudSchool.dao.ClazzMapper.queryBygid">
 		</collection>
 	</resultMap>
+	
+	<!-- 查询所有年级并带出所有正常班级 -->
+	<select id="queryGradeAndClazz" resultMap="resultMapGraAndCla">
+			select * from `zzy_grade`
+	</select>
 	
 	<!-- 根据版本id查询年级 -->
 	<select id="queryByvid" resultMap="resultMapGraAndCla">

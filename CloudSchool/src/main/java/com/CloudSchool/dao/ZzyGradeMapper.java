@@ -15,7 +15,7 @@ public interface ZzyGradeMapper {
 	//查询该学员当前在读年级
 	public ZzyGrade queryCurrentGradeBySid(Integer sId);
 	//循环新增年级
-	public int insertMap(Map<String,Object> map);
+	public int insertMap(ZzyGrade grade);
 	//根据版本id查询年级
 	public List<ZzyGrade> queryByvid(Integer vid);
 	public List<ZzyGrade> queryByvid2(Integer vid);
@@ -27,6 +27,9 @@ public interface ZzyGradeMapper {
 
 	//根据班级id查询年级
 	public ZzyGrade queryBycid(Integer id);
+	
+	//查询所有年级并带出所有正常班级
+	public List<ZzyGrade> queryGradeAndClazz();
 	
 
 

@@ -35,5 +35,10 @@ public class ZzyGradeServiceImpl implements ZzyGradeService{
 	public List<GradeVO> queryAllGradePcClazz(Integer gId, String pc) {
 		return zzyGradeMapper.queryAllGradePcClazz(gId, pc);
 	}
+	@Override
+	public List<ZzyGrade> queryGradeAndClazz() {
+		// TODO Auto-generated method stub
+		return zzyGradeMapper.queryGradeAndClazz();
+	}
 
 }
