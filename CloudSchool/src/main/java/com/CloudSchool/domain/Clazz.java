@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Clazz {
 	//gk年级名称
 	private String gradeName;
@@ -24,7 +26,7 @@ public class Clazz {
     private Integer gid;
 
     private Integer mid;
-    
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss",timezone="GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss") 
     private String startdate;
 

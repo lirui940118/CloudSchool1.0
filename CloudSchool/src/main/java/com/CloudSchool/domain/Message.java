@@ -2,6 +2,8 @@ package com.CloudSchool.domain;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Message {
     private Integer id;
 
@@ -10,7 +12,7 @@ public class Message {
     private Integer sender;
 
     private String url;
-
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss",timezone="GMT+8")
     private Date time;
 
     private String content;
