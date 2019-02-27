@@ -7,6 +7,7 @@
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
 		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<link rel="stylesheet" th:href="@{/static/css/demo.css}">
 		<style type="text/css">
 			* {
 				margin: 0px;
@@ -101,14 +102,51 @@
 								<h4 class="card-title">日常考勤</h4>
 							</div>
 							<div class="card-body">
+								<!-- 表格 -->
+								<div>
+									<table v-if="kaoqinTotalCount!=0" id="kaoqinTable" style="text-align: center;" class="table table-bordered">
+										<thead>
+											<tr>
+												<th scope="col">考勤类型</th>
+												<th scope="col">次数</th>
+												<th scope="col">百分比（%）</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="kaoqinItem in kaoqinInfoList" >
+												<td>{{kaoqinItem.kqStateName}}</td>
+												<td>{{kaoqinItem.totalCount}}</td>
+												<td>{{kaoqinItem.totalCount/kaoqinTotalCount | numFilter}}</td>
+											</tr>
+											<tr>
+												<td>合计 考勤次数</td>
+												<td colspan="2">{{kaoqinTotalCount}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 								<div id="dailyPicture" style="width: 400; height: 400px;"></div>
 							</div>
-							<div class="card-footer">
-								<div class="legend">
-									<i class="la la-circle text-primary"></i>
-									 查看很多
+							<div class="card-footer row">
+							<!-- 查看更多 -->
+							<div id="searchkaoqinBtn" class="col-md-2 demo-icon"> 
+								<div class="icon-preview">
+									<i class="la la-search"></i>
 								</div>
+								<div class="icon-class">
+									查看详情
+								</div> 
 							</div>
+							<!-- 下载报表 -->
+							<a id="downLoadkaoqinBtn" download="考勤情况.xls" class="col-md-2 demo-icon" href="#" onclick="return ExcellentExport.excel(this, 'kaoqinTable', '考勤情况');"> 
+								<div class="icon-preview">
+									<i class="la la-file-excel-o"></i>
+								</div>
+								<div class="icon-class">
+									下载报表
+								</div> 
+							</a>
+						</div>
 						</div>
 						<div class="card col-lg-12">
 							<div class="card-header">
@@ -117,7 +155,7 @@
 								</h4>
 							</div>
 							<div id="badKonwledagepointSec" class="card-body">
-								<table class="table table-bordered" style="text-align: center;">
+								<table id="badKonwledagepointTable" v-if=".legnth>0" class="table table-bordered" style="text-align: center;">
 									<thead>
 										<tr>
 											<th scope="col">课程</th>
@@ -137,6 +175,19 @@
 								</table>
 							</div>
 							<div id="badKonwledagepointPicture" style="width: 400; height: 400px;"></div>
+						<div class="card-footer row">
+							<!-- 下载报表 -->
+							<a id="downLoadBadKonwledagepointBtn" download="查漏补缺上报情况.xls" class="col-md-2 demo-icon" href="#" onclick="return ExcellentExport.excel(this, 'badKonwledagepointTable', '查漏补缺上报情况');"> 
+								<div class="icon-preview">
+									<i class="la la-file-excel-o"></i>
+								</div>
+								<div class="icon-class">
+									下载报表
+								</div> 
+							</a>
+						</div>
+						
+						
 						</div>
 						
 					</div>
@@ -152,6 +203,7 @@
 	<script th:src="@{/static/js/echarts.js}"></script>
 	<script type="text/javascript" th:src="@{/static/js/common.js}"></script>
 	<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/excellentexport.js}"></script>
 	<script type="text/javascript">
 		//点进员工的id
 		var gotoStaff = "[[${gotoStaffId}]]" ? "[[${gotoStaffId}]]" : null;//如果为null（登陆人点入）
@@ -262,6 +314,9 @@
 							url:adress.url
 						}
 					});
+					//设置报表名称
+					$("#downLoadkaoqinBtn").attr("download",data.staffNum+data.staffName+"考情情况报表.xls");
+					$("#downLoadBadKonwledagepointBtn").attr("download",data.staffNum+data.staffName+"查漏补缺上报报表.xls");
 				}
 			});
 		}
@@ -315,6 +370,8 @@
 					if(vue.badKonwledagepointList.length == 0){
 						myChar1.setOption(noDataLoadingOption,true);
 						myChar1.hideLoading();
+						//隐藏下载报表按钮
+						$("#downLoadBadKonwledagepointBtn").hide();
 						return;
 					}
 					for(var i = vue.badKonwledagepointList.length-1;i>=0;i--){
@@ -370,6 +427,8 @@
 					};//option设置结束
 					myChar1.setOption(option,true);
 					myChar1.hideLoading();
+					//显示下载报表按钮
+					$("#downLoadBadKonwledagepointBtn").show();
 				}
 			});
 		}
@@ -386,21 +445,38 @@
 				},
 				success:function(data){
 					console.log(data);
+					var vue = new Vue({
+						el:"#kaoqinTable",
+						data:{
+							kaoqinInfoList:null,
+							kaoqinTotalCount:0
+						},
+						filters:{//过滤器
+							numFilter(value) {
+								let realVal = parseFloat(value).toFixed(1) * 100;
+								return parseFloat(realVal);
+							}
+						}
+					});
 					//空值
 					if(data.length==0){
 						myChar2.setOption(noDataLoadingOption,true);
 						myChar2.hideLoading();
+						//隐藏下载按钮
+						$("#downLoadkaoqinBtn").hide();
 						return;
 					}
 					//筛选数据
 					var kqNameArr = [];//考勤类目名称集合
 					var kqNameAndCountArr = [];//考勤类目名称和次数集合
+					var kaoqinTotalCount = 0;//考勤合计次数
 					for(var i = 0;i<data.length;i++){
 						kqNameArr.push(data[i].kqStateName);
 						var temp = {};
 						temp.value = data[i].totalCount;
 						temp.name = data[i].kqStateName;
 						kqNameAndCountArr.push(temp);
+						kaoqinTotalCount += data[i].totalCount;
 					}
 					var option2 ={
 							 tooltip: {
@@ -465,6 +541,11 @@
 						};
 					myChar2.setOption(option2,true);
 					myChar2.hideLoading();
+					/* 渲染表格 */
+					vue.kaoqinInfoList = data;
+					vue.kaoqinTotalCount = kaoqinTotalCount;
+					//显示下载按钮
+					$("#downLoadkaoqinBtn").show();
 				}
 			});//ajax结束
 		}

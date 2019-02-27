@@ -24,7 +24,7 @@
 	INNER JOIN testGrade ON testGrade.`sId` = cqj_student.`studentid`
 	#AND testGrade.`sId` IN (1,2,3) #学员id
 	#AND testGrade.`tid` IN (1,2)#试卷id
-	INNER JOIN clazzstudent ON clazzstudent.`sid` = cqj_student.`studentid` AND clazzstudent.`cid` = 4 
+	INNER JOIN clazzstudent ON clazzstudent.`sid` = cqj_student.`studentid` AND clazzstudent.`cid` = #{clazzId} 
 	INNER JOIN testInstance ON testInstance.`id` = testGrade.`tid`
 	INNER JOIN testModule ON testModule.`id` = testInstance.`tId`#试卷名称
 	WHERE testModule.`tId` = 1#日常小考

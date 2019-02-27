@@ -346,7 +346,7 @@
 		GROUP BY lr_knowledagePoint.`id`
 		)a
 		WHERE a.rate &lt; 0.6 AND
-		totalCount>=1
+		totalCount>=2
 	</select>
 	
 	<resultMap type="com.CloudSchool.domain.Wtrecord" id="queryTopicByIdMap">

@@ -105,10 +105,11 @@ public class StatisticsController {
 
 	/* 打开班级成绩统计分析 */
 	@RequestMapping("/gotoClazz")
-	public String gotoClazz(Integer clazzId, HttpSession session) {// textGrade.Id
-
-		// 保存至session
-		session.setAttribute("lr_clazzId", clazzId);
+	public String gotoClazz(Integer clazzId,Model model,HttpSession session) {// textGrade.Id
+		// 當前登陸賬號信息
+		CqjUser cqjUser = (CqjUser) session.getAttribute("user");
+		model.addAttribute("userid", cqjUser.getUsertypeid());
+		model.addAttribute("clazzId", clazzId);
 		return "statistics/clazz";
 	}
 
@@ -270,10 +271,7 @@ public class StatisticsController {
 	/* 查询班级基础信息数据 */
 	@RequestMapping("/getDataAboutClazzBaseInfo")
 	@ResponseBody
-	public List<ClazzBaseInfoVO> getDataAboutClazzBaseInfo(HttpSession session) {
-		/* session.setAttribute("lr_clazzId", clazzId); */
-		// 获取需要查询的数据id
-		Integer clazzId = (Integer) session.getAttribute("lr_clazzId");
+	public List<ClazzBaseInfoVO> getDataAboutClazzBaseInfo(Integer clazzId) {//查询班级id
 		List<ClazzBaseInfoVO> list = clazzService.queryClazzBaseInfo(clazzId);
 		return list;
 	}
@@ -281,11 +279,8 @@ public class StatisticsController {
 	/* 查询一班级下学员的多次考试成绩数据 */
 	@RequestMapping("/getStudentTestVoByStaffId")
 	@ResponseBody
-	public List<StudentInfoVO> getStudentTestVoByStaffId(HttpSession session, Integer staffId, Integer sortType) {// 教员id
-		/* session.setAttribute("lr_clazzId", clazzId); */
-		Integer clazzId = (Integer) session.getAttribute("lr_clazzId");
+	public List<StudentInfoVO> getStudentTestVoByStaffId(Integer clazzId, Integer staffId, Integer sortType) {// 教员id
 		List<StudentInfoVO> list = clazzSService.queryStudentTestVoBySidsAndTid(clazzId, staffId, sortType);
-		// usertypeid 员工id
 		return list;
 	}
 
