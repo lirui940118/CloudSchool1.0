@@ -14,6 +14,17 @@
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
+  
+
+	
+
+	<!--  查询所有选项类型 -->
+	<select id="queryAllXXLeiXing" resultMap="BaseResultMap">
+		SELECT * FROM `gk_questionnairexx_type`
+	</select>
+  
+  
+  
   <sql id="Base_Column_List">
     wjxx_type_id, wjxx_type_name, creation_time, update_time, founder, status, by1, by2, 
     by3, by4, by5

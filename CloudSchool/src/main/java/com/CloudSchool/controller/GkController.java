@@ -29,6 +29,7 @@ import com.CloudSchool.domain.GkKaoqin;
 import com.CloudSchool.domain.GkKaoqinState;
 import com.CloudSchool.domain.GkPageBean;
 import com.CloudSchool.domain.GkQuestionnaire;
+import com.CloudSchool.domain.GkQuestionnairetm;
 import com.CloudSchool.service.ClazzService;
 import com.CloudSchool.service.CqjPositionService;
 import com.CloudSchool.service.CqjStudentService;
@@ -63,6 +64,33 @@ public class GkController {
 	//问卷
 	@Autowired
 	GkWenJuanService gkWenJuanService;
+	
+	
+	//创建问卷
+	@RequestMapping("insertWenJuanCJ")
+	@ResponseBody
+	public int insertWenJuanCJ(GkQuestionnaire wj,HttpSession session) {
+		Integer[] shuzu = wj.getShuzu();
+		//新增问卷表
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		wj.setWjPublisher(user.getUserid());
+		gkWenJuanService.insertWenJuanCJ(wj);
+		//新增问卷题目关联表
+		return gkWenJuanService.insertWJTMFK(shuzu, wj.getWjId());
+	}
+	//去创建问卷页面
+	@RequestMapping("toNew_questionnaire")
+	public String toNew_questionnaire(Model model) {
+		model.addAttribute("xx", gkWenJuanService.queryAllXXLeiXing());
+		model.addAttribute("wj", gkWenJuanService.queryAllWenJuanLeiXing());
+		return "gk/New_questionnaire";
+	}
+	//通过问卷类型，选项类型查询题目
+	@RequestMapping("queryAllTiMuByXXandwj")
+	@ResponseBody
+	public List<GkQuestionnairetm> queryAllTiMuByXXandwj(Integer xx,Integer wj){
+		return gkWenJuanService.queryAllTiMuByXXandwj(xx, wj);
+	}
 	
 	
 	//去查询问卷页面
@@ -113,19 +141,21 @@ public class GkController {
 	
 	//去录入班级考勤页面
 	@RequestMapping("toAttendance_input")
-	public String toAttendance_input(Model model) {
+	public String toAttendance_input(Model model,HttpSession session) {
+		CqjUser user=(CqjUser)session.getAttribute("user");
 		List<GkKaoqinState> kqstate = gkKaoqinStateService.queryAllKaoQinState();
 		model.addAttribute("kqstate", kqstate);
-		model.addAttribute("banjiname",clazzService.queryBanJiByUserid(2));
+		model.addAttribute("banjiname",clazzService.queryBanJiByUserid(user.getUserid()));
 		int y,m,d,h,mi,s;    
 		Calendar cal=Calendar.getInstance();    
 		y=cal.get(Calendar.YEAR);    
 		m=cal.get(Calendar.MONTH);    
+		m = m+1;
 		d=cal.get(Calendar.DATE);    
 		h=cal.get(Calendar.HOUR_OF_DAY);    
 		mi=cal.get(Calendar.MINUTE);    
 		s=cal.get(Calendar.SECOND);    
-		//System.out.println("现在时刻是"+y+"年"+m+"月"+d+"日"+h+"时"+mi+"分"+s+"秒");
+		System.out.println("现在时刻是"+y+"年"+m+"月"+d+"日"+h+"时"+mi+"分"+s+"秒");
 		String time = y+"-"+m+"-"+d;
 		model.addAttribute("time", time);
 		return "gk/Attendance_input";
@@ -136,20 +166,22 @@ public class GkController {
 	public List<CqjStudent> queryTongXueByUserid(HttpSession session) {
 		CqjUser user=(CqjUser)session.getAttribute("user");
 	
-		return cqjStudentService.queryTongXueByUserid(2);
+		return cqjStudentService.queryTongXueByUserid(user.getUserid());
 	}
 	//新增班级当天考勤 
 	@RequestMapping(value="insertBanJiKaoQin",produces="application/json")
 	@ResponseBody
-	public int insertBanJiKaoQin(@RequestBody List<GkKaoqin> list) {
-		Clazz ss = clazzService.queryBanJiByUserid(2);
+	public int insertBanJiKaoQin(@RequestBody List<GkKaoqin> list,HttpSession session) {
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		Clazz ss = clazzService.queryBanJiByUserid(user.getUserid());
 		return gkKaoQinService.insertBanJiKaoQin(list,ss.getId(),ss.getGid());
 	}
 	//判断是否已经考勤
 	@RequestMapping("queryKaoQinPanDuan")
 	@ResponseBody
-	public int queryKaoQinPanDuan() {
-		GkKaoqin kq = gkKaoQinService.queryKaoQinPanDuan(11);
+	public int queryKaoQinPanDuan(HttpSession session) {
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		GkKaoqin kq = gkKaoQinService.queryKaoQinPanDuan(user.getUserid());
 		if(kq == null) {
 			return 0;
 		}else {
@@ -188,28 +220,28 @@ public class GkController {
 	@ResponseBody
 	public List<GkInterview> queryFangTanByWWCB(HttpSession session,Model model){
 		CqjUser user=(CqjUser)session.getAttribute("user");
-		return gkFangTanService.queryFangTanByWWCB(2);
+		return gkFangTanService.queryFangTanByWWCB(user.getUserid());
 	}
 	//查询已完成的访谈（个人,别人发起）
 	@RequestMapping("queryFangTanByYWCB")
 	@ResponseBody
 	public List<GkInterview> queryFangTanByYWCB(HttpSession session) {
 		CqjUser user=(CqjUser)session.getAttribute("user");
-		return gkFangTanService.queryFangTanByYWCB(2);
+		return gkFangTanService.queryFangTanByYWCB(user.getUserid());
 	}
 	//查询未完成的访谈（个人），我发起
 	@RequestMapping("queryFangTanByWWCW")
 	@ResponseBody
 	public List<GkInterview> queryFangTanByWWCW(HttpSession session,Model model){
 		CqjUser user=(CqjUser)session.getAttribute("user");
-		return gkFangTanService.queryFangTanByWWCW(2);
+		return gkFangTanService.queryFangTanByWWCW(user.getUserid());
 	}
 	//查询已完成的访谈（个人,我发起）
 	@RequestMapping("queryFangTanByYWCW")
 	@ResponseBody
 	public List<GkInterview> queryFangTanByYWCW(HttpSession session) {
 		CqjUser user=(CqjUser)session.getAttribute("user");
-		return gkFangTanService.queryFangTanByYWCW(2);
+		return gkFangTanService.queryFangTanByYWCW(user.getUserid());
 	}
 	
 	

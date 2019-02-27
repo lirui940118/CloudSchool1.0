@@ -1,9 +1,23 @@
 package com.CloudSchool.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class GkQuestionnairetm {
-    private Integer wjtmId;
+	//选项集合
+	private List<GkQuestionnairexx> listxx;
+	
+	
+	
+    public List<GkQuestionnairexx> getListxx() {
+		return listxx;
+	}
+
+	public void setListxx(List<GkQuestionnairexx> listxx) {
+		this.listxx = listxx;
+	}
+
+	private Integer wjtmId;
 
     private String wjtmName;
 

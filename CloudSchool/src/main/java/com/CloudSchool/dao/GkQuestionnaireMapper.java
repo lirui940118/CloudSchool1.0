@@ -5,6 +5,8 @@ import java.util.List;
 import com.CloudSchool.domain.GkQuestionnaire;
 
 public interface GkQuestionnaireMapper {
+	//创建问卷
+	int insertWenJuanCJ(GkQuestionnaire wj);
 	//查询问卷发布记录
 	List<GkQuestionnaire> queryAllWenJuanFaBuJiLu(GkQuestionnaire wj);
 	//查询问卷发布记录行数

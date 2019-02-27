@@ -15,6 +15,20 @@
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
+  
+	<!-- 新增问卷题目关联表 -->
+	<insert id="insertWJTMFK">
+		INSERT INTO `gk_wjtm_fk`(`wj_id`,`tm_id`,`creation_time`,`update_time`)
+		VALUES
+		<foreach collection="shuzu" item="a" separator="," close=";">
+			(#{wjId},#{a},NOW(),NOW())
+		</foreach>
+	</insert>
+  
+  
+  
+  
+  
   <sql id="Base_Column_List">
     fk_id, wj_id, tm_id, creation_time, update_time, founder, status, by1, by2, by3, 
     by4, by5

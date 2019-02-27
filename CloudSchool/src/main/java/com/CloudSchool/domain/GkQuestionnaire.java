@@ -7,6 +7,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class GkQuestionnaire {
+	//数组
+	private Integer[] shuzu;
+	public Integer[] getShuzu() {
+		return shuzu;
+	}
+
+	public void setShuzu(Integer[] shuzu) {
+		this.shuzu = shuzu;
+	}
+
 	//员工名称
 	private String staffname;
 	//问卷类型名称

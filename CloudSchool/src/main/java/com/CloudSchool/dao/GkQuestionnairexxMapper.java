@@ -1,5 +1,7 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
+
 import com.CloudSchool.domain.GkQuestionnairexx;
 
 public interface GkQuestionnairexxMapper {
@@ -14,4 +16,5 @@ public interface GkQuestionnairexxMapper {
     int updateByPrimaryKeySelective(GkQuestionnairexx record);
 
     int updateByPrimaryKey(GkQuestionnairexx record);
+    
 }
