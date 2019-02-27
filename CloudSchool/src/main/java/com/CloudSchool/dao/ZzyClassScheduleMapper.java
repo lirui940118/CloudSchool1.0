@@ -29,4 +29,7 @@ public interface ZzyClassScheduleMapper {
     public Integer update(@Param("clid")Integer clid,@Param("time")Date time);
     
     public List<ZzyClassSchedule> queryKbBytime(@Param("stime")Date stime,@Param("etime")Date etime,@Param("clid") Integer clid);
+       
+    // 查询time(这一天)没课的老师  （赵举峰）
+    int queryBytimeTeach(@Param("tid")Integer tid,@Param("time")Date time);
 }

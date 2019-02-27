@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.scripting.xmltags.ForEachSqlNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,12 +16,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.CloudSchool.domain.Classroom;
 import com.CloudSchool.domain.Clazz;
+import com.CloudSchool.domain.CqjStaff;
+import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.ZzyGrade;
+import com.CloudSchool.domain.zjfvo.TestPublishParam;
 import com.CloudSchool.service.ClassroomService;
 import com.CloudSchool.service.ClazzService;
+import com.CloudSchool.service.CqjStaffService;
 import com.CloudSchool.service.TestInstanceService;
 import com.CloudSchool.service.TestModuleService;
+import com.alibaba.fastjson.JSON;
 
 @Controller
 @RequestMapping("TestInstance")
@@ -31,6 +38,8 @@ public class TestInstanceController {
 	TestModuleService testModuleService;
 	@Autowired
 	ClazzService clazzService;
+	@Autowired
+	CqjStaffService cqjStaffService;
 	//跳转到试卷发布
 	@RequestMapping("toTestPublishWork")
 	public String toTestPublishWork() {
@@ -55,11 +64,12 @@ public class TestInstanceController {
 	 */
 	@RequestMapping("queryClass")
 	@ResponseBody
-	public Object queryClass(Integer id,Integer sid,Integer cur,Integer pagesize,Integer cid){
+	public Object queryClass(Integer id,Integer sid,Integer cur,Integer pagesize,Integer cid,HttpSession session){
 		if(pagesize==null) {
 			pagesize=2;
 		}
-		return testInstanceService.queryClass(id, sid,cur,pagesize,cid);
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		return testInstanceService.queryClass(id, user.getUsertypeid(),cur,pagesize,cid);
 	}
 	/**
 	 * 根据教师id查询考试模板
@@ -70,11 +80,12 @@ public class TestInstanceController {
 	 */
 	@RequestMapping("queryTestModule")
 	@ResponseBody
-	public PageBean queryTestModule(Integer uid, Integer cur, Integer pagesize) {
+	public PageBean queryTestModule(Integer uid, Integer cur, Integer pagesize,HttpSession session) {
 		if(pagesize==null) {
 			pagesize=1;
 		}
-		return testModuleService.queryTestModule(uid, cur, pagesize);
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		return testModuleService.queryTestModule(user.getUsertypeid(), cur, pagesize);
 	}
 	
 	//根据班级班级id查询班级下所有学生
@@ -87,8 +98,8 @@ public class TestInstanceController {
 	//查询到所有这个时间段有空的老师
 	@RequestMapping("queryTeachAll")
 	@ResponseBody
-	public String queryTeachAll(String startTime,String endTime) {
-		return null;
+	public List<CqjStaff> queryTeachAll(String time,Integer status) {
+		return cqjStaffService.queryNullTeach(time, status);
 	}
 	
 	//查询到所有这个时间段空教室
@@ -97,5 +108,21 @@ public class TestInstanceController {
 	public List<Classroom> queryClassRoomAll(String time,Integer status){
 		System.out.println();
 		return clazzService.queryClassRoomAll(time, status);
+	}
+	@RequestMapping("queryAll")
+	@ResponseBody
+	public List<ZzyGrade> queryAll(){
+		return testInstanceService.queryAll();
+	}
+	
+	
+	//发布考试
+	@RequestMapping("insertTestInstance")
+	@ResponseBody
+	public int insertTestInstance(@RequestBody TestPublishParam obj,HttpSession session) {
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		System.out.println(JSON.toJSONString(obj));	
+		obj.getObj().setUid(user.getUsertypeid());	//设置发布人id
+		return testInstanceService.testPublish(obj);
 	}
 }

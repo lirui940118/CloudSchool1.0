@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.Topic;
 import com.CloudSchool.domain.TopicWithBLOBs;
 import com.CloudSchool.domain.Workinstance;
@@ -63,10 +64,10 @@ public class StudentWorkController {
 	}
 	@RequestMapping("queryStudentWork")
 	@ResponseBody
-	public Workinstance queryStudentWork(Integer sid,HttpSession session) {
-		sid=1;
+	public Workinstance queryStudentWork(HttpSession session) {
 		Integer wid=(Integer)session.getAttribute("studentworkid");
-		return workinStanceService.queryStudentWork(wid, sid);
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		return workinStanceService.queryStudentWork(wid, user.getUsertypeid());
 	}
 	
 	//关闭浏览器存储答题情况

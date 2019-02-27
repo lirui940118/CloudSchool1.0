@@ -150,7 +150,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="insertListByMap">
-  	insert into workInfo(id, wId, tId, 
+  	insert into workinfo(id, wId, tId, 
       time,user1) values
       <foreach collection="ids" separator="," item="obj" index="i">
       	(0,#{wid},#{obj},now(),#{i})

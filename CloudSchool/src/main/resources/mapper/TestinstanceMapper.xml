@@ -220,4 +220,12 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <insert id="insertTestInstance" useGeneratedKeys="true" keyProperty="id">
+  	 insert into testinstance (id, tId, startTime, 
+      endtime,
+      uId, upgrade, endcourse, 
+      time, status, user1)
+      values(0,#{tid},#{starttime},#{endtime},#{uid},#{upgrade},#{endcourse},now(),#{status},#{user1})
+  </insert>
 </mapper>

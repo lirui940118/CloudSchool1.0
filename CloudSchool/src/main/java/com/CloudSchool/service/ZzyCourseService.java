@@ -12,5 +12,10 @@ public interface ZzyCourseService {
 	public List<CourseVO>  queryStaffsAboutOpenClass(Integer gId, Integer mId);
 
 	 public ZzyCourse queryBycid(Integer cid);
+	 
+	 public List<ZzyCourse> queryBygid(Integer cid);
+	 
+	 //查询所有课程(赵举峰)
+	 List<ZzyCourse> queryCourseAll();
 
 }

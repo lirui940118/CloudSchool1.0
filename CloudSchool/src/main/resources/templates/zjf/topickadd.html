@@ -85,45 +85,30 @@
 						<h4 class="card-title">题库题目新增</h4>
 					</div>
 					<div class="card-body">
-						<div class="form-group">
-							<label for="defaultSelect">年级</label> <select
-								class="form-control form-control" id="defaultSelect">
-								<option>S1</option>
-								<option>S2</option>
-								<option>Y2</option>
+						<div class="form-group" id="grade">
+							<label for="successInput">年级</label> <select
+											class="form-control input-square" id="squareSelect">
+											<option v-bind:value="obj.gid" v-for="(obj,index) in list">{{obj.gradeName}}</option>
 							</select>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="course">
 							<label for="defaultSelect">课程</label> <select
 								class="form-control form-control" id="defaultSelect">
-								<option>请选择</option>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
+								<option v-bind:value="obj.cid" v-for="(obj,index) in list">{{obj.courseName}}</option>
 							</select>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="chapter">
 							<label for="defaultSelect">章节</label> <select
 								class="form-control form-control" id="defaultSelect" name="cid">
-								<option value="-1">请选择</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
+								<option v-for="(obj,index) in list" v-bind:value="obj.secid">{{obj.sectionName}}</option>
 							</select>
 						</div>
-						<div class="form-group">
+						<div class="form-group" style="display: none;">
 							<label for="defaultSelect">小结</label> <select
 								class="form-control form-control" id="defaultSelect" name="kid">
-								<option value="-1">请选择</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
+								<option value="1">选择题</option>
+								<option value="2">阅读题</option>
+								<option value="3">上机题</option>
 							</select>
 						</div>
 						<div class="form-group">
@@ -220,23 +205,44 @@
 	</div>
 </body>
 </html>
-<!--<script src="js/core/jquery.3.2.1.min.js"></script>
-<script src="js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<script src="js/core/popper.min.js"></script>
-<script src="js/core/bootstrap.min.js"></script>
-<script src="js/plugin/chartist/chartist.min.js"></script>
-<script src="js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
-<script src="js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-<script src="js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-<script src="js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
-<script src="js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
-<script src="js/plugin/chart-circle/circles.min.js"></script>
-<script src="js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-<script src="js/ready.min.js"></script>
-<script src="js/demo.js"></script>-->
 <script src="../static/js/core/jquery.min.js"></script>
+<script src="../static/js/core/vue.js"></script>
 <script>
+	//年级
+	var grade=new Vue({
+		el:"#grade",
+		data:{
+			list:null
+		}
+	})
+	
+	//课程
+	var course=new Vue({
+		el:"#course",
+		data:{
+			list:null
+		}
+	})
+	
+	//章节
+	var chapter=new Vue({
+		el:"#chapter",
+		data:{
+			list:null
+		}
+	})
 	$(function() {
+		//年级渲染
+		$.ajax({
+			type : "get",
+			url : "http://127.0.0.1:8080/TestInstance/queryAll",
+			data : {
+				id : 1
+			},
+			success : function(data) {
+				grade.list = data;
+			}
+		})
 		$("#topictype").change(function() {
 			var value = $("#topictype").val()
 			if (value == -1) {
@@ -307,6 +313,33 @@
 					
 				}
 			}); 
+		})
+		
+		//联动
+		$("body").on("change","#grade select",function(){
+			var id=$(this).find("option:selected").val()
+			$.ajax({
+				type:"get",
+				url:"http://127.0.0.1:8080/topicWarehouseController/queryBygid",
+				data:{cid:id},
+				success:function(data){
+					course.list=data
+					/* console.log(JSON.stringify(data)) */
+				}
+			})
+		})
+		//联动
+		$("body").on("change","#course select",function(){
+			var cid=$(this).find("option:selected").val()
+			$.ajax({
+				type:"get",
+				url:"http://127.0.0.1:8080/topicWarehouseController/queryBycid",
+				data:{cid:cid},
+				success:function(data){
+					chapter.list=data
+					console.log(JSON.stringify(data))
+				}
+			})
 		})
 	})
 </script>

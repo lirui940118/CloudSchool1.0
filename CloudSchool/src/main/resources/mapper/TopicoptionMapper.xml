@@ -196,7 +196,7 @@
   </update>
   <!-- 添加多个题目 -->
   <insert id="insertList">
-  	 insert into topicOption values
+  	 insert into topicoption values
   	<foreach collection="list" separator="," item="obj">
   		(0,#{tid},#{obj.option},#{obj.optionconten},#{obj.istrue},now(),#{obj.status},#{obj.user1},#{obj.user2},#{obj.user3},#{obj.user4},#{obj.user5})
   	</foreach>

@@ -389,10 +389,7 @@ ul,
 		$.ajax({
 				type : "post",
 				url : "http://127.0.0.1:8080/topicWarehouseController/queryByTidResultClass",
-				data : {
-						tid : 1
-					/* 暂时死值 tid教员id */
-				},
+				data :{},
 				success : function(data) {
 					/* console.log(JSON.stringify(data)) */
 					classdatas.list = data;
@@ -461,8 +458,10 @@ ul,
 				Workinstance.starttime=$("[name=starttime]").val().trim()
 				Workinstance.endtime=$("[name=endtime]").val().trim()
 				Workinstance.message=$("[name=message]").val().trim()
+				var date1 = new Date($("[name=starttime]").val().trim());
+				var month=parseInt(date1.getMonth())+1
+				var time=date1.getFullYear()+"-"+month+"-"+date1.getDate();
 				Workinstance.wid=$("[name=wid]").val()
-				Workinstance.tid=1		//暂时死值
 				obj.obj=Workinstance
 				obj.list=temp;
 				console.log(JSON.stringify(obj))
@@ -473,15 +472,7 @@ ul,
 					contentType: 'application/json',
 					success : function(data) {
 						if(data>0){
-							alert("作业发布成功！")
-							/* $.ajax({
-								type:"post",
-								url:"http://127.0.0.1:8080/WorkInfo/as",
-								data:{time:time},
-								success:function(data){
-									
-								}
-							}) */
+							alert("发布成功！")
 						}
 	
 					}

@@ -19,6 +19,7 @@ import com.CloudSchool.domain.CqjParents;
 import com.CloudSchool.domain.CqjParentsStudent;
 import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.CqjUser;
+import com.CloudSchool.domain.StudentVO;
 import com.CloudSchool.domain.Studentupgrade;
 import com.CloudSchool.domain.cqjvo.StudentTestVo;
 import com.CloudSchool.domain.statistics.StudentBaseInfoVO;
@@ -164,6 +165,16 @@ public class CqjStudentServiceImpl implements CqjStudentService{
 	public List<CqjStudent> queryTongXueByUserid(Integer uid) {
 		// TODO Auto-generated method stub
 		return cqjStudentMapper.queryTongXueByUserid(uid);
+	}
+	@Override
+	public List<StudentVO> queryStudentForCreateClazz() {
+		// TODO Auto-generated method stub
+		return cqjStudentMapper.queryStudentForCreateClazz();
+	}
+	@Override
+	public int setupgradeSuccess(int[] array) {
+		// TODO Auto-generated method stub
+		return cqjStudentMapper.setupgradeSuccess(array);
 	}
 
 }

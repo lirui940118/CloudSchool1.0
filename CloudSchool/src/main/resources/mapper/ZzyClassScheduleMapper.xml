@@ -162,6 +162,7 @@
   		INSERT INTO `cloudSchool`.`zzy_class_schedule` (`clid`,`rid`,`tid`,`cid`,`time`,`temporal_interva`,`state`)VALUES(#{clid},#{rid},#{tid},#{cid},#{time},#{temporalInterva},#{state});
   </insert>
   
+
   <!-- 查询某个班级 某个日期是否包含了事件或者休息 -->
   <select id="querySjAndXx" resultType="INTEGER">
   		  SELECT COUNT(*) FROM `zzy_class_schedule` WHERE `time`=#{time} AND `clid`=#{clid} AND (state=-2 OR state&gt;0)
@@ -183,5 +184,10 @@
   <!-- 查询一个时间段的课表 --> 
   <select id="queryKbBytime" resultMap="Kbjihe">
   		SELECT * FROM `zzy_class_schedule` WHERE `time`&gt;=#{stime} AND `time`&lt;=#{etime} AND `clid`=#{clid} ORDER BY `time`
+	</select>
+  
+  <!-- 查询time(这一天)没课的老师  （赵举峰）-->
+  <select id="queryBytimeTeach" resultType="INTEGER">
+  	SELECT COUNT(*) FROM `zzy_class_schedule` WHERE tid= 1 AND `time`='2019-02-22' AND state=0
   </select>
 </mapper>

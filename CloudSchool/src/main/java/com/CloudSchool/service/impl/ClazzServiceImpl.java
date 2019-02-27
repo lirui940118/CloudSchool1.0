@@ -52,14 +52,14 @@ public class ClazzServiceImpl implements ClazzService {
 		c.setStatus(1);
 		c.setCname(getClazzName(0, null));
 		c.setPc(getClazzPC(c.getGid()));
-//		int jg=cm.insert(c);
-//		System.out.println("开班----clazz-"+jg+"-"+c.getId()+"-"+c.getCname());
+		int jg=cm.insert(c);
+		System.out.println("开班----clazz-"+jg+"-"+c.getId()+"-"+c.getCname());
 		//绑定老师
-//		int jg1=csm.insertAll(c);
-//		System.out.println("开班--绑定老师--clazzcourseteacher-"+jg1+"--------------------\n");
+		int jg1=csm.insertAll(c);
+		System.out.println("开班--绑定老师--clazzcourseteacher-"+jg1+"--------------------\n");
 		//绑定学生
-//		int jg2=cctm.insertAll(c);
-//		System.out.println("开班--绑定学生--clazzstudent-"+jg2+"-----------------\n");
+		int jg2=cctm.insertAll(c);
+		System.out.println("开班--绑定学生--clazzstudent-"+jg2+"-----------------\n");
 		//分配学生学号studentnub/职位positionid=4
 		String str="-1";
 		int j=0;
@@ -76,28 +76,26 @@ public class ClazzServiceImpl implements ClazzService {
 			str+=","+c.getSlist().get(i-1).getStudentid();
 			System.out.println("学号"+c.getSlist().get(i-1).getStudentnub()+"\n职位："+c.getSlist().get(i-1).getPositionid());
 		}
-		//更新学生信息-学号、职位
+		//更新学生信息-学号、职位:分配学号、状态0在读/1毕业standby1、入学时间standby2
 		int jg3=sm.setStudentnubAfterCreateClazz(c.getSlist(),str);
-//		System.out.println("开班--更新学生信息-学号、职位--cqjstudent-"+jg2+"-----------------\n");
-		//分配学生登录账号
-//		List<CqjUser> ulist=new ArrayList<CqjUser>();
-//		for (CqjStudent s : c.getSlist()) {
-//			System.out.println(s.getStudentnub()+"--"+s.getStudentid());
-//			CqjUser u=new CqjUser();
-//			u.setUsername(s.getStudentnub());
-//			u.setUsertypeid(s.getStudentid());
-//			u.setUid(c.getUid());
-//			ulist.add(u);
-//		}
-//		int jg4=um.insertAll(ulist);
-//		System.out.println("开班--分配学生登录账号--cqj_user-"+jg4+"-----------------\n");
-//		for (CqjUser s : ulist) {
-//			System.out.println(s.getUsername()+"--"+s.getUserid());
-//		}
-//		int jg5=im.insertAll(ulist);
-//		System.out.println("开班--分配学生登录账号用户头像--img-"+jg5+"-----------------\n");
-		//新增-登录用户:账号密码都是学号usertypenub=1
-		//修改-学生信息:分配学号、状态0在读/1毕业standby1、入学时间standby2
+		System.out.println("开班--更新学生信息-学号、职位--cqjstudent-"+jg2+"-----------------\n");
+		//分配学生登录账号:账号密码都是学号usertypenub=1
+		List<CqjUser> ulist=new ArrayList<CqjUser>();
+		for (CqjStudent s : c.getSlist()) {
+			System.out.println(s.getStudentnub()+"--"+s.getStudentid());
+			CqjUser u=new CqjUser();
+			u.setUsername(s.getStudentnub());
+			u.setUsertypeid(s.getStudentid());
+			u.setUid(c.getUid());
+			ulist.add(u);
+		}
+		int jg4=um.insertAll(ulist);
+		System.out.println("开班--分配学生登录账号--cqj_user-"+jg4+"-----------------\n");
+		for (CqjUser s : ulist) {
+			System.out.println(s.getUsername()+"--"+s.getUserid());
+		}
+		int jg5=im.insertAll(ulist);
+		System.out.println("开班--分配学生登录账号用户头像--img-"+jg5+"-----------------\n");
 		return jg3;
 	}
 	/**
@@ -144,7 +142,7 @@ public class ClazzServiceImpl implements ClazzService {
 		try {
 			Date date = formatter.parse(time);
 			List<Classroom> list=classroomMapper.query();
-			List<Classroom> nullroom=new ArrayList<Classroom>();	//空教室对象
+			List<Classroom> nullroom=new ArrayList<Classroom>();	//空教室集合
 			for (Classroom classroom : list) {
 				//不是全天
 				if(status!=2) {
@@ -156,7 +154,14 @@ public class ClazzServiceImpl implements ClazzService {
 					System.out.println("可用");
 					nullroom.add(classroom);
 				}else {
-					System.out.println("查询全天教室无人占用的教室");
+					//全天
+					int i=classroomMapper.queryBytimeRoom(classroom.getId(), date);
+					if(i>0) {
+						//占用
+						System.out.println("占用");
+						continue;
+					}
+					//空教室
 					nullroom.add(classroom);
 				}
 				

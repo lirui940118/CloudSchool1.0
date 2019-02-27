@@ -196,7 +196,7 @@
 
 	<!--参加这次考试的学生 -->
 	<insert id="insertList">
-		insert into participationWorkStu(id, wId, sId,isCorrect,user1,time)
+		insert into participationworkstu(id, wId, sId,isCorrect,user1,time)
 		values
 		<foreach collection="list" separator="," item="obj">
 			(0,#{wid},#{obj},0,#{user1},now())

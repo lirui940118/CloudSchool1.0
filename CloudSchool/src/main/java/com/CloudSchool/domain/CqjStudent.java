@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.CloudSchool.domain.cqjvo.StudentTestVo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class CqjStudent implements Serializable{
 	
@@ -46,7 +47,7 @@ public class CqjStudent implements Serializable{
     private String phone;
 
     private String idcard;
-    
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss") 
     private Date birthday;
     

@@ -45,7 +45,7 @@
 							</div>
 							<div class="card-body" style="text-align: center;">
 								<div>
-									<img v-bind:src="staffBaseInfo.url">
+									<img v-bind:src=url+staffBaseInfo.url>
 								</div>
 								<p>姓名：{{staffBaseInfo.staffName}}</p>
 								<p>工号：{{staffBaseInfo.staffNum}}</p>
@@ -154,7 +154,7 @@
 	<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
 	<script type="text/javascript">
 		//点进员工的id
-		var gotoStaff = 100;//null;//如果为null（登陆人点入）
+		var gotoStaff = "[[${gotoStaffId}]]" ? "[[${gotoStaffId}]]" : null;//如果为null（登陆人点入）
 		//初始化
 		$(function(){
 			//员工基础信息初始化
@@ -254,11 +254,12 @@
 					staffId:gotoStaff
 				},
 				success:function(data){
-					//console.log(data);
+					console.log(data.url);
 					var vue = new Vue({
 						el:"#staffBaseInfoSec",
 						data:{
-							staffBaseInfo:data
+							staffBaseInfo:data,
+							url:adress.url
 						}
 					});
 				}

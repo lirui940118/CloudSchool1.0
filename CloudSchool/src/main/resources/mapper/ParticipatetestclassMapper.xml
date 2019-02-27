@@ -160,4 +160,10 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <!-- 批量新增 -->
+  <insert id="inserList" useGeneratedKeys="true" keyProperty="id">
+  	insert into participatetestclass (id, cId, tId,classRoomid, time, status,user1, user2, user3) values
+  		(0,#{cid},#{tid},#{classroomid},now(),#{status},#{user1},#{user2},#{user3})
+  </insert>
 </mapper>

@@ -41,7 +41,7 @@
 	</delete>
 	<insert id="insert"
 		parameterType="com.CloudSchool.domain.Workmould">
-		insert into workMould (id, name, tid,
+		insert into workmould (id, name, tid,
 		wType, tCount,
 		score,
 		count, time, status,
@@ -61,7 +61,7 @@
 	<insert id="insertSelective"
 		parameterType="com.CloudSchool.domain.Workmould"
 		useGeneratedKeys="true" keyProperty="id">
-		insert into workMould
+		insert into workmould
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
@@ -236,7 +236,7 @@
 
 	<!-- 根据教员id查询作业模板 -->
 	<select id="queryByTidMould" resultMap="BaseResultMap">
-		SELECT * FROM workMould
+		SELECT * FROM workmould
 		WHERE `status`=0 and tid=#{tid} ORDER BY `time` DESC
 		LIMIT
 		#{cur},#{pageSize}
@@ -244,7 +244,7 @@
 	<!-- 根据教员id查询作业模板count(*) -->
 	<select id="queryByTidMouldCount" resultType="int">
 		SELECT count(*)
-		FROM workMould WHERE `status`=0 and tid=#{tid}
+		FROM workmould WHERE `status`=0 and tid=#{tid}
 	</select>
 
 	<resultMap
@@ -274,18 +274,14 @@
 		clazzstudent.`cid`=clazz.`id`
 		INNER JOIN cqj_student ON
 		cqj_student.`studentid`=clazzstudent.`sid`
-		AND
-		clazzcourseteacher.`status`=0 AND clazz.`status`=0 AND
-		zzy_grade.state=0
-		AND clazzstudent.`status`=0
-		AND
-		clazzstudent.`status`=0 AND clazzcourseteacher.`tid`=#{tid}
+		where
+		clazzcourseteacher.`status`=0 AND clazzcourseteacher.`tid`=#{tid}
 	</select>
 
 	<!-- 根据id修改使用次数 -->
 	<update id="updateCountByid"
 		parameterType="com.CloudSchool.domain.Workmould">
-		update workMould set count=count+1 where id=#{id}
+		update workmould set count=count+1 where id=#{id}
 	</update>
 
 
