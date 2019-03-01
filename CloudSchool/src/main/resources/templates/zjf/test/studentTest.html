@@ -67,16 +67,16 @@
 		<div class="main-panel">
 			<div class="content">
 				<div class="container-fluid">
-					<h4 class="page-title">作业模板</h4>
+					<h4 class="page-title">考试模板</h4>
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title">我的作业</h4>
+							<h4 class="card-title">我的考试</h4>
 							<button class="btn btn-success" style="float: right;" id="submitWork">提交</button>
 						</div>
 						<div class="card-body">
 							<div class="workmodelhead">
-								<div>作业名称：<span>{{workmould.name}}</span></div>
-								<div class="uptime">发布时间：<span>{{obj.time}}</span></div>
+								<div>作业名称：<span>{{testmodule.name}}</span></div>
+								<div class="uptime">发布时间:{{testinstance.time}}<span></span></div>
 								<div class="uptime">发布教员：<span>{{staff.staffname}}</span></div>
 							</div>
 								<!--阅读题-->
@@ -113,15 +113,15 @@
 								</div> -->
 								</div>
 								<!--选择题-->
-								<div class="workcontent" v-for="(obj,index) in list" v-bind:data-id="obj.id" v-bind:data-tid="obj.tid">
+								<div class="workcontent" v-for="(obj,index) in list" v-bind:data-id="obj.topicWithBLOBs.id" v-bind:data-tid="obj.topicWithBLOBs.tid">
 									<!--题目-->
 									<div class="topic" style="display: flex;justify-content: space-between;">
-										{{obj.workid}}.{{obj.topicconten}}
+										{{obj.topicWithBLOBs.workid|noAddOne}}. {{obj.topicWithBLOBs.topicconten}}
 										<!-- 上机类型题目显示 -->
-										<button v-if="obj.tid==3" class="btn btn-success" style="float: right;">下载</button>
+										<button v-if="obj.topicWithBLOBs.tid==3" class="btn btn-success" style="float: right;">下载</button>
 									</div>
-									<span v-if="obj.wtrecord!=null" class="result" style="display: none">{{obj.wtrecord.result}}</span>
-									<div class="analysis" v-if="obj.tid==2">
+									<span v-if="obj.topicWithBLOBs.wtrecord!=null" class="result" style="display: none">{{obj.topicWithBLOBs.wtrecord.result}}</span>
+									<div class="analysis" v-if="obj.topicWithBLOBs.tid==2">
 										<!-- 解析：点击发布,设置考试的开始时间结束时间,考试信息推送学生,考试地点,是否推送给家长(系统有默认值)
 										点击发布,设置考试的开始时间结束时间,考试信息推送学生,考试地点,是否推送给家长(系统有默认值) -->
 										<div class="form-group">
@@ -132,8 +132,8 @@
 									</div>
 									</div>
 									<!-- 解析 -->
-									<div class="analysis" v-if="obj.tid==3" style="display: flex;justify-content: flex-end;">
-										<button class="btn btn-success" id="uplodeFileWork" onclick="javascript:$('#hiddenFile').click();" v-if="obj.wtrecord==null">上传答案</button>
+									<div class="analysis" v-if="obj.topicWithBLOBs.tid==3" style="display: flex;justify-content: flex-end;">
+										<button class="btn btn-success" id="uplodeFileWork" onclick="javascript:$('#hiddenFile').click();" v-if="obj.topicWithBLOBs.wtrecord==null">上传答案</button>
 										<form id="form-add" enctype="multipart/form-data">
 											 <input
 								type="file"  class="form-control-file"
@@ -151,9 +151,9 @@
 									</div>-->
 									<!--选项-->
 									<div class="topicoption">
-										<div class="option" v-for="(obj1,index) in obj.topicoptionList">
+										<div class="option" v-for="(obj1,index) in obj.topicWithBLOBs.topicoptionList">
 											<label class="form-radio-label">
-												<input class="form-radio-input" type="radio" name="">
+												<input class="form-radio-input" type="radio" name="a">
 												<span class="form-radio-sign">{{obj1.option}}</span>
 											</label>
 											{{obj1.optionconten}}
@@ -237,17 +237,25 @@
 <script src="../static/js/core/jquery.min.js"></script>
 <script src="../static/js/core/vue.js"></script>
 <script>
+	var number=0;
 	var pagelist=[]	//页面渲染
 	/* 题目渲染 */
 	var v=new Vue({
 		el:".card",
 		data:{
 			list:null,
-			workmould:{},
+			testmodule:{},
 			staff:{},
-			obj:{}
+			obj:{},
+			testinstance:{}
 		},methods: {
 			
+		},
+		filters:{
+			noAddOne:function(value){//题目编号加1
+				number=number+1;
+				return number;
+			}
 		},updated : function(){
 			var topicdiv=$(".workcontent")	//题目盒子
 			$("textarea").val("")
@@ -346,17 +354,18 @@
 	$(function(){
 		$.ajax({
 			type:"post",
-			url:"http://127.0.0.1:8080/StudentWork/queryStudentWork",
-			data:{},
+			url:"http://127.0.0.1:8080/StudentTestController/queryTestInfoBySidAndTid",
+			data:{tid:25},
 			success:function(data){
 				console.log(JSON.stringify(data))
-				count=data.topicWithBLOBsList.length
-				var list=pagination(1,pagesize,data.topicWithBLOBsList)
-				console.log(JSON.stringify(list))
-				v.list=list;				//题目
-				v.workmould=data.workmould;	//模板对象
-				v.staff=data.staff;			//教员对象
-				v.obj=data;					//作业对象
+				count=data.list.length
+				var list=pagination(1,pagesize,data.list)
+				/* console.log(JSON.stringify(list)) */
+				v.list=list;					//题目
+				v.testmodule=data.testmodule;	//考试模板对象
+				v.staff=data.cqjStaff;				//教员对象
+				v.obj=data;						//作业对象
+				v.testinstance=data.testinstance;//考试实例
 			}
 		})
 		/* 上一页 */
@@ -366,8 +375,8 @@
 			}else{
 				cur=cur-1
 			}
-			var list=pagination(cur,pagesize,v.obj.topicWithBLOBsList)
-			console.log(list)
+			var list=pagination(cur,pagesize,v.obj.list)
+			/* console.log(list) */
 			v.list=list;
 		})
 		/* 下一页 */
@@ -381,57 +390,57 @@
 			if(cur>=pagecount){
 				cur=pagecount
 			}
-			var list=pagination(cur,pagesize,v.obj.topicWithBLOBsList)
+			var list=pagination(cur,pagesize,v.obj.list)
 			v.list = list;
-			console.log(JSON.stringify(v.obj))
+			/* console.log(JSON.stringify(v.obj)) */
 		})
 		
 		/*阅读题保存答案*/
 		$("body").on("change","textarea",function(){
-			var list=v.obj.topicWithBLOBsList
+			var list=v.obj.list
 			var id=$(this).parents(".workcontent").attr("data-id");		//题目id
 			var result=$(this).val().trim();
 			for(var i=0; i<list.length; i++){
-				if(list[i].id==id){
-					if(list[i].wtrecord==null){
+				if(list[i].topicWithBLOBs.id==id){
+					if(list[i].topicWithBLOBs.wtrecord==null){
 						var obj={}
 						obj.result=result
 						obj.tid=id
-						obj.wid=v.obj.id	//作业实例id
-						obj.sid=v.obj.stu.sid	//学生id
-						list[i].wtrecord=obj;
+					 	obj.wid=v.obj.id	//作业实例id
+						obj.sid=v.obj.sid	//学生id
+						list[i].topicWithBLOBs.wtrecord=obj;
 					}
-					list[i].wtrecord.result=result
+					list[i].topicWithBLOBs.wtrecord.result=result
 					break;
 				}
 			}
-			v.obj.topicWithBLOBsList=list
+			v.obj.list=list
 			setOjb(id,result)	
-			console.log(JSON.stringify(pagelist))
+		/* 	console.log(JSON.stringify(pagelist)) */
 		})
 		
 		/*选择题保存答案*/
 		$("body").on("click","[type=radio]",function(){
-			var list=v.obj.topicWithBLOBsList
+			var list=v.obj.list
 			var id=$(this).parents(".workcontent").attr("data-id");		//题目id
 			var result=$(this).parents(".option").find(".form-radio-sign").html().trim();
 			for(var i=0; i<list.length; i++){
-				if(list[i].id==id){
-					if(list[i].wtrecord==null){
+				if(list[i].topicWithBLOBs.id==id){
+					if(list[i].topicWithBLOBs.wtrecord==null){
 						var obj={}
 						obj.result=result
 						obj.tid=id
 						obj.wid=v.obj.id	//作业实例id
-						obj.sid=v.obj.stu.sid	//学生id
-						list[i].wtrecord=obj;
+						obj.sid=v.obj.sid	//学生id
+						list[i].topicWithBLOBs.wtrecord=obj;
 					}
-					list[i].wtrecord.result=result
+					list[i].topicWithBLOBs.wtrecord.result=result
 					break;
 				}
 			}
-			v.obj.topicWithBLOBsList=list
+			v.obj.list=list
 			setOjb(id,result)
-			console.log(JSON.stringify(pagelist))
+			/* console.log(JSON.stringify(pagelist)) */
 			
 		})
 		
@@ -449,19 +458,19 @@
 	            processData: false,
 				success : function(data) {
 					if(data!=null){
-						var list=v.obj.topicWithBLOBsList
+						var list=v.obj.list
 						/* 上机题目返回文件地址 */
 						for(var i=0; i<list.length;i++){
-							if(list[i].id==id){
-								if(list[i].wtrecord==null){
+							if(list[i].topicWithBLOBs.id==id){
+								if(list[i].topicWithBLOBs.wtrecord==null){
 									var obj={}
 									obj.user1=data
 									obj.tid=id
-									obj.wid=v.obj.id	//作业实例id
-									obj.sid=v.obj.stu.sid	//学生id
-									list[i].wtrecord=obj;
+									obj.wid=v.obj.id//作业实例id
+									obj.sid=v.obj.sid	//学生id
+									list[i].topicWithBLOBs.wtrecord=obj;
 								}
-								list[i].wtrecord.user1=data
+								list[i].topicWithBLOBs.wtrecord.user1=data
 								break;
 							}
 						}
@@ -475,11 +484,12 @@
 		//交作业
 		$("body").on("click","#submitWork",function(){
 			v.obj.exit=0;
+			console.log(JSON.stringify(v.obj))
 			$.ajax({
 				type:"post",
-				url:"http://127.0.0.1:8080/StudentWork/studentPublishWork",
+				url:"http://127.0.0.1:8080/StudentTestController/testPublish",
+				contentType: "application/json;charset=utf-8",
 				data:JSON.stringify(v.obj),
-				contentType: "application/json; charset=utf-8",
 				success:function(data){
 					if(data>0){
 						alert("交卷成功！")
@@ -490,7 +500,7 @@
 	})
 	
 	//浏览器关闭事件
-	$(window).unload(function(){
+	/* $(window).unload(function(){
    	 	closePage();
-	});
+	}); */
 </script>

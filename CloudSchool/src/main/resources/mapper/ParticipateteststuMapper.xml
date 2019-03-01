@@ -194,6 +194,9 @@
 	
 	<resultMap type="com.CloudSchool.domain.zjfvo.TestInfo" id="queryTestInfoBySidAndTidMap">
 		<id column="id" property="id"/>
+		<result column="sumsocre" property="score"/>
+		<result column="tcount" property="tcount"/>
+		<result column="sid" property="sid"/>
 		<association property="testinstance" javaType="com.CloudSchool.domain.Testinstance">
 			<id column="id" property="id"/>
 			<result column="time" property="time"/>
@@ -210,6 +213,7 @@
 			<result column="user1" property="user1"/>
 			<association property="topicWithBLOBs" javaType="com.CloudSchool.domain.TopicWithBLOBs">
 				<id column="topicid" property="id"/>
+				<result column="tid" property="tid"/>
 				<result column="topicConten" property="topicconten"/>
 				<result column="url" property="url"/>
 				<association property="wtrecord" javaType="com.CloudSchool.domain.Wtrecord">
@@ -228,11 +232,11 @@
 		SELECT
 		testinstance.`id`,testmodule.`name`,testinstance.`time` ,
 		cqj_staff.`staffname`,topic.`id` AS
-		topicid,topic.`topicConten`,topic.`url`,topic.`result`,
+		topicid,topic.`topicConten`,topic.`url`,topic.`result`,topic.`tId`,
 		topicoption.`id` AS
 		optionid,topicoption.`option`,topicoption.`optionConten`,
 		wtrecord.`result` AS sturesult,testinfo.`id` AS infoid,testinfo.`user1`,testmodule.`score` AS
-		sumsocre,
+		sumsocre,participateteststu.`sId`,
 		(SELECT COUNT(*) FROM testinfo WHERE testinfo.`testId`=testmodule.`id`) AS
 		`tcount`
 		FROM participateteststu
@@ -242,8 +246,12 @@
 		INNER JOIN testinfo ON testmodule.`id`=testinfo.`testId`
 		INNER JOIN topic ON topic.`id`=testinfo.`tId`
 		LEFT JOIN topicoption ON topic.`id`=topicoption.`tId`
-		LEFT JOIN wtrecord ON wtrecord.`tId`=topic.`id`
+		LEFT JOIN wtrecord ON wtrecord.`tId`=topic.`id`  AND wtrecord.`type`=0
 		WHERE testinstance.`id`=#{id} AND participateteststu.`sId`=#{sid}
 		ORDER BY testinfo.`user1` ASC
 	</select>
+	
+	<update id="updateStatusById">
+		UPDATE participateteststu SET user3=#{user3} WHERE sid=#{sid} AND tid=#{tid}
+	</update>
 </mapper>
