@@ -48,7 +48,7 @@
 							</div>
 							<div class="card-body content" style="margin-top: 0px;">
 								
-								<script id="editor" type="text/plain" style="width:100%;min-height:300px;"></script>
+								<script id="editor" type="text/plain" style="width:100%;min-height:250px;"></script>
 							</div>
 						</div>
 						<p class="demo">
@@ -221,6 +221,7 @@
 			console.log(result)
 			v.n=result
 			setContent()
+			$(".view img").attr("max-width","70%")
 		})
 	}
 	function closeandback(){
