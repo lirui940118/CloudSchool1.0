@@ -75,6 +75,16 @@ public class NoticeController {
 		System.out.println("查询个人信息："+u.getUserid());
 		return u1;
 	}
-	
+	/**
+	 * 查询最新的通知（只查全部中的最新）-tzx首页显示
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/queryLastOneInAll" )
+	public Notice queryLastOneInAll() {
+		System.out.println("查询最新的通知-首页显示");
+		return ns.queryLastOneInAll();
+	}
     
 }
