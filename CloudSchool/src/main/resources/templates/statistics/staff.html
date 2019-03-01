@@ -89,7 +89,7 @@
 											<td>{{clazz.courseName}}</td>
 											<td v-if="clazz.clazzStatus==0">正在进行</td>
 											<td v-if="clazz.clazzStatus==1">结束</td>
-											<td><button class="btn btn-primary btn-xs" v-bind:staffId="gotoStaff" v-bind:clazzId="clazz.clazzId">查看详情</button></td>
+											<td><a v-bind:href="gotoClazzAdress+clazz.clazzId" class="btn btn-primary btn-xs" v-bind:staffId="gotoStaff" v-bind:clazzId="clazz.clazzId">查看详情</a></td>
 										</tr>
 										
 									</tbody>
@@ -335,7 +335,8 @@
 						el:"#clazzListSec",
 						data:{
 							clazzList:data,
-							gotoStaff:gotoStaff
+							gotoStaff:gotoStaff,
+							gotoClazzAdress:adress.url+"/statistics/"+"gotoClazz?clazzId=" //跳转班级页面前缀
 						}
 					});
 				}

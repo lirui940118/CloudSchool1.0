@@ -351,6 +351,14 @@ public class StatisticsController {
 	}
 
 	// ============================年级=====================================
+	/*查询全年级基本人数情况*/
+	@RequestMapping("/getBaseInfoAboutALlCount")
+	@ResponseBody
+	public List<Integer> getBaseInfoAboutALlCount() {
+		List<Integer> list = clazzSService.queryBaseInfoAboutALlCount();
+		return list;
+	}
+	
 	/*查询年级基本信息*/
 	@RequestMapping("/getAllGradesAboutPcsAndClazzs")
 	@ResponseBody

@@ -9,9 +9,10 @@
 	name='viewport' />
 <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/static/css/ready.css}">
-		<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
 <style type="text/css">
-.card {
+/* .card {
 	border-radius: 0px;
 	background-color: #ffffff;
 	margin-bottom: 0px;
@@ -19,7 +20,14 @@
 	-moz-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
 	box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
 	border: 1px solid #eee;
+} */
+blockquote p{
+	display:inline-block;
+	color:black;
+	margin:0;
+	padding:0;
 }
+blockquote img{display:none;}
 </style>
 </head>
 
@@ -28,9 +36,91 @@
 		<div class="content">
 			<div class="container-fluid">
 				<h4 class="page-title">全年级统计</h4>
+				<div id="countInfoSec" class="row">
+					<!-- 统计 -->
+					<div class="col-md-4">
+						<div class="card card-stats">
+							<div class="card-body ">
+								<div class="row">
+									<div class="col-5">
+										<div class="icon-big text-center">
+											<i class="la la-users"></i>
+										</div>
+									</div>
+									<div class="col-7 d-flex align-items-center">
+										<div class="numbers">
+											<p class="card-category">学员人数</p>
+											<h4 class="card-title">{{countInfoList[0]}}</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card card-stats">
+							<div class="card-body ">
+								<div class="row">
+									<div class="col-5">
+										<div class="icon-big text-center">
+											<i class="la la-user-secret"></i>
+										</div>
+									</div>
+									<div class="col-7 d-flex align-items-center">
+										<div class="numbers">
+											<p class="card-category">教员人数</p>
+											<h4 class="card-title">{{countInfoList[1]}}</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card card-stats">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-5">
+										<div class="icon-big text-center">
+											<i class="la la-slideshare"></i>
+										</div>
+									</div>
+									<div class="col-7 d-flex align-items-center">
+										<div class="numbers">
+											<p class="card-category">班级数量</p>
+											<h4 class="card-title">{{countInfoList[2]}}</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 公告 -->
+				<div class="card col-md-12">
+					<div class="card-header">
+						<h4 class="card-title" style="text-align: center;">通知</h4>
+					</div>
+					<blockquote>
+						<p class="blockquote blockquote-primary" style="text-indent: 2em;-webkit-user-select:none;">
+							<p>"请各位老师注意，</p>下午2点到三楼会议室开会。会议十分重要，请勿迟到！"
+							<br>
+							<br>
+							<small style="display: block;text-align: right;">
+								- 李老八
+							</small>
+							<small style="display: block;text-align: right;">
+								- 2016.02.28
+							</small>
+						</p>
+					</blockquote>
+				</div>
+				
+				<!-- 年级成绩统计 -->
 				<div class="row">
 					<div class="card col-lg-12" id="GradeAndPcAndClazzSec">
 						<div class="card-header row" >
+							<div class="card-title">年级成绩总汇</div>
 							<!--年级-->
 							<div v-show="gradeList!=null" class="form-group col-lg-6">
 								<label>年级</label> 
@@ -152,6 +242,7 @@
 	//=======================================================
 	$(function(){
 		initGradeInfo(null,'');//查询全部
+		getBaseInfoAboutALlCount();
 	});
 	//初始化年级基本数据
 	function initGradeInfo(gId,pc){
@@ -272,6 +363,24 @@
 				}
 				myChar.hideLoading();
 				
+			}
+		});
+	}
+	//查询全校人数信息
+	function getBaseInfoAboutALlCount(){
+		$.ajax({
+			type : "post",
+			url : adress.url + "/statistics/getBaseInfoAboutALlCount",
+			data : {
+				
+			},
+			success : function(data) {
+				var vue = new Vue({
+					el:"#countInfoSec",
+					data:{
+						countInfoList:data
+					}
+				});
 			}
 		});
 	}

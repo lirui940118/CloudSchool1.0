@@ -182,14 +182,18 @@
   
   <!-- 查询学员作业统计 -->
   <select id="queryStudentWorkInfoBysIdAndgId" resultType="com.CloudSchool.domain.statistics.WorkGradeVo">
-  	SELECT workgrade.`rank`AS rankName,COUNT(workgrade.rank)AS workCount FROM `workgrade`
-	INNER JOIN participationworkstu ON `participationworkstu`.`wId` =  workgrade.`wId`
-	INNER JOIN `clazz` ON `clazz`.`id` = participationworkstu.`user1`
-	WHERE workgrade.`uId` = #{sId} #学员id 
-	<if test="gId!=null">
-	AND clazz.`gid` = #{gId}
-	</if>
-	GROUP BY workgrade.rank
+	SELECT a.rankName,COUNT(a.rankName)AS workCount FROM (
+		SELECT workgrade.`rank`AS rankName FROM `workgrade` 
+		INNER JOIN participationworkstu ON `participationworkstu`.`wId` = workgrade.`wId` 
+		INNER JOIN `participationworkclass` ON `participationworkclass`.`id` = `participationworkstu`.`user1`
+		INNER JOIN `clazz` ON `clazz`.`id` = participationworkclass.`cId`
+		WHERE workgrade.`uId` = #{sId} #学员id
+		<if test="gId!=null">
+			AND clazz.`gid` = #{gId}
+		</if>
+		GROUP BY `workgrade`.`id`
+	)a
+	GROUP BY a.rankName
   </select>
   
   <!-- 学员作业及时完成率 -->

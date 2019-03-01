@@ -107,7 +107,7 @@ img {
 										<td>合计考试次数</td>
 										<td colspan='2'>{{testTotalCount}}</td>
 										<td>平均分（百分制度）</td>
-										<td>{{test100TotalScore/testTotalCount | numFilter}}</td>
+										<td>{{test100TotalScore/testTotalCount |arithmeticFilter | numFilter}}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -527,6 +527,12 @@ img {
 						numFilter(value) {
 							let realVal = parseFloat(value).toFixed(1);
 							return parseFloat(realVal);
+						},
+						arithmeticFilter(value){//算术异常过滤（防止分母为0的情况）
+							if(window.isNaN(value))
+								return 0;
+							else
+								return value;
 						}
 					}
 				});
@@ -633,8 +639,8 @@ img {
 				            var ids = op.title[0].text.split(",");
 				            
 				            //跳转查询具体某场考试分析
-				            //window.location.href=adress.url+"/statistics/gotoStudentText?sId="+sId+"&tId="+ids[xIndex];
-				            window.location.href=adress.url+"/statistics/gotoStudentText?sId="+1+"&tId="+1;
+				            window.location.href=adress.url+"/statistics/gotoStudentText?sId="+sId+"&tId="+ids[xIndex];
+				            //window.location.href=adress.url+"/statistics/gotoStudentText?sId="+1+"&tId="+1;
 						}
 					});
 				}else{

@@ -33,4 +33,23 @@
 	ORDER BY (testGrade.`tid`+ `StudentScore`/1000) DESC
 	) a , (SELECT @i:=0) i
   </select>
+  
+  <!-- 查询所有在读学员和在职员工和班级数量 -->
+  <select id="queryBaseInfoAboutALlCount" resultType="int">
+  	SELECT COUNT(*) FROM `cqj_student`
+	WHERE `cqj_student`.standby1 = 0 #在读 
+	UNION ALL 
+	
+	SELECT COUNT(*) FROM `cqj_staff`
+	WHERE cqj_staff.`standby2` IS NULL #非离职
+	
+	UNION ALL
+	
+	SELECT COUNT(*) FROM `clazz`
+	WHERE `clazz`.`status` = 2 #正在进行
+  </select>
+  
+  
+  
+  
 </mapper>
