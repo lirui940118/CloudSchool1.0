@@ -409,7 +409,7 @@
 		INNER JOIN topic ON topic.`id`=workinfo.`tId`
 		INNER JOIN cqj_staff ON cqj_staff.`staffid`=workinstance.`tid`
 		) AS c
-		LEFT JOIN wtrecord ON topic.`id`=wtrecord.`tId` and wtrecord.`type`=1 AND wtrecord.`wId`=workinstance.`id`
+		LEFT JOIN wtrecord ON topic.`id`=wtrecord.`tId` and wtrecord.`type`=1 AND wtrecord.`wId`=workinstance.`id` AND wtrecord.`sId`=#{sid}
 		LEFT JOIN topicoption ON topicoption.`tId`=topic.`id`
 		ORDER BY workinfo.`user1` ASC
 	</select>
