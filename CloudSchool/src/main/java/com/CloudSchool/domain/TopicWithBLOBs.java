@@ -25,7 +25,7 @@ public class TopicWithBLOBs extends Topic {
 	}
 
 	public void setWorkid(Integer workid) {
-		this.workid = workid+1;
+		this.workid = workid;
 	}
 
 	public void setTopicoptionList(List<Topicoption> topicoptionList) {

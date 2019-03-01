@@ -312,4 +312,7 @@ SELECT workmould.`score` FROM workinstance
 		INNER JOIN workmould ON workinstance.`wid`=workmould.`id`
 		WHERE workinstance.`id`=#{id}
   </select>
+  
+  
+ 
 </mapper>

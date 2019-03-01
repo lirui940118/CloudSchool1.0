@@ -258,12 +258,17 @@
 			(0,#{obj.wid},#{obj.tid},#{obj.sid},#{obj.result},#{obj.score},#{obj.type},#{obj.time},#{obj.user1})
 		</foreach>
 	</insert>
-	<!-- 根据学生id和作业实例id删除 -->
+	<!-- 根据学生id和作业实例id删除 作业记录 -->
 	<delete id="deleteBySidAndWid">
-		delete from wtrecord where wid=#{wid} and sid=#{sid}
+		delete from wtrecord where wid=#{wid} and sid=#{sid} and type=1
 		AND user1 IS NULL
 	</delete>
-
+	
+	<!-- 根据学生id和考试实例id删除 考试记录 -->
+	<delete id="deleteBySidAndWidTest">
+		delete from wtrecord where wid=#{wid} and sid=#{sid} and type=0
+		AND user1 IS NULL
+	</delete>
 
 
 	<resultMap type="com.CloudSchool.domain.Wtrecord"
@@ -318,9 +323,15 @@
 	<!-- 根据学生id和作业实例id 计算成绩 -->
 	<select id="queryByWidAndSidSumScore" resultType="int">
 		SELECT
-		SUM(score) FROM wtrecord WHERE wid=#{wid} AND sid=#{sid}
+		SUM(score) FROM wtrecord WHERE wid=#{wid} AND sid=#{sid} and type=1
 	</select>
-
+	
+	<!-- 根据学生id和考试实例id 计算成绩 -->
+	<select id="queryByWidAndSidSumScoreTest" resultType="Integer">
+		SELECT
+		SUM(score) FROM wtrecord WHERE wid=#{wid} AND sid=#{sid} and type=0
+	</select>
+	
 	<!-- write by lirui 查询学员的劣势知识点 -->
 	<select id="queryBadKnowledagePointBySid"
 		resultType="com.CloudSchool.domain.statistics.BadTopicVO">

@@ -116,7 +116,7 @@
 								<div class="workcontent" v-for="(obj,index) in list" v-bind:data-id="obj.id" v-bind:data-tid="obj.tid">
 									<!--题目-->
 									<div class="topic" style="display: flex;justify-content: space-between;">
-										{{obj.workid}}.{{obj.topicconten}}
+										{{obj.workid|noAddOne}}.{{obj.topicconten}}
 										<!-- 上机类型题目显示 -->
 										<button v-if="obj.tid==3" class="btn btn-success" style="float: right;">下载</button>
 									</div>
@@ -246,6 +246,11 @@
 			workmould:{},
 			staff:{},
 			obj:{}
+		},filters:{
+			noAddOne:function(value){//题目编号加1
+				value=value+1;
+				return value;
+			}
 		},methods: {
 			
 		},updated : function(){
