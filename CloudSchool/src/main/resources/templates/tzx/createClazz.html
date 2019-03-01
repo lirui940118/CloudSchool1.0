@@ -172,7 +172,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr v-for="obj,index in studentlist">
+											<tr v-for="obj,index in selstudentlist">
 												<td><label class="form-check-label"><input type="checkbox" name=studentid v-bind:value="obj.studentid" v-bind:studentnub="obj.studentnub" style=""><span class="form-check-sign"></span><label></td>
 												<td>{{obj.studentname}}</td>
 												<td style="font-size:8px;">{{obj.birthday}}</td>
@@ -212,6 +212,7 @@
 			major:null,	//null为非正常获取  0位改年级不分专业  >0表示正常专业
 			teacherlist:null,
 			studentlist:null,
+			selstudentlist:null,
 			pc:null,			//获取批次
 			cname:null,			//获取班级名
 			isFirstGrade:null,	//判断为新生班还是升学班
@@ -280,9 +281,22 @@
 		var tlist=$(".teacher table .t-content")
 		var slist=$(".student table .s-content")
 		data+="&tlist[0].tid="+tid+"&tlist[0].ismaster=1&tlist[0].isteacher=0"
+		console.log(tlist)
+		if(null==tlist||undefined==tlist||0==tlist.length){
+			alert("课程-教员信息不全，无法开班")
+			return
+		}
+		if(0==slist.length){
+			alert("学生为空，无法开班")
+			return
+		}
 		$.each(tlist,function(index,obj){
 			var courseid=$(obj).find("input[name=courseid]").val()
 			var tid=$(obj).find("[name=tid]").val()
+			if(null==tid||undefined==tid){
+				alert("课程-教员信息不全，无法开班")
+				return
+			}
 			data+="&tlist["+(index+1)+"].courseid="+courseid+"&tlist["+(index+1)+"].tid="+tid+"&tlist["+(index+1)+"].ismaster=0&tlist["+(index+1)+"].isteacher=1"
 			console.log(obj)
 		})
@@ -397,9 +411,15 @@
 	}
 	//分配班级编号名
 	function allotClazzName(){
-		var id=0
-		var array=[]
-		arrayStr="&array=5&array=6&array=9&array=10&array=12&array=13&array=14";
+		var id=1
+		var array=[5,6,9,10,12,13,14]
+		arrayStr=""
+		for(var i=0;i<array.length;i++){
+			arrayStr+="&array="+array[i]
+			console.log(array[i])
+		}
+		console.log(arrayStr)
+// 		arrayStr="&array=5&array=6&array=9&array=10&array=12&array=13&array=14";
 		$.post("allotClazzName","id="+id+arrayStr,function(result){
 			console.log("分配班级编号名：")
 			console.log(result)
@@ -454,8 +474,8 @@
 			console.log(result)
 			v.studentlist=result
 			if(result.length==0){
-				v.major=null
-				alert("获取数据异常：未正常查询到所有专业列表")
+				v.studentlist=null
+				alert("获取数据异常：未正常查询到所有学生列表或学生列表为空")
 			}
 		})
 	}
@@ -473,13 +493,14 @@
 				console.log("升学班")
 			}else{
 				$(".isFirstGrade").text("类型：异常")
-				console.log("获取数据异常：未正常查询到所有专业列表")
+				console.log("获取数据异常：未正常查询开班类型")
 			}
 		})
 	}
 	function showChoose(){
 		console.log("打开选择弹窗！")
 		$(".sel").show()
+		selstudentlist()
 	}
 	//弹窗-选择学生-隐藏
 	function chooseClose(){
@@ -492,7 +513,7 @@
 			alert("内容为空！")
 		}else{
 			$(".sel").show()
-			
+			selstudentlist()
 		}
 	}
 	//弹窗-选择学生-确认选中
@@ -542,6 +563,22 @@
 				v.targetstulist.splice(i, 1);
 			}
 		}
+	}
+	//按选择年级专业筛选学生选择列表
+	function selstudentlist(){
+		console.log("按选择年级专业筛选学生选择列表")
+		v.selstudentlist=[]
+		for(var i=0;i<v.studentlist.length;i++){
+			//新生与游离(年级、专业相匹配)升学 ---0新生班&&(新生||游离)
+			if(1==v.isFirstGrade&&(0==v.studentlist[i].ctype||(1==v.studentlist[i].ctype&&v.grade==v.studentlist[i].gid&&v.major==v.studentlist[i].mid))){
+				console.log("新生班")
+				v.selstudentlist.push(v.studentlist[i])
+			}else if(0==v.isFirstGrade&&((1==v.studentlist[i].ctype&&v.grade==v.studentlist[i].gid&&v.major==v.studentlist[i].mid)||(2==v.studentlist[i].ctype&&v.grade==v.studentlist[i].tagetgId&&v.major==v.studentlist[i].mid))){//升学 ---1升学班&&(游离||升学)
+				console.log("升学班")
+				v.selstudentlist.push(v.studentlist[i])
+			}
+		}
+		console.log(v.selstudentlist)
 	}
 	</script>
 </html>

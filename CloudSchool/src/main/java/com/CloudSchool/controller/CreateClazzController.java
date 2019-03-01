@@ -117,7 +117,7 @@ public class CreateClazzController {
 	@RequestMapping("/allotClazzName")
 	public String getClazzName(int id,int[] array) {
 		System.out.println("分配班级编号名");
-		return cs.getClazzName(3,new int[]{1,5,6,7,9,10,12,13,14,17,18,20,21});
+		return cs.getClazzName(id,array);
 	}
 	@ResponseBody
 	@RequestMapping("/allotClazzPC")
