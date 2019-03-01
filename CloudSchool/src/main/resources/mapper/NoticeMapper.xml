@@ -218,4 +218,12 @@
   	SELECT * FROM cqj_user u
 	<if test="receiverrange != 0"> WHERE u.`usertypenub`=#{receiverrange}-1</if>
   </select>
+  <select id="queryLastOneInAll" resultMap="ResultMapWithBLOBs">
+  	SELECT n.*,CONCAT(IFNULL(s.`staffname`,''),IFNULL(stu.`studentname`,''),IFNULL(p.`parentsname`,'')) AS `sendername` FROM notice AS n
+	LEFT JOIN cqj_user AS u ON u.`userid`=n.`sender`
+	LEFT JOIN cqj_staff AS s ON s.`staffid`=u.`usertypeid` AND u.`usertypenub`=0
+	LEFT JOIN cqj_student AS stu ON stu.`studentid`=u.`usertypeid` AND u.`usertypenub`=1
+	LEFT JOIN cqj_parents AS p ON p.`parentsid`=u.`usertypeid` AND u.`usertypenub`=2
+	WHERE n.`receiverRange`=0 ORDER BY id DESC LIMIT 1
+  </select>
 </mapper>

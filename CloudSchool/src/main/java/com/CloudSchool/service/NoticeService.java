@@ -23,4 +23,6 @@ public interface NoticeService {
     CqjUser querpersonerInfo(Integer uid);
 
 	List<Notice> query(String time, String str);
+	//查询最新的通知（只查全部中的最新）-tzx首页显示
+	Notice queryLastOneInAll();
 }

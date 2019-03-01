@@ -98,4 +98,10 @@ public class NoticeServiceImpl implements NoticeService {
 		}
 		return status;
 	}
+
+	@Override
+	public Notice queryLastOneInAll() {
+		// TODO Auto-generated method stub
+		return nm.queryLastOneInAll();
+	}
 }
