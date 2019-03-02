@@ -126,7 +126,7 @@
 	            	chk_value.push($(this).attr("data-id"));//将选中的值添加到数组chk_value中    
 	            });
 				//事件名称
-				var event_name =$("#eventName").val();
+				var eventName =$("#eventName").val();
 				//结束时间
 				var modificationtime=$("#modificationtime").val();
 				//开始时间
@@ -141,9 +141,9 @@
 					if(am){
 						//定义一个事件对象
 						var sj={};
-						sj.event_name=event_name;
+						sj.eventName=eventName;
 						sj.creatTime=creatTime;
-						sj.modificationtime;
+						sj.modificationtime=modificationtime;
 						sj.user1=0;
 						sj.user2=obj;
 						arry.push(sj);
@@ -151,9 +151,9 @@
 					if(pm){
 						//定义一个事件对象
 						var sj={};
-						sj.event_name=event_name;
+						sj.eventName=eventName;
 						sj.creatTime=creatTime;
-						sj.modificationtime;
+						sj.modificationtime=modificationtime;
 						sj.user1=1;
 						sj.user2=obj;
 						arry.push(sj);
@@ -162,11 +162,14 @@
 				})
 				console.log(arry);
 				$.ajax({
-					url:'zzyGradeAndClazz',
+					url:'insertEvents',
 					type:'POST',
-					dataType:'json',
+					data: JSON.stringify(arry),
+					dataType:"json",
+					contentType:'application/json;charset=utf-8',
 					success:function(data){
 						alert("添加成功");
+						location.reload();
 					}
 				})
 			})

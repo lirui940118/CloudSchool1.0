@@ -7,9 +7,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.CloudSchool.dao.ClassroomMapper;
 import com.CloudSchool.dao.ClazzMapper;
@@ -26,6 +28,7 @@ import com.CloudSchool.domain.ZzyGrade;
 import com.CloudSchool.service.ZzyClassScheduleService;
 
 @Service
+@Transactional
 public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
 	@Autowired
 	ClazzMapper claz;
@@ -245,12 +248,29 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
         	Integer size=cdate.size();
         	System.out.println(size+"次");
         	if(size==6){
+        		Random r=new Random();
+        		int i1=r.nextInt(5)+1;
+        		System.out.println("随机数是"+i1);
         		//如果每个礼拜是上了六天课 那么挑选其中的第三个改为休息
-        		schm.update(clazz.getId(), cdate.get(2));
+        		schm.update(clazz.getId(), cdate.get(i1-1));
         	}else if(size==7) {
         		//如果每个礼拜上了七天课那么 挑选其中的星期四和星期天休息
-        		schm.update(clazz.getId(), cdate.get(3));
-        		schm.update(clazz.getId(), cdate.get(6));
+        		Random r=new Random();
+        		int i1=r.nextInt(6)+1;
+        		int i2=r.nextInt(6)+1;
+        		boolean xh=true;
+        		while (xh) {
+					if(i1==i2||i1+1==i2||i2+1==i1) {
+						i1=r.nextInt(6)+1;
+						i2=r.nextInt(6)+1;
+					}else {
+						xh=false;
+					}
+				}
+        		System.out.println("随机数是"+i1);
+        		System.out.println("随机数是"+i2);
+        		schm.update(clazz.getId(), cdate.get(i1-1));
+        		schm.update(clazz.getId(), cdate.get(i2-1));
         	}
 		}
 		return 1;
@@ -266,11 +286,11 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
 			if(youkong3==0) {
 				//查询到所有上课的教室
 				List<Classroom> croom3=queryOccupyRoom(date,1);
-				if(croom3.size()>0) {
+				if(croom3.size()>0 && croom3!=null ) {
 					//当上午上课的所有条件成立后 查询下午是否有自习教室
 					//查询所有自习教室
 					List<Classroom> ZiXiRoom3  =queryAllZiXiRoom(date,0);
-					if(ZiXiRoom3.size()>0) {
+					if(ZiXiRoom3.size()>0 && ZiXiRoom3!=null) {
 						//下午上课 上午自习的条件全部满足 添加一条课表记录 
 						ZzyClassSchedule s1= new ZzyClassSchedule();
 						ZzyClassSchedule s2=new ZzyClassSchedule();
@@ -366,29 +386,33 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
 	public List<Classroom> queryOccupyRoom(Date date,Integer qj){
 		//查询到所有上课的教室
 		List<Classroom> croom=room.queryAllRoom();
+		List<Classroom> zz=new ArrayList<Classroom>();
 		//排除出当前日期 当前区间已经被占用的教室 
 		for (Classroom roomlist : croom) {
-			Integer roombool=room.queryOccupyRoom(roomlist.getCtid(),date,qj); 
+			Integer roombool=room.queryOccupyRoom(roomlist.getId(),date,qj); 
 			//如果当前教室已经被占用那么从教室集合中移除该教室
-			if(roombool==1) {
-				croom.remove(roomlist);
+			if(roombool==0) {
+				System.out.println(roomlist.getName()+"该教室已经占用了");
+				//croom.remove(roomlist);
+				zz.add(roomlist);
 			}
 		}
-		return croom;
+		return zz;
 	}
 	
 	//查询到当前日期 当前时间区间 可以用的自习教室
 	public List<Classroom> queryAllZiXiRoom(Date date,Integer qj){
 		List<Classroom> Ziroom=room.queryAllZiXiRoom();
+		List<Classroom> zz=new ArrayList<Classroom>();
 		for (Classroom roomZilist : Ziroom) {
-			Integer roombool=room.queryOccupyRoom(roomZilist.getCtid(),date,qj); 
+			Integer roombool=room.queryOccupyRoom(roomZilist.getId(),date,qj); 
 			//如果当前教室已经被占用那么从教室集合中移除该教室
-			if(roombool==1) {
-				System.out.println(roomZilist.getCtname()+"该教室已经占用了");
-				Ziroom.remove(roomZilist);
+			if(roombool==0) {
+				System.out.println(roomZilist.getName()+"该教室已经占用了");
+				zz.add(roomZilist);
 				}
 		}
-		return Ziroom;
+		return zz;
 	}
 	
 	

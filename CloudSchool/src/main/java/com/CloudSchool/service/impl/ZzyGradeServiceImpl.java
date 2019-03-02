@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.CloudSchool.dao.ZzyGradeMapper;
 import com.CloudSchool.domain.ZzyGrade;
 import com.CloudSchool.domain.statistics.GradeVO;
 import com.CloudSchool.service.ZzyGradeService;
 @Service
+@Transactional
 public class ZzyGradeServiceImpl implements ZzyGradeService{
 
 	@Autowired
@@ -39,6 +41,11 @@ public class ZzyGradeServiceImpl implements ZzyGradeService{
 	public List<ZzyGrade> queryGradeAndClazz() {
 		// TODO Auto-generated method stub
 		return zzyGradeMapper.queryGradeAndClazz();
+	}
+	@Override
+	public ZzyGrade queryBycid(Integer id) {
+		// TODO Auto-generated method stub
+		return zzyGradeMapper.queryBycid(id);
 	}
 
 }

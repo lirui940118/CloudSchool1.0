@@ -39,5 +39,11 @@ public interface CqjStaffMapper {
 
     //查询到所有任课老师(赵举峰)
     List<CqjStaff> queryTeachAll();
-
+    
+    
+    public List<CqjStaff> ZzyqueryTeachAll();
+    
+    public List<CqjStaff> ZzyqueryXinTeach();
+    
+    public Integer ZzyUpdateUser(Integer staffid);
 }

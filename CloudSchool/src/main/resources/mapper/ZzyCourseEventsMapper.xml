@@ -123,7 +123,7 @@
   		INSERT INTO `cloudSchool`.`zzy_course_events` (`event_name`,`creat_time`,`modificationtime`,`user1`,`user2`)
 		VALUES
 		<foreach collection="list" item="l" separator=",">
- 			(#{l.event_name},#{l.creat_time},#{l.modificationtime},#{l.user1},#{l.user2})
+ 			(#{l.eventName},#{l.creatTime},#{l.modificationtime},#{l.user1},#{l.user2})
  		</foreach>
 		
   </insert>

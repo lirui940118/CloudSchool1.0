@@ -311,15 +311,23 @@
 			})
 			
 			//升学点击事件
-			$("#shengxue").click(function(){
+			$("body").on("click","#shengxue",function(){
 				//班级id
-				var cid;
+				var cid=id;
 				//当前年级id
 				var gid;
 				//下个年级id
 				var ngid;
+				$.ajax({
+					url:'queryBycid2?cid='+cid,
+					type:'POST',
+					dataType:'json',
+					success:function(data){
+						console.log(data);
+						location.href="/user/goProgressing?cid="+cid+"&gid="+data.gid+"&ngid="+data.user2;
+					}
+				})
 				
-				location.herf="/user/goProgressing?";
 			})
 			
 			//使用AJax根据班级id查询班级游离已分配的学员以及现在所在的班级信息

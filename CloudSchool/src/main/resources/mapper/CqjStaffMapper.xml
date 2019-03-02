@@ -312,4 +312,20 @@
 		ON cqj_staff.`positionid`=cqj_position.`positionid`
 		WHERE cqj_position.`positionname`='任课老师'
 	</select>
+	
+	
+	<!-- 查询所有任课老师  张泽洋 -->
+	<select resultMap="BaseResultMap" id="ZzyqueryTeachAll">
+		SELECT cqj_staff.* FROM cqj_staff where positionid=5
+	</select>
+	
+	<!-- 查询所有新老师 张泽洋 -->
+	<select resultMap="BaseResultMap" id="ZzyqueryXinTeach">
+		SELECT cqj_staff.* FROM cqj_staff where standby5=9
+	</select> 
+	
+	<!-- 授课后将老师 状态从新职工改成0 -->
+	<update id="ZzyUpdateUser">
+		update cqj_staff set user5=0 where staffid=#{staffid}
+	</update>
 </mapper>

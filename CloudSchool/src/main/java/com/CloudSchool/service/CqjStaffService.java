@@ -2,6 +2,7 @@ package com.CloudSchool.service;
 
 import java.util.List;
 
+import com.CloudSchool.domain.CqjStaff;
 import com.CloudSchool.domain.statistics.StaffBaseVO;
 
 public interface CqjStaffService {
@@ -11,4 +12,10 @@ public interface CqjStaffService {
     public List<Integer> queryStaffAbility(Integer staffId);
     //查询职工职位id write by lirui
     public Integer queryPositionIdByStaffId(Integer staffId);
+    
+    public List<CqjStaff> ZzyqueryTeachAll();
+    
+    public List<CqjStaff> ZzyqueryXinTeach();
+    
+    public Integer ZzyUpdateUser(Integer staffid);
 }

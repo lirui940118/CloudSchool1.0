@@ -1,13 +1,14 @@
 package com.CloudSchool.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.CloudSchool.domain.ZzyMajor;
 
 public interface ZzyMajorService {
 	//循环添加专业
-	public int insertList(List<ZzyMajor> list);
+	int insertList(Map<String,Object> map);
 	
-	//查询所有专业
-	public List<ZzyMajor> queryAll();
+	//根据版本id查询所有专业
+	public List<ZzyMajor> queryAll(Integer vid);
 }

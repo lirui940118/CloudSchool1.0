@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.CloudSchool.dao.ZzyGradeMapper;
+import com.CloudSchool.dao.ZzyMajorMapper;
 import com.CloudSchool.dao.ZzyVersionMapper;
+import com.CloudSchool.domain.ZzyMajor;
 import com.CloudSchool.domain.ZzyVersion;
 import com.CloudSchool.service.ZzyVersionService;
 
@@ -22,6 +24,9 @@ public class ZzyVersionServiceimpl implements ZzyVersionService {
 
 	@Autowired
 	ZzyGradeMapper grma;
+	
+	@Autowired
+	ZzyMajorMapper major;
 
 	@Override
 	public int deleteByPrimaryKey(Integer vid) {
@@ -46,7 +51,10 @@ public class ZzyVersionServiceimpl implements ZzyVersionService {
 			}
 			
 		}
-		
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("vid", record.getVid());
+		map.put("list2",record.getList2());
+		major.insertList(map);
 		return 1;
 
 	}

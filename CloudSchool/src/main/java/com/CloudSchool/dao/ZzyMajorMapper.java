@@ -1,6 +1,7 @@
 package com.CloudSchool.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.CloudSchool.domain.ZzyMajor;
 
@@ -9,7 +10,7 @@ public interface ZzyMajorMapper {
 
     int insertSelective(ZzyMajor record);
     
-    int insertList(List<ZzyMajor> list);
+    int insertList(Map<String,Object> map);
     
-    public List<ZzyMajor> queryAll();
+    public List<ZzyMajor> queryAll(Integer vid);
 }

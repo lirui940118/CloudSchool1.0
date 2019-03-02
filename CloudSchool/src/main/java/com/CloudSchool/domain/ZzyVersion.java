@@ -32,8 +32,19 @@ public class ZzyVersion {
     private String user5;
     
     private List<ZzyGrade> list;
+    
+    //专业集合
+    private List<ZzyMajor> list2;
 
-    public List<ZzyGrade> getList() {
+    public List<ZzyMajor> getList2() {
+		return list2;
+	}
+
+	public void setList2(List<ZzyMajor> list2) {
+		this.list2 = list2;
+	}
+
+	public List<ZzyGrade> getList() {
 		return list;
 	}
 

@@ -28,8 +28,19 @@ public class ZzyTeacherAbility {
     private String user4;
 
     private String user5;
+    
+    //课程对象
+    private ZzyCourse  course;
 
-    public Integer getTaid() {
+    public ZzyCourse getCourse() {
+		return course;
+	}
+
+	public void setCourse(ZzyCourse course) {
+		this.course = course;
+	}
+
+	public Integer getTaid() {
         return taid;
     }
 

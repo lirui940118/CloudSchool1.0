@@ -1,6 +1,7 @@
 package com.CloudSchool.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,16 +17,36 @@ public class ZzyMajorServiceimpl implements ZzyMajorService{
 	@Autowired
 	ZzyMajorMapper ma;
 
-	@Override
-	public int insertList(List<ZzyMajor> list) {
-		// TODO Auto-generated method stub
-		return ma.insertList(list);
-	}
+	
+
+
+
+
+
+
+
+
 
 	@Override
-	public List<ZzyMajor> queryAll() {
+	public int insertList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return ma.queryAll();
+		return ma.insertList(map);
+	}
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public List<ZzyMajor> queryAll(Integer vid) {
+		// TODO Auto-generated method stub
+		return ma.queryAll(vid);
 	}
 	
 }

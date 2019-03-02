@@ -25,5 +25,8 @@ public interface ZzyCourseMapper {
     //根据年级id查询不分专业的年级的所有课程
     public List<ZzyCourse> queryBygidTwo(Integer gid);
     
+    //查询所有课程
+    public List<ZzyCourse> queryCourseAll();
+    
 
 }

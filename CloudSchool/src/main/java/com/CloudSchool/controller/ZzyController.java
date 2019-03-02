@@ -22,28 +22,35 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.CloudSchool.dao.ClassroomMapper;
 import com.CloudSchool.dao.ZzyClassCommitteeMapper;
 import com.CloudSchool.dao.ZzyRealtimeClassroomMapper;
+import com.CloudSchool.dao.ZzyTeacherAbilityMapper;
 import com.CloudSchool.domain.Classroom;
 import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.Clazzstudent;
+import com.CloudSchool.domain.CqjStaff;
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.ZzyClassPosition;
 import com.CloudSchool.domain.ZzyClassSchedule;
 import com.CloudSchool.domain.ZzyCourse;
+import com.CloudSchool.domain.ZzyCourseEvents;
 import com.CloudSchool.domain.ZzyEventType;
 import com.CloudSchool.domain.ZzyGrade;
 import com.CloudSchool.domain.ZzyMajor;
 import com.CloudSchool.domain.ZzyRealtimeClassroom;
+import com.CloudSchool.domain.ZzyTeacherAbility;
 import com.CloudSchool.domain.ZzyVersion;
 import com.CloudSchool.service.ClassStudentService;
 import com.CloudSchool.service.ClassroomService;
 import com.CloudSchool.service.ClazzService;
+import com.CloudSchool.service.CqjStaffService;
 import com.CloudSchool.service.ZzyClassCommitteeService;
 import com.CloudSchool.service.ZzyClassPositionService;
 import com.CloudSchool.service.ZzyClassScheduleService;
+import com.CloudSchool.service.ZzyCourseEventService;
 import com.CloudSchool.service.ZzyCourseService;
 import com.CloudSchool.service.ZzyGradeService;
 import com.CloudSchool.service.ZzyMajorService;
 import com.CloudSchool.service.ZzyRealtimeClassroomService;
+import com.CloudSchool.service.ZzyTeacherAbilityService;
 import com.CloudSchool.service.ZzyVersionService;
 
 @Controller
@@ -82,6 +89,15 @@ public class ZzyController {
 	@Autowired
 	ZzyRealtimeClassroomService realtime;
 	
+	@Autowired
+	ZzyCourseEventService courseevent;
+	
+	@Autowired
+	CqjStaffService cqjstaff;
+	
+	@Autowired
+	ZzyTeacherAbilityService teacher;
+	
 	List<ZzyClassPosition> deletelist=null;
 	
 	//查询所有版本
@@ -106,13 +122,7 @@ public class ZzyController {
 		return 1;
 	}
 	
-	//添加专业方法
-	@RequestMapping("/insertMajor")
-	@ResponseBody
-	public int insertMajor(@RequestBody List<ZzyMajor> major) {
-		majs.insertList(major);
-		return 1;
-	}
+	
 	
 	//跳转新增课程界面
 	@RequestMapping("/addCourse")
@@ -141,11 +151,11 @@ public class ZzyController {
 		return gras.queryByvid(vid);
 	}
 	
-	//查询所有专业
+	//根据版本查询专业
 	@RequestMapping("/queryMajorAll")
 	@ResponseBody
-	public List<ZzyMajor> queryMajorAll(){
-		return majs.queryAll();
+	public List<ZzyMajor> queryMajorAll(Integer vid){
+		return majs.queryAll(vid);
 	}
 	
 	//添加课程以及循环添加章节
@@ -325,7 +335,7 @@ public class ZzyController {
 		return list;
 	}
 	
-	//根据班级id查询班级对象
+	//根据班级id查询年级对象
 	@RequestMapping("queryBycid")
 	@ResponseBody
 	public Clazz queryBycid(Integer id) {
@@ -401,6 +411,62 @@ public class ZzyController {
 		return gras.queryGradeAndClazz();
 	}
 	
+	//添加事件
+	@RequestMapping("insertEvents")
+	@ResponseBody
+	public Integer insertEvents(@RequestBody List<ZzyCourseEvents> l) {
+		courseevent.insertEvents(l);
+		return 1;
+	}
 	
+	//班级详情点击 查询这个班级的年级信息
+	@RequestMapping("queryBycid2")
+	@ResponseBody
+	public ZzyGrade queryBycid2(Integer cid) {
+		return gras.queryBycid(cid);
+	}
+	
+	
+	//进入教师权限管理
+	@RequestMapping("Goteacher_ability")
+	public String Goteacher_ability() {
+		return "zzy/teacher_ability.html";
+	}
+	
+	//查询所有教师
+	@RequestMapping("ZzyqueryTeachAll")
+	@ResponseBody
+	public List<CqjStaff> ZzyqueryTeachAll(){
+		return cqjstaff.ZzyqueryTeachAll();
+	}
+	
+	//查询新教师
+	@RequestMapping("ZzyqueryXinTeach")
+	@ResponseBody
+	public List<CqjStaff> ZzyqueryXinTeach(){
+		return cqjstaff.ZzyqueryXinTeach();
+	}
+	
+	//根据教师id查询教师的所授课程
+	@RequestMapping("queryBytid")
+	@ResponseBody
+	public List<ZzyTeacherAbility> queryBytid(Integer tid){
+		return teacher.queryBytid(tid);
+	}
+	
+	//查询所有课程
+	@RequestMapping("queryCourseAll")
+	@ResponseBody
+	public List<ZzyCourse> queryCourseAll(){
+		return cous.queryCourseAll();
+	}
+	
+	//提交教师授权
+	@RequestMapping("tjxgjssq")
+	@ResponseBody
+	public Integer tjxgjssq(@RequestBody List<ZzyTeacherAbility> list) {
+		return teacher.insertTea(list);
+		
+	}
 	
 }

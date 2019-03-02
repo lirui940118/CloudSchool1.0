@@ -17,14 +17,14 @@
   </resultMap>
   <!-- 循环添加专业 -->
   <insert id="insertList">
-		insert into `zzy_major`(major_name) values
-		<foreach collection="list" item="l" separator="," >
-			(#{l.majorName})
+		insert into `zzy_major`(major_name,user1) values
+		<foreach collection="list2" item="l" separator="," >
+			(#{l.majorName},#{vid})
 		</foreach>
 	</insert>
 	<!-- 查询所有专业 -->
 	<select id="queryAll" resultMap="BaseResultMap">
-		select * from `zzy_major`
+		select * from `zzy_major` where user1=#{vid}
 	</select>
   <insert id="insert" parameterType="com.CloudSchool.domain.ZzyMajor">
     insert into zzy_major (mid, major_name,

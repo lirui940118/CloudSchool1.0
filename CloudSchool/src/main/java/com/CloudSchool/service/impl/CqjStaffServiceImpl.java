@@ -10,6 +10,7 @@ import com.CloudSchool.dao.CqjStaffMapper;
 import com.CloudSchool.dao.GkWjcsjfMapper;
 import com.CloudSchool.dao.LrConfigrateMapper;
 import com.CloudSchool.dao.LrStaffAbilityMapper;
+import com.CloudSchool.domain.CqjStaff;
 import com.CloudSchool.domain.LrConfigrate;
 import com.CloudSchool.domain.statistics.StaffBaseVO;
 import com.CloudSchool.service.CqjStaffService;
@@ -120,6 +121,27 @@ public class CqjStaffServiceImpl implements CqjStaffService{
 	@Override
 	public Integer queryPositionIdByStaffId(Integer staffId) {
 		return cqjStaffMapper.queryPositionIdByStaffId(staffId);
+	}
+
+
+	@Override
+	public List<CqjStaff> ZzyqueryTeachAll() {
+		// TODO Auto-generated method stub
+		return cqjStaffMapper.ZzyqueryTeachAll();
+	}
+
+
+	@Override
+	public List<CqjStaff> ZzyqueryXinTeach() {
+		// TODO Auto-generated method stub
+		return cqjStaffMapper.ZzyqueryXinTeach();
+	}
+
+
+	@Override
+	public Integer ZzyUpdateUser(Integer staffid) {
+		// TODO Auto-generated method stub
+		return cqjStaffMapper.ZzyUpdateUser(staffid);
 	}
 
 }

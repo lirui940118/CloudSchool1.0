@@ -16,5 +16,5 @@ public interface ZzyCourseEventsMapper {
     
     public ZzyCourseEvents queryBysjid(Integer ceid);
     
-    public Integer insertEvents(List<ZzyCourseEvents> l);
+    public Integer insertEvents(List<ZzyCourseEvents> list);
 }
