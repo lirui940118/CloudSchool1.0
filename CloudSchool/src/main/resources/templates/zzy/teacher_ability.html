@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>123</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+		<style type="text/css">
+				ul{
+					list-style: none;
+				}
+				ul li{
+					display: inline-block;
+				}
+				.clicknone{
+					display: none;
+				}
+				.clickblock{
+					display: table;
+				}
+				.tuchu{
+					padding:5px 30px
+				}
+				#anniuz ul li{
+					margin-left: -4.5px; padding:4px 20px 5.5px 20px;font-size: 0.8em;	
+				}
+				.tuchu{
+					padding:5px 30px
+				}
+				.modal-dialog {
+    				max-width: 1000px;
+    				}
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid row">
+					<h4 class="page-titl1e col-lg-12">教师授课权限</h4>
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">
+									<h4 class="page-titl1e col-lg-12 ">
+										<button style=" right: 10px;" class="btn btn-warning" id="xls">只搜索新员工</button>
+									</h4>
+							<table class="table table-bordered table-head-bg-info table-bordered-bd-info mt-4">
+											<thead>
+												<tr>
+													<th scope="col">姓名</th>
+													<th scope="col">性别</th>
+													<th scope="col">年龄</th>
+													<th scope="col">入职时间</th>
+													<th scope="col">操作</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr v-for="l in teacherlist">
+													<td>{{l.staffname}}</td>
+													<td v-if="l.sex==0">女</td>
+													<td v-if="l.sex==1">男</td>
+													<td>{{l.age}}</td>
+													<td>{{l.standby1}}</td>
+													<td style="width: 5%"><button class="btn btn-success banwei" v-bind:data-tid="l.staffid">授权</button></td>
+												</tr>
+											</tbody>
+										</table>
+								
+							</div>
+							<div class="card-body">
+								
+							</div>
+							<div class="footer">
+					
+						
+							</div>
+						</div>
+						</div>
+				</div>
+		</div>
+			<div class="modal fade show" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro" style="display: none; padding-right: 16px;">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<h6 class="modal-title"> 授课权限</h6>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true" id="close">×</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">
+					<div id="bwzh">
+								<div v-for="li in tlist" class="form-group has-error " style="padding: 3px 10px;">
+									<select v-bind:value="li.cid"  class="form-control input-square" style="width: 47%; display: inline;">
+										<option v-bind:value="cl.cid" v-for="cl in courselist" >
+											{{cl.courseName}}
+										</option>
+									</select>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" class="jianZhiwei">×</span></button>
+								</div>
+								
+								
+								<div v-for="n in count" class="form-group has-error " style="padding: 3px 10px;">
+									<select  class="form-control input-square" style="width: 47%; display: inline;">
+										<option v-bind:value="cl.cid" v-for="cl in courselist" >
+											{{cl.courseName}}
+										</option>
+									</select>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" class="jianZhiwei">×</span></button>
+								</div>
+					</div>
+					
+					<div id="hhide" style="display: none">
+							<select  class="form-control input-square" style="width: 25%; display:inline;">
+									<option v-for="stul in stulist" v-bind:value="stul.stu.studentid" v-if="stul.status==0">{{stul.stu.studentname}}</option>
+							</select>
+						</div>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal" id="addBan">增加授课</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal" id="add">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+			</div> 
+			
+		</div>
+		
+	</body>
+	<script th:src="@{/static/js/echarts.js}"></script>
+	<script th:src="@{/static/js/core/jquery.3.2.1.min.js}"></script>
+	<script th:src="@{/static/js/core/vue.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+	<script th:src="@{/static/js/core/popper.min.js}"></script>
+	<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+	<script th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+	<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+	<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+	<script th:src="@{/static/js/ready.min.js}"></script>
+	
+</html>
+<script type="text/javascript">
+		$(function(){
+			var v =new Vue({
+				el:'.main-panel',
+				data:{
+					teacherlist:null,
+					tlist:null,
+					courselist:null,
+					count:0,
+					tid:null
+				}
+			})
+			
+			$("body").on("click","#close",function(){
+				v.count=0;
+				$("#modalUpdate").hide();
+			})
+			
+			//点击减少职位
+			$("body").on("click",".jianZhiwei",function(){
+				$(this).parent().parent().remove();
+			})
+	
+			
+			
+			//点击添加班委按钮生成input
+			$("body").on("click","#addBan",function(){
+				++v.count;
+				//var sec=$("#hhide select").html();
+				//var p='<div class="form-group has-error " style="padding: 3px 10px;"><select  class="form-control input-square" style="width: 47%; display: inline;">'+op+'</select><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="jianZhiwei">×</span></button></div>';
+				//$("#bwzh").append(p);
+			});
+			
+			
+		
+			
+			//点击提交获取数据
+			$("body").on("click","#add",function(){
+				var lll=[];
+				var	sd=$("#bwzh div select");
+				$.each(sd,function(i,obj){
+					var llll={};
+					llll.tid=v.tid;
+					llll.cid=$(obj).val();
+					lll.push(llll);
+				})
+				//sdddddddddddddddddddddddddddddddddddddddddddddd
+		
+			console.log(JSON.stringify(lll))
+			$.ajax({
+				url:'tjxgjssq',
+				data:JSON.stringify(lll),
+				type:'POST',
+				dataType : "json",
+				contentType:'application/json;charset=utf-8',
+				success:function(data){
+					location.reload();
+				}
+			})
+			})
+			var op="";
+			//进入页面查询所有课程
+			$.ajax({
+					url:"queryCourseAll",
+					type:'POST',
+					success:function(data){
+							v.courselist=data;
+							$.each(data,function(i,obj){
+								op+="<option value="+obj.cid+">"+obj.courseName+"</option>";
+							})
+						}
+					})
+			
+			
+			//进入页面查询所有教师
+				$.ajax({
+					url:"ZzyqueryTeachAll",
+					type:'POST',
+					success:function(data){
+							v.teacherlist=data;
+						}
+					})
+					
+					
+			
+					
+			var bool = true;
+			//点击查询新老师按钮
+			$("body").on("click","#xls",function(){
+
+				if(bool){
+					$.ajax({
+						url:"ZzyqueryXinTeach",
+						type:'POST',
+						success:function(data){
+								v.teacherlist=data;
+							}
+						})
+						bool=false;
+				}else{
+					$.ajax({
+						url:"ZzyqueryTeachAll",
+						type:'POST',
+						success:function(data){
+								v.teacherlist=data;
+							}
+						})
+						bool=true;
+				}
+			});
+			
+			$("body").on("click",".banwei",function(){
+				//$("#bwzh").html(" ");
+				var tid=$(this).attr("data-tid");
+				v.tid=tid;
+				$.ajax({
+					url:"queryBytid?tid="+tid,
+					type:'POST',
+					success:function(data){
+							v.tlist=data;
+							console.log(data);
+						}
+					})
+				$("#modalUpdate").show();
+			})
+		})
+</script>

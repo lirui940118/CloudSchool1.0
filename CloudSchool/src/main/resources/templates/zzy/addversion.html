@@ -139,6 +139,8 @@
 			m.majorName=$(obj).find("[type=text]").val();
 			major.push(m);
 		});
+		version.list2=major;
+		
 		
 		//Ajax提交版本和年级信息 JSON.stringify(grade)+JSON.stringify(major)
 		$.ajax({
@@ -148,17 +150,8 @@
 			dataType:"json",
 			contentType:'application/json;charset=utf-8',
 			success:function(data){
-				//Ajax提交专业信息
-				$.ajax({
-					url:"insertMajor",
-					type:'POST',
-					data: JSON.stringify(major),
-					dataType:"json",
-					contentType:'application/json;charset=utf-8',
-					success:function(data){
-						location.href="addCourse";
-					}
-				})
+				
+				location.href="addCourse";
 			}
 		})
 		

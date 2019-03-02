@@ -160,4 +160,8 @@
 	<select id="queryCourseAll" resultMap="BaseResultMap">
 		select * from `zzy_course`
 	</select>
+	<!-- 查询所有课程  -->
+	<select id="ZzyqueryCourseAll" resultMap="BaseResultMap">
+		select * from `zzy_course`
+	</select>
 </mapper>

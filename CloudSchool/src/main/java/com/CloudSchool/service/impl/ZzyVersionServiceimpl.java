@@ -9,19 +9,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.CloudSchool.dao.ZzyGradeMapper;
+import com.CloudSchool.dao.ZzyMajorMapper;
 import com.CloudSchool.dao.ZzyVersionMapper;
+import com.CloudSchool.domain.ZzyMajor;
 import com.CloudSchool.domain.ZzyVersion;
 import com.CloudSchool.service.ZzyVersionService;
 
 @Service
 @Transactional
-public class ZzyVersionServiceimpl implements ZzyVersionService{
-	
+public class ZzyVersionServiceimpl implements ZzyVersionService {
+
 	@Autowired
 	ZzyVersionMapper ma;
-	
+
 	@Autowired
 	ZzyGradeMapper grma;
+	
+	@Autowired
+	ZzyMajorMapper major;
 
 	@Override
 	public int deleteByPrimaryKey(Integer vid) {
@@ -32,17 +37,26 @@ public class ZzyVersionServiceimpl implements ZzyVersionService{
 	@Override
 	public int insert(ZzyVersion record) {
 		// TODO Auto-generated method stub
-		//新增版本
-		int i=ma.insert(record);
-		//创建一个集合
-		Map<String,Object> map= new HashMap<String,Object>();
-		//第一个值为刚刚新建的版本的id
+		// 新增版本
+		int j = ma.insert(record);
+		for (int i = record.getList().size()-1; i >= 0; i--) {
+			if (record.getList().get(i) != null) {
+				if (i == record.getList().size()-1) {
+					record.getList().get(i).setUser2("-1");
+				} else {
+					record.getList().get(i).setUser2(record.getList().get(i + 1).getGid().toString());
+				}
+				record.getList().get(i).setVid(record.getVid());
+				grma.insertMap(record.getList().get(i));
+			}
+			
+		}
+		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("vid", record.getVid());
-		//第二个值为年级信息
-		map.put("list", record.getList());
-		//新增年级方法
-		grma.insertMap(map);
-		return i;
+		map.put("list2",record.getList2());
+		major.insertList(map);
+		return 1;
+
 	}
 
 	@Override

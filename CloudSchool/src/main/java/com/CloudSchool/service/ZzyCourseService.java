@@ -18,4 +18,6 @@ public interface ZzyCourseService {
 	 //查询所有课程(赵举峰)
 	 List<ZzyCourse> queryCourseAll();
 
+
+	 public List<ZzyCourse> ZzyqueryCourseAll();
 }

@@ -19,4 +19,9 @@ public interface CqjStaffService {
     
     public int addStaffs(List<CqjStaff> staff);
 
+    public List<CqjStaff> ZzyqueryTeachAll();
+    
+    public List<CqjStaff> ZzyqueryXinTeach();
+    
+    public Integer ZzyUpdateUser(Integer staffid);
 }

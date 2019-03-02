@@ -113,4 +113,31 @@
       </if>
     </trim>
   </insert>
+  <resultMap type="com.CloudSchool.domain.ZzyTeacherAbility" id="resul" extends="BaseResultMap">
+  		  	<association property="course" column="cid" javaType="com.CloudSchool.domain.ZzyCourse" select="com.CloudSchool.dao.ZzyCourseMapper.queryBycid"></association>	
+  </resultMap>
+  
+  <!--根据教员id  查询教员所有能教的课程 -->
+  <select id="queryBytid" resultMap="resul">
+		SELECT * FROM `zzy_teacher_ability` WHERE tid=#{tid}  
+  </select>
+  
+  <!-- 循环新增 -->
+  <insert id="insertTea">
+  		insert into zzy_teacher_ability(tid,cid) value
+  		<foreach collection="list" item="l" separator=",">
+  			(#{l.tid},#{l.cid})
+  		</foreach>
+  </insert>
+  
+  
+  <!-- 根据教师id 删除所有 -->
+  <delete id="deleteAllBytid">
+  		delete from zzy_teacher_ability where tid=#{tid}
+  </delete>
+  
+  <!-- 修改教师备用5状态 -->
+  <update id="updateStaffBytid">
+  		update cqj_staff set standby5=0 where staffid=#{tid}
+  </update>
 </mapper>

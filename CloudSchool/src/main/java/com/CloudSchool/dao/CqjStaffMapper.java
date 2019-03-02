@@ -46,4 +46,10 @@ public interface CqjStaffMapper {
     
     //获得当天最新的职工号
     public String getTimeNum();
+    
+    public List<CqjStaff> ZzyqueryTeachAll();
+    
+    public List<CqjStaff> ZzyqueryXinTeach();
+    
+    public Integer ZzyUpdateUser(Integer staffid);
 }

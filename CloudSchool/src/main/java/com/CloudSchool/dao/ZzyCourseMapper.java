@@ -28,6 +28,8 @@ public interface ZzyCourseMapper {
     
     //查询所有课程(赵举峰)
     List<ZzyCourse> queryCourseAll();
+    //查询所有课程
+    public List<ZzyCourse> ZzyqueryCourseAll();
     
 
 }

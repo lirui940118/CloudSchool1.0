@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.CloudSchool.dao.CqjStaffMapper;
 import com.CloudSchool.dao.LrStaffAbilityMapper;
@@ -20,6 +21,7 @@ import com.CloudSchool.service.CqjStaffService;
 import com.CloudSchool.service.ZzyCourseService;
 
 @Service
+@Transactional
 public class ZzyCourseServiceimpl implements ZzyCourseService{
 	
 	@Autowired
@@ -100,6 +102,11 @@ public class ZzyCourseServiceimpl implements ZzyCourseService{
 	public ZzyCourse queryBycid(Integer cid) {
 		// TODO Auto-generated method stub
 		return cous.queryBycid(cid);
+	}
+	@Override
+	public List<ZzyCourse> ZzyqueryCourseAll() {
+		// TODO Auto-generated method stub
+		return cous.ZzyqueryCourseAll();
 	}
 	
 	//根据年级查询课程(赵举峰)

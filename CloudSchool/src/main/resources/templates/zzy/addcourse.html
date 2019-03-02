@@ -38,6 +38,7 @@
 								<div class="form-group">
 									<label for="exampleFormControlSelect1">专业:</label>
 									<select class="form-control" id="exampleFormControlSelect3">
+										<option value="-1">-----不分专业-----</option> 
 										<option v-for="l3 in list3" v-bind:value="l3.mid">{{l3.majorName}}</option>
 									</select>
 								</div>
@@ -62,37 +63,7 @@
 								
 						</div>
 						<div class="card-footer">
-							<h4 class="page-titl1e col-lg-12 ">选择任教教员</h4>
-							<table class="table table-bordered table-head-bg-info table-bordered-bd-info mt-4">
-											<thead>
-												<tr>
-													<th scope="col">#</th>
-													<th scope="col">教员姓名</th>
-													<th scope="col">教员年龄</th>
-													<th scope="col">教员教龄</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td><input type="checkbox" name="" id="" value="" style="position: static;"/></td>
-													<td>Mark</td>
-													<td>Otto</td>
-													<td>@mdo</td>
-												</tr>
-												<tr>
-													<td><input type="checkbox" name="" id="" value="" style="position: static;"/></td>
-													<td>Jacob</td>
-													<td>Thornton</td>
-													<td>@fat</td>
-												</tr>
-												<tr>
-													<td><input type="checkbox" name="" id="" value="" style="position: static;"/></td>
-													<td>Larry the Bird</td>
-													<td>@twitter</td>
-													<td>@twitter</td>
-												</tr>
-											</tbody>
-										</table>
+							
 							<div class="card-action" style="float: right;">
 								<button class="btn btn-success" id="continue">继续添加</button>
 								<button class="btn btn-danger">添加结束</button>
@@ -126,6 +97,7 @@
 			list:null,
 			list2:null,
 			list3:null,
+			list4:null,
 		}
 	})
 		$(function(){
@@ -137,21 +109,15 @@
 				dataType:'json',
 				success:function(data){
 					queryByvid(data[0].vid);
+					queryByvidAndMajor(data[0].vid);
 					v.list=data;
 				}
 			})
-			//查询所有年级
-			$.ajax({
-				url:'queryMajorAll',
-				type:'POST',
-				dataType:'json',
-				success:function(data){
-					v.list3=data;
-				}
-			})
+			
 			//版本下拉框改变时取版本id调用方法
 			$("#exampleFormControlSelect1").change(function(){
 				queryByvid($(this).val());
+				queryByvidAndMajor($(this).val());
 			})
 			//点击添加章节按钮生成input
 			$("#addzhang").click(function(){
@@ -228,6 +194,18 @@
 				dataType:'json',
 				success:function(data){
 					v.list2=data;
+				}
+			})
+		}
+		//根据版本id查询版本所有专业方法
+		function queryByvidAndMajor(vid){
+			//查询所有版本
+			$.ajax({
+				url:'queryMajorAll?vid='+vid,
+				type:'POST',
+				dataType:'json',
+				success:function(data){
+					v.list3=data;
 				}
 			})
 		}

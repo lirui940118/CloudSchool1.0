@@ -152,8 +152,8 @@
   </update>
   
   <!-- 根据年级id查询所有班级 -->
-  <select id="queryBygid" resultMap="BaseResultMap">
-		select * from clazz where gid=#{gid};
+  <select id="queryBygid" resultMap="result">
+		select * from clazz where gid=#{gid} and `status`=2 ;
 	</select>
 	
 	<!-- 一对一查询班级的班主任对象 以及一对多查询班级的教员集合 -->

@@ -116,4 +116,15 @@
   <select id="queryBysjid" resultMap="BaseResultMap">
   		select * from `zzy_course_events` where `ceid`=#{ceid}
   </select>
+  
+  
+  <!-- 添加事件 -->
+  <insert id="insertEvents">
+  		INSERT INTO `cloudSchool`.`zzy_course_events` (`event_name`,`creat_time`,`modificationtime`,`user1`,`user2`)
+		VALUES
+		<foreach collection="list" item="l" separator=",">
+ 			(#{l.eventName},#{l.creatTime},#{l.modificationtime},#{l.user1},#{l.user2})
+ 		</foreach>
+		
+  </insert>
 </mapper>

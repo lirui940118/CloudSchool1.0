@@ -211,5 +211,24 @@ public class CqjStaffServiceImpl implements CqjStaffService {
 		cqjStaffMapper.addStaffs(staff);
 		return cum.addStaffUser(staff);
 	}
+	@Override
+	public List<CqjStaff> ZzyqueryTeachAll() {
+		// TODO Auto-generated method stub
+		return cqjStaffMapper.ZzyqueryTeachAll();
+	}
+
+
+	@Override
+	public List<CqjStaff> ZzyqueryXinTeach() {
+		// TODO Auto-generated method stub
+		return cqjStaffMapper.ZzyqueryXinTeach();
+	}
+
+
+	@Override
+	public Integer ZzyUpdateUser(Integer staffid) {
+		// TODO Auto-generated method stub
+		return cqjStaffMapper.ZzyUpdateUser(staffid);
+	}
 
 }

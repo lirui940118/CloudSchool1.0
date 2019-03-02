@@ -1,6 +1,7 @@
 package com.CloudSchool.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -14,4 +15,6 @@ public interface ZzyCourseEventsMapper {
     public Integer filtrateEvebts(@Param("time")Date time,@Param("user1")int user1,@Param("cid")int cid);
     
     public ZzyCourseEvents queryBysjid(Integer ceid);
+    
+    public Integer insertEvents(List<ZzyCourseEvents> list);
 }
