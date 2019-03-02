@@ -259,21 +259,33 @@ public class ClazzServiceImpl implements ClazzService {
 	}
 	@Override
 	public String getClazzPC(int gid,int mid) {
-		// TODO Auto-generated method stub
+		// 年份2018+年纪15+专业0000+排次01
 		Clazz c=cm.getLastClazzPC(gid,mid);
         Date date = new Date();
         int y=date.getYear()+1900;
 		String pc=null;
 		if(null==c) {
 			System.out.println("本年第一个批次");
-			pc=""+y+"01";
+			if(-1==mid) {
+				pc=""+y+"0000"+"01";
+			}else if(mid<10){
+				pc=""+y+"000"+mid+"01";
+			}else if(mid<100){
+				pc=""+y+"00"+mid+"01";
+			}else if(mid<1000){
+				pc=""+y+"0"+mid+"01";
+			}else{
+				pc=""+y+mid+"01";
+			}
 		}else {
 			System.out.println("年级id为："+gid+"，最后的一个班级批次为：:"+c.getPc()+",班级数："+c.getCount()+",相隔天数："+c.getNormalCount());
 			//设置批次限制最多4个班或startdate为30天间隔，否则是新批次
 			if(c.getCount()<4&&c.getNormalCount()<=30) {
 				pc=c.getPc();
 			}else {
-				pc=""+(Integer.parseInt(c.getPc())+1);
+				int nub=Integer.parseInt(c.getPc().substring(10,12));
+				nub++;
+				pc=nub>9?""+c.getPc().substring(0,10)+nub:""+c.getPc().substring(0,10)+"0"+nub;
 			}
 		}
 		System.out.println("分配的批次为："+pc);
