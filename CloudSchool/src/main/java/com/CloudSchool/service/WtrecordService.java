@@ -2,9 +2,12 @@ package com.CloudSchool.service;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestBody;
+
 import com.CloudSchool.domain.Workinstance;
 import com.CloudSchool.domain.Wtrecord;
 import com.CloudSchool.domain.statistics.BadTopicVO;
+import com.CloudSchool.domain.zjfvo.TestInfo;
 
 public interface WtrecordService {
 	public int pageSaveClose( Workinstance obj);
@@ -15,4 +18,6 @@ public interface WtrecordService {
     public Wtrecord queryTopicById(Integer id);
     
     public int updateScoreByWidSidTid(Wtrecord obj);
+    
+    public int testPublish(@RequestBody TestInfo obj);
 }

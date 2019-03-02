@@ -193,7 +193,7 @@
 	clazzcourseteacher.`isTeacher`, clazzcourseteacher.`isMaster`,clazzcourseteacher.`starttime`AS startTime,clazzcourseteacher.`endtime`AS endTime
 	FROM `clazz`
 	INNER JOIN `zzy_grade` ON `clazz`.gid = `zzy_grade`.`gid`
-	INNER JOIN `zzy_major` ON `zzy_major`.`mid` = `clazz`.`mid` 
+	LEFT JOIN `zzy_major` ON `zzy_major`.`mid` = `clazz`.`mid` 
 	INNER JOIN `clazzcourseteacher` ON `clazzcourseteacher`.`clazzid` = `clazz`.`id`
 	LEFT JOIN `zzy_course` ON `zzy_course`.`cid` = clazzcourseteacher.`courseid`
 	INNER JOIN `cqj_staff` ON `cqj_staff`.`staffid` = `clazzcourseteacher`.tid

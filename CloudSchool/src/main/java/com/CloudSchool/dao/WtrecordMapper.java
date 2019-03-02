@@ -41,4 +41,8 @@ public interface WtrecordMapper {
     
     //老师手动批改作业给分
     public int updateScoreByWidSidTid(Wtrecord obj);
+    
+    public int deleteBySidAndWidTest(@Param("wid") Integer wid,@Param("sid") Integer sid);
+    
+    Integer queryByWidAndSidSumScoreTest(@Param("wid") Integer wid,@Param("sid") Integer sid);
 }	

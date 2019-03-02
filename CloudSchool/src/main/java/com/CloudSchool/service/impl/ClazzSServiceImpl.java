@@ -1,5 +1,6 @@
 package com.CloudSchool.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,6 +48,12 @@ public class ClazzSServiceImpl implements ClazzSService{
 			Collections.sort(list);
 			return list;
 		}
+	}
+	@Override
+	public ArrayList<Integer> queryBaseInfoAboutALlCount() {
+		ArrayList<Integer> list = clazzSMapper.queryBaseInfoAboutALlCount();
+		//学员认识  员工人数  班级人数
+		return list;
 	}
 
 }

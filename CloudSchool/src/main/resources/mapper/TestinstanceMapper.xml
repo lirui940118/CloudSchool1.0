@@ -228,4 +228,21 @@
       time, status, user1)
       values(0,#{tid},#{starttime},#{endtime},#{uid},#{upgrade},#{endcourse},now(),#{status},#{user1})
   </insert>
+  
+   <!--根据考试实例id查询题目总数量  -->
+  <select id="queryTestTopicCount" resultType="int">
+  		SELECT COUNT(*) FROM testinstance
+		INNER JOIN testmodule  ON testinstance.`tId`=testmodule.`id`
+		INNER JOIN testinfo ON testmodule.`id`=testinfo.`testId`
+		WHERE testinstance.`id`=#{id}
+  </select>
+  
+  <!--根据 考试实例和题目类型查询该题目总数量  -->
+  <select id="queryByTypeCount" resultType="int">
+  		SELECT COUNT(*) FROM testinstance
+		INNER JOIN testmodule  ON testinstance.`tId`=testmodule.`id`
+		INNER JOIN testinfo ON testmodule.`id`=testinfo.`testId`
+		INNER JOIN topic  ON testinfo.`tId`=topic.`id`
+		WHERE topic.`tId`=#{tid} AND testinstance.`id`=#{id}
+  </select>
 </mapper>
