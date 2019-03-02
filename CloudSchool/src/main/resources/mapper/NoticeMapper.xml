@@ -196,7 +196,7 @@
 			AND DATE(notice.`time`)=DATE(#{time})
 		</if>
 	</where>
-	
+	ORDER BY `time` DESC
 
 	
   </select>

@@ -334,7 +334,7 @@
   </select>
   <!-- 获取当前最新一个班级批次-tzx -->
   <select id="getLastClazzPC" resultMap="BaseResultMap">
-  	SELECT pc,COUNT(*) AS `count`,DATEDIFF(NOW(),MAX(startdate)) AS normalCount FROM clazz WHERE `status` &gt;=-2 AND startdate &gt;CONCAT(YEAR(NOW()),'-1-1') AND gid=#{gid} GROUP BY pc ORDER BY pc DESC LIMIT 1
+  	SELECT pc,COUNT(*) AS `count`,DATEDIFF(NOW(),MAX(startdate)) AS normalCount FROM clazz WHERE `status` &gt;=-2 AND startdate &gt;CONCAT(YEAR(NOW()),'-1-1') AND gid=#{gid} AND `mid`=#{mid}  GROUP BY pc ORDER BY pc DESC LIMIT 1
   </select>
 	<!-- 查询所有正常状态的班级-->
 	<select id="queryAllWtj" resultMap="BaseResultMap">
