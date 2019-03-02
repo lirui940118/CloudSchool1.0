@@ -262,7 +262,10 @@ function addnotice(){
 	}else if(5==receiverrange){
 		receiverid=$(".clazz .receiverid]").val()
 	}
-	var data="title="+title+"&content="+content+"&receiverrange="+receiverrange+"&receiverid="+receiverid;
+	var data="title="+title+"&content="+content+"&receiverrange="+receiverrange;
+	if(null!=receiverid){
+		data+="&receiverid="+receiverid
+	}
 	alert(data)
 	console.log(data)
 		$.post("addnotice",data,function(result){

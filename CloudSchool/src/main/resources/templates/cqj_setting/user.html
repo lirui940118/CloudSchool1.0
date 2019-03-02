@@ -36,7 +36,7 @@
 
 <body>
 	<div class="main-panel">
-		<!-- <div id="hezi">
+		<div id="hezi">
 			<div class="spinner">
 				<div class="spinner-container container1">
 					<div class="circle1"></div>
@@ -57,7 +57,7 @@
 					<div class="circle4"></div>
 				</div>
 			</div>
-		</div> -->
+		</div>
 		<div class="content">
 			<div class="container-fluid">
 				<h4 class="page-title">用户管理</h4>
@@ -67,7 +67,7 @@
 						<div class="card">
 							<div class="card-body">
 								<p class="demo">
-									<button name="goInsertUsert" class="btn btn-success">新增用户</button>
+									<button name="goInsertStaff" class="btn btn-success">新增职员</button>
 									<button name="goInsertStudent" class="btn btn-success">新增学员</button>
 								</p>
 							</div>
@@ -280,8 +280,8 @@
 		getRole();
 		getPosition();
 		
-		$('[name="goInsertUsert"]').click(function(){
-			window.location.href="/user/goAddUser";
+		$('[name="goInsertStaff"]').click(function(){
+			window.location.href="/staff/goAddStaff";
 		});
 		
 		$('[name="goInsertStudent"]').click(function(){
@@ -299,6 +299,7 @@
 					if(data!="404"){
 						M.position=data;
 					}
+					infoBut.fadeOut();
 				}
 			})
 		}
@@ -313,6 +314,7 @@
 					if(data!="404"){
 						M.role=data;
 					}
+					infoBut.fadeOut();
 				}
 			})
 		}

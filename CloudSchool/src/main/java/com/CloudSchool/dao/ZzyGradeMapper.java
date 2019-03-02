@@ -42,4 +42,6 @@ public interface ZzyGradeMapper {
     int updateByPrimaryKeySelective(ZzyGrade record);
 
     int updateByPrimaryKey(ZzyGrade record);
+    //查询是否属于第一个年级1是0否-tzx
+    int isFirstGrade(int gid);
 }

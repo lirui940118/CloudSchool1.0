@@ -176,7 +176,7 @@
   
   <!-- 添加学生作业分数 -->
   <insert id="inserStuScore">
-  	insert into workGrade(id, wId, uId, score, rank, time)
+  	insert into workgrade(id, wId, uId, score, rank, time)
   	values(0,#{wid},#{uid},#{score},#{rank},now())
   </insert>
   

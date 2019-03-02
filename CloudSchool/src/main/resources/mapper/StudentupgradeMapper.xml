@@ -156,4 +156,9 @@
 			studentid=#{i.studentid}
 		</foreach>
 	</update>
+	<!-- 升学开班后改状态为1 -->
+	<update id="setStatusAfterCreateClazz">
+		update `studentupgrade` set status=1 where studentId in 
+		<foreach collection="list" item="i" open="(" separator="," close=")">#{i.studentid}</foreach>
+	</update>
 </mapper>

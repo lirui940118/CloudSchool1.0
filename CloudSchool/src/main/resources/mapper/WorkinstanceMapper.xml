@@ -307,10 +307,12 @@
 	
 	<!--根据作业实例id 查询作业模板总分  -->
   <select id="querySumScoreById" resultType="int">
-  		SELECT SUM(topic.`user1`) AS sumscore FROM workinstance
+  		
+SELECT workmould.`score` FROM workinstance
 		INNER JOIN workmould ON workinstance.`wid`=workmould.`id`
-		INNER JOIN workinfo ON workinfo.`wId`=workmould.`id`
-		INNER JOIN topic ON topic.`id`=workinfo.`tId`
 		WHERE workinstance.`id`=#{id}
   </select>
+  
+  
+ 
 </mapper>

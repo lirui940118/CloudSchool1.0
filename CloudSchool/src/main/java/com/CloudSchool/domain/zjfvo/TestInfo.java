@@ -46,5 +46,34 @@ public class TestInfo {
 	}
 	private CqjStaff cqjStaff;
 	private List<Testinfo> list;
+	private Integer score;
+	private Integer tcount;
+	private Integer exit;
+	public Integer getExit() {
+		return exit;
+	}
+	public void setExit(Integer exit) {
+		this.exit = exit;
+	}
+	public Integer getScore() {
+		return score;
+	}
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+	public Integer getTcount() {
+		return tcount;
+	}
+	public void setTcount(Integer tcount) {
+		this.tcount = tcount;
+	}
+	private  Integer sid;
+	public Integer getSid() {
+		return sid;
+	}
+	public void setSid(Integer sid) {
+		this.sid = sid;
+	}
+	
 
 }

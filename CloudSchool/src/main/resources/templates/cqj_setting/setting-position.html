@@ -103,7 +103,7 @@
 							<div class="card-header">
 								<h4 class="card-title">权限</h4>
 								<p style="float: right;" class="demo">
-									<button infoBut moduleUrl="/position/update" name="baochun" class="btn btn-success">保存</button>
+									<button data-target="#modalUpdate" infoBut moduleUrl="/position/update" name="baochun" class="btn btn-success">保存</button>
 								</p>
 							</div>
 							<div   class="card-body dtree "
@@ -118,7 +118,25 @@
 			</div>
 		</div>
 	</div>
-
+	<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<h6 class="modal-title"><i class="la la-file"></i>提示</h6>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">									
+					<p id="nihao">修改成功</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 <script type="text/javascript">
 
@@ -187,7 +205,7 @@ var v = new Vue({
 								dataType:"json",
 								//contentType: "application/json",
 								success:function(data){
-									
+									$("#modalUpdate").modal("show");
 								}
 							});		
 						});

@@ -2,6 +2,10 @@ package com.CloudSchool.domain;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Notice {
     private Integer id;
 
@@ -10,7 +14,7 @@ public class Notice {
     private Integer sender;
 
     private String url;
-
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss",timezone="GMT+8")
     private Date time;
     //接收者范围：0全部、教职工、学生、家长、年级、班级
     private Integer receiverrange;

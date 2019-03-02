@@ -157,4 +157,14 @@
 						#{i.studentid}
 				</foreach>
  		</update>
+  <!-- 游离学生分班后将状态3游离改为4游离已分配-tzx -->
+  <update id="setStudentStatusAfterCreateClazz">
+  	UPDATE clazzstudent 
+	SET `status`=CASE 
+	<foreach collection="list" item="item">
+		WHEN sid=#{item.studentid} THEN 4 
+	</foreach>
+	END
+	WHERE `status`=3
+  </update>
 </mapper>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.CloudSchool.domain.ClazzInfo;
+import com.CloudSchool.domain.CqjStaff;
 import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.CqjUser;
 
@@ -39,5 +40,7 @@ public interface CqjUserMapper {
     int insertAll(List<CqjUser> u);
     //gk通过userid判断是否为学生，if是，则带出当前班级id插入访谈记录表 -->
 	Integer queryCidByUserid(Integer userid);
+	//批量分配职工的系统登录账号user
+	int addStaffUser(List<CqjStaff> staff);
     
 }

@@ -22,6 +22,9 @@ import com.CloudSchool.domain.zjfvo.PublishWorkInfo;
 import com.CloudSchool.domain.zjfvo.WorkPublishParam;
 import com.CloudSchool.service.WorkMouldService;
 import com.CloudSchool.service.WorkinStanceService;
+import com.CloudSchool.timer.AddScoreTaskJob;
+import com.CloudSchool.timer.DynamicTaskJobs;
+import com.CloudSchool.timer.WorkStatusTaskJob;
 @Service
 @Transactional
 public class WorkinStanceServiceImpl implements WorkinStanceService{
@@ -35,6 +38,16 @@ public class WorkinStanceServiceImpl implements WorkinStanceService{
 	
 	@Autowired
 	WorkmouldMapper workmouldMapper;
+	
+	@Autowired
+	AddScoreTaskJob addScoreTaskJob;
+	
+	@Autowired
+	DynamicTaskJobs dynamicTaskJobs;
+	
+	@Autowired
+	WorkStatusTaskJob workStatusTaskJob;
+	
 	//发布作业
 	@Override
 	public int publishWork(WorkPublishParam obj) {
@@ -58,16 +71,19 @@ public class WorkinStanceServiceImpl implements WorkinStanceService{
 					map.put("user1",clazz.getId());
 					int a=participationworkstuMapper.insertList(map); //添加参加这次作业的学生
 					if(a>0) {
-						count+=workmouldMapper.updateCountByid(obj.getObj().getWid());	//修改模板使用次数
-					}else {
-						return 0;
+						addScoreTaskJob.zzz(1,wid);
+						String time=obj.getObj().getStarttime();
+						time=time.replace("T", " ");
+						dynamicTaskJobs.addTaskJob(addScoreTaskJob, time+":00");
+						String endtime=obj.getObj().getEndtime();
+						endtime=endtime.replace("T", " ");
+						workStatusTaskJob.zzz(2, wid);
+						dynamicTaskJobs.addTaskJob(workStatusTaskJob, endtime+":00");
+						return count+=workmouldMapper.updateCountByid(obj.getObj().getWid());	//修改模板使用次数
 					}
 				}else {
 					return 0;
 				}
-			}
-			if(count>0) {
-				return obj.getObj().getId();
 			}			
 		}
 		return 0;

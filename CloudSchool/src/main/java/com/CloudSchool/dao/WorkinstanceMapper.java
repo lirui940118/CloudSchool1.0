@@ -28,4 +28,6 @@ public interface WorkinstanceMapper {
     Workinstance queryWorkStuInfo(Integer id);
     
     int querySumScoreById(Integer id);
+    
+   
 }

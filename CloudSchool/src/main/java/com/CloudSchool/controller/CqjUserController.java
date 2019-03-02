@@ -94,7 +94,7 @@ public class CqjUserController {
 	@ResponseBody
 	public PageBean getPage(Integer pageSize,String filtrate,Integer cur) {
 		if(pageSize==null) {
-			pageSize=2;
+			pageSize=50;
 		}
 		PageBean page=cus.pageUser(filtrate, cur, pageSize);
 		return page;

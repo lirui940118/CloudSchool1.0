@@ -12,8 +12,9 @@
 		<style type="text/css">
 			.jb .form-control{width: 50%;}
 			.form-group, .form-check{padding: 10px 10px}
-			.sel input{position:relative;left:auto;}
+			.sel input{position:relative;left:auto;position:unset;} 
 			.sel .btnchooseClose:hover{backgroud-color:red;}
+			.form-group{position: relative;}
 		</style>
 	</head>
 
@@ -30,7 +31,9 @@
 							<div class="card-body">
 								<div class="form-group">
 									<label for="smallInput">名称：</label>
-									<input type="text" class="form-control form-control-sm" id="smallInput" name="cname" placeholder="AT1717">
+									<input type="text" class="form-control form-control-sm" id="smallInput" name="cname" placeholder="例如：AT1717" disabled="disabled">
+									<label class="pc" style="position: absolute;font-size: 9px !important;top: 15%;left: 15%;color:rgba(63, 64, 71, 0.49) !important;">批次： </label>
+									<label class="isFirstGrade" style="position: absolute;font-size: 9px !important;top: 15%;left: 30%;color:rgba(63, 64, 71, 0.49) !important;">类型：</label>
 								</div>
 								<div class="form-group">
 									<label for="exampleSelect">版本：</label>
@@ -74,7 +77,7 @@
 								<div class="card-title">选择教员</div>
 							</div>
 							<div class="card-body">
-								<table class="table table-hover">
+								<table class="table table-head-bg-success table-striped table-hover">
 									<thead>
 										<tr>
 											<th scope="col">名称</th>
@@ -111,7 +114,7 @@
 								<div class="card-title">选择学生</div>
 							</div>
 							<div class="card-body">
-								<table class="table table-hover">
+								<table class="table table-head-bg-success table-striped table-hover">
 									<thead>
 										<tr>
 											<th scope="col">姓名</th>
@@ -124,15 +127,6 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr class="s-content">
-											<td><input type="hidden" name=sid value="1" style="border: 0px;width: 100%;">张三</td>
-											<td>男</td>
-											<td>2000.11.11</td>
-											<td>12323123131</td>
-											<td>新生</td>
-											<td style="font-size:8px;max-width:100px;padding: 0 !important;"></td>
-											<td>删除</td>
-										</tr>
 										<tr v-for="obj,index in targetstulist" class="s-content">
 											<td><input type="hidden" name=sid v-bind:value="obj.studentid" v-bind:studentnub="obj.studentnub" style="border: 0px;width: 100%;">{{obj.studentname}}</td>
 											<td v-if="1==obj.sex">男</td><td v-if="0==obj.sex">女</td>
@@ -158,14 +152,14 @@
 							<button class="btn btn-link" disabled style="color: red;">放弃</button>
 						</p>
 						<div class="sel" style="display:none;background:rgba(255,255,255,0.6);width:100%;min-width:500px;height:100%;min-height:300px;position:fixed;top:0;left:0;">
-							<p class="demo" style="position: absolute;top: 14%;right: 9%;z-index:99;">
+							<p class="demo" style="position: absolute;top: 14%;right: 11%;z-index:99;">
 								<button onclick="chooseAll()" class="btn btn-primary btn-xs">添加学生</button>
 								<button onclick="chooseClose()" class="btnchooseClose btn btn-warning btn-xs">取消</button>
 							</p>
 							<div style="background:#66ccd0;max-height: 35%;overflow-y: auto;min-width:80%;min-height:300px;position:absolute;top:13%;left:10%;">
 								<label for="exampleSelect">升学：</label>
 								<div class="card-body">
-									<table class="table table-hover">
+									<table class="table table-head-bg-success table-striped table-hover">
 										<thead>
 											<tr>
 												<th scope="col">选择</th>
@@ -179,7 +173,7 @@
 										</thead>
 										<tbody>
 											<tr v-for="obj,index in studentlist">
-												<td><input type="checkbox" name=studentid v-bind:value="obj.studentid" v-bind:studentnub="obj.studentnub" style="position:unset;"></td>
+												<td><label class="form-check-label"><input type="checkbox" name=studentid v-bind:value="obj.studentid" v-bind:studentnub="obj.studentnub" style=""><span class="form-check-sign"></span><label></td>
 												<td>{{obj.studentname}}</td>
 												<td style="font-size:8px;">{{obj.birthday}}</td>
 												<td style="font-size:8px;">{{obj.vname}}</td>
@@ -218,8 +212,9 @@
 			major:null,	//null为非正常获取  0位改年级不分专业  >0表示正常专业
 			teacherlist:null,
 			studentlist:null,
-			pc:null,
-			cname:null,
+			pc:null,			//获取批次
+			cname:null,			//获取班级名
+			isFirstGrade:null,	//判断为新生班还是升学班
 			mlist:null,
 			tlist:null,
 			targetstulist:[]	//选中的开班学生集合
@@ -247,11 +242,14 @@
 				v.tlist=null
 				//绑定版本年级对应的专业列表
 				BindingMajorListAfterselGrade()
+				allotClazzName()	//获取班级名
+				isFirstGrade()	//判断为新生班还是升学班
 			},
 			getSelMajor:function(major){
 				alert(major)
 				console.log("选择专业："+major)
 				v.major=major
+				allotClazzPC()
 			}
 		}
 	})
@@ -285,7 +283,7 @@
 		$.each(tlist,function(index,obj){
 			var courseid=$(obj).find("input[name=courseid]").val()
 			var tid=$(obj).find("[name=tid]").val()
-			data+="&tlist["+(index+1)+"].courseid="+courseid+"&tlist["+(index+1)+"].tid="+tid+"&tlist["+(index+1)+"].isMaster=0&tlist["+(index+1)+"].isTeacher=1"
+			data+="&tlist["+(index+1)+"].courseid="+courseid+"&tlist["+(index+1)+"].tid="+tid+"&tlist["+(index+1)+"].ismaster=0&tlist["+(index+1)+"].isteacher=1"
 			console.log(obj)
 		})
 		$.each(slist,function(index,obj){
@@ -301,10 +299,15 @@
 		alert("添加学生："+slist.length+"个")
 		data+="&count="+slist.length
 		console.log(data)
-// 		$.post("craeteClazz",data,function(result){
-// 			alert(result)
-// 			console.log(result)
-// 		})
+		$.post("craeteClazz",data,function(result){
+			console.log(result)
+			if(0<result){
+				alert("开班成功！")
+				window.location.reload()
+			}else{
+				alert("开班失败！")
+			}
+		})
 	}
 	//获取版本
 	function getAllVersion(){
@@ -332,6 +335,8 @@
 				v.grade=v.gradelist[0].gid
 				//绑定版本年级对应的专业列表
 				BindingMajorListAfterselGrade()
+				allotClazzName()	//获取班级名
+				isFirstGrade()	//判断为新生班还是升学班
 			}
 			console.log(v.grade)
 		})
@@ -377,6 +382,7 @@
 				v.major=null
 			}else{
 				v.major=v.selmajorlist[0].mid
+				allotClazzPC()
 				//获取课程-教员
 				getTeacherList()
 			}
@@ -384,6 +390,7 @@
 		}else{
 			console.log("该年级不分专业")
 			v.major=-1
+			allotClazzPC()
 			//获取课程-教员
 			getTeacherList()
 		}
@@ -394,25 +401,26 @@
 		var array=[]
 		arrayStr="&array=5&array=6&array=9&array=10&array=12&array=13&array=14";
 		$.post("allotClazzName","id="+id+arrayStr,function(result){
-			console.log("获取到专业：")
+			console.log("分配班级编号名：")
 			console.log(result)
-			v.majorlist=result
+			$("input[name=cname]").val(result)
 			if(result.length==0){
 				v.major=null
-				alert("获取数据异常：未正常查询到所有专业列表")
+				alert("获取数据异常：未正常查询班级编号名")
 			}
 		})
 	}
 	//分配班级批次
-	function allotClazzName(){
+	function allotClazzPC(){
 		if(v.grade==null){
 			alert("请先选择年级,才能分配到班级批次！")
 			return
 		}
 		$.post("allotClazzPC","gid="+v.grade,function(result){
-			console.log("获取到专业：")
+			console.log("获取到班级批次：")
 			console.log(result)
 			v.pc=result
+			$(".pc").text("批次："+result)
 		})
 	}
 	//获取课程-教员列表
@@ -448,6 +456,24 @@
 			if(result.length==0){
 				v.major=null
 				alert("获取数据异常：未正常查询到所有专业列表")
+			}
+		})
+	}
+	//查询是否为第一个年级
+	function isFirstGrade(){
+		$.post("isFirstGrade","gid="+v.grade,function(result){
+			console.log("开班-查询是否为第一个年级："+v.grade)
+			console.log(result)
+			v.isFirstGrade=result
+			if(1==result){
+				$(".isFirstGrade").text("类型：新生班")
+				console.log("新生班")
+			}else if(0==result){
+				$(".isFirstGrade").text("类型：升学班")
+				console.log("升学班")
+			}else{
+				$(".isFirstGrade").text("类型：异常")
+				console.log("获取数据异常：未正常查询到所有专业列表")
 			}
 		})
 	}

@@ -13,4 +13,6 @@ public interface StudentupgradeMapper {
     int addStudentUpGrades(List<Studentupgrade> Studentupgrade);
     
     int updateStudentUpGrade(List<CqjStudent> Studentupgrade);
+    //升学开班后改状态为1
+    int setStatusAfterCreateClazz(List<CqjStudent> list);
 }

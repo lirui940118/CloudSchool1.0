@@ -33,5 +33,7 @@ public interface NoticeMapper {
 	 * @return
 	 */
 	int[] getNoticeReceiveByGradeidOrClazzid(@Param("gradeid")Integer gradeid,@Param("clazzid")Integer clazzid);
-	int[] getNoticeReceiveByRange(Integer receiverrange);
+	int[] getNoticeReceiveByRange(@Param("receiverrange")Integer receiverrange);
+	//查询最新的通知（只查全部中的最新）-tzx首页显示
+	Notice queryLastOneInAll();
 }

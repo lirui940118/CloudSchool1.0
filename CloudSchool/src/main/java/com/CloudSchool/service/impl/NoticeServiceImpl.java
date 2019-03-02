@@ -29,8 +29,7 @@ public class NoticeServiceImpl implements NoticeService {
 	public int insert(Notice record) {
 		// TODO Auto-generated method stub
 		sendnoticeTips(record);
-//		return nm.insert(record);
-		return 1;
+		return nm.insert(record);
 	}
 
 	@Override
@@ -98,5 +97,11 @@ public class NoticeServiceImpl implements NoticeService {
 			status = handler.sendMsg(receiver+"", "notice-<div class=\"m_message_left\">"+n.getContent()+"</div>");
 		}
 		return status;
+	}
+
+	@Override
+	public Notice queryLastOneInAll() {
+		// TODO Auto-generated method stub
+		return nm.queryLastOneInAll();
 	}
 }

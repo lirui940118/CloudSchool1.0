@@ -588,4 +588,11 @@ ORDER BY stuinfo
 		JOIN `clazzstudent` AS cs ON (s.studentid = cs.`sid`) AND cs.`status` = 0
 		WHERE u.userid = #{userid}
 	</select>
+	<!-- 为职工批量添加user登录账号 -->
+	<insert id="addStaffUser" useGeneratedKeys="true" keyProperty="userid" >
+		INSERT INTO cqj_user VALUES
+	    <foreach collection="list" item="s" separator=",">
+	    	(0,#{s.staffnub},'8888',2,#{s.staffid},0,DATE(now()),null,0,null,null,null,null,null,null,null)
+	    </foreach>
+	</insert>
 </mapper>

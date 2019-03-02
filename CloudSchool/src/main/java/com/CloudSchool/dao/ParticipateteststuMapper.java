@@ -28,4 +28,6 @@ public interface ParticipateteststuMapper {
     List<StuTestInfo> queryStuTestAllBySid(Integer sid);
     
     TestInfo  queryTestInfoBySidAndTid(@Param("id")Integer id,@Param("sid")Integer sid);
+    
+    int updateStatusById(@Param("user3")Integer user3,@Param("sid")Integer sid,@Param("tid")Integer tid);
 }

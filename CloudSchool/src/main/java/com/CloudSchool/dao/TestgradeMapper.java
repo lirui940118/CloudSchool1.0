@@ -33,4 +33,6 @@ public interface TestgradeMapper {
     int updateByPrimaryKeySelective(Testgrade record);
 
     int updateByPrimaryKey(Testgrade record);
+    
+    int insertObj(Testgrade obj);
 }

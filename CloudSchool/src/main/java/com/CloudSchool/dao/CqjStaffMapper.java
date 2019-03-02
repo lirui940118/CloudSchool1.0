@@ -1,5 +1,6 @@
 package com.CloudSchool.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.CloudSchool.domain.CqjStaff;
@@ -39,5 +40,10 @@ public interface CqjStaffMapper {
 
     //查询到所有任课老师(赵举峰)
     List<CqjStaff> queryTeachAll();
-
+    
+    //批量新增职工
+    public int addStaffs(List<CqjStaff> staff);
+    
+    //获得当天最新的职工号
+    public String getTimeNum();
 }

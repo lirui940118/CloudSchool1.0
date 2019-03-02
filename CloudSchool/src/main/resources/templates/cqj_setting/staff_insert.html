@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>用户管理-新增用户</title>
+<title>用户管理-新增职工</title>
 <meta
 	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
 	name='viewport' />
@@ -60,7 +60,7 @@
 		</div> -->
 		<div class="content">
 			<div class="container-fluid">
-				<h4 class="page-title">新增用户</h4>
+				<h4 class="page-title">新增职工</h4>
 
 				<div class="row">
 					<div class="col-md-12">
@@ -72,14 +72,12 @@
 										id="exampleFormControlFile1" onchange="importf(this)">
 								</div>
 								<p class="demo">
-									<button data-target="#modalUpdate" name="goInsertStudent" class="btn btn-success">新增学员</button>
+									<button data-target="#modalUpdate" name="goInsertStudent" class="btn btn-success">新增职工</button>
 								</p>
 							</div>
 						</div>
 					</div>
-
 				</div>
-				
 				<div class="row">
 					<div class="col-md-12">
 						<div class="card">
@@ -99,7 +97,7 @@
 									</thead>
 									<tbody>
 										<tr v-for="(e,index) in excelJson">
-											<td>{{e.studentname}}</td>
+											<td>{{e.staffname}}</td>
 											<td>{{e.sex==1?'男':'女'}}</td>
 											<td>{{e.phone}}</td>
 											<td>{{e.idcard}}</td>
@@ -129,7 +127,7 @@
 					</button>
 				</div>
 				<div class="modal-body text-center">									
-					<p id="nihao">修改成功</p>
+					<p id="nihao">新增职工成功</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button>
@@ -178,7 +176,7 @@
 	$(function(){
 		$('[name="goInsertStudent"]').click(function(){
 			$.ajax({
-				url : "/student/addStudents",
+				url : "/staff/addStaffs",
 				data :JSON.stringify( v.excelJson),
 				type : "post",
 				contentType: "application/json",
@@ -221,15 +219,13 @@
             delete  excelJson.姓名;
            
             
-            excelJson = JSON.parse(JSON.stringify(excelJson).replace(/学生姓名/g,"studentname")
-            		.replace(/学生性别/g,"sex")
-            		.replace(/学生年龄/g,"age")
-            		.replace(/学生手机/g,"phone")
-            		.replace(/学生身份证/g,"idcard")
-            		.replace(/学生地址/g,"address")
-            		.replace(/学生邮箱/g,"email")
-            		.replace(/学生家长手机号/g,"standby4")
-            		.replace(/家长名称/g,"parentsname")
+            excelJson = JSON.parse(JSON.stringify(excelJson).replace(/姓名/g,"staffname")
+            		.replace(/性别/g,"sex")
+            		.replace(/年龄/g,"age")
+            		.replace(/手机/g,"phone")
+            		.replace(/身份证/g,"idcard")
+            		.replace(/地址/g,"address")
+            		.replace(/邮箱/g,"email")
             		);
             v.excelJson=excelJson;
             console.log(excelJson)
