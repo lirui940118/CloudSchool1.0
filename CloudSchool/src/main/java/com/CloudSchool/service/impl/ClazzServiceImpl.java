@@ -57,12 +57,17 @@ public class ClazzServiceImpl implements ClazzService {
 		int isFirstGrade=gm.isFirstGrade(c.getGid());
 		if(1==isFirstGrade) {
 			System.out.println("新生班级");
+			c.setCname(getClazzName(0, null));
 		}else {
 			System.out.println("升学班级");
+			int[] array=new int[c.getSlist().size()-1];
+			for (int i = 0; i < c.getSlist().size(); i++) {
+				array[i]=c.getSlist().get(i).getStudentid();
+			}
+			c.setCname(getClazzName(1, array));
 		}
-		c.setStatus(1);
-		c.setCname(getClazzName(0, null));
-		c.setPc(getClazzPC(c.getGid()));
+		c.setStatus(2);
+		c.setPc(getClazzPC(c.getGid(),c.getMid()));
 		int jg=cm.insert(c);
 		System.out.println("开班----clazz-"+jg+"-"+c.getId()+"-"+c.getCname());
 		//绑定老师
@@ -253,9 +258,9 @@ public class ClazzServiceImpl implements ClazzService {
 		return cname;
 	}
 	@Override
-	public String getClazzPC(int gid) {
+	public String getClazzPC(int gid,int mid) {
 		// TODO Auto-generated method stub
-		Clazz c=cm.getLastClazzPC(gid);
+		Clazz c=cm.getLastClazzPC(gid,mid);
         Date date = new Date();
         int y=date.getYear()+1900;
 		String pc=null;
@@ -273,5 +278,10 @@ public class ClazzServiceImpl implements ClazzService {
 		}
 		System.out.println("分配的批次为："+pc);
 		return pc;
+	}
+	@Override
+	public int autoCreateClazz() {
+		
+		return 0;
 	}
 }

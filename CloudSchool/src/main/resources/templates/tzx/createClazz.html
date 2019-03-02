@@ -436,7 +436,7 @@
 			alert("请先选择年级,才能分配到班级批次！")
 			return
 		}
-		$.post("allotClazzPC","gid="+v.grade,function(result){
+		$.post("allotClazzPC","gid="+v.grade+"&mid="+v.major,function(result){
 			console.log("获取到班级批次：")
 			console.log(result)
 			v.pc=result
