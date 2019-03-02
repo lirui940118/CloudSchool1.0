@@ -26,7 +26,7 @@ public interface ZzyCourseMapper {
     public List<ZzyCourse> queryBygidTwo(Integer gid);
     
     //查询所有课程
-    public List<ZzyCourse> queryCourseAll();
+    public List<ZzyCourse> ZzyqueryCourseAll();
     
 
 }

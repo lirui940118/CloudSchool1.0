@@ -13,5 +13,5 @@ public interface ZzyCourseService {
 
 	 public ZzyCourse queryBycid(Integer cid);
 
-	 public List<ZzyCourse> queryCourseAll();
+	 public List<ZzyCourse> ZzyqueryCourseAll();
 }

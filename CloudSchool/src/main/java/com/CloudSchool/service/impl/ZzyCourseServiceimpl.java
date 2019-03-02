@@ -104,9 +104,9 @@ public class ZzyCourseServiceimpl implements ZzyCourseService{
 		return cous.queryBycid(cid);
 	}
 	@Override
-	public List<ZzyCourse> queryCourseAll() {
+	public List<ZzyCourse> ZzyqueryCourseAll() {
 		// TODO Auto-generated method stub
-		return cous.queryCourseAll();
+		return cous.ZzyqueryCourseAll();
 	}
 	
 }

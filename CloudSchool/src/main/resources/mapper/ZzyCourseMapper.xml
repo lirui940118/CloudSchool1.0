@@ -159,7 +159,7 @@
 	</select>
 	
 	<!-- 查询所有课程  -->
-	<select id="queryCourseAll" resultMap="BaseResultMap">
+	<select id="ZzyqueryCourseAll" resultMap="BaseResultMap">
 		select * from `zzy_course`
 	</select>
 </mapper>

@@ -458,7 +458,7 @@ public class ZzyController {
 	@RequestMapping("queryCourseAll")
 	@ResponseBody
 	public List<ZzyCourse> queryCourseAll(){
-		return cous.queryCourseAll();
+		return cous.ZzyqueryCourseAll();
 	}
 	
 	//提交教师授权
