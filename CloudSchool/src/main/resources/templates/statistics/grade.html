@@ -10,6 +10,7 @@
 <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/static/css/ready.css}">
 <link rel="stylesheet" th:href="@{/static/css/demo.css}">
+<link rel="stylesheet" th:href="@{/static/css/vueAnimation.css}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
 <style type="text/css">
 /* .card {
@@ -36,88 +37,95 @@ blockquote img{display:none;} */
 		<div class="content">
 			<div class="container-fluid">
 				<h4 class="page-title">全年级统计</h4>
-				<div id="countInfoSec" class="row">
-					<!-- 统计 -->
-					<div class="col-md-4">
-						<div class="card card-stats">
-							<div class="card-body ">
-								<div class="row">
-									<div class="col-5">
-										<div class="icon-big text-center">
-											<i class="la la-users"></i>
+				<div id="countInfoSec">
+					<transition name="v">
+						<div v-if="show" class="row">
+							<!-- 统计 -->
+							<div class="col-md-4">
+								<div class="card card-stats">
+									<div class="card-body ">
+										<div class="row">
+											<div class="col-5">
+												<div class="icon-big text-center">
+													<i class="la la-users"></i>
+												</div>
+											</div>
+											<div class="col-7 d-flex align-items-center">
+												<div class="numbers">
+													<p class="card-category">学员人数</p>
+													<h4 class="card-title">{{countInfoList[0]}}</h4>
+												</div>
+											</div>
 										</div>
 									</div>
-									<div class="col-7 d-flex align-items-center">
-										<div class="numbers">
-											<p class="card-category">学员人数</p>
-											<h4 class="card-title">{{countInfoList[0]}}</h4>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="card card-stats">
+									<div class="card-body ">
+										<div class="row">
+											<div class="col-5">
+												<div class="icon-big text-center">
+													<i class="la la-user-secret"></i>
+												</div>
+											</div>
+											<div class="col-7 d-flex align-items-center">
+												<div class="numbers">
+													<p class="card-category">教员人数</p>
+													<h4 class="card-title">{{countInfoList[1]}}</h4>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="card card-stats">
+									<div class="card-body">
+										<div class="row">
+											<div class="col-5">
+												<div class="icon-big text-center">
+													<i class="la la-slideshare"></i>
+												</div>
+											</div>
+											<div class="col-7 d-flex align-items-center">
+												<div class="numbers">
+													<p class="card-category">班级数量</p>
+													<h4 class="card-title">{{countInfoList[2]}}</h4>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="card card-stats">
-							<div class="card-body ">
-								<div class="row">
-									<div class="col-5">
-										<div class="icon-big text-center">
-											<i class="la la-user-secret"></i>
-										</div>
-									</div>
-									<div class="col-7 d-flex align-items-center">
-										<div class="numbers">
-											<p class="card-category">教员人数</p>
-											<h4 class="card-title">{{countInfoList[1]}}</h4>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="card card-stats">
-							<div class="card-body">
-								<div class="row">
-									<div class="col-5">
-										<div class="icon-big text-center">
-											<i class="la la-slideshare"></i>
-										</div>
-									</div>
-									<div class="col-7 d-flex align-items-center">
-										<div class="numbers">
-											<p class="card-category">班级数量</p>
-											<h4 class="card-title">{{countInfoList[2]}}</h4>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					</transition>
 				</div>
 				<!-- 公告 -->
 				<div id="noticeSec" class="card col-md-12">
-					<div class="card-header">
-						<h4 class="card-title" style="text-align: center;">通知</h4>
-						
-					</div>
-					<!-- 标题 -->
-					<div class="card-category" style="text-align: center;">{{notice.title}}</div>
-					<blockquote>
-						<p></p>
-						<p class="blockquote blockquote-primary" style="text-indent: 2em;-webkit-user-select:none;">
-							{{notice.content | tagFilter}}
-							<small style="display: block;text-align: right;">
-								- {{notice.sendername}}
-							</small>
-							<small style="display: block;text-align: right;">
-								- {{notice.time}}
-							</small>
-						</p>
-					</blockquote>
+					<transition name="v">
+						<div v-if="show" >
+							<div class="card-header">
+								<h4 class="card-title" style="text-align: center;">通知</h4>
+								
+							</div>
+							<!-- 标题 -->
+							<div class="card-category" v-if="notice" style="text-align: center;">{{notice.title}}</div>
+							<div class="card-category" v-if="!notice" style="text-align: center;">没有公告数据</div>
+							<blockquote>
+								<p class="blockquote blockquote-primary" style="text-indent: 2em;-webkit-user-select:none;">
+									{{notice.content | tagFilter}}
+									<small style="display: block;text-align: right;">
+										- {{notice.sendername}}
+									</small>
+									<small style="display: block;text-align: right;">
+										- {{notice.time}}
+									</small>
+								</p>
+							</blockquote>
+						</div>
+					</transition>
 				</div>
-				
 				<!-- 年级成绩统计 -->
 				<div class="row">
 					<div class="card col-lg-12" id="GradeAndPcAndClazzSec">
@@ -147,31 +155,32 @@ blockquote img{display:none;} */
 								<!-- 数据表格 -->
 								<div>
 									<!-- 该批次下全部班级 -->
-									<button v-for="clazzItem in clazzList" v-bind:clazzId="clazzItem.clazzId" class="btn btn-primary btn-border">{{clazzItem.clazzName}}</button>
+									<a v-bind:href="gotoClazzAdress+clazzItem.clazzId" v-for="clazzItem in clazzList" v-bind:clazzId="clazzItem.clazzId" class="btn btn-primary btn-border">{{clazzItem.clazzName}}</a>
 								</div>
-								<table id="clazzTestsAvgScoreByPcSec" v-if="currentTestData!=null" class="table table-bordered" style="text-align: center;">
-									<thead>
-										<tr>
-											<th scope="col">批次</th>
-											<th scope="col">班级名称</th>
-											<th scope="col">最高分</th>
-											<th scope="col">最低分</th>
-											<th scope="col">高平均</th>
-											<th scope="col">高低均</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr v-for="item in currentTestData">
-											<td>{{currentPc}}</td>
-											<td>{{item.cName}}</td>
-											<td>{{item.maxScore}}</td>
-											<td>{{item.minScore}}</td>
-											<td>{{item.heightAvgScore}}</td>
-											<td>{{item.lowAvgScore}}</td>
-										</tr>
-									</tbody>
-								</table>
-								
+								<transition name="a">
+									<table v-if="tableShow" id="clazzTestsAvgScoreByPcSec" class="table table-bordered" style="text-align: center;">
+										<thead>
+											<tr>
+												<th scope="col">批次</th>
+												<th scope="col">班级名称</th>
+												<th scope="col">最高分</th>
+												<th scope="col">最低分</th>
+												<th scope="col">高平均</th>
+												<th scope="col">高低均</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="item in currentTestData">
+												<td>{{currentPc}}</td>
+												<td>{{item.cName}}</td>
+												<td>{{item.maxScore}}</td>
+												<td>{{item.minScore}}</td>
+												<td>{{item.heightAvgScore}}</td>
+												<td>{{item.lowAvgScore}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</transition>
 								
 								
 								<!--同一批次各个班平均成绩查询-->
@@ -213,12 +222,14 @@ blockquote img{display:none;} */
 	var vue = new Vue({
 		el:"#GradeAndPcAndClazzSec",
 		data:{
+			tableShow:false,
 			gradeList:null,//年级
 			pcList:null,//批次
 			clazzList:null,//班级
 			currentgId:null,//当前年级,
 			currentPc:null,//当前批次,
-			currentTestData:null
+			currentTestData:null,
+			gotoClazzAdress:adress.url+"/statistics/"+"gotoClazz?clazzId=" //跳转班级页面前缀
 		},
 		beforeUpdate:function(){
 			if(vue.currentgId == null)
@@ -301,6 +312,7 @@ blockquote img{display:none;} */
 	}
 	//渲染数据和图形
 	function getClazzTestsAvgScoreByPc(pc){
+		vue.tableShow = false;
 		myChar.showLoading();
 		$.ajax({
 			type : "post",
@@ -312,6 +324,7 @@ blockquote img{display:none;} */
 				//console.log(JSON.stringify(data));
 				if(data !=null && data.length >0){
 					vue.currentTestData = data;
+					vue.tableShow = true;
 					var dataArr = [];////[低平均,高平均,最低分,最高分]
 					var clazzNameArr = [];//班级名称数组
 					for(var i = 0;i<data.length;i++){
@@ -370,6 +383,13 @@ blockquote img{display:none;} */
 		});
 	}
 	//查询全校人数信息
+	var vueALLInfo = new Vue({
+		el:"#countInfoSec",
+		data:{
+			show:false,
+			countInfoList:null
+		}
+	});
 	function getBaseInfoAboutALlCount(){
 		$.ajax({
 			type : "post",
@@ -378,16 +398,28 @@ blockquote img{display:none;} */
 				
 			},
 			success : function(data) {
-				var vue = new Vue({
-					el:"#countInfoSec",
-					data:{
-						countInfoList:data
-					}
-				});
+				vueALLInfo.countInfoList= data;
+				vueALLInfo.show = true;
 			}
 		});
 	}
 	//查询最新一次公告
+	var vueNoticeNewOne = new Vue({
+		el:"#noticeSec",
+		data:{
+			show:false,
+			notice:null
+		},
+		filters:{
+			tagFilter:function(value){
+				if(value==undefined)
+					return "";
+				var dd=value.replace(/<\/?.+?>/g,"");//去标签
+				var dds=dd.replace(/ /g,"");//dds为得到后的内容
+				return dds;
+			}
+		}
+	});
 	function getNoticeNewOne(){
 		$.ajax({
 			type : "post",
@@ -396,20 +428,9 @@ blockquote img{display:none;} */
 				
 			},
 			success : function(data) {
-				console.log(data);
-				var vue = new Vue({
-					el:"#noticeSec",
-					data:{
-						notice:data
-					},
-					filters:{
-						tagFilter:function(value){
-							var dd=value.replace(/<\/?.+?>/g,"");//去标签
-							var dds=dd.replace(/ /g,"");//dds为得到后的内容
-							return dds;
-						}
-					}
-				});
+				//console.log(data);
+				vueNoticeNewOne.notice = data;
+				vueNoticeNewOne.show = true;
 			}
 		});
 	}

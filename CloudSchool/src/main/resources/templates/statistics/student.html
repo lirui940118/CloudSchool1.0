@@ -10,6 +10,7 @@
 <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/static/css/ready.css}">
 <link rel="stylesheet" th:href="@{/static/css/demo.css}">
+<link rel="stylesheet" th:href="@{/static/css/vueAnimation.css}">
 <style type="text/css">
 * {
 	margin: 0px;
@@ -56,19 +57,22 @@ img {
 							</div>
 							</p>
 						</div>
-						<div class="card-body" style="text-align: center;"
-							id="studentInfoSec">
-							<div>
-								<!-- <img th:src="@{/static/image/studentImg.png}"> -->
-								<img v-bind:src="url+studentInfo.url">
-							</div>
-							<p>学号：{{studentInfo.studentNo}}</p>
-							<p>姓名：{{studentInfo.studentName}}</p>
-							<p v-if="studentInfo.sex == 0">性别：男</p>
-							<p v-if="studentInfo.sex == 1">性别：女</p>
-							<p>年龄：{{studentInfo.studentAge}}</p>
-							<p v-if="studentInfo.standby1==0">状态：在读</p>
-							<p v-if="studentInfo.standby1==1">状态：毕业</p>
+						<!-- 学员信息部分 -->
+						<div id="studentInfoSec">
+							<transition name="v">
+								<div v-if="show" class="card-body" style="text-align: center;">
+									<div>
+										<img v-bind:src="url+studentInfo.url">
+									</div>
+									<p>学号：{{studentInfo.studentNo}}</p>
+									<p>姓名：{{studentInfo.studentName}}</p>
+									<p v-if="studentInfo.sex == 1">性别：男</p>
+									<p v-if="studentInfo.sex == 0">性别：女</p>
+									<p>年龄：{{studentInfo.studentAge}}</p>
+									<p v-if="studentInfo.standby1==0">状态：在读</p>
+									<p v-if="studentInfo.standby1==1">状态：毕业</p>
+								</div>
+							</transition>
 						</div>
 					</div>
 					<!--学员能力雷达图-->
@@ -414,8 +418,16 @@ img {
 	})
 	//=============================自定义方法=======================================
 		
-	
+	var vueStudent = new Vue({
+		el:"#studentInfoSec",
+		data:{
+			show:false,//显示动画用
+			studentInfo:null,
+			url:adress.url
+		}
+	});
 	function InitBaseData(){
+		
 		//查询学员信息
 		$.ajax({
 			type : "post",
@@ -424,14 +436,9 @@ img {
 				sId : sId
 			},
 			success : function(data) {
-				console.log(data);
-				var vue = new Vue({
-					el:"#studentInfoSec",
-					data:{
-						studentInfo:data,
-						url:adress.url
-					}
-				});
+				//console.log(data);
+				vueStudent.studentInfo = data;
+				vueStudent.show = true;
 				//更新下载表名
 				$("#downLoadkaoqinBtn").attr("download",data.studentNo+data.studentName+"考勤情况报表");
 				$("#downLoadBadKnowledageBtn").attr("download",data.studentNo+data.studentName+"查漏补缺情况报表");
