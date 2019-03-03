@@ -173,4 +173,7 @@
       user5 = #{user5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="queryBySid" resultMap="BaseResultMap">
+  	 SELECT * FROM lr_knowledagepoint WHERE sid=#{sid}
+  </select>
 </mapper>

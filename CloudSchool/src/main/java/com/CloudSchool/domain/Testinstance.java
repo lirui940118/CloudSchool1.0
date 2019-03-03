@@ -2,14 +2,20 @@ package com.CloudSchool.domain;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Testinstance {
     private Integer id;
 
     private Integer tid;
-
-    private Date starttime;
-
-    private Date endtime;
+    
+   
+    private String starttime;
+    
+   
+    private String endtime;
 
     private Integer monitor;
 
@@ -51,23 +57,24 @@ public class Testinstance {
         this.tid = tid;
     }
 
-    public Date getStarttime() {
-        return starttime;
-    }
+  
+    public String getStarttime() {
+		return starttime;
+	}
 
-    public void setStarttime(Date starttime) {
-        this.starttime = starttime;
-    }
+	public void setStarttime(String starttime) {
+		this.starttime = starttime;
+	}
 
-    public Date getEndtime() {
-        return endtime;
-    }
+	public String getEndtime() {
+		return endtime;
+	}
 
-    public void setEndtime(Date endtime) {
-        this.endtime = endtime;
-    }
+	public void setEndtime(String endtime) {
+		this.endtime = endtime;
+	}
 
-    public Integer getMonitor() {
+	public Integer getMonitor() {
         return monitor;
     }
 

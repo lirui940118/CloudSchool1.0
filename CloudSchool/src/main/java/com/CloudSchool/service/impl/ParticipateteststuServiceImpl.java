@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.CloudSchool.dao.ParticipateteststuMapper;
+import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.Testinfo;
 import com.CloudSchool.domain.zjfvo.StuTestInfo;
 import com.CloudSchool.domain.zjfvo.TestInfo;
@@ -26,6 +27,13 @@ public class ParticipateteststuServiceImpl implements ParticipateteststuService{
 	@Override
 	public TestInfo queryTestInfoBySidAndTid(Integer id, Integer sid) {
 		return participateteststuMapper.queryTestInfoBySidAndTid(id, sid);
+	}
+	
+	@Override
+	public PageBean queryTestInfoBySidAndTidCorrect(Integer id, Integer sid, Integer cur, Integer pagesize) {
+		Integer count=participateteststuMapper.queryTestInfoBySidAndTidCorrectCount(id, sid);
+		PageBean page=new PageBean(count, pagesize, participateteststuMapper.queryTestInfoBySidAndTidCorrect(id, sid, (cur-1)*pagesize, pagesize), cur);
+		return page;
 	}
 	
 }

@@ -746,9 +746,9 @@ li {
 								}
 								var Workinstance = {}
 								Workinstance.starttime = $("[name=starttime]")
-										.val().trim()
+										.val().trim().replace("T"," ")
 								Workinstance.endtime = $("[name=endtime]")
-										.val().trim()
+										.val().trim().replace("T"," ")
 								Workinstance.user1 = $("[name=message]")
 										.val().trim()
 								Workinstance.tid = $("[name=wid]").val()
@@ -759,7 +759,7 @@ li {
 								obj.list = temp;
 								obj.clazz=testsetlist
 								console.log(JSON.stringify(obj))
-								$.ajax({
+							 	$.ajax({
 									type:"post",
 									url : "http://127.0.0.1:8080/TestInstance/insertTestInstance",
 									data :JSON.stringify(obj),

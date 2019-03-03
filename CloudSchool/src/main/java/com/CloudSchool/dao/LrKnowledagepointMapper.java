@@ -1,5 +1,7 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
+
 import com.CloudSchool.domain.LrKnowledagepoint;
 
 public interface LrKnowledagepointMapper {
@@ -14,4 +16,6 @@ public interface LrKnowledagepointMapper {
     int updateByPrimaryKeySelective(LrKnowledagepoint record);
 
     int updateByPrimaryKey(LrKnowledagepoint record);
+    
+    List<LrKnowledagepoint>  queryBySid(Integer sid);
 }

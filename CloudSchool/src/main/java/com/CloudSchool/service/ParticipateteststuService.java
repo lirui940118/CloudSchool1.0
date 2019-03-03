@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.Testinfo;
 import com.CloudSchool.domain.zjfvo.StuTestInfo;
 import com.CloudSchool.domain.zjfvo.TestInfo;
@@ -12,4 +13,5 @@ public interface ParticipateteststuService {
 	List<StuTestInfo> queryStuTestAllBySid(Integer sid);
 	
 	TestInfo  queryTestInfoBySidAndTid(Integer id,Integer sid);
+	 public PageBean queryTestInfoBySidAndTidCorrect(Integer id,Integer sid,Integer cur,Integer pagesize);
 }

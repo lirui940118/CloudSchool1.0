@@ -21,6 +21,7 @@ import com.CloudSchool.service.ParticipationworkclassService;
 import com.CloudSchool.service.ParticipationworkstuService;
 import com.CloudSchool.service.WorkinStanceService;
 import com.CloudSchool.service.WtrecordService;
+import com.alibaba.fastjson.JSON;
 
 @Controller
 @RequestMapping("WorkCorrection")
@@ -92,9 +93,17 @@ public class WorkCorrectionController {
 	@RequestMapping("updateScoreByWidSidTid")
 	@ResponseBody
 	public int updateScoreByWidSidTid(Wtrecord obj) {
-		System.out.println("");
+		obj.setType(1);
 		return wtrecordService.updateScoreByWidSidTid(obj);
 	}
+	
+	//手动批改考试  给一道题评分
+		@RequestMapping("updateTestScoreByWidSidTid")
+		@ResponseBody
+		public int updateTestScoreByWidSidTid(Wtrecord obj) {
+			obj.setType(0);
+			return wtrecordService.updateScoreByWidSidTid(obj);
+		}
 	
 	
 	//批改完成后修改学生的本次作业为 已经批改状态

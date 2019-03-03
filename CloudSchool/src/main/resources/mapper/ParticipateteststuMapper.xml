@@ -191,67 +191,220 @@
 		WHERE
 		participateteststu.`sId`=#{sid}
 	</select>
-	
-	<resultMap type="com.CloudSchool.domain.zjfvo.TestInfo" id="queryTestInfoBySidAndTidMap">
-		<id column="id" property="id"/>
-		<result column="sumsocre" property="score"/>
-		<result column="tcount" property="tcount"/>
-		<result column="sid" property="sid"/>
-		<association property="testinstance" javaType="com.CloudSchool.domain.Testinstance">
-			<id column="id" property="id"/>
-			<result column="time" property="time"/>
+
+	<resultMap type="com.CloudSchool.domain.zjfvo.TestInfo"
+		id="queryTestInfoBySidAndTidMap">
+		<id column="id" property="id" />
+		<result column="sumsocre" property="score" />
+		<result column="tcount" property="tcount" />
+		<result column="sid" property="sid" />
+		<association property="testinstance"
+			javaType="com.CloudSchool.domain.Testinstance">
+			<id column="id" property="id" />
+			<result column="time" property="time" />
 		</association>
-		<association property="testmodule" javaType="com.CloudSchool.domain.Testmodule">
-			<result column="name" property="name"/>
-			<result column="sumsocre" property="score"/>
+		<association property="testmodule"
+			javaType="com.CloudSchool.domain.Testmodule">
+			<result column="name" property="name" />
+			<result column="sumsocre" property="score" />
 		</association>
-		<association property="cqjStaff" javaType="com.CloudSchool.domain.CqjStaff">
-			<result column="staffname" property="staffname"/>
+		<association property="cqjStaff"
+			javaType="com.CloudSchool.domain.CqjStaff">
+			<result column="staffname" property="staffname" />
 		</association>
-		<collection property="list" ofType="com.CloudSchool.domain.Testinfo">
-			<id column="infoid" property="id"/>
-			<result column="user1" property="user1"/>
-			<association property="topicWithBLOBs" javaType="com.CloudSchool.domain.TopicWithBLOBs">
-				<id column="topicid" property="id"/>
-				<result column="tid" property="tid"/>
-				<result column="topicConten" property="topicconten"/>
-				<result column="url" property="url"/>
-				<association property="wtrecord" javaType="com.CloudSchool.domain.Wtrecord">
-					<result column="sturesult" property="result"/>
+		<collection property="list"
+			ofType="com.CloudSchool.domain.Testinfo">
+			<id column="infoid" property="id" />
+			<result column="user1" property="user1" />
+			<association property="topicWithBLOBs"
+				javaType="com.CloudSchool.domain.TopicWithBLOBs">
+				<id column="topicid" property="id" />
+				<result column="tid" property="tid" />
+				<result column="topicConten" property="topicconten" />
+				<result column="url" property="url" />
+				<association property="wtrecord"
+					javaType="com.CloudSchool.domain.Wtrecord">
+					<result column="sturesult" property="result" />
 				</association>
-				<collection property="topicoptionList" ofType="com.CloudSchool.domain.Topicoption">
-					<id column="optionid" property="id"/>
-					<result column="option" property="option"/>
-					<result column="optionConten" property="optionconten"/>
+				<collection property="topicoptionList"
+					ofType="com.CloudSchool.domain.Topicoption">
+					<id column="optionid" property="id" />
+					<result column="option" property="option" />
+					<result column="optionConten" property="optionconten" />
 				</collection>
 			</association>
 		</collection>
 	</resultMap>
 	<!-- 根据学生id 试卷id查询试卷详情 -->
-	<select id="queryTestInfoBySidAndTid" resultMap="queryTestInfoBySidAndTidMap">
+	<select id="queryTestInfoBySidAndTid"
+		resultMap="queryTestInfoBySidAndTidMap">
 		SELECT
 		testinstance.`id`,testmodule.`name`,testinstance.`time` ,
 		cqj_staff.`staffname`,topic.`id` AS
 		topicid,topic.`topicConten`,topic.`url`,topic.`result`,topic.`tId`,
 		topicoption.`id` AS
 		optionid,topicoption.`option`,topicoption.`optionConten`,
-		wtrecord.`result` AS sturesult,testinfo.`id` AS infoid,testinfo.`user1`,testmodule.`score` AS
+		wtrecord.`result` AS sturesult,testinfo.`id` AS
+		infoid,testinfo.`user1`,testmodule.`score` AS
 		sumsocre,participateteststu.`sId`,
-		(SELECT COUNT(*) FROM testinfo WHERE testinfo.`testId`=testmodule.`id`) AS
+		(SELECT COUNT(*) FROM testinfo WHERE
+		testinfo.`testId`=testmodule.`id`) AS
 		`tcount`
 		FROM participateteststu
 		INNER JOIN testinstance ON participateteststu.`tId`=testinstance.`id`
 		INNER JOIN testmodule ON testmodule.`id`=testinstance.`tId`
-		INNER JOIN cqj_staff ON testinstance.`uId`=cqj_staff.`staffid`
-		INNER JOIN testinfo ON testmodule.`id`=testinfo.`testId`
-		INNER JOIN topic ON topic.`id`=testinfo.`tId`
-		LEFT JOIN topicoption ON topic.`id`=topicoption.`tId`
-		LEFT JOIN wtrecord ON wtrecord.`tId`=topic.`id`  AND wtrecord.`type`=0
-		WHERE testinstance.`id`=#{id} AND participateteststu.`sId`=#{sid}
+		INNER JOIN
+		cqj_staff ON testinstance.`uId`=cqj_staff.`staffid`
+		INNER JOIN testinfo
+		ON testmodule.`id`=testinfo.`testId`
+		INNER JOIN topic ON
+		topic.`id`=testinfo.`tId`
+		LEFT JOIN topicoption ON
+		topic.`id`=topicoption.`tId`
+		LEFT JOIN wtrecord ON
+		wtrecord.`tId`=topic.`id` AND wtrecord.`type`=0 AND wtrecord.`sId`=#{sid}
+		WHERE
+		testinstance.`id`=#{id} AND participateteststu.`sId`=#{sid}
+		ORDER BY
+		testinfo.`user1` ASC
+	</select>
+
+	<update id="updateStatusById">
+		UPDATE participateteststu SET user3=#{user3} WHERE
+		sid=#{sid} AND tid=#{tid}
+	</update>
+
+
+
+	<resultMap
+		type="com.CloudSchool.domain.zjfvo.CorrectTestInfo"
+		id="queryTestInfoBySidAndTidCorrectMap">
+		<id column="id" property="id" />
+		<result column="staffname" property="teachname" />
+		<result column="cname" property="cname" />
+		<result column="tcount" property="tcount" />
+		<result column="getsocre" property="getsocre" />
+		<result column="count" property="count" />
+		<result column="clazzid" property="clazzid"/>
+		<result column="user1" property="user1"/>
+		<collection property="list" ofType="com.CloudSchool.domain.TopicWithBLOBs"> 
+			<id column="topicid" property="id"/>
+			<result column="topicConten" property="topicconten"/> 
+			<result column="url" property="url"/>
+			<result column="result" property="result"/>
+			<result column="tscore" property="user1"/>
+			<result column="analysis" property="analysis"/>
+			<association property="wtrecord"
+					javaType="com.CloudSchool.domain.Wtrecord">
+					<id column="wtrecordid" property="id"/>
+					<result column="wtrecordscore" property="score" />
+				</association>
+		</collection>
+	</resultMap>
+	<!-- 查询这个学生这次考试 详情(考试批改) -->
+	<select id="queryTestInfoBySidAndTidCorrect"
+		resultMap="queryTestInfoBySidAndTidCorrectMap">
+		SELECT
+		testinstance.`id`,testmodule.`name`,testinstance.`time` ,
+		cqj_staff.`staffname`,topic.`id` AS
+		topicid,topic.`topicConten`,topic.`url`,topic.`result`,topic.`user1` AS tscore,topic.`analysis`,
+		topicoption.`id` AS
+		optionid,topicoption.`option`,topicoption.`optionConten`,
+		wtrecord.`result` AS sturesult,testinfo.`id` AS
+		infoid,testinfo.`user1`,testmodule.`score` AS
+		sumsocre,participateteststu.`sId`,
+		cqj_student.`studentid`,cqj_student.`studentname`,clazz.`cname`,clazz.id as clazzid,cqj_student.`studentnub`,
+		wtrecord.`id` AS wtrecordid,wtrecord.`score` AS wtrecordscore,
+		(SELECT COUNT(*) FROM testinfo WHERE
+		testinfo.`testId`=testmodule.`id`) AS
+		`tcount`,temp.getscore,(
+		SELECT
+		COUNT(*) FROM wtrecord WHERE wtrecord.`wId`=testinstance.`id` AND
+		wtrecord.`sId`=cqj_student.`studentid` AND wtrecord.`type`=0 AND
+		wtrecord.`score` IS NOT NULL) AS count,
+		participateteststu.`user1`
+		FROM participateteststu
+		INNER
+		JOIN participatetestclass ON
+		participateteststu.`user1`=participatetestclass.`id`
+		INNER JOIN
+		cqj_student ON cqj_student.`studentid`=participateteststu.`sId`
+		INNER
+		JOIN clazz ON clazz.`id`=participatetestclass.`cId`
+		INNER JOIN
+		testinstance ON participateteststu.`tId`=testinstance.`id`
+		INNER JOIN
+		testmodule ON testmodule.`id`=testinstance.`tId`
+		INNER JOIN cqj_staff
+		ON testinstance.`uId`=cqj_staff.`staffid`
+		INNER JOIN testinfo ON
+		testmodule.`id`=testinfo.`testId`
+		INNER JOIN topic ON
+		topic.`id`=testinfo.`tId`
+		INNER JOIN (
+		SELECT
+		SUM(wtrecord.score) AS
+		getscore FROM wtrecord WHERE wtrecord.`wId`=#{id} AND
+		wtrecord.`sId`=#{sid} AND `type`=0
+		)
+		AS temp
+		LEFT JOIN topicoption ON
+		topic.`id`=topicoption.`tId`
+		LEFT JOIN wtrecord ON
+		wtrecord.`tId`=topic.`id` AND wtrecord.`type`=0
+		WHERE
+		testinstance.`id`=#{id} AND participateteststu.`sId`=#{sid} AND
+		topic.`tId`!=1
+		GROUP BY topic.`id`
+		ORDER BY testinfo.`user1` ASC
+		limit #{cur},#{pagesize}
+	</select>
+
+	<select id="queryTestInfoBySidAndTidCorrectCount" resultType="Integer">
+		SELECT COUNT(*)
+		FROM participateteststu
+		INNER
+		JOIN participatetestclass ON
+		participateteststu.`user1`=participatetestclass.`id`
+		INNER JOIN
+		cqj_student ON cqj_student.`studentid`=participateteststu.`sId`
+		INNER
+		JOIN clazz ON clazz.`id`=participatetestclass.`cId`
+		INNER JOIN
+		testinstance ON participateteststu.`tId`=testinstance.`id`
+		INNER JOIN
+		testmodule ON testmodule.`id`=testinstance.`tId`
+		INNER JOIN cqj_staff
+		ON testinstance.`uId`=cqj_staff.`staffid`
+		INNER JOIN testinfo ON
+		testmodule.`id`=testinfo.`testId`
+		INNER JOIN topic ON
+		topic.`id`=testinfo.`tId`
+		INNER JOIN (
+		SELECT
+		SUM(wtrecord.score) AS
+		getscore FROM wtrecord WHERE wtrecord.`wId`=#{id} AND
+		wtrecord.`sId`=#{sid} AND `type`=0
+		)
+		AS temp
+		LEFT JOIN topicoption ON
+		topic.`id`=topicoption.`tId`
+		LEFT JOIN wtrecord ON
+		wtrecord.`tId`=topic.`id` AND wtrecord.`type`=0
+		WHERE
+		testinstance.`id`=#{id} AND participateteststu.`sId`=#{sid} AND
+		topic.`tId`!=1
 		ORDER BY testinfo.`user1` ASC
 	</select>
 	
-	<update id="updateStatusById">
-		UPDATE participateteststu SET user3=#{user3} WHERE sid=#{sid} AND tid=#{tid}
+	<update id="updateUser3ByTidAndSid">
+		update `participateteststu` set user3=#{user3} where tid=#{tid} and sid=#{sid}
 	</update>
+	
+	
+	<!--查询参与本次考试的学生是否全部批改完 -->
+	<select id="queryNotCorrectCountByUser1" resultType="Integer">
+		SELECT
+		COUNT(*) FROM participateteststu WHERE tid=#{tid} and user1=#{user1} and user3=#{user3}
+	</select>
 </mapper>

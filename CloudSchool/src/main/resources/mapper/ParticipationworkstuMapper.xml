@@ -359,8 +359,8 @@
 		INNER JOIN (
 		SELECT
 		SUM(wtrecord.score) AS
-		score FROM wtrecord WHERE wtrecord.`wId`=6 AND
-		wtrecord.`sId`=#{sid}
+		score FROM wtrecord WHERE wtrecord.`wId`=#{wid} AND
+		wtrecord.`sId`=#{sid} and type=1
 		)
 		AS temp
 		inner JOIN wtrecord ON
