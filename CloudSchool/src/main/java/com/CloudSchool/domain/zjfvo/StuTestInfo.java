@@ -7,6 +7,13 @@ public class StuTestInfo {
 	private String starttime;
 	private String endtime;
 	private String user3;
+	private Integer clazzstatus;
+	public Integer getClazzstatus() {
+		return clazzstatus;
+	}
+	public void setClazzstatus(Integer clazzstatus) {
+		this.clazzstatus = clazzstatus;
+	}
 	public String getUser3() {
 		return user3;
 	}

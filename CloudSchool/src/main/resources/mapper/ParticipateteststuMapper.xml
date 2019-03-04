@@ -182,8 +182,9 @@
 	<select id="queryStuTestAllBySid"
 		resultType="com.CloudSchool.domain.zjfvo.StuTestInfo">
 		SELECT
-		testinstance.`id`,testmodule.`name`,testinstance.`startTime`,testinstance.`endtime`,participateteststu.`user3`
+		testinstance.`id`,testmodule.`name`,testinstance.`startTime`,testinstance.`endtime`,participateteststu.`user3`,participatetestclass.`user3` AS clazzstatus
 		FROM participateteststu
+		INNER JOIN participatetestclass ON participateteststu.`user1`=participatetestclass.`id`
 		INNER JOIN testinstance ON
 		participateteststu.`tId`=testinstance.`id`
 		INNER JOIN testmodule ON
