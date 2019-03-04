@@ -97,8 +97,8 @@
 												<td>{{obj.endtime}}</td>
 												<td>{{obj.cname}}</td>
 												<td v-if="obj.status==0">未开始</td>
-												<td v-if="obj.wStatus==1">未结束</td>
-												<td v-if="obj.wStatus==2">待批改</td>
+												<td v-if="obj.status==1">未结束</td>
+												<td v-if="obj.status==2">待批改</td>
 												<td v-if="obj.status==6">已批改</td>
 												<td>{{obj.tname}}</td>
 												<td style="display: flex;justify-content: center;">
