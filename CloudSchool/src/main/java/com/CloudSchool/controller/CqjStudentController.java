@@ -42,7 +42,7 @@ public class CqjStudentController {
 	 public void addStudentUpGrade(@RequestBody List<Studentupgrade> ids,HttpSession session) {
 		 ProgressInfo progressInfo=(ProgressInfo)session.getAttribute("progressInfo");
 		 //添加到升班
-		 css.addStudentUpGrade(ids,progressInfo.getCid());
+		 css.addStudentUpGrade(ids,progressInfo.getCid(),progressInfo.getGid(),progressInfo.getNgid());
 		 session.removeAttribute("progressInfo");
 	 }
 	 @RequestMapping("getProgressInfo")

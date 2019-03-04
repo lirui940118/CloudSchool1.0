@@ -17,7 +17,7 @@ public interface CqjStudentService {
 	
 	 List<CqjStudent> queryStudetnTestByCid(Integer cid,Integer gid);
 	 
-	 int addStudentUpGrade(List<Studentupgrade> Studentupgrade,Integer cid);
+	 int addStudentUpGrade(List<Studentupgrade> Studentupgrade,Integer cid,Integer gid,Integer ngid);
 
 	 List<CqjStudent> queryStudentJob();
 	 
