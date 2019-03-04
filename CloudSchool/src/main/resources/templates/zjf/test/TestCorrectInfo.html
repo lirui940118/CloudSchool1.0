@@ -37,24 +37,24 @@
 		<div class="main-panel">
 			<div class="content">
 				<div class="container-fluid">
-					<h4 class="page-title">考试历史纪录</h4>
-					<div class="card">
+					<h4 class="page-title">试卷批改</h4>
+					<!-- <div class="card">
 						<div class="card-header">
-							<h4 class="card-title">考试状态</h4>
+							<h4 class="card-title">作业状态</h4>
 						</div>
 						<div class="card-body">
 							<div class="row status">
-								<button class="btn btn-primary btn-lg col-md-2" data-status="-1">全部</button>	
+								<button class="btn btn-primary btn-lg col-md-2" data-status="4">全部</button>	
 								<button class="btn btn-primary btn-lg col-md-2"  data-status="0">未开始</button>
 								<button class="btn btn-primary btn-lg col-md-2"  data-status="1">未结束</button>
 								<button class="btn btn-primary btn-lg col-md-2" data-status="2">待批改</button>
 								<button class="btn btn-primary btn-lg col-md-2" data-status="3">已批改</button>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title">我的考试 </h4>
+							<h4 class="card-title">考试历史记录</h4>
 						</div>
 						<div class="card-body workShow">
 							<div class="row">
@@ -78,13 +78,15 @@
 								</div>
 								<div class="row">
 								<div class="col-md-12">
-									<table class="table table-head-bg-success">
+									<table class="table table-head-bg-success" style="text-align: center;">
 										<thead>
 											<tr>
-												<th scope="col">考试名称</th>
+												<th scope="col">名称</th>
 												<th scope="col">开始时间</th>
 												<th scope="col">结束时间</th>
+												<th scope="col">班级</th>
 												<th scope="col">状态</th>
+												<th scope="col">考试类型</th>
 												<th scope="col" style="text-align: center;">操作</th>
 											</tr>
 										</thead>
@@ -93,14 +95,19 @@
 												<td>{{obj.name}}</td>
 												<td>{{obj.starttime}}</td>
 												<td>{{obj.endtime}}</td>
-												<td v-if="obj.user3==0">未领取</td>
-												<td v-if="obj.user3==1">未提交</td>
-												<td v-if="obj.user3==2">待批改</td>
-												<td v-if="obj.user3==7">已批改</td>
+												<td>{{obj.cname}}</td>
+												<td v-if="obj.status==0">未开始</td>
+												<td v-if="obj.wStatus==1">未结束</td>
+												<td v-if="obj.wStatus==2">待批改</td>
+												<td v-if="obj.status==6">已批改</td>
+												<td>{{obj.tname}}</td>
 												<td style="display: flex;justify-content: center;">
-													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-id="obj.workmouldid">查看详情</button>
-													<button class="btn btn-success workcorrection" v-bind:data-id="obj.id"  v-if="obj.user3==2 || obj.user3==3" disabled="disabled">进入</button>
-													<button class="btn btn-success workcorrection btnWork"  v-bind:data-id="obj.id"  v-if="obj.user3!=2 && obj.user3!=7">进入</button>
+													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-wid="obj.id">查看详情</button>
+													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-wid="obj.id" v-if="obj.status==2" v-bind:data-id="obj.id" v-bind:data-cid="obj.cid">批改</button>
+													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-wid="obj.id" v-if="obj.status!=2" disabled=ture>批改</button>
+													<!--<button class="btn btn-success workcorrection" v-bind:data-cid="obj.cid" v-bind:data-wid="obj.id"  v-if="obj.wStatus==2">批改</button>
+													<button class="btn btn-success workcorrection" v-bind:data-cid="obj.cid" v-bind:data-wid="obj.id"  v-if="obj.wStatus!=2" disabled=ture>批改</button> -->
+													<!-- <button class="btn btn-success workcorrection" v-bind:data-cid="obj.cid" v-bind:data-wid="obj.id"  v-if="obj.wType==0" disabled=ture>批改</button> -->
 												</td>
 											</tr>
 											<!-- <tr>
@@ -173,31 +180,99 @@
 	var v=new Vue({
 		el:".workShow",
 		data:{
-			list:null,
-			pre:null,
-			next:null
+			list:null
 		}
 	})
-	/* 我的考试 */
-	function pageing(){
+	//我布置的作业 
+	/* function pageing(obj){
 		$.ajax({
 			type:"post",
-			url:"http://127.0.0.1:8080/StudentTestController/queryStuTestAllBySid",
-			data:{},
+			url:"http://127.0.0.1:8080/WorkCorrection/queryPublishWorkByTid",
+			data:{tid:obj.tid,wStatus:obj.wStatus,cur:obj.cur},
 			success:function(data){
 				console.log(JSON.stringify(data))
-				v.list=data;
-				v.pre=data.prePage
-				v.next=data.nextPage
+				if(data.list.length>0 && obj.wStatus!=4){
+					$("#previousPage").attr("data-status",data.list[0].wStatus)	//状态
+					$("#nextPage").attr("data-status",data.list[0].wStatus)//状态
+				}else{
+					//没有下一页时候
+					$("#previousPage").attr("data-status",-1)	//状态
+					$("#nextPage").attr("data-status",-1)		//状态
+				}
+				//查询全部 
+				if(obj.wStatus==4){
+					$("#previousPage").attr("data-status",4)	//状态
+					$("#nextPage").attr("data-status",4)		//状态
+				}
+				$("#previousPage").attr("data-pre",data.prePage)	//页码
+				
+				$("#nextPage").attr("data-next",data.nextPage)	//页码
+				
+				v.obj=data;
 			}
 		})
-	}
+	} */
 	$(function(){
-		pageing()
-		//跳转到考试
-		$("body").on("click",".btnWork",function(){
-			var tid=$(this).attr("data-id")
-			location.href="http://127.0.0.1:8080/StudentTestController/tostudentTest?tid="+tid
+		/* var obj={}
+		obj.tid=1		//暂时死值
+		obj.wStatus=4
+		obj.cur=1
+		//我布置的作业 
+		pageing(obj)
+		$("body").on("click",".status button",function(){
+			var object={}
+			object.tid=1	//暂时死值  教员id
+			object.wStatus=$(this).attr("data-status")		//状态
+			object.cur=1
+			pageing(object)
+		})
+		//上一页
+		$("body").on("click","#previousPage",function(){
+			var object={}
+			object.cur=$(this).attr("data-pre")
+			object.tid=1;
+			object.wStatus=$(this).attr("data-status")
+			console.log($(this).attr("data-status"))
+			pageing(object)
+		})
+		//下一页 
+		$("body").on("click","#nextPage",function(){
+			var object={}
+			object.tid=1;
+			object.cur=$(this).attr("data-next")
+			object.wStatus=$(this).attr("data-status")
+			console.log($(this).attr("data-status"))
+			pageing(object)
+		})
+		
+		$("body").on("click",".workinfo",function(){
+			var cid=$(this).attr("data-cid")	//班级id
+			var wid=$(this).attr("data-wid")	//作业id
+			location.href="http://127.0.0.1:8080/WorkInfo/toWorkInfo?cid="+cid+"&wid="+wid
+		})
+		
+		
+		$("body").on("click",".workcorrection",function(){
+			var cid=$(this).attr("data-cid")	//班级id
+			var wid=$(this).attr("data-wid")	//作业id
+			location.href="http://127.0.0.1:8080/WorkCorrection/toWorkCorrect?cid="+cid+"&wid="+wid
+		}) */
+		
+		$.ajax({
+			type:"get",
+			url:"http://127.0.0.1:8080/TestCorrectionController/queryMyCorrectTest",
+			data:{},
+			success:function(data){
+				v.list=data;
+				console.log(JSON.stringify(data))
+			}
+		})
+		
+		//跳转到作业模板
+		$("body").on("click",".workinfo",function(){
+			var id=$(this).attr("data-id")
+			var cid=$(this).attr("data-cid")
+			location.href="http://127.0.0.1:8080/TestCorrectionController/toTestCorrect?tid="+id+"&cid="+cid
 		})
 	})
 </script>

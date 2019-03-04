@@ -229,9 +229,9 @@ public class WtrecordServiceImpl implements WtrecordService {
 					gradeobj.setSid(obj.getSid());
 					gradeobj.setTid(obj.getId());
 					Integer testscore=wtrecordMapper.queryByWidAndSidSumScoreTest(obj.getId(), obj.getSid());
-					if(testscore==null) {
+/*					if(testscore==null) {
 						testscore=0;
-					}
+					}*/
 					gradeobj.setScore(testscore);
 					return testgradeMapper.insertObj(gradeobj);
 				}

@@ -166,4 +166,36 @@
   	insert into participatetestclass (id, cId, tId,classRoomid, time, status,user1, user2, user3) values
   		(0,#{cid},#{tid},#{classroomid},now(),#{status},#{user1},#{user2},#{user3})
   </insert>
+  
+  
+  
+  <!--查询我要批改的试卷  -->
+  <select id="queryMyCorrectTest" resultType="com.CloudSchool.domain.zjfvo.TeachTestCorrect">
+  	SELECT testinstance.`id`,testmodule.`name`,testinstance.`startTime`,testinstance.`endtime`,clazz.`id` AS cid,clazz.`cname`,participatetestclass.`user3` AS `status`,testtype.`name` AS tname,participatetestclass.`id` FROM participatetestclass
+	INNER JOIN cqj_staff ON participatetestclass.`user2`=cqj_staff.`staffid`
+	INNER JOIN clazz ON participatetestclass.`cId`=clazz.`id`
+	INNER JOIN testinstance ON testinstance.`id`=participatetestclass.`tId`
+	INNER JOIN testmodule ON testinstance.`tId`=testmodule.`id`
+	INNER JOIN testtype ON testmodule.`tid`=testtype.`id`
+	WHERE participatetestclass.`user2`=#{uid} OR testinstance.`uId`=#{uid}
+	ORDER BY participatetestclass.`time` ASC
+  </select>
+  
+  <!-- 查询参加这次考试详情 -->
+  <select id="queryByTidTestInfo" resultType="com.CloudSchool.domain.zjfvo.TestInfoAll">
+  	SELECT participatetestclass.`tId` AS id,cqj_student.`studentid`,cqj_student.`studentname`,testinstance.`startTime`,participateteststu.`user2` AS `time`,participateteststu.`user3` AS `status`,testgrade.`score`,participatetestclass.id as participatetestclassid FROM participatetestclass
+	INNER JOIN participateteststu ON participateteststu.`user1`=participatetestclass.`id`
+	INNER JOIN cqj_student ON cqj_student.`studentid`=participateteststu.`sId`
+	INNER JOIN testinstance ON testinstance.`id`=participatetestclass.`tId`
+	LEFT JOIN testgrade ON testgrade.`tid`=participatetestclass.`tId` AND cqj_student.`studentid`=testgrade.`sId`
+	WHERE participatetestclass.`tId`=#{tid} AND participatetestclass.`cId`=#{cid}
+  </select>
+  
+  <update id="updateTestStatus">
+  	update participatetestclass set user3=#{user3} where cid=#{cid} and tid=#{tid}
+  </update>
+  
+  <update id="updateTestStatusTime">
+  	update participatetestclass set user3=#{user3} where tid=#{tid}
+  </update>
 </mapper>
