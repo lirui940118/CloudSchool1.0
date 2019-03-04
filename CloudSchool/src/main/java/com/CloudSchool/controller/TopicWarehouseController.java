@@ -17,6 +17,7 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 
 import com.CloudSchool.domain.Clazzcourseteacher;
 import com.CloudSchool.domain.CqjUser;
+import com.CloudSchool.domain.LrKnowledagepoint;
 import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.Topic;
 import com.CloudSchool.domain.TopicWithBLOBs;
@@ -28,6 +29,7 @@ import com.CloudSchool.domain.ZzySection;
 import com.CloudSchool.domain.zjfvo.TeacherAdminStu;
 import com.CloudSchool.domain.zjfvo.WorkPublishParam;
 import com.CloudSchool.service.ClazzcourseteacherService;
+import com.CloudSchool.service.LrKnowledagepointService;
 import com.CloudSchool.service.TopicService;
 import com.CloudSchool.service.TopicTypeService;
 import com.CloudSchool.service.WorkMouldService;
@@ -57,6 +59,9 @@ public class TopicWarehouseController {
 	
 	@Autowired
 	ZzySectionService zzySectionService;
+	
+	@Autowired
+	LrKnowledagepointService lrKnowledagepointService;
 	// 添加题目
 	@RequestMapping("addTopic")
 	@ResponseBody
@@ -193,6 +198,12 @@ public class TopicWarehouseController {
 		return zzyCourseService.queryCourseAll();
 	}
 	
+	
+	@RequestMapping("queryPoint")
+	@ResponseBody
+	public List<LrKnowledagepoint> queryPoint(Integer sid){
+		return lrKnowledagepointService.queryBySid(sid);
+	}
 
 	
 }

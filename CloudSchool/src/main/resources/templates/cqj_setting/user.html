@@ -69,6 +69,7 @@
 								<p class="demo">
 									<button name="goInsertStaff" class="btn btn-success">新增职员</button>
 									<button name="goInsertStudent" class="btn btn-success">新增学员</button>
+									<button name="updateStaff" class="btn btn-success">设置教员课程</button>
 								</p>
 							</div>
 						</div>
@@ -286,6 +287,9 @@
 		
 		$('[name="goInsertStudent"]').click(function(){
 			window.location.href="/user/goAddStudent";
+		});
+		$('[name="updateStaff"]').click(function(){
+			window.location.href="/zzy/Goteacher_ability";
 		});
 	})
 	//获取所有status为0的职位	

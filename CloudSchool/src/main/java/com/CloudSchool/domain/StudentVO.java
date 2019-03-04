@@ -15,6 +15,7 @@ public class StudentVO extends CqjStudent {
 	private String mname;	//专业name
 	private Integer vid;	//版本id
 	private String vname;	//版本name
+	private int ctype;		//0新/1游离/2升学
 	public Integer getCid() {
 		return cid;
 	}
@@ -74,6 +75,12 @@ public class StudentVO extends CqjStudent {
 	}
 	public void setVname(String vname) {
 		this.vname = vname;
+	}
+	public int getCtype() {
+		return ctype;
+	}
+	public void setCtype(int ctype) {
+		this.ctype = ctype;
 	}
 	
 	

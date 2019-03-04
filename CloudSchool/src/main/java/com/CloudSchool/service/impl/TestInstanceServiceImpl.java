@@ -1,5 +1,6 @@
 package com.CloudSchool.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,9 @@ import com.CloudSchool.domain.zjfvo.ClazzAndStuParam;
 import com.CloudSchool.domain.zjfvo.TestPublishParam;
 import com.CloudSchool.domain.zjfvo.TestclassVoParam;
 import com.CloudSchool.service.TestInstanceService;
+import com.CloudSchool.timer.DynamicTaskJobs;
+import com.CloudSchool.timer.TestStatusTaskJob;
+import com.CloudSchool.timer.TestStatusTaskJobEnd;
 import com.alibaba.fastjson.JSON;
 @Service
 @Transactional
@@ -43,6 +47,15 @@ public class TestInstanceServiceImpl implements TestInstanceService{
 	
 	@Autowired
 	ParticipateteststuMapper participateteststuMapper;
+	
+	@Autowired
+	TestStatusTaskJob testStatusTaskJob;
+	
+	@Autowired
+	DynamicTaskJobs dynamicTaskJobs;
+	
+	@Autowired
+	TestStatusTaskJobEnd testStatusTaskJobEnd;
 	//查询所有班级  有权限
 	@Override
 	public List<ZzyGrade> queryGrade(String id) {
@@ -78,6 +91,7 @@ public class TestInstanceServiceImpl implements TestInstanceService{
 	
 	//发布考试
 	public int testPublish(TestPublishParam obj) {
+		System.out.println(JSON.toJSONString(obj));
 		//添加考试实例
 		int i=testinstanceMapper.insertTestInstance(obj.getObj());
 		if(i>0) {
@@ -113,6 +127,17 @@ public class TestInstanceServiceImpl implements TestInstanceService{
 							map.put("clazzid", clazz.getId());
 							int result=participateteststuMapper.insertList(map);
 							if(result>0) {
+								Participatetestclass pobj=new Participatetestclass();
+								pobj.setUser3("2");
+								pobj.setTid(tid);
+								testStatusTaskJob.zzz(pobj);
+								dynamicTaskJobs.addTaskJob(testStatusTaskJob,obj.getObj().getStarttime()+":00");
+								Participatetestclass pobj2=new Participatetestclass();
+								pobj2.setUser3("3");
+								pobj2.setTid(tid);
+								/*System.out.println(JSON.toJSONString(pobj2));*/
+								testStatusTaskJobEnd.zzz(pobj2);
+								dynamicTaskJobs.addTaskJob(testStatusTaskJobEnd,obj.getObj().getEndtime()+":00");
 								System.out.println("学生考试添加成功！");
 								return result;
 							}

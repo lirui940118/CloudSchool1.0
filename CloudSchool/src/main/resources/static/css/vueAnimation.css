@@ -1,0 +1,16 @@
+
+.a-enter-active, .a-leave-active {
+  transition: opacity 1s;
+}
+.a-enter, .a-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+.v-enter,.v-leave-to{
+opacity:  0;
+transform: translateY(-40px);
+}
+
+.v-enter-active,.v-leave-active{
+    transition: all 0.8s ease;
+
+}

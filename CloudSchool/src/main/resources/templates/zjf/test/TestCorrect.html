@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>作业批改</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../static/css/ready.css">
+		<style>
+			.workclassinfo {
+				display: flex;
+				justify-content: space-between;
+			}
+			/*.workclassinfo div{
+				border: 1px solid red;
+			}*/
+			
+			.workclassinfofoot {
+				float: right;
+			}
+			
+			.updatehead {
+				display: flex;
+				justify-content: space-between;
+			}
+			
+			.workcontentleft {
+				border: 1px solid lightgrey;
+			}
+			
+			.workcontentright div {
+				border: 1px solid lightgrey;
+				height: 150px;
+				margin-bottom: 30px;
+			}
+			
+			.topic {
+				border: 1px solid lightgrey;
+				margin: 20px 40px;
+			}
+			
+			.workcontent {
+				display: flex;
+				justify-content: space-between;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title">考试批改</h4>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<!-- <div class="card-header">
+									<div class="card-title">班级名称:</div>
+								</div> -->
+								<div class="card-body">
+									<div class="workclassinfo">
+										<!-- <div form-group col-md-3><label style="line-height: 60px;">未交人数：3</label></div> -->
+										<div class="form-group col-md-3">
+											<!--<label for="squareSelect">班级</label>-->
+											<!-- <select class="form-control input-square" id="squareSelect">
+												<option>1</option>
+												<option>2</option>
+												<option>3</option>
+												<option>4</option>
+												<option>5</option>
+											</select> -->
+										</div>
+										<div id="pagebox" class="col-md-3">
+											<p class="demo">
+												<ul class="pagination pg-primary">
+													<li class="page-item">
+														<a class="page-link" href="#" aria-label="Previous">
+															<span aria-hidden="true">&laquo;</span>
+															<span class="sr-only">Previous</span>
+														</a>
+													</li>
+													<li class="page-item active">
+														<a class="page-link" href="#">1</a>
+													</li>
+													<li class="page-item">
+														<a class="page-link" href="#">2</a>
+													</li>
+													<li class="page-item">
+														<a class="page-link" href="#">3</a>
+													</li>
+													<li class="page-item">
+														<a class="page-link" href="#" aria-label="Next">
+															<span aria-hidden="true">&raquo;</span>
+															<span class="sr-only">Next</span>
+														</a>
+													</li>
+												</ul>
+											</p>
+										</div>
+									</div>
+									<div id="workInfo">
+										<table class="table table-head-bg-success" style="text-align: center;">
+											<thead>
+												<tr>
+													<th scope="col">姓名</th>
+													<th scope="col">发布时间</th>
+													<th scope="col">提交时间</th>
+													<th scope="col">是否批改</th>
+													<th scope="col">分数</th>
+													<!-- <th scope="col">评分</th> -->
+													<th scope="col">操作</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr v-for="(obj,index) in list" v-bind:data-user1="obj.user1">
+													<td>{{obj.studentname}}</td>
+													<td>{{obj.starttime}}</td>
+													<td v-if="obj.time==null">未提交</td>
+													<td v-if="obj.commitTime!=null">{{obj.time}}</td>
+													<td v-if="obj.status==0">未开始</td>
+													<td v-if="obj.status==1">待提交</td>
+													<td v-if="obj.status==2">待批改</td>
+													<td v-if="obj.status==3">已批改</td>
+													<td>{{obj.score}}</td>
+													<td>
+														<button class="btn btn-success updateWork" v-bind:data-wid="obj.id" v-bind:data-sid="obj.studentid" v-if="obj.status==2">批改</button>
+														<button class="btn btn-success updateWork" v-bind:data-wid="obj.id" v-bind:data-sid="obj.studentid" v-if="obj.status!=2" disabled=ture>批改</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="workclassinfofoot">
+										<p>注意:必须要以班级提交</p>
+										<button class="btn btn-success">公布考试</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" id="stuwork">
+						<div class="card col-md-12">
+							<div class="card-header">
+								<div class="card-title">考试</div>
+							</div>
+							<div class="card-body">
+								<div class="updatehead">
+									<div>
+										<p>学生姓名:{{obj.teachname}}</p>
+										<p>所属班级:{{obj.cname}}</p>
+										<p>学号:</p>
+									</div>
+									<div id="topicinfo">
+										<button class="btn btn-default" disabled="disabled">总题数量:{{obj.tcount}}</button>
+										<button class="btn btn-default" disabled="disabled">已批数量:{{obj.count}}</button>
+										<button class="btn btn-default" disabled="disabled">已得分:</button>
+										<button class="btn btn-default" id="acquirescore" disabled="disabled">{{obj.getscore}}</button>
+									</div>
+
+								</div>
+								<div class="workcontent">
+									<div class="workcontentleft" style="width: 800px;">
+										<div class="topic" v-for="(obj,index) in obj.list" v-bind:data-id="obj.wtrecord.id">
+											<div style="padding:10px;">
+												<p>题目:{{obj.topicconten}}<span style="color:red;">(分数:{{obj.user1}})</span></p>
+												<p>参考答案:{{obj.analysis}}</p>
+											</div>
+										</div>
+										<!-- <div class="topic">
+											<p>上机题目上机题目上机题目上机题目上机题目上机题目上机题目上机题目上机题目</p>
+											<p>答案：数量大幅减少快乐的方式【的皮肤接送i法律上快递费</p>
+										</div>
+										<div class="topic">
+											<p>上机题目上机题目上机题目上机题目上机题目上机题目上机题目上机题目上机题目</p>
+											<p>答案：数量大幅减少快乐的方式【的皮肤接送i法律上快递费</p>
+										</div> -->
+										<div id="pagebox" style="margin-left: 30px;">
+									<p class="demo">
+										<ul class="pagination pg-primary">
+											<li class="page-item">
+												<a class="page-link" href="javascript:void(0)" id="previousPage" v-bind:data-prePage="prePage"  aria-label="Previous">
+													<span aria-hidden="true">&laquo;</span>
+													<span class="sr-only">Previous</span>
+												</a>
+											</li>
+											<li class="page-item active">
+												<a class="page-link" href="#">1</a>
+											</li>
+											<li class="page-item">
+												<a class="page-link" href="#">2</a>
+											</li>
+											<li class="page-item">
+									 				<a class="page-link" href="#">3</a>
+											</li>
+											<li class="page-item">
+												<a class="page-link" href="javascript:void(0)" id="nextPage"  v-bind:data-nextPage="nextPage" aria-label="Next">
+													<span aria-hidden="true">&raquo;</span>
+													<span class="sr-only">Next</span>
+												</a>
+											</li>
+										</ul>
+									</p>
+								</div>
+									</div>
+									<div class="workcontentright" style="width: 300px;">
+										<div class="result">
+											<!-- <p style="margin: 20px;"></p>
+											<p><button class="btn btn-primary" style="margin-left: 95px;">下载文件</button></p> -->
+										</div>
+										<div class="reference">
+											<!-- <p style="margin: 20px;">参考答案:sfsdfsdf</p> -->
+										</div>
+										<label for="successInput">给分</label>
+										<input type="text" id="getscore" class="form-control">
+										<button class="btn btn-primary" style="margin-top: 12px;" id="submitTopic">题目批改提交</button>
+										<button class="btn btn-primary" style="margin-top: 12px;" id="submit">试卷批改提交</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</body>
+
+</html>
+<script src="../static/js/core/jquery.min.js"></script>
+<script src="../static/js/core/vue.js"></script>
+<script src="../static/js/core/jquery.cookie.js"></script>
+<script>
+	var v=new Vue({
+		el:"#workInfo",
+		data:{
+			list:null,
+			participatetestclassid:null
+		}
+	})
+	
+	var stuwork=new Vue({
+		el:"#stuwork",
+		data:{
+			obj:null,
+			prePage:null,
+			nextPage:null
+		},updated:function(){
+			var div=$(".topic")
+			for(var i=0;i<div.length;i++){
+				if($(div[i]).attr("data-score")){
+					$(div[i]).css("border","1px solid green")
+				}
+			}
+		}
+	})
+	$(function(){
+		//已经完成
+		$.ajax({
+			type:"post",
+			url:"http://127.0.0.1:8080/TestCorrectionController/queryByTidTestInfo",
+			success:function(data){
+				console.log(JSON.stringify(data))
+				v.list=data;
+				v.participatetestclassid=data[0].participatetestclassid
+			}
+		})
+		
+		//分页查询学生作业详情(目的:修改作业)
+		function pageing(id,sid,cur){
+			$.ajax({
+				type:"get",
+				url:"http://127.0.0.1:8080/TestCorrectionController/queryTestInfoBySidAndTidCorrect",
+				data:{id:id,sid:sid,cur:cur},
+				success:function(data){
+					console.log(JSON.stringify(data))
+					stuwork.obj=data.list[0];
+					stuwork.prePage=data.prePage
+					stuwork.nextPage=data.nextPage
+				}
+			})
+		}
+		var id;
+		var sid;
+		//点击学生试卷进行批改
+		$("body").on("click",".updateWork",function(){
+			id=$(this).attr("data-wid");	//作业id
+			sid=$(this).attr("data-sid");	//学生id
+			pageing(id,sid,1)
+		})
+		
+		//学生试卷分页
+		/*上一页*/
+		$("body").on("click","#previousPage",function(){
+			var cur=$(this).attr("data-prepage")
+			pageing(id,sid,cur)
+		})
+		/*下一页  */
+		$("body").on("click","#nextPage",function(){
+			var cur=$(this).attr("data-nextpage")
+			pageing(id,sid,cur)
+		})
+		
+		//点击题目修改该题目
+		$("body").on("click",".topic",function(){
+			var id=$(this).attr("data-id")
+			/* alert(id) */
+			$.ajax({
+				type:"get",
+				url:"http://127.0.0.1:8080/WorkCorrection/queryTopicById",
+				data:{id:id},
+				success:function(data){
+					if(data==null){
+						return;
+					}
+					$(".result p").remove()
+					$(".reference p").remove()
+					if(data.result!=null){
+						var p=$("<p style=\"margin: 20px;\">"+data.result+"</p>")
+						$(".result").append(p)
+					}
+					if(data.user1!=null){
+						var p=$("<p><button class=\"btn btn-primary\" style=\"margin-left: 95px;margin-top:50px;\" data-url=\""+data.user1+"\">下载文件</button></p>")
+						$(".result").append(p)
+					}
+					var p=$("<p style=\"margin: 20px;\">参考答案:"+data.topic.analysis+"</p>")
+					$(".reference").append(p)
+					$("#getscore").attr("score",data.topic.user1)//分数
+					$("#getscore").attr("topicid",data.topic.id)//题目编号
+					$("#getscore").val(data.score)
+				}
+			})
+		})
+		
+		//点击题目完成批改
+		$("body").on("click","#submitTopic",function(){
+			var sumscore=$("#getscore").attr("score")	//提交的题目总分
+			var score=$("#getscore").val()				//给分
+			var topicid=$("#getscore").attr("topicid")
+			if(parseInt(score)<=parseInt(sumscore)){
+				$.ajax({
+					type:"post",
+					url:"http://127.0.0.1:8080/WorkCorrection/updateTestScoreByWidSidTid",
+					data:{score:score,wid:id,sid:sid,tid:topicid},
+					success:function(data){
+						if(data>0){
+							alert("题目完成")
+						}
+					}
+				})
+			}else{
+				alert("给分大于总分")
+			}
+		})
+		
+		
+		//提交试卷
+		$("body").on("click","#submit",function(){
+			$.ajax({
+				type:"post",
+				url:"http://127.0.0.1:8080/TestCorrectionController/testCorrectSubmit",
+				data:{tid:id,sid:sid},
+				success:function(data){
+					if(data>0){
+						alert("试卷批改完成")
+					}
+				}
+			})
+		})
+		
+		
+		//发布作业成绩
+		$("body").on("click",".workclassinfofoot button",function(){
+			/* var id=$("tbody tr").attr("data-user1") */
+			var participatetestclassid=v.participatetestclassid
+			$.ajax({
+				type:"post",
+				url:"http://127.0.0.1:8080/TestCorrectionController/updateTestClassStatus",
+				data:{id:participatetestclassid},
+				success:function(data){
+					if(data>0){
+						alert("作业发布成功")
+					}else{
+						alert("你还有考试没改完")
+					}
+				}
+			})
+		})
+	})
+</script>

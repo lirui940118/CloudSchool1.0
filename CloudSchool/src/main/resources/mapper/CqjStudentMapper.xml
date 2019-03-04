@@ -471,10 +471,11 @@
   	<result property="mname" column="mname"/>
   	<result property="vid" column="vid"/>
   	<result property="vname" column="vname"/>
+  	<result property="ctype" column="ctype"/>
   </resultMap>
   <!-- 查询开班学生来源-新生、游离、升学 -tzx -->
   <select id="queryStudentForCreateClazz" resultMap="StudentVO">
-	SELECT cqj_student.*,clazzstudent.cid,clazz.cname,`studentupgrade`.`currentgId` AS gid,zzy_grade.grade_name AS gname,`studentupgrade`.`user1` AS `mid`,zzy_major.major_name AS mname,zzy_grade.vid,zzy_version.versionof AS vname,`studentupgrade`.`tagetgId`,grade.grade_name AS tagetgName FROM `studentupgrade`
+	SELECT cqj_student.*,clazzstudent.cid,clazz.cname,`studentupgrade`.`currentgId` AS gid,zzy_grade.grade_name AS gname,`studentupgrade`.`user1` AS `mid`,zzy_major.major_name AS mname,zzy_grade.vid,zzy_version.versionof AS vname,`studentupgrade`.`tagetgId`,grade.grade_name AS tagetgName,'2' as ctype FROM `studentupgrade`
 	INNER JOIN cqj_student ON cqj_student.studentid=`studentupgrade`.`studentId`
 	INNER JOIN clazzstudent ON clazzstudent.sid=cqj_student.studentid 
 	INNER JOIN clazz ON clazz.id=clazzstudent.cid
@@ -490,7 +491,7 @@
 	INNER JOIN zzy_version ON zzy_version.vid=grade.vid
 	WHERE studentupgrade.`tagetgId` &lt;&gt; -1 AND studentupgrade.`status`=0
 	UNION ALL 
-	SELECT cqj_student.*,clazzstudent.cid,clazz.cname,zzy_grade.gid,zzy_grade.grade_name AS gname,clazz.mid,zzy_major.major_name AS mname,zzy_grade.vid,zzy_version.versionof AS vname,NULL AS `tagetgId`,NULL AS tagetgName FROM clazzstudent
+	SELECT cqj_student.*,clazzstudent.cid,clazz.cname,zzy_grade.gid,zzy_grade.grade_name AS gname,clazz.mid,zzy_major.major_name AS mname,zzy_grade.vid,zzy_version.versionof AS vname,NULL AS `tagetgId`,NULL AS tagetgName,'1' as ctype FROM clazzstudent
 	INNER JOIN clazz ON clazz.id=clazzstudent.cid
 	INNER JOIN cqj_student ON cqj_student.studentid=clazzstudent.sid
 	INNER JOIN (
@@ -502,7 +503,7 @@
 	INNER JOIN zzy_version ON zzy_version.vid=zzy_grade.vid
 	WHERE clazzstudent.status=3
 	UNION ALL
-	SELECT *,NULL AS cid,NULL AS cname,NULL AS gid,NULL AS gname,NULL AS `mid`,NULL AS mname,NULL AS vid,NULL AS vname,NULL AS `tagetgId`,NULL AS tagetgName FROM `cqj_student` WHERE standby1=0 AND studentnub IS NULL
+	SELECT *,NULL AS cid,NULL AS cname,NULL AS gid,NULL AS gname,NULL AS `mid`,NULL AS mname,NULL AS vid,NULL AS vname,NULL AS `tagetgId`,NULL AS tagetgName,'0' as ctype FROM `cqj_student` WHERE standby1=0 AND studentnub IS NULL
   </select>
   <update id="setupgradeSuccess">
   	update studentupgrade set `status`=1 where studentId in 

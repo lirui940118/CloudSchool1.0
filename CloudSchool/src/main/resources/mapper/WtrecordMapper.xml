@@ -381,6 +381,6 @@
 	
 	<!-- 手动批改作业  根据学生id 作业id 题目id修改score（题目给分 ）-->
 	<update id="updateScoreByWidSidTid">
-		update wtrecord set score=#{score} where wid=#{wid} and tid=#{tid} and sid=#{sid}
+		update wtrecord set score=#{score} where wid=#{wid} and tid=#{tid} and sid=#{sid} and type=#{type}
 	</update>
 </mapper>

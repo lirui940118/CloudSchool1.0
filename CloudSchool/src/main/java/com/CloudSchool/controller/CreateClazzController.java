@@ -111,19 +111,19 @@ public class CreateClazzController {
 	public String toCreateClazz2(HttpSession session) {
 		System.out.println("111111111-------直接调测试方法");
 //		return cs.getClazzName(3,new int[]{1,5,6,7,9,10,12,13,14,17,18,20,21});
-		return cs.getClazzPC(15);
+		return cs.getClazzPC(15,-1);
 	}
 	@ResponseBody
 	@RequestMapping("/allotClazzName")
 	public String getClazzName(int id,int[] array) {
 		System.out.println("分配班级编号名");
-		return cs.getClazzName(3,new int[]{1,5,6,7,9,10,12,13,14,17,18,20,21});
+		return cs.getClazzName(id,array);
 	}
 	@ResponseBody
 	@RequestMapping("/allotClazzPC")
-	public String getClazzPC(int gid) {
+	public String getClazzPC(int gid,int mid) {
 		System.out.println("分配班级批次");
-		return gid==0?null:cs.getClazzPC(gid);
+		return gid==0?null:cs.getClazzPC(gid,mid);
 	}
 	@ResponseBody
 	@RequestMapping("/queryStudentForCreateClazz")

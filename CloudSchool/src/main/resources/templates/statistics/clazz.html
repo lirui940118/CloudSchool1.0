@@ -85,7 +85,7 @@
 											<td scope="col"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{items.averageScore}}</font></font></td>
 											<td scope="col"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{items.averageNo}}</font></font></td>
 											<th scope="col" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-											<button class="btn btn-primary btn-xs">查看学员信息</button>
+											<a v-bind:href="gotoStudentAdress+items.studentId" class="btn btn-primary btn-xs">查看学员信息</a>
 											</font></font></th>
 										</tr>
 									</tbody>
@@ -113,7 +113,6 @@
 									</div> 
 								</a>
 							</div>
-							
 						</div>
 					</div>
 			</div>
@@ -148,6 +147,7 @@
 					clazzId:clazzId
 				},
 				success:function(data){
+					//console.log(JSON.stringify(data));
 					if(data ==""){
 						alert("初始化数据出错");
 						return;
@@ -210,11 +210,12 @@
 	var vue1 = new Vue({
 		el:"#tableTestSec",
 		data:{
-			studentList:null
+			studentList:null,
+			gotoStudentAdress:adress.url+"/statistics/"+"gotoStudent?studentId=" //跳转班级页面前缀
 		},
 		methods:{
 			sortClick:function(e){
-				var  selectedDom = $(e.srcElement)//当前dom元素
+				var selectedDom = $(e.srcElement)//当前dom元素
 				var sortType = selectedDom.attr("index");//排序方式
 				getTestsData(currentStaffId,sortType);//刷新table
 			}
@@ -320,8 +321,6 @@
 						console.log(JSON.stringify(option));
 						myChar.setOption(option,true);
 					}
-					
-
 					myChar.hideLoading();
 				}
 		 })

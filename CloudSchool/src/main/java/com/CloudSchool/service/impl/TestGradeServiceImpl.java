@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.CloudSchool.dao.ParticipateteststuMapper;
 import com.CloudSchool.dao.TestgradeMapper;
+import com.CloudSchool.dao.WtrecordMapper;
+import com.CloudSchool.domain.Participateteststu;
+import com.CloudSchool.domain.Testgrade;
 import com.CloudSchool.domain.statistics.KnowledgePointVO;
 import com.CloudSchool.domain.statistics.TestInfo;
 import com.CloudSchool.domain.statistics.TopicVo;
@@ -21,6 +25,12 @@ public class TestGradeServiceImpl implements TestGradeService{
 
 	@Autowired
 	TestgradeMapper testgradeMapper;
+	
+	@Autowired
+	ParticipateteststuMapper participateteststuMapper;
+	
+	@Autowired
+	WtrecordMapper wtrecordMapper;
 	
 	
 	@Override
@@ -115,6 +125,22 @@ public class TestGradeServiceImpl implements TestGradeService{
 	@Override
 	public testBaseInfo queryTestBaseInfoBySidAndtId(Integer sId, Integer tId) {
 		return testgradeMapper.queryTestBaseInfoBySidAndtId(sId, tId);
+	}
+	
+	
+	//试卷批改完成修改状态
+	public int testCorrect(Participateteststu obj) {
+		obj.setUser3("3");
+		int i=participateteststuMapper.updateUser3ByTidAndSid(obj);
+		if(i>0) {
+			int score=wtrecordMapper.queryByWidAndSidSumScoreTest(obj.getTid(), obj.getSid());
+			Testgrade grade=new Testgrade();
+			grade.setScore(score);
+			grade.setSid(obj.getSid());
+			grade.setTid(obj.getTid());
+			return testgradeMapper.insertObj(grade);
+		}
+		return 0;
 	}
 
 }
