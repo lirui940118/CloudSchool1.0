@@ -1,5 +1,6 @@
 package com.CloudSchool.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.CloudSchool.domain.CqjStudent;
@@ -10,7 +11,7 @@ public interface StudentupgradeMapper {
 
     int insertSelective(Studentupgrade record);
     
-    int addStudentUpGrades(List<Studentupgrade> Studentupgrade);
+    int addStudentUpGrades(HashMap<String, Object> map);
     
     int updateStudentUpGrade(List<CqjStudent> Studentupgrade);
     //升学开班后改状态为1

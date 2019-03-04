@@ -131,8 +131,8 @@
 			separator=",">
 			(
 			#{s.studentid},
-			#{s.tagetgid},
-			#{s.currentgid},
+			#{ngid},
+			#{gid},
 			#{s.isnormal},
 			#{s.user1}
 			)

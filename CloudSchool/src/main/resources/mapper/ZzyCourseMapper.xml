@@ -155,7 +155,7 @@
 	</select>
 	<!-- 根据年级id查询不分专业的年级的所有课程 -->
 	<select id="queryBygidTwo" resultMap="BaseResultMap">
-		select * from `zzy_course` where gid=#{gid}
+		select * from `zzy_course` where gid=#{gid} AND `mid`=-1
 	</select>
 	<select id="queryCourseAll" resultMap="BaseResultMap">
 		select * from `zzy_course`

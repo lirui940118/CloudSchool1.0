@@ -192,12 +192,10 @@ public class ZzyController {
 	@RequestMapping("/zz")
 	@ResponseBody
 	public List<Clazz> zz(HttpSession session) {
-//		CqjUser user=(CqjUser)session.getAttribute("user");
-//		user.getClazzidsList();
-		List<String> list = new ArrayList<String>();
-		list.add("4");
-		list.add("5");
-		list.add("6");
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		
+		List<String> list =user.getClazzidsList();
+
 		List<Clazz> list2=clas.queryListid(list);
 		return list2;
 	}

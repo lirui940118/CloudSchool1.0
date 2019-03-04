@@ -77,19 +77,28 @@ public class ClazzServiceImpl implements ClazzService {
 		int jg2=cctm.insertAll(c);
 		System.out.println("开班--绑定学生--clazzstudent-"+jg2+"-----------------\n");
 		//分配学生学号studentnub/职位positionid=4
-		List<Integer> existUserList=null;	//已有学号、用户账号的学生
+		List<Integer> existUserList=new ArrayList<Integer>();	//已有学号、用户账号的学生
+		List<CqjUser> ulist=new ArrayList<CqjUser>();	//需要创建账号的学生集合
 		String str="-1";
 		int j=0;
 		for (int i = 1; i < c.getSlist().size()+1; i++) {
 			if(c.getSlist().get(i-1).getStudentnub()==null||c.getSlist().get(i-1).getStudentnub()=="") {
+				//无学号和账号的学生
 				j++;
 				if(i<10) {
 					c.getSlist().get(i-1).setStudentnub(c.getCname()+"0"+j);
 				}else{
 					c.getSlist().get(i-1).setStudentnub(c.getCname()+j);
 				}
+				System.out.println(c.getSlist().get(i-1).getStudentnub()+"--"+c.getSlist().get(i-1).getStudentid());
+				//需要创建账号的学生集合-添加
+				CqjUser u=new CqjUser();
+				u.setUsername(c.getSlist().get(i-1).getStudentnub());
+				u.setUsertypeid(c.getSlist().get(i-1).getStudentid());
+				u.setUid(c.getUid());
+				ulist.add(u);
 			}else {
-				existUserList.add(i-1);
+				existUserList.add(c.getSlist().get(i-1).getStudentid());
 			}
 			c.getSlist().get(i-1).setPositionid(4);//设置职位编号-普通学生
 			str+=","+c.getSlist().get(i-1).getStudentid();
@@ -99,18 +108,17 @@ public class ClazzServiceImpl implements ClazzService {
 		int jg3=sm.setStudentnubAfterCreateClazz(c.getSlist(),str);
 		System.out.println("开班--更新学生信息-学号、职位--cqjstudent-"+jg3+"-----------------\n");
 		//分配学生登录账号:账号密码都是学号usertypenub=1
-		List<CqjUser> ulist=new ArrayList<CqjUser>();
-		for (CqjStudent s : c.getSlist()) {
-			//排除已分配登录用户账号的学生
-			if(null!=s.getStudentnub()&&""!=s.getStudentnub()) {
-				System.out.println(s.getStudentnub()+"--"+s.getStudentid());
-				CqjUser u=new CqjUser();
-				u.setUsername(s.getStudentnub());
-				u.setUsertypeid(s.getStudentid());
-				u.setUid(c.getUid());
-				ulist.add(u);
-			}
-		}
+//		for (CqjStudent s : c.getSlist()) {
+//			//排除已分配登录用户账号的学生
+//			if(null!=s.getStudentnub()&&""!=s.getStudentnub()) {
+//				System.out.println(s.getStudentnub()+"--"+s.getStudentid());
+//				CqjUser u=new CqjUser();
+//				u.setUsername(s.getStudentnub());
+//				u.setUsertypeid(s.getStudentid());
+//				u.setUid(c.getUid());
+//				ulist.add(u);
+//			}
+//		}
 		int jg4=um.insertAll(ulist);
 		System.out.println("开班--分配学生登录账号--cqj_user-"+jg4+"-----------------\n");
 		for (CqjUser s : ulist) {
