@@ -141,9 +141,13 @@ public class CqjStudentServiceImpl implements CqjStudentService{
 		return slist;
 	}
 	@Override
-	public int addStudentUpGrade(List<Studentupgrade> Studentupgrade,Integer cid) {
+	public int addStudentUpGrade(List<Studentupgrade> Studentupgrade,Integer cid,Integer gid,Integer ngid) {
 		// TODO Auto-generated method stub
-		sugm.addStudentUpGrades(Studentupgrade);
+		HashMap<String, Object> ma=new HashMap<String, Object>();
+		ma.put("gid", gid);
+		ma.put("ngid", ngid);
+		ma.put("list", Studentupgrade);
+		sugm.addStudentUpGrades(ma);
 		csm.updateStatusBycid(3, cid);
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		map.put("status", 5);
