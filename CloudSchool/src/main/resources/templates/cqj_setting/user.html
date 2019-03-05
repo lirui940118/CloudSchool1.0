@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>角色设置</title>
+<title>用户管理</title>
 <meta
 	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
 	name='viewport' />
@@ -67,9 +67,9 @@
 						<div class="card">
 							<div class="card-body">
 								<p class="demo">
-									<button name="goInsertStaff" class="btn btn-success">新增职员</button>
-									<button name="goInsertStudent" class="btn btn-success">新增学员</button>
-									<button name="updateStaff" class="btn btn-success">设置教员课程</button>
+									<button infoBut moduleUrl="/staff/goAddStaff" name="goInsertStaff" class="btn btn-success">新增职员</button>
+									<button infoBut moduleUrl="/user/goAddStudent" name="goInsertStudent" class="btn btn-success">新增学员</button>
+									<button infoBut moduleUrl="/zzy/Goteacher_ability" name="updateStaff" class="btn btn-success">设置教员课程</button>
 								</p>
 							</div>
 						</div>
@@ -100,7 +100,7 @@
 							<div class="card-body">
 								<table class="table table-striped mt-12">
 
-									<thead>
+									<thead >
 										<tr>
 											<th scope="col">名称</th>
 											<th scope="col">账号</th>
@@ -116,7 +116,7 @@
 											<td>{{p.rolename}}</td>
 											<td>{{p.positionname}}</td>
 											<td>
-												<button data-toggle="modal" v-on:click="getInfo(index)"
+												<button    data-toggle="modal" v-on:click="getInfo(index)"
 													data-target=".bs-example-modal-lg" name="goInsertRole"
 													class="btn btn-success">修改用户</button>
 											</td>
@@ -150,7 +150,7 @@
 
 	</div>
 	</div>
-	<div id="modal" class="modal fade bs-example-modal-lg" tabindex="-1"
+	<div  id="modal" class="modal fade bs-example-modal-lg" tabindex="-1"
 		role="dialog" aria-labelledby="myLargeModalLabel">
 		<div class="modal-dialog modal-lg " role="document">
 			<div class="modal-content zxc card">
@@ -200,8 +200,8 @@
 									<option v-for="p in position" v-bind:value="p.positionid"   v-bind:selected = p.positionid==userinfo.positionid?'selected':"">{{p.positionname}}</option>
 								</select>
 							</div>
-							<div class="modal-footer">
-								<button type="button" onclick="updateUser()" class="btn btn-secondary" data-dismiss="modal">保存</button>
+							<div  class="modal-footer">
+								<button  type="button" onclick="updateUser()" class="btn btn-secondary" data-dismiss="modal">保存</button>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
 				</div>
 						</div>
@@ -238,6 +238,8 @@
 	charset="utf-8"></script>
 <script th:src="@{/static/js/lodash.min.js}" type="text/javascript"
 	charset="utf-8"></script>
+	<script th:src="@{/static/js/cqj_infoBut.js}"></script>
+	
 <script type="text/javascript">
 	var v = new Vue({
 		el : ".content",
@@ -264,7 +266,7 @@
 			}
 		}
 	});
-
+	
 	/* 查询访谈详情 */
 	var M = new Vue({
 		el : "#modal",
@@ -275,12 +277,13 @@
 		}
 	});
 	var count = 0;
-	var sumCount = 2;
+	var sumCount =4;
 	$(function() {
-		getPage(1);
+		
+		infoBut.ccc();
 		getRole();
 		getPosition();
-		
+		getPage(1);
 		$('[name="goInsertStaff"]').click(function(){
 			window.location.href="/staff/goAddStaff";
 		});
@@ -337,8 +340,12 @@
 			type : "post",
 			dataType : "json",
 			success : function(data) {
-				v.page = data;
+				
 				console.log(data)
+				if(data!="404"){
+					v.page = data;
+				}
+				infoBut.fadeOut();
 			}
 		})
 	}

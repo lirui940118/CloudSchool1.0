@@ -24,7 +24,7 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginInterceptor).addPathPatterns("/**").excludePathPatterns("/static/**",
-				"/user/login", "/user/goLogin","/user/goIndex","/user/goHome","/user/getInfo","/error","/module/getInfoModule");
+				"/user/login", "/user/goLogin","/user/goIndex","/user/goHome","/user/getInfo","/error","/module/getInfoModule","/position/getPosition","/role/getRole");
 	}
 	@Override
 	protected void addCorsMappings(CorsRegistry registry) {

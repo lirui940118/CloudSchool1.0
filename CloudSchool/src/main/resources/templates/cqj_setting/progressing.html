@@ -36,7 +36,28 @@
 
 <body>
 	<div class="main-panel">
-		
+		<div id="hezi">
+			<div class="spinner">
+				<div class="spinner-container container1">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+				<div class="spinner-container container2">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+				<div class="spinner-container container3">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+			</div>
+		</div> 
 		<div class="content">
 			<div class="container-fluid">
 				<h4 class="page-title">升班管理</h4>
@@ -46,7 +67,7 @@
 						<div class="card">
 							<div class="card-body">
 								<p class="demo">
-									<button name="progressing" class="btn btn-success">一键升班</button>
+									<button infoBut moduleUrl="/student/addStudentUpGrade" name="progressing" class="btn btn-success">一键升班</button>
 								</p>
 							</div>
 						</div>
@@ -123,6 +144,8 @@
 	charset="utf-8"></script>
 <script th:src="@{/static/js/lodash.min.js}" type="text/javascript"
 	charset="utf-8"></script>
+	<script th:src="@{/static/js/cqj_infoBut.js}"></script>
+	
 <script type="text/javascript">
 	var v=new Vue({
 		el : ".content",
@@ -132,7 +155,11 @@
 		}
 	})
 	var progressInfo={};
+	
+	var count = 0;
+	var sumCount=3;
 	$(function(){
+		infoBut.ccc();
 		GetInfo();
 		$.ajax({
 			url : "/student/queryStudetnTest",
@@ -140,8 +167,12 @@
 			type : "post",
 			dataType : "json",
 			success : function(data) {
-				v.students=data;
+				
 				console.log(data);
+				if(data!="404"){
+					v.students=data;
+				}
+				infoBut.fadeOut();
 			}
 		})
 		$('[name="progressing"]').click(function(){
@@ -190,7 +221,11 @@
 		$.ajax({
 			url : "/student/getProgressInfo",
 			success : function(data) {
-				progressInfo=data;
+				
+				if(data!="404"){
+					progressInfo=data;
+				}
+				infoBut.fadeOut();
 			}
 		})
 	}
