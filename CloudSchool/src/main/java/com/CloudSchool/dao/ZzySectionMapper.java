@@ -13,4 +13,6 @@ public interface ZzySectionMapper {
     int insertMap(Map<String,Object> map);
     
     public List<ZzySection> queryBycid(Integer cid);
+    
+    List<ZzySection> queryAllSection();
 }

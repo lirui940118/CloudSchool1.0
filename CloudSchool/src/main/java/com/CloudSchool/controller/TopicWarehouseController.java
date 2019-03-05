@@ -204,6 +204,29 @@ public class TopicWarehouseController {
 	public List<LrKnowledagepoint> queryPoint(Integer sid){
 		return lrKnowledagepointService.queryBySid(sid);
 	}
+	
+	
+	//跳转到添加知识点
+	@RequestMapping("toknowledge")
+	public String toknowledge() {
+		return "zjf/test/knowledge";
+	}
+	
+	@RequestMapping("queryAllSection")
+	@ResponseBody
+	public List<ZzySection> queryAllSection(){
+		return zzySectionService.queryAllSection();
+	}
+	
+	
+	//添加知识点
+	@RequestMapping("insertObj")
+	@ResponseBody
+	public int insertObj(LrKnowledagepoint obj,HttpSession session) {
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		obj.setUid(user.getUsertypeid());
+		return lrKnowledagepointService.insertObj(obj);
+	}
 
 	
 }

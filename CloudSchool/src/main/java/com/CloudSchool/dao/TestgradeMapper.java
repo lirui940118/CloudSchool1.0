@@ -3,6 +3,7 @@ package com.CloudSchool.dao;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -35,4 +36,6 @@ public interface TestgradeMapper {
     int updateByPrimaryKey(Testgrade record);
     
     int insertObj(Testgrade obj);
+    
+    int inserList(Map<String, Object> map);
 }

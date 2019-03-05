@@ -40,4 +40,6 @@ public interface ParticipateteststuMapper {
     int updateUser3ByTidAndSid(Participateteststu stu);
     
     Integer queryNotCorrectCountByUser1(@Param("tid")Integer tid,@Param("user1")Integer user1,@Param("user3")Integer user3);
+    
+    Integer[] queryByTidAndStatusAll(Integer tid);
 }

@@ -97,14 +97,14 @@
 												<td>{{obj.endtime}}</td>
 												<td>{{obj.cname}}</td>
 												<td v-if="obj.status==0">未开始</td>
-												<td v-if="obj.wStatus==1">未结束</td>
-												<td v-if="obj.wStatus==2">待批改</td>
+												<td v-if="obj.status==2">未结束</td>
+												<td v-if="obj.status==3">待批改</td>
 												<td v-if="obj.status==6">已批改</td>
 												<td>{{obj.tname}}</td>
 												<td style="display: flex;justify-content: center;">
 													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-wid="obj.id">查看详情</button>
-													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-wid="obj.id" v-if="obj.status==2" v-bind:data-id="obj.id" v-bind:data-cid="obj.cid">批改</button>
-													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-wid="obj.id" v-if="obj.status!=2" disabled=ture>批改</button>
+													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-wid="obj.id" v-if="obj.status==3" v-bind:data-id="obj.id" v-bind:data-cid="obj.cid">批改</button>
+													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-wid="obj.id" v-if="obj.status!=3" disabled=ture>批改</button>
 													<!--<button class="btn btn-success workcorrection" v-bind:data-cid="obj.cid" v-bind:data-wid="obj.id"  v-if="obj.wStatus==2">批改</button>
 													<button class="btn btn-success workcorrection" v-bind:data-cid="obj.cid" v-bind:data-wid="obj.id"  v-if="obj.wStatus!=2" disabled=ture>批改</button> -->
 													<!-- <button class="btn btn-success workcorrection" v-bind:data-cid="obj.cid" v-bind:data-wid="obj.id"  v-if="obj.wType==0" disabled=ture>批改</button> -->

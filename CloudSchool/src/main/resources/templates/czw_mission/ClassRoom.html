@@ -57,7 +57,7 @@
 							<h4 class="card-title">
 								查看教室
 							</h4>
-							<a infoBut moduleUrl="mission/addClassRoom" th:href="@{/mission/toInsertClr}" style="float:right;">新增教室</a>
+							<a infoBut moduleUrl="/mission/addClassRoom" th:href="@{/mission/toInsertClr}" style="float:right;">新增教室</a>
 						</div>
 						<div class="card-body">
 							<table class="table mt-3">
@@ -76,8 +76,8 @@
 										<td th:text="${m.ctname}"></td>
 										<td th:text="${m.galleryful}"></td>
 										<td th:text="${m.floor}"></td>
-										<td><a infoBut moduleUrl="mission/delete" href="javascript:void(0)" class="del" th:value="${m.id}">删除</a>
-											<a infoBut moduleUrl="mission/updateClassRoom" th:href="@{/mission/selectByid(id=${m.id})}" >修改</a></td>
+										<td><a infoBut moduleUrl="/mission/delete" href="javascript:void(0)" class="del" th:value="${m.id}">删除</a>
+											<a infoBut moduleUrl="/mission/updateClassRoom" th:href="@{/mission/selectByid(id=${m.id})}" >修改</a></td>
 									</tr>
 									<!-- <tr>
 										<td>402</td>

@@ -27,6 +27,7 @@ import com.CloudSchool.service.TestInstanceService;
 import com.CloudSchool.timer.DynamicTaskJobs;
 import com.CloudSchool.timer.TestStatusTaskJob;
 import com.CloudSchool.timer.TestStatusTaskJobEnd;
+import com.CloudSchool.timer.TestTimeEndTaskJobs;
 import com.alibaba.fastjson.JSON;
 @Service
 @Transactional
@@ -56,6 +57,9 @@ public class TestInstanceServiceImpl implements TestInstanceService{
 	
 	@Autowired
 	TestStatusTaskJobEnd testStatusTaskJobEnd;
+	
+	@Autowired
+	TestTimeEndTaskJobs testTimeEndTaskJobs;
 	//查询所有班级  有权限
 	@Override
 	public List<ZzyGrade> queryGrade(String id) {
@@ -138,6 +142,10 @@ public class TestInstanceServiceImpl implements TestInstanceService{
 								/*System.out.println(JSON.toJSONString(pobj2));*/
 								testStatusTaskJobEnd.zzz(pobj2);
 								dynamicTaskJobs.addTaskJob(testStatusTaskJobEnd,obj.getObj().getEndtime()+":00");
+								
+								//学生考试时间结束没有交卷统一零分处理
+								testTimeEndTaskJobs.setObjValue(tid);
+								dynamicTaskJobs.addTaskJob(testTimeEndTaskJobs, obj.getObj().getEndtime()+":00");
 								System.out.println("学生考试添加成功！");
 								return result;
 							}

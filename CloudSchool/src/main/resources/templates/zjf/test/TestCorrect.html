@@ -147,15 +147,17 @@
 							<div class="card-body">
 								<div class="updatehead">
 									<div>
-										<p>学生姓名:{{obj.teachname}}</p>
+										<p>学生姓名:{{obj.stuname}}</p>
 										<p>所属班级:{{obj.cname}}</p>
-										<p>学号:</p>
+										<p>学号:{{obj.stunumber}}</p>
 									</div>
 									<div id="topicinfo">
 										<button class="btn btn-default" disabled="disabled">总题数量:{{obj.tcount}}</button>
 										<button class="btn btn-default" disabled="disabled">已批数量:{{obj.count}}</button>
 										<button class="btn btn-default" disabled="disabled">已得分:</button>
-										<button class="btn btn-default" id="acquirescore" disabled="disabled">{{obj.getscore}}</button>
+										<button class="btn btn-default" id="acquirescore" disabled="disabled" v-if="obj.getsocre==null">0</button>
+										<button class="btn btn-default" id="acquirescore" disabled="disabled" v-if="obj.getsocre!=null">{{obj.getsocre}}</button>
+										
 									</div>
 
 								</div>

@@ -132,4 +132,8 @@
 	<select id="queryBycid" resultMap="BaseResultMap">
 		select * from `zzy_section` where cid=#{cid}
 	</select>
+	
+	<select id="queryAllSection" resultMap="BaseResultMap">
+		select * from `zzy_section`
+	</select>
 </mapper>

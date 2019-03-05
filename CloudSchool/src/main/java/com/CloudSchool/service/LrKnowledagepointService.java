@@ -7,4 +7,6 @@ import com.CloudSchool.domain.LrKnowledagepoint;
 
 public interface LrKnowledagepointService {
 	List<LrKnowledagepoint>  queryBySid(Integer sid);
+	
+	int insertObj(LrKnowledagepoint obj);
 }
