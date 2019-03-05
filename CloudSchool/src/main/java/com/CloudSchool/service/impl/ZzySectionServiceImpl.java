@@ -20,5 +20,10 @@ public class ZzySectionServiceImpl implements ZzySectionService{
 		// TODO Auto-generated method stub
 		return zzySectionMapper.queryBycid(cid);
 	}
+	@Override
+	public List<ZzySection> queryAllSection() {
+		// TODO Auto-generated method stub
+		return zzySectionMapper.queryAllSection();
+	}
 
 }

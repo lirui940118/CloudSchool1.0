@@ -19,5 +19,11 @@ public class LrKnowledagepointServiceImpl implements LrKnowledagepointService{
 	public List<LrKnowledagepoint> queryBySid(Integer sid) {
 		return lrKnowledagepointMapper.queryBySid(sid);
 	}
+	@Override
+	public int insertObj(LrKnowledagepoint obj) {
+		return lrKnowledagepointMapper.insertObj(obj);
+	}
+	
+	
 
 }

@@ -18,4 +18,6 @@ public interface LrKnowledagepointMapper {
     int updateByPrimaryKey(LrKnowledagepoint record);
     
     List<LrKnowledagepoint>  queryBySid(Integer sid);
+    
+    int insertObj(LrKnowledagepoint obj);
 }

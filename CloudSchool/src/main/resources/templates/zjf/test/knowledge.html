@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>题目添加</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+<link rel="stylesheet" href="../static/css/ready.css">
+<style>
+.card-body div {
+	width: 50%;
+	margin: auto;
+}
+
+.card-body .form-control	{
+	width: 80%;
+	display: inline;
+	margin-left: 20px;
+}
+
+.card-body .form-group label {
+	width: 70px;
+}
+
+.selectbox div {
+	float: left;
+}
+
+#btnsubmit button:nth-child(1) {
+	margin-top: 20px;
+	width: 100px;
+	float: left;
+}
+
+#btnsubmit button:nth-child(2) {
+	margin-top: 20px;
+	width: 100px;
+	float: right;
+}
+
+.selectbox {
+	display: none;
+}
+
+.selectboxshow {
+	display: block;
+}
+
+.topicconten {
+	display: none;
+}
+
+.topiccontenshow {
+	display: block;
+}
+
+.analysis {
+	display: none;
+}
+
+.analysisshow {
+	display: block;
+}
+
+.upfile {
+	display: none;
+}
+
+.upfileshow {
+	display: block;
+}
+</style>
+</head>
+
+<body>
+	<div class="main-panel">
+		<div class="content">
+			<div class="container-fluid">
+				<h4 class="page-title">新增知识点</h4>
+				<div class="card">
+					<div class="card-header">
+						<!-- <h4 class="card-title">题库题目新增</h4> -->
+					</div>
+					<div class="card-body">
+						<div class="form-group" id="chapter">
+							<label for="defaultSelect">章节</label> <select
+								class="form-control form-control" id="defaultSelect" name="cid">
+								<option v-for="(obj,index) in list" v-bind:value="obj.secid">{{obj.sectionName}}</option>
+							</select>
+						</div>
+						<div class="form-group"  id="point">
+							<label for="defaultSelect">知识点</label>
+							<input class="form-control form-control" type="text">
+						</div>
+						<div id="btnsubmit">
+							<button class="btn btn-danger">取消</button>
+							<button class="btn btn-success submit">确认</button>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script src="../static/js/core/jquery.min.js"></script>
+<script src="../static/js/core/vue.js"></script>
+<script>
+	//章节
+	var chapter=new Vue({
+		el:"#chapter",
+		data:{
+			list:null
+		}
+	})
+	$(function() {
+		
+		$.ajax({
+			type:"get",
+			url:"http://127.0.0.1:8080/topicWarehouseController/queryAllSection",
+			data:{},
+			success:function(data){
+				chapter.list=data
+			}
+		})
+		
+		//添加题目
+		$(".submit").click(function() {
+			var sid=$("#chapter option:selected").val();
+			var kname=$("#point input").val();
+			alert(sid+" "+kname)
+			$.ajax({
+				type:"post",
+				url:"http://127.0.0.1:8080/topicWarehouseController/insertObj",
+				data:{sid:sid,kname:kname},
+				success:function(data){
+					if(data>0){
+						alert("知识点添加成功！")
+					}
+				}
+			})
+		})
+	})
+</script>

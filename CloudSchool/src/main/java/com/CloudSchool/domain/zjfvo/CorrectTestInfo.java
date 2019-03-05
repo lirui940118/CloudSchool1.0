@@ -18,6 +18,20 @@ public class CorrectTestInfo {
 	private Integer getsocre;
 	private Integer clazzid;
 	private Integer user1;
+	private String stuname;
+	public String getStuname() {
+		return stuname;
+	}
+	public void setStuname(String stuname) {
+		this.stuname = stuname;
+	}
+	public String getStunumber() {
+		return stunumber;
+	}
+	public void setStunumber(String stunumber) {
+		this.stunumber = stunumber;
+	}
+	private String stunumber;
 	public Integer getUser1() {
 		return user1;
 	}

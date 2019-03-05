@@ -314,7 +314,9 @@
 	            contentType: false,
 	            processData: false,
 				success : function(data) {
-					
+					if(data>0){
+						alert("题目添加成功!")
+					}
 				}
 			}); 
 		})

@@ -383,4 +383,6 @@
 	<update id="updateScoreByWidSidTid">
 		update wtrecord set score=#{score} where wid=#{wid} and tid=#{tid} and sid=#{sid} and type=#{type}
 	</update>
+	
+	
 </mapper>

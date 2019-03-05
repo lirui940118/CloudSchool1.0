@@ -188,4 +188,11 @@
   <insert id="insertObj">
   	INSERT INTO testgrade(id,tid,sid,score,`time`) VALUES(0,#{tid},#{sid},#{score},NOW())
   </insert>
+  
+  <insert id="inserList">
+		insert into testgrade(id,tid,sid,score,`time`) values
+		<foreach collection="list" item="obj" separator=",">
+			(0,#{tid},#{obj},0,now())
+		</foreach>
+	</insert>
 </mapper>

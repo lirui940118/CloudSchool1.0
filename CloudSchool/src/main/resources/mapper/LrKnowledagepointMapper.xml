@@ -176,4 +176,8 @@
   <select id="queryBySid" resultMap="BaseResultMap">
   	 SELECT * FROM lr_knowledagepoint WHERE sid=#{sid}
   </select>
+  
+  <insert id="insertObj">
+  	insert into lr_knowledagepoint(id,sId,kName,creat_time,state,uid) values(0,#{sid},#{kname},now(),0,uid)
+  </insert>
 </mapper>
