@@ -305,7 +305,7 @@
 			$(".m_body .view").append(msg.data.substring(msg.data.indexOf("-")+1));
 			adduserimg()
 			content=""+"你有一条好友消息："+getusername(chatid)+":"+message
-			tips("好友消息","你有一条好友消息："+getusername(chatid)+":"+message,"javascript:void(0)")
+			tips("好友消息","你有一条好友消息：<br>"+getusername(chatid)+":"+message,"javascript:void(0)")
 		}else if(v.user.userid==chatid){
 			//自己刚发的消息
 			$(".m_body .view").append(msg.data.substring(msg.data.indexOf("-")+1));
@@ -314,11 +314,11 @@
 // 			alert("刚发送的")
 		}else if("notice"==chatid){
 			//通知
-			tips("通知","你有一条新的通知","notice")
+			tips("通知","你有一条新的通知<br>"+message,"notice")
 // 			alert("通知")
 		}else if("0"==chatid){
 			//系统的消息
-			tips("系统","你有一条系统消息","javascript:void(0)")
+			tips("系统","你有一条系统消息<br>"+message,"javascript:void(0)")
 // 			alert("你有一条其他好友的消息")
 		}else if(chatid>0){
 			//其他好友的消息
@@ -326,7 +326,9 @@
 			if(a==1){
 				changechatid(chatid,getusername(chatid))
 				console.log("收到其他好友消息，正在打开跳转聊天："+chatid+"-"+getusername(chatid))
-				tips("系统","你有一条系统消息","javascript:void(0)")
+// 				tips("系统","你有一条系统消息","javascript:void(0)")
+				tips("好友消息","你有一条好友消息：<br>"+getusername(chatid)+":"+message,"javascript:void(0)")
+				alert(message)
 			}
 		}
 	}

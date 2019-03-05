@@ -57,7 +57,8 @@ public class Clazz {
     //班级本周排的课程集合
     private List<ZzyClassSchedule> schlist;
 
-  
+    //班级排课计划-tzx
+    private List<ClazzPlan> plist;
 	public ZzyGrade getZzygradeobj() {
 		return zzygradeobj;
 	}
@@ -184,4 +185,12 @@ public class Clazz {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+	public List<ClazzPlan> getPlist() {
+		return plist;
+	}
+
+	public void setPlist(List<ClazzPlan> plist) {
+		this.plist = plist;
+	}
 }

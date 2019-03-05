@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.CloudSchool.dao.ClazzMapper;
 import com.CloudSchool.dao.ZzyGradeMapper;
 import com.CloudSchool.domain.ClazzInfo;
 import com.CloudSchool.domain.Clazzcourseteacher;
@@ -21,6 +22,8 @@ import com.CloudSchool.domain.StudentVO;
 import com.CloudSchool.service.ClazzService;
 import com.CloudSchool.service.impl.CqjStudentServiceImpl;
 import com.alibaba.fastjson.JSON;
+import com.CloudSchool.domain.Clazz;
+import com.CloudSchool.domain.ClazzPlan;
 
 @Controller
 public class CreateClazzController {
@@ -30,6 +33,8 @@ public class CreateClazzController {
 	ZzyGradeMapper gm;
 	@Autowired
 	CqjStudentServiceImpl ss;
+	@Autowired
+	ClazzMapper cm;
 	@RequestMapping(value="/createClazz",method=RequestMethod.GET)
 	public String toCreateClazz() {
 		System.out.println("跳转页面-开班");
@@ -146,5 +151,19 @@ public class CreateClazzController {
 		}else {
 			return -1;
 		}
+	}
+	@ResponseBody
+	@RequestMapping("/queryClazzPlan")
+	public List<Clazz> queryClazzPlan() {
+		// TODO Auto-generated method stub
+		System.out.println("查询班级课程计划-tzx");
+		return cm.queryClazzPlan();
+	}
+	@ResponseBody
+	@RequestMapping("/queryClazzProgress")
+	public List<ClazzPlan> queryClazzProgress() {
+		// TODO Auto-generated method stub
+		System.out.println("查询班级课程进度-tzx");
+		return cm.queryClazzProgress();
 	}
 }

@@ -13,8 +13,23 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="normalCount" jdbcType="INTEGER" property="normalCount" />
     <result column="weekcount" jdbcType="INTEGER" property="weekcount" />
+    <collection property="plist" ofType="com.CloudSchool.domain.ClazzPlan">
+    	<result property="id" column="id" />
+	    <result column="cname" property="cname" />
+	    <result column="courserid" property="courserid" />
+	    <result column="coursername" property="coursername" />
+	    <result column="period" property="period" />
+	    <result column="tid" property="tid" />
+    </collection>
   </resultMap>
-  
+  <resultMap type="com.CloudSchool.domain.ClazzPlan" id="ClazzPlan">
+	<result property="id" column="id" />
+	<result column="cname" property="cname" />
+	<result column="courserid" property="courserid" />
+	<result column="coursername" property="coursername" />
+	<result column="period" property="period" />
+	<result column="tid" property="tid" />
+  </resultMap>
   <!-- 查询所有班级gk -->
   <select id="queryAllBanJi" resultMap="BaseResultMap">
   	SELECT * FROM `clazz`
@@ -340,4 +355,19 @@
 	<select id="queryAllWtj" resultMap="BaseResultMap">
 		SELECT * FROM `clazz` WHERE `status`=2 
 	</select>
+	<!-- 查询班级课程进度-tzx -->
+  <select id="queryClazzProgress" resultMap="ClazzPlan">
+	SELECT zzy_class_schedule.clid AS id,zzy_class_schedule.cid AS courseid,COUNT(*) FROM zzy_class_schedule
+	INNER JOIN (
+	SELECT zzy_class_schedule.clid,MAX(zzy_class_schedule.cid) AS cid FROM zzy_class_schedule WHERE state=0 GROUP BY clid
+	) a ON a.clid=zzy_class_schedule.`clid` AND a.cid=zzy_class_schedule.`cid`
+	WHERE zzy_class_schedule.state=0 GROUP BY zzy_class_schedule.clid;
+  </select>
+  <!-- 查询班级课程计划-tzx -->
+  <select id="queryClazzPlan" resultMap="BaseResultMap">
+	SELECT clazz.`id`,clazz.`cname`,clazzcourseteacher.`courseid`,zzy_course.`course_name` as coursername,zzy_course.`period`,clazzcourseteacher.`tid` FROM clazz
+	LEFT JOIN clazzcourseteacher ON clazz.`id`=clazzcourseteacher.`clazzid` AND clazzcourseteacher.`isTeacher`=1
+	LEFT JOIN zzy_course ON clazzcourseteacher.`courseid`=zzy_course.`cid`
+	WHERE clazz.`status`=2 AND clazzcourseteacher.`status`=0 AND clazzcourseteacher.`isTeacher`=1
+  </select>
 </mapper>
