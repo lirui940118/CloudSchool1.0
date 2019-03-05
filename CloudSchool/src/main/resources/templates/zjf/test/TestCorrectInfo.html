@@ -102,7 +102,7 @@
 												<td v-if="obj.status==6">已批改</td>
 												<td>{{obj.tname}}</td>
 												<td style="display: flex;justify-content: center;">
-													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-wid="obj.id">查看详情</button>
+													<button class="btn btn-success testinfo" style="margin-right: 5px;" v-bind:data-id="obj.id" v-bind:data-cid="obj.cid">查看详情</button>
 													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-wid="obj.id" v-if="obj.status==3" v-bind:data-id="obj.id" v-bind:data-cid="obj.cid">批改</button>
 													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-wid="obj.id" v-if="obj.status!=3" disabled=ture>批改</button>
 													<!--<button class="btn btn-success workcorrection" v-bind:data-cid="obj.cid" v-bind:data-wid="obj.id"  v-if="obj.wStatus==2">批改</button>
@@ -268,11 +268,18 @@
 			}
 		})
 		
-		//跳转到作业模板
+		//跳转到考试批改
 		$("body").on("click",".workinfo",function(){
 			var id=$(this).attr("data-id")
 			var cid=$(this).attr("data-cid")
 			location.href="http://127.0.0.1:8080/TestCorrectionController/toTestCorrect?tid="+id+"&cid="+cid
+		})
+		
+		//跳转到考试详情
+		$("body").on("click",".testinfo",function(){
+			var id=$(this).attr("data-id")
+			var cid=$(this).attr("data-cid")
+			location.href="http://127.0.0.1:8080/TestCorrectionController/toTestinfo?tid="+id+"&cid="+cid
 		})
 	})
 </script>

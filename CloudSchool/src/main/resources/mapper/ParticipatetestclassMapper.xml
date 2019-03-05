@@ -183,7 +183,7 @@
   
   <!-- 查询参加这次考试详情 -->
   <select id="queryByTidTestInfo" resultType="com.CloudSchool.domain.zjfvo.TestInfoAll">
-  	SELECT participatetestclass.`tId` AS id,cqj_student.`studentid`,cqj_student.`studentname`,testinstance.`startTime`,participateteststu.`user2` AS `time`,participateteststu.`user3` AS `status`,testgrade.`score`,participatetestclass.id as participatetestclassid FROM participatetestclass
+  	SELECT participatetestclass.`tId` AS id,cqj_student.`studentid`,cqj_student.`studentname`,testinstance.`startTime`,participateteststu.`user2` AS time,participateteststu.`user3` AS `status`,testgrade.`score`,participatetestclass.id as participatetestclassid FROM participatetestclass
 	INNER JOIN participateteststu ON participateteststu.`user1`=participatetestclass.`id`
 	INNER JOIN cqj_student ON cqj_student.`studentid`=participateteststu.`sId`
 	INNER JOIN testinstance ON testinstance.`id`=participatetestclass.`tId`

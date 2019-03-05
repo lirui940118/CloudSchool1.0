@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>事例</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+		<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../static/css/ready.css">
+		<style>
+			#pagebox{
+				display: flex;
+				justify-content: flex-end;
+			}
+			td,tr{
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<h4 class="page-title">考试详情</h4>
+					<div class="card">
+						<div class="card-header">
+							<!-- <h5 class="card-title">作业名称</h4> -->
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<table class="table table-head-bg-success" style="text-align: center;">
+											<thead>
+												<tr>
+													<th scope="col">姓名</th>
+													<th scope="col">发布时间</th>
+													<th scope="col">提交时间</th>
+													<th scope="col">是否批改</th>
+													<th scope="col">分数</th>
+													<!-- <th scope="col">评分</th> -->
+													<th scope="col">操作</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr v-for="(obj,index) in list" v-bind:data-user1="obj.user1">
+													<td>{{obj.studentname}}</td>
+													<td>{{obj.starttime}}</td>
+													<td v-if="obj.time==null">未提交</td>
+													<td v-if="obj.time!=null">{{obj.time}}</td>
+													<td v-if="obj.status==0">未开始</td>
+													<td v-if="obj.status==1">待提交</td>
+													<td v-if="obj.status==2">待批改</td>
+													<td v-if="obj.status==3">已批改</td>
+													<td>{{obj.score}}</td>
+													<td>
+														<button class="btn btn-success updateWork" v-bind:data-wid="obj.id" v-bind:data-sid="obj.studentid" v-if="obj.status==2">批改</button>
+														<button class="btn btn-success updateWork" v-bind:data-wid="obj.id" v-bind:data-sid="obj.studentid" v-if="obj.status!=2" disabled=ture>批改</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+										</div>
+										<div id="pagebox">
+									<p class="demo">
+										<ul class="pagination pg-primary">
+											<li class="page-item">
+												<a class="page-link" href="#" aria-label="Previous">
+													<span aria-hidden="true">&laquo;</span>
+													<span class="sr-only">Previous</span>
+												</a>
+											</li>
+											<li class="page-item active">
+												<a class="page-link" href="#">1</a>
+											</li>
+											<li class="page-item">
+												<a class="page-link" href="#">2</a>
+											</li>
+											<li class="page-item">
+									 				<a class="page-link" href="#">3</a>
+											</li>
+											<li class="page-item">
+												<a class="page-link" href="#" aria-label="Next">
+													<span aria-hidden="true">&raquo;</span>
+													<span class="sr-only">Next</span>
+												</a>
+											</li>
+										</ul>
+									</p>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
+<script src="../static/js/core/jquery.min.js"></script>
+<script src="../static/js/core/vue.js"></script>
+<script>
+	var v=new Vue({
+		el:"table",
+		data:{
+			list:null
+		}
+	})
+	$(function(){
+		$.ajax({
+			type:"post",
+			url:"http://127.0.0.1:8080/TestCorrectionController/queryByTidTestInfo",
+			success:function(data){
+				console.log(JSON.stringify(data))
+				v.list=data;
+				v.participatetestclassid=data[0].participatetestclassid
+			}
+		})
+	})
+</script>

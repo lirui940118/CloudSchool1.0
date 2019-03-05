@@ -118,13 +118,13 @@
 								<option value="3">上机题</option>
 							</select>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="type">
 							<label for="defaultSelect">考点类型</label> <select
 								class="form-control form-control" id="topictype" name="examdot">
 								<option value="-1">请选择</option>
 								<option value="0">识记</option>
 								<option value="1">理解</option>
-								<option value="2">应用</option>
+								<option value="2" id="use" style="display: none;">应用</option>
 							</select>
 						</div>
 					 	<div class="form-group">
@@ -261,6 +261,7 @@
 				$(".selectbox").addClass("selectboxshow")
 				$(".topicconten").addClass("topiccontenshow")
 				$(".upfile").removeClass("upfileshow")
+				$("#use").hide();
 
 			}
 			/*阅读题*/
@@ -269,12 +270,14 @@
 				$(".topicconten").addClass("topiccontenshow")
 				$(".selectbox").removeClass("selectboxshow")
 				$(".upfile").removeClass("upfileshow")
+				$("#use").hide();
 			}
 			if (value == 3) {
 				$(".selectbox").removeClass("selectboxshow")
 				$(".topicconten").removeClass("topiccontenshow")
 				$(".analysis").removeClass("analysisshow")
 				$(".upfile").addClass("upfileshow")
+				$("#use").show();
 			}
 			/*上机题目*/
 		})
@@ -335,7 +338,7 @@
 			})
 		})
 		//联动
-		$("body").on("change","#course select",function(){
+		$("body").on("change","#course select",function(){topictype
 			var cid=$(this).find("option:selected").val()
 			$.ajax({
 				type:"get",

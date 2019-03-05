@@ -271,7 +271,7 @@
 	</select>
 
 	<update id="updateStatusById">
-		UPDATE participateteststu SET user3=#{user3} WHERE
+		UPDATE participateteststu SET user3=#{user3},user2=now() WHERE
 		sid=#{sid} AND tid=#{tid}
 	</update>
 

@@ -60,7 +60,6 @@ public class TestCorrectionController {
 	public List<TestInfoAll> queryByTidTestInfo(HttpSession session) {
 		Integer tid=(Integer)session.getAttribute("TestCorrecttid");
 		Integer cid=(Integer)session.getAttribute("TestCorrectcid");
-		System.out.println();
 		return participatetestcCassService.queryByTidTestInfo(tid,cid);
 	}
 	
@@ -91,6 +90,14 @@ public class TestCorrectionController {
 		obj.setTid(tid);
 		System.out.println(JSON.toJSONString(obj));
 		return participatetestcCassService.updateTestClassStatus(obj);
+	}
+	
+	@RequestMapping("toTestinfo")
+	public String toTestinfo(Integer tid,Integer cid,HttpSession session) {
+		System.out.println("******************************");
+		session.setAttribute("TestCorrecttid", tid);
+		session.setAttribute("TestCorrectcid", cid);
+		return "zjf/test/testinfo";
 	}
 	
 }

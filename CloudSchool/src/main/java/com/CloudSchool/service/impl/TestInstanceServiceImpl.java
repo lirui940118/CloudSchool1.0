@@ -141,8 +141,7 @@ public class TestInstanceServiceImpl implements TestInstanceService{
 								pobj2.setTid(tid);
 								/*System.out.println(JSON.toJSONString(pobj2));*/
 								testStatusTaskJobEnd.zzz(pobj2);
-								dynamicTaskJobs.addTaskJob(testStatusTaskJobEnd,obj.getObj().getEndtime()+":00");
-								
+								dynamicTaskJobs.addTaskJob(testStatusTaskJobEnd,obj.getObj().getEndtime()+":00");	
 								//学生考试时间结束没有交卷统一零分处理
 								testTimeEndTaskJobs.setObjValue(tid);
 								dynamicTaskJobs.addTaskJob(testTimeEndTaskJobs, obj.getObj().getEndtime()+":00");

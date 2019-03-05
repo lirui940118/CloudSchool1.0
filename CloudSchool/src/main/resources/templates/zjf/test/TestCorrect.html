@@ -117,7 +117,7 @@
 													<td>{{obj.studentname}}</td>
 													<td>{{obj.starttime}}</td>
 													<td v-if="obj.time==null">未提交</td>
-													<td v-if="obj.commitTime!=null">{{obj.time}}</td>
+													<td v-if="obj.time!=null">{{obj.time}}</td>
 													<td v-if="obj.status==0">未开始</td>
 													<td v-if="obj.status==1">待提交</td>
 													<td v-if="obj.status==2">待批改</td>
@@ -365,6 +365,7 @@
 				success:function(data){
 					if(data>0){
 						alert("试卷批改完成")
+						location=location
 					}
 				}
 			})
