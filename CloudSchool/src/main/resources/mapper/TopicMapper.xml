@@ -287,198 +287,77 @@
   
   
   
-  <!-- write by lirui -->
-  <!-- 当前课程进度下应该答题总数 -->
-  <select id="queryCurrentTotalTopicCountBysIdAndGid" resultType="int">
-  	SELECT IFNULL(SUM(FLOOR(finnishedPeriod/totalPeriod *totalTopic)),0)AS topicCount FROM (
-	SELECT zzy_section.`cid`AS courseId,a.course_name AS courseName,COUNT(*)AS totalTopic,
-	a.totalPeriod,a.finnishedPeriod
-	FROM `topic` 
-	INNER JOIN `zzy_section` ON `zzy_section`.`secid` = topic.`cId`#章节id
-	INNER JOIN 
+  
+  
+  <!-- 当前课程进度下学员的实际答题量(2.0) -->
+  <select id="queryRealTopicRateBysIdAndgId" resultType="int">
+  	SELECT IFNULL(
 	(
-	SELECT zzy_course.`cid`AS courseId,`zzy_course`.`course_name`,`zzy_course`.`period`AS totalPeriod,COUNT(zzy_course.`cid`)AS finnishedPeriod
-	FROM `zzy_course`
-	INNER JOIN `zzy_class_schedule` ON `zzy_class_schedule`.`cid` = `zzy_course`.`cid`
-	WHERE zzy_class_schedule.`time` &lt;= CURDATE() AND zzy_course.`gid` IN
-		(
-		<if test="gId!=null">
-		#{gId}
-		</if>
-		<if test="gId==null">
-		#获得所读过的年级id
-		SELECT DISTINCT`zzy_grade`.`gid`FROM `cqj_student` 
-		INNER JOIN `clazzstudent` ON `clazzstudent`.`sid` = `cqj_student`.`studentid` 
-		INNER JOIN `clazz` ON clazz.`id` = clazzstudent.`cid`
-		INNER JOIN `zzy_grade` ON `zzy_grade`.`gid` = clazz.`gid` 
-		WHERE cqj_student.`studentid` = #{sId} 
-		</if>
-		)
-	AND zzy_course.`mid` IN
-		(
-		#获取学员专业id
-		SELECT zzy_major.`mid` FROM `zzy_major`
-		INNER JOIN `clazz` ON clazz.`mid` = zzy_major.mid
-		INNER JOIN `clazzstudent` ON `clazzstudent`.`cid` = clazz.`id`
-		WHERE `clazzstudent`.`sid` = #{sId} 
-		<if test="gId!=null">
-		AND `clazz`.`gid` = #{gId}
-		</if>
-		)
-	)AS a ON a.courseId = zzy_section.`cid`
-	WHERE topic.examdot = #{eId} #题目能力类型
-	GROUP BY zzy_section.`cid`#课程id
-	
-	) k
-  
-  
-  </select>
-  
-  <!-- 当前课程进度下学员的实际答题量 -->
-  <select id="queryCurrentRealTotalTopicCountBysIdAndgId" resultType="int">
-  	SELECT COUNT(*)AS realtopicCount FROM 
+		#实际答题数
+		SELECT IFNULL(COUNT(*),0)AS realTopicCount  FROM ( #实际答题量
+			SELECT topic.`id` FROM topic 
+			INNER JOIN wtrecord ON wtrecord.tId = topic.`id` 
+			#确定年级
+			INNER JOIN `zzy_section` ON `zzy_section`.`secid` = topic.cId #章节
+			INNER JOIN `zzy_course` ON `zzy_course`.`cid` = zzy_section.`cid`#课程
+			WHERE wtrecord.`sId` = #{sId}
+			<if test="gId!=null">
+				AND zzy_course.`gid` = #{gId}
+			</if>
+			AND topic.`examdot` =  #{eId} #能力点 
+			GROUP BY topic.`id` #实际答题
+		)a
+	)
+	/
 	(
-	SELECT zzy_course.`cid` FROM `wtrecord`
-	INNER JOIN `topic` ON `topic`.`tId` = `wtrecord`.`tId` #题目表
-	INNER JOIN `zzy_section` ON `zzy_section`.`secid` = topic.cId#章节表
-	INNER JOIN zzy_course ON zzy_course.`cid` = zzy_section.`cid`
-	WHERE wtrecord.`sId` = #{sId} #学员id
-	<if test="gId!=null">
-	AND zzy_course.`gid`= #{gId} #年级
-	</if>
-	AND  zzy_course.`cid` IN 
-		(
-			SELECT zzy_course.`cid`AS courseId
-			FROM `zzy_course`
-			INNER JOIN `zzy_class_schedule` ON `zzy_class_schedule`.`cid` = `zzy_course`.`cid`
-			WHERE zzy_class_schedule.`time` &lt;= CURDATE() AND zzy_course.`gid` IN
-			(
-			<if test="gId!=null">
-				#{gId}
+		#总题目数量(没有题目，没有课程)
+		SELECT COUNT(*)AS topicTotalCount FROM topic
+		INNER JOIN `zzy_section` ON `zzy_section`.`secid` = topic.cId#章节
+		INNER JOIN `zzy_course` ON `zzy_course`.`cid` = zzy_section.`cid`#课程
+		WHERE topic.`examdot` =  #{eId} #能力点 
+		AND zzy_course.cid IN( #当学员所学过的课程
+		    SELECT clazzcourseteacher.courseid FROM `clazzcourseteacher`
+		    INNER JOIN `zzy_course` ON `zzy_course`.cid = clazzcourseteacher.courseid
+		    INNER JOIN `clazzstudent` ON `clazzstudent`.cid = clazzcourseteacher.clazzid
+		    WHERE clazzstudent.`sid` = #{sId}
+		    <if test="gId!=null">
+				AND zzy_course.`gid` = #{gId}
 			</if>
-			<if test="gId==null">
-			SELECT DISTINCT`zzy_grade`.`gid`FROM `cqj_student` 
-			INNER JOIN `clazzstudent` ON `clazzstudent`.`sid` = `cqj_student`.`studentid` 
-			INNER JOIN `clazz` ON clazz.`id` = clazzstudent.`cid`
-			INNER JOIN `zzy_grade` ON `zzy_grade`.`gid` = clazz.`gid` 
-			WHERE cqj_student.`studentid` = #{sId} #获得所读过的年级id
-			</if>
-			)
-			AND zzy_course.`mid` IN
-			(
-			#获取学员专业id
-			SELECT zzy_major.`mid` FROM `zzy_major`
-			INNER JOIN `clazz` ON clazz.`mid` = zzy_major.mid
-			INNER JOIN `clazzstudent` ON `clazzstudent`.`cid` = clazz.`id`
-			WHERE `clazzstudent`.`sid` = #{sId} 
-			<if test="gId!=null">
-			AND `clazz`.`gid` = #{gId}
-			</if>
-			)
+		    GROUP BY zzy_course.`cid`
 		)
-		#当前进度下的课程
-	AND topic.examdot = #{eId} #题目能力类型
-	GROUP BY wtrecord.tId
-	)a
-  
+	)
+	*100,0)AS rate
   </select>
   
   
- <!--  当前进度下刷题正确率 -->
+ <!--  当前课程下进度下刷题正确率 -->
   <select id="queryCurrentTotalTopicAccuracyBysIdAndgId" resultType="int">
-  SELECT IFNULL(ROUND(SUM(b.`score`)/SUM(b.totalScore)*100),0)AS 总得分率
+    SELECT IFNULL(ROUND(SUM(b.`score`)/SUM(b.totalScore)*100),0)AS 总得分率
 	FROM (
-	SELECT topic.`id`,COUNT(topic.`id`)AS topicCount,SUM(wtrecord.`score`)AS score,SUM(`topic`.`user1`)AS totalScore,SUM(wtrecord.`score`)/SUM(`topic`.`user1`)AS rate
-	FROM `wtrecord`
-	INNER JOIN `topic` ON `topic`.`tId` = `wtrecord`.`tId` #题目表
-	INNER JOIN `zzy_section` ON `zzy_section`.`secid` = topic.cId#章节表
-	INNER JOIN zzy_course ON zzy_course.`cid` = zzy_section.`cid`
-	WHERE wtrecord.`sId` = #{sId} #学员id
-	<if test="gId!=null">
-	AND zzy_course.`gid`= #{gId} #年级
-	</if>
-	AND  zzy_course.`cid` IN 
-		(
-			SELECT zzy_course.`cid`AS courseId
-			FROM `zzy_course`
-			INNER JOIN `zzy_class_schedule` ON `zzy_class_schedule`.`cid` = `zzy_course`.`cid`
-			WHERE zzy_class_schedule.`time` &lt;=  CURDATE() AND zzy_course.`gid` IN
-			(
-			<if test="gId!=null">
-				#{gId}
-			</if>
-			<if test="gId==null">
-			SELECT DISTINCT`zzy_grade`.`gid`FROM `cqj_student` 
-			INNER JOIN `clazzstudent` ON `clazzstudent`.`sid` = `cqj_student`.`studentid` 
-			INNER JOIN `clazz` ON clazz.`id` = clazzstudent.`cid`
-			INNER JOIN `zzy_grade` ON `zzy_grade`.`gid` = clazz.`gid` 
-			WHERE cqj_student.`studentid` = #{sId} #获得所读过的年级id
-			</if>
-			)
-			AND zzy_course.`mid` IN
-			(
-			#获取学员专业id
-			SELECT zzy_major.`mid` FROM `zzy_major`
-			INNER JOIN `clazz` ON clazz.`mid` = zzy_major.mid
-			INNER JOIN `clazzstudent` ON `clazzstudent`.`cid` = clazz.`id`
-			WHERE `clazzstudent`.`sid` = #{sId} 
-			<if test="gId!=null">
-			AND `clazz`.`gid` = #{gId}
-			</if>
-			)
-		)
-	AND topic.examdot = #{eId} #题目能力类型	
+	SELECT topic.`id`,COUNT(topic.`id`)AS topicCount,SUM(wtrecord.`score`)AS score,SUM(`topic`.`user1`)AS totalScore,
+	SUM(wtrecord.`score`)/SUM(`topic`.`user1`)AS rate
+	FROM topic 
+	INNER JOIN wtrecord ON wtrecord.tId = topic.`id` 
+	#确定年级
+	INNER JOIN `zzy_section` ON `zzy_section`.`secid` = topic.cId#章节
+	INNER JOIN `zzy_course` ON `zzy_course`.`cid` = zzy_section.`cid`#课程
+	WHERE wtrecord.`sId` = #{sId}
+	AND topic.`examdot` =  #{eId} #能力点 
+	AND zzy_course.cid IN( #当学员所学过的课程
+		SELECT clazzcourseteacher.courseid FROM `clazzcourseteacher`
+		INNER JOIN `zzy_course` ON `zzy_course`.cid = clazzcourseteacher.courseid
+		INNER JOIN `clazzstudent` ON `clazzstudent`.cid = clazzcourseteacher.clazzid
+		WHERE clazzstudent.`sid` = #{sId}
+		<if test="gId!=null">
+			AND zzy_course.`gid` = #{gId}
+		</if>
+		GROUP BY zzy_course.`cid`
+	)
 	GROUP BY topic.`id` HAVING !(topicCount >5 AND rate >0.8)
-	)b
-  
+	) b	
   </select>
   
   
-  <!-- 当前进度下，上机题目正确率 -->
-  <select id="queryApplicationAbilityRateBysIdAndgId" resultType="int">
-  SELECT IFNULL(ROUND(SUM(b.`score`)/SUM(b.totalScore)*100),0)AS 总得分率
-	FROM (
-	SELECT topic.`id`,COUNT(topic.`id`)AS topicCount,SUM(wtrecord.`score`)AS score,SUM(`topic`.`user1`)AS totalScore,SUM(wtrecord.`score`)/SUM(`topic`.`user1`)AS rate
-	FROM `wtrecord`
-	INNER JOIN `topic` ON `topic`.`tId` = `wtrecord`.`tId` #题目表
-	INNER JOIN `zzy_section` ON `zzy_section`.`secid` = topic.cId#章节表
-	INNER JOIN zzy_course ON zzy_course.`cid` = zzy_section.`cid`
-	WHERE wtrecord.`sId` = #{sId} #学员id
-	<if test="gId!=null">
-	AND zzy_course.`gid`= #{gId} #年级
-	</if>
-	AND  zzy_course.`cid` IN 
-		(
-			SELECT zzy_course.`cid`AS courseId
-			FROM `zzy_course`
-			INNER JOIN `zzy_class_schedule` ON `zzy_class_schedule`.`cid` = `zzy_course`.`cid`
-			WHERE zzy_class_schedule.`time` &lt;=  CURDATE() AND zzy_course.`gid` IN
-			(
-			<if test="gId!=null">
-				#{gId}
-			</if>
-			<if test="gId==null">
-			SELECT DISTINCT`zzy_grade`.`gid`FROM `cqj_student` 
-			INNER JOIN `clazzstudent` ON `clazzstudent`.`sid` = `cqj_student`.`studentid` 
-			INNER JOIN `clazz` ON clazz.`id` = clazzstudent.`cid`
-			INNER JOIN `zzy_grade` ON `zzy_grade`.`gid` = clazz.`gid` 
-			WHERE cqj_student.`studentid` = #{sId} #获得所读过的年级id
-			</if>
-			)
-			AND zzy_course.`mid` IN
-			(
-			#获取学员专业id
-			SELECT zzy_major.`mid` FROM `zzy_major`
-			INNER JOIN `clazz` ON clazz.`mid` = zzy_major.mid
-			INNER JOIN `clazzstudent` ON `clazzstudent`.`cid` = clazz.`id`
-			WHERE `clazzstudent`.`sid` = #{sId} 
-			<if test="gId!=null">
-			AND `clazz`.`gid` = #{gId}
-			</if>
-			)
-		)
-	AND topic.`tId` = #{tId} #题目类型3为上机题目
-	)b
-  </select>
+  
   
 </mapper>

@@ -39,52 +39,35 @@ public class studentAbilityServiceImpl implements studentAbilityService{
 		LrConfigrate lrConfigrate = lrConfigrateService.queryAllConfig();
 		
 		//===================理解能力=====================
-		//应该答题量 考点类型(1.理解)
-		Integer totalTopicCount = topicService.queryCurrentTotalTopicCountBysIdAndGid(sId, gId, 1);
-		//实际答题量
-		Integer realTotolTopicCount = topicService.queryCurrentRealTotalTopicCountBysIdAndgId(sId, gId,1);
+		//实际刷题数量rate 考点类型(1.理解)
+		Integer realTotolTopicRate1 = topicService.queryRealTopicRateBysIdAndgId(sId, gId,1);
 		//答题正确率 29 = 29%
-		Integer topicAccuracy = topicService.queryCurrentTotalTopicAccuracyBysIdAndgId(sId, gId,1);
+		Integer topicAccuracy1 = topicService.queryCurrentTotalTopicAccuracyBysIdAndgId(sId, gId,1);
 		//教员对学员理解能力主观评分 1理解能力
 		Integer assess1 = gkWjcsjfService.queryAbilitWjBysIdAndgId(sId, gId,1);//tid
 		
 		//计算理解能力
 		Double score1= 0d;
-		if(totalTopicCount == 0 || realTotolTopicCount == 0) {
-			score1 = 0 * lrConfigrate.getConfig1() /100 
-					+ realTotolTopicCount * lrConfigrate.getConfig2() /100
-					+ assess1 * lrConfigrate.getConfig3() /100;
-		}else {
-			score1 = totalTopicCount/realTotolTopicCount * lrConfigrate.getConfig1() /100 
-					+ realTotolTopicCount * lrConfigrate.getConfig2() /100
-					+ assess1 * lrConfigrate.getConfig3() /100;
-		}
-		
+		score1 = realTotolTopicRate1 *lrConfigrate.getConfig1() /100
+				+ topicAccuracy1 * lrConfigrate.getConfig2() /100
+				+ assess1 * lrConfigrate.getConfig3() /100;
 		
 		list.add((int) Math.round(score1));
 		
 		
 		//===================识记能力=====================
-		//应该答题量 考点类型(0.识记)
-		Integer totalTopicCount1 = topicService.queryCurrentTotalTopicCountBysIdAndGid(sId, gId, 2);
-		//实际答题量
-		Integer realTotolTopicCount1 = topicService.queryCurrentRealTotalTopicCountBysIdAndgId(sId, gId,2);
+		//实际答题量rate 考点类型(0.识记)
+		Integer realTotolTopicRate0 = topicService.queryRealTopicRateBysIdAndgId(sId, gId,0);
 		//答题正确率 29 = 29%
-		Integer topicAccuracy1 = topicService.queryCurrentTotalTopicAccuracyBysIdAndgId(sId, gId,2);
+		Integer topicAccuracy0 = topicService.queryCurrentTotalTopicAccuracyBysIdAndgId(sId, gId,0);
 		//教员对学员理解能力主观评分 2识记能力
 		Integer assess2 = gkWjcsjfService.queryAbilitWjBysIdAndgId(sId, gId,2);//tid
 		
 		//计算识记能力
 		Double score2 = 0d;
-		if(totalTopicCount == 0 || realTotolTopicCount == 0) {
-			score2 = 0 * lrConfigrate.getConfig4() /100 
-					+ realTotolTopicCount1 * lrConfigrate.getConfig5() /100
-					+ assess2 * lrConfigrate.getConfig6() /100;
-		}else {
-			score2 = totalTopicCount1/realTotolTopicCount1 * lrConfigrate.getConfig4() /100 
-					+ realTotolTopicCount1 * lrConfigrate.getConfig5() /100
-					+ assess2 * lrConfigrate.getConfig6() /100;
-		}
+		score2 = realTotolTopicRate0 * lrConfigrate.getConfig4() /100 
+				+ topicAccuracy0 * lrConfigrate.getConfig5() /100
+				+ assess2 * lrConfigrate.getConfig6() /100;
 		 
 		
 		list.add((int) Math.round(score2));
@@ -110,9 +93,9 @@ public class studentAbilityServiceImpl implements studentAbilityService{
 		
 		
 		//=======================应用能力===================
-		//上级题目得分
-		Integer applicationAbilityRate = topicService.queryApplicationAbilityRateBysIdAndgId(sId, gId, 3);
-		//教员对学员理解能力主观评分 4自控力能力
+		//应用题目实际答题量rate 考点类型(2.应用)
+		Integer applicationAbilityRate = topicService.queryCurrentTotalTopicAccuracyBysIdAndgId(sId, gId,2);
+		//教员对学员理解能力主观评分 4动手能力
 		Integer assess4 = gkWjcsjfService.queryAbilitWjBysIdAndgId(sId, gId,4);//tid
 		//计算应用能力
 		Double score4  = applicationAbilityRate * lrConfigrate.getConfig10() /100
