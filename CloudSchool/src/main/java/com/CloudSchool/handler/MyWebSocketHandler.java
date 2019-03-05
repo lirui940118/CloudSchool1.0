@@ -31,7 +31,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 		if(uid!=null) {
 			MAP.put(uid, session);
 			System.out.println("连接成功......");
-			session.sendMessage(new TextMessage("0-你已经可以与服务器通信连接成功."));
+			session.sendMessage(new TextMessage("00-你已经可以与服务器通信连接成功."));
 		}
 	}
 	

@@ -24,12 +24,17 @@ import com.CloudSchool.dao.ZzyGradeMapper;
 import com.CloudSchool.domain.Classroom;
 import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.ClazzInfo;
+import com.CloudSchool.domain.ClazzPlan;
 import com.CloudSchool.domain.Clazzcourseteacher;
 import com.CloudSchool.domain.Clazzstudent;
 import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.CqjUser;
+import com.CloudSchool.domain.TeacherTimeSection;
 import com.CloudSchool.domain.statistics.ClazzBaseInfoVO;
+import com.CloudSchool.domain.statistics.CourseVO;
+import com.CloudSchool.domain.statistics.StaffVO;
 import com.CloudSchool.service.ClazzService;
+import com.CloudSchool.service.ZzyCourseService;
 @Service
 @Transactional
 public class ClazzServiceImpl implements ClazzService {
@@ -51,6 +56,10 @@ public class ClazzServiceImpl implements ClazzService {
 	ZzyGradeMapper gm;
 	@Autowired
 	StudentupgradeMapper stupMapper;
+	@Autowired
+	ZzyCourseService zcs;
+	List<Clazz> pllist=null;
+	List<ClazzPlan> prlist=null;
 	@Override
 	public int CreateClass(ClazzInfo c) {
 		System.out.println("开班----开始执行");
@@ -272,18 +281,19 @@ public class ClazzServiceImpl implements ClazzService {
         Date date = new Date();
         int y=date.getYear()+1900;
 		String pc=null;
+		String g=gid<10?"0"+gid:""+gid;
 		if(null==c) {
 			System.out.println("本年第一个批次");
 			if(-1==mid) {
-				pc=""+y+"0000"+"01";
+				pc=""+y+g+"0000"+"01";
 			}else if(mid<10){
-				pc=""+y+"000"+mid+"01";
+				pc=""+y+g+"000"+mid+"01";
 			}else if(mid<100){
-				pc=""+y+"00"+mid+"01";
+				pc=""+y+g+"00"+mid+"01";
 			}else if(mid<1000){
-				pc=""+y+"0"+mid+"01";
+				pc=""+y+g+"0"+mid+"01";
 			}else{
-				pc=""+y+mid+"01";
+				pc=""+y+g+mid+"01";
 			}
 		}else {
 			System.out.println("年级id为："+gid+"，最后的一个班级批次为：:"+c.getPc()+",班级数："+c.getCount()+",相隔天数："+c.getNormalCount());
@@ -301,7 +311,88 @@ public class ClazzServiceImpl implements ClazzService {
 	}
 	@Override
 	public int autoCreateClazz() {
-		
+		ClazzInfo c=new ClazzInfo();
+		c.setGid(15);
+		c.setMid(-1);
+		List<CourseVO> clist=zcs.queryStaffsAboutOpenClass(c.getGid(),c.getMid());
+		int sumPeriod=0;
+		for (CourseVO cvo : clist) {
+			int tid=0;
+			int max=0;
+			for (StaffVO t : cvo.getStaffVOList()) {
+				int count=isFree(t.getStaffId(), sumPeriod, Integer.parseInt(cvo.getCoursePeriod()));
+				if(max<count) {
+					max=count;
+				}
+			}
+			sumPeriod+=Integer.parseInt(cvo.getCoursePeriod());
+		}
 		return 0;
+	}
+	//计算教员是否空闲--返回课时冲突数
+	public int isFree(int tid,int sumPeriod,int period) {
+		List<TeacherTimeSection> tlist=getTeacherTimeSectionList(tid);	//获取教员有课的区间段集合
+		return 0;
+		
+	}
+	//获取指定班级课程进度，班级id，课程id,period完成课时
+	public ClazzPlan getClazzProgressBycid(int cid) {
+		if(null==prlist) {
+			prlist=cm.queryClazzProgress();
+		}
+		for (ClazzPlan cp : prlist) {
+			if(cid==cp.getId()) {
+				return cp;
+			}
+		}
+		return null;
+	}
+	//获取教员有课的区间段集合
+	public List<TeacherTimeSection> getTeacherTimeSectionList(int tid){
+		if(null==pllist) {
+			pllist=cm.queryClazzPlan();
+		}
+		if(null==prlist) {
+			prlist=cm.queryClazzProgress();
+		}
+		List<TeacherTimeSection> tlist=new ArrayList<TeacherTimeSection>();	//教员有课的区间段集合
+		for (Clazz c : pllist) {
+			System.out.println("循环班级："+c.getCname());
+			ClazzPlan pro=getClazzProgressBycid(c.getId());	//获取班级的课程进度
+			int sumPeriod=0;	//还没上的课的总时长
+			int isStart=0;	//还没到未上的课
+			if(null==pro) {
+				isStart=1;	//到了未上的课的计划点
+			}
+			//循环课表
+			for (ClazzPlan cp : c.getPlist()) {
+				System.out.println("-循环课表："+cp.getCourserid()+"-"+cp.getCoursername());
+				if(isStart==1) {
+					if(tid==cp.getTid()) {
+						TeacherTimeSection t=new TeacherTimeSection();
+						t.setStart(sumPeriod);
+						t.setEnd(sumPeriod+cp.getPeriod());
+						t.setStatus(1);
+						tlist.add(t);
+					}
+					sumPeriod+=cp.getPeriod();
+				}else if(pro.getCourserid()==cp.getCourserid()) {
+					sumPeriod=cp.getPeriod()-pro.getPeriod();
+					isStart=1;
+					if(tid==cp.getTid()) {
+						TeacherTimeSection t=new TeacherTimeSection();
+						t.setStart(0);
+						t.setEnd(sumPeriod);
+						t.setStatus(1);
+						tlist.add(t);
+					}
+				}
+				System.out.println("---");
+			}
+			for (ClazzPlan cp : c.getPlist()) {
+				System.out.println("-");
+			}
+		}
+		return tlist;
 	}
 }

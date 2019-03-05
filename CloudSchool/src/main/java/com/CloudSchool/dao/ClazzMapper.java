@@ -10,6 +10,7 @@ import com.CloudSchool.domain.ClazzInfo;
 import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.statistics.ClazzBaseInfoVO;
 import com.CloudSchool.domain.statistics.StudentInfoVO;
+import com.CloudSchool.domain.ClazzPlan;
 
 
 @Mapper
@@ -75,4 +76,6 @@ public interface ClazzMapper {
     public List<String> getClazzNameBeforeGradeUp(int[] array);
     //获取当前最新一个班级批次-tzx --按年级算，每个年级之间批次互不相关，各算各的批次--pc--count--normalCount存放的是班级创建日期和现在日期的天数差
     public Clazz getLastClazzPC(@Param("gid")int gid,@Param("mid")int mid);
+	public List<Clazz> queryClazzPlan();		//查询班级排课计划-tzx
+	public List<ClazzPlan> queryClazzProgress();	//查询班级课程进度-tzx
 }
