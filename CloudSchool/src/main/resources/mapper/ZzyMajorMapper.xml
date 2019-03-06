@@ -24,8 +24,14 @@
 	</insert>
 	<!-- 查询所有专业 -->
 	<select id="queryAll" resultMap="BaseResultMap">
+		select * from `zzy_major` 
+	</select>
+	
+	<!-- 根据版本id查询专业 -->
+	<select id="queryAll2" resultMap="BaseResultMap">
 		select * from `zzy_major` where user1=#{vid}
 	</select>
+	
   <insert id="insert" parameterType="com.CloudSchool.domain.ZzyMajor">
     insert into zzy_major (mid, major_name,
       modificationtime,  uid, 

@@ -11,6 +11,7 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="isMaster" jdbcType="INTEGER" property="ismaster" />
     <result column="isTeacher" jdbcType="INTEGER" property="isteacher" />
+     <result column="jd" jdbcType="INTEGER" property="jd" />
   </resultMap>
   <resultMap type="com.CloudSchool.domain.Clazzcourseteacher" id="queryGreadNameTid">
   	<id column="id" property="id"/>
@@ -183,5 +184,15 @@
   <select id="queryClidAndCid" resultType="INTEGER">
   		SELECT tid FROM `clazzcourseteacher` WHERE clazzid=#{clid} AND courseid=#{cid}
   </select>
-
+  <resultMap type="com.CloudSchool.domain.Clazzcourseteacher" id="res" extends="BaseResultMap">
+  		<association property="teacher" column="tid" javaType="com.CloudSchool.domain.CqjStaff" select="com.CloudSchool.dao.CqjStaffMapper.queryBytid"></association>
+  		<association property="zzycourse" column="courseid" javaType="com.CloudSchool.domain.ZzyCourse" select="com.CloudSchool.dao.ZzyCourseMapper.queryBycid"></association>
+  </resultMap>
+  <!-- 根据班级id查询 这个班级所有的教员 以及他们所教的课程   -->
+  <select id="queryzzdx" resultMap="res">
+  	SELECT *,
+  	(SELECT COUNT(*) FROM `zzy_class_schedule` WHERE clid=#{cid} AND cid=`clazzcourseteacher`.`courseid` AND `time`&lt;#{time}) AS 'jd'
+    FROM `clazzcourseteacher` WHERE isTeacher =1 AND `status`=0 AND clazzid=#{cid}
+  </select>
+		
 </mapper>

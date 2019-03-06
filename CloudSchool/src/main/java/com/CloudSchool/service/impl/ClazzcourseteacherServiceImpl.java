@@ -1,5 +1,6 @@
 package com.CloudSchool.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,11 @@ public class ClazzcourseteacherServiceImpl implements ClazzcourseteacherService{
 	@Override
 	public Integer querystaffIdBysIdAndCourseId(Integer courseId, Integer sId) {
 		return clazzcourseteacherMapper.querystaffIdBysIdAndCourseId(courseId, sId);
+	}
+
+	@Override
+	public List<Clazzcourseteacher> queryzzdx(Integer cid, Date time) {
+		// TODO Auto-generated method stub
+		return clazzcourseteacherMapper.queryzzdx(cid, time);
 	}
 }

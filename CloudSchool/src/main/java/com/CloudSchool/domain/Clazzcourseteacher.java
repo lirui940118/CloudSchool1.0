@@ -21,7 +21,16 @@ public class Clazzcourseteacher {
 
     private Integer isteacher;
     
-    /*年级名称*/
+    private Integer jd;
+    
+    public Integer getJd() {
+		return jd;
+	}
+
+	public void setJd(Integer jd) {
+		this.jd = jd;
+	}
+	/*年级名称*/
     private String greaName;
     public String getGreaName() {
 		return greaName;

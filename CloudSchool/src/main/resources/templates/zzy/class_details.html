@@ -20,6 +20,9 @@
 				.clickblock{
 					display: table;
 				}
+				.clickblock2{
+					display: inline;
+				}
 				.tuchu{
 					padding:5px 30px
 				}
@@ -32,6 +35,11 @@
 				.modal-dialog {
     				max-width: 1000px;
     				}
+    			.jz{
+    				text-align: center;
+    				font-size: 2em;
+    				padding: 5em;
+    			}
 		</style>
 	</head>
 
@@ -70,31 +78,11 @@
 							<div class="card-body">
 								<div class="row">
 								<h6 style="margin-left: 12px">课程进度</h6>
-											<div class="col-md-12">
-												<span style="font-size: 12px;">java1:唐勇(80/80)</span>
-												<p class="demo">
-													</p>
-														<div class="progress">
-															<div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-														</div>
-													<p>
-												</p>
-												<span style="font-size: 12px;">java1:唐勇(80/80)</span>
+											<div v-for="jdlist in ccjd" class="col-md-12">
+												<span style="font-size: 12px;">{{jdlist.zzycourse.courseName}}:{{jdlist.teacher.staffname}}({{jdlist.jd}}/{{jdlist.zzycourse.period}})</span>
 												<p class="demo">
 													</p><div class="progress">
-														<div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-													</div>
-												<p></p>
-												<span style="font-size: 12px;">java1:唐勇(80/80)</span>
-												<p class="demo">
-													</p><div class="progress">
-														<div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-													</div>
-												<p></p>
-												<span style="font-size: 12px;">java1:唐勇(80/80)</span>
-												<p class="demo">
-													</p><div class="progress">
-														<div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+														<div class="progress-bar bg-danger" role="progressbar" :style="{width:jdlist.jd*100/jdlist.zzycourse.period+'%'}" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
 													</div>
 												<p></p>
 											</div>
@@ -107,7 +95,7 @@
 										<button id="cli3" class="btn btn-warning" style="margin-left: -6.5px;">成绩</button>
 										<button id="cli4" class="btn btn-info" style="margin-left: -6.5px;">作业</button>
 										<button id="cli5" class="btn btn-default" style="margin-left: -6.5px;">上课记录</button>
-									
+										<input type="week" class="form-control clicknone" style="width: 23%;  margin-left: 700px" id="time"/>
 								</div>
 							<div id="tabz" class="card-body col-sm-12 ">
 								<table id="tab1" class="table table-head-bg-success clickblock">
@@ -123,6 +111,7 @@
 														<th scope="col">地址</th>
 														<th scope="col">邮箱</th>
 														<th scope="col">状态</th>
+														<th scope="col">操作</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -142,59 +131,50 @@
 														<td v-if="stul.status==2">休学</td>
 														<td v-if="stul.status==3">游离未分配</td>
 														<td v-for="yl in yllist" v-if="stul.stu.studentid==yl.sid">游离已分配{{yl.cla.cname}}</td>
+														<td v-bind:id="stul.id" v-bind:sid="stul.sid" class="xgxx">修改</td>
 													</tr>
 												</tbody>
 											</table>
-								<table id="tab2" class="table table-head-bg-danger clicknone" >
-												<thead>
-													<tr>
-														<th scope="col">#</th>
-														<th scope="col">班级名称</th>
-														<th scope="col">年级</th>
-														<th scope="col">专业</th>
-														<th scope="col">当前人数/开班人数</th>
-														<th scope="col">班主任</th>
-														<th scope="col">课程进度</th>
-														<th scope="col">开班日期</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td>1</td>
-														<td>java20</td>
-														<td>Y2</td>
-														<td>java</td>
-														<td>25/30</td>
-														<td>申蒙</td>
-														<td>MVC</td>
-														<td>2818/12/12</td>
-													</tr>
-													<tr>
-														<td>2</td>
-														<td>java20</td>
-														<td>Y2</td>
-														<td>java</td>
-														<td>25/30</td>
-														<td>申蒙</td>
-														<td>MVC</td>
-														<td>2818/12/12</td>
-													</tr>
-													<tr>
-														<td>3</td>
-														<td>java20</td>
-														<td>Y2</td>
-														<td>java</td>
-														<td>25/30</td>
-														<td>申蒙</td>
-														<td>MVC</td>
-														<td>2818/12/12</td>
-													</tr>
-													
-												</tbody>
-											</table>
-
+												<div class="clicknone" id="tab2" style="width: 100%">
+													<table   class="table table-head-bg-danger " >
+													<thead>
+														<tr style="text-align: center;">
+															<th scope="col">{{kstime}}<br>{{jstime}}</th>
+															<th scope="col">周一</th>
+															<th scope="col">周二</th>
+															<th scope="col">周三</th>
+															<th scope="col">周四</th>
+															<th scope="col">周五</th>
+															<th scope="col">周六</th>
+															<th scope="col">周日</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td><span>上午</span><br><span>下午</span></td>
+															<td v-for="dg in kb">
+																<ul>
+																	<li v-if="dg.am.state>0">{{dg.am.courseevents.eventName}}<li>
+																	<li v-if="dg.am.state==0">上课<br>教室:{{dg.am.claroom.name}}<br>教员:{{dg.am.cqjstaff.staffname}}<br>课程:{{dg.am.zzycourse.courseName}}<li>
+																	<li v-if="dg.am.state==-1">自习<br>教室:{{dg.am.claroom.name}}<li>
+																	<li v-if="dg.am.state==-2">放假<li>
+																	
+																</ul>
+																<ul>
+																	<li v-if="dg.pm.state>0">{{dg.pm.courseevents.eventName}}<li>
+																	<li v-if="dg.pm.state==0">上课<br>教室:{{dg.pm.claroom.name}}<br>教员:{{dg.pm.cqjstaff.staffname}}<br>课程:{{dg.pm.zzycourse.courseName}}<li>
+																	<li v-if="dg.pm.state==-1">自习<br>教室:{{dg.pm.claroom.name}}<li>
+																	<li v-if="dg.pm.state==-2">放假<li>
+																</ul>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											
 							</div>
-						
+							<div class="clicknone" id="tab3" style="width: 100%">
+											
+							</div>
 							</div>
 						</div>
 						</div>
@@ -267,6 +247,33 @@
 	</div>
 			</div> 
 			
+			
+		<!-- 修改学员个人信息 -->	
+			<div class="modal fade show" id="xyxx" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro" style="display: none; padding-right: 16px;">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<h6 class="modal-title">修改学员信息</h6>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true" id="closexy">×</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">									
+						姓名:<span>{{xydx.studentname}}</span>
+						<br>手机号码:<input type="text" class="form-control" style="width: 40%; display: inline-block;">
+						家庭住址:<input type="text" class="form-control" style="width: 40%; display: inline-block;">
+						<br><span></span>Email:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="form-control" style="width: 40%; display: inline-block;">
+						目前状态:<select  class="form-control" style="width: 40%; display: inline-block;">
+						
+						</select>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal" id="xytj">提交</button>
+				</div>
+			</div>
+		</div>
+		</div>
+			</div> 
 		</div>
 		
 	</body>
@@ -297,6 +304,11 @@
 					bwlist:null,
 					yllist:null,
 					statuslist:null,
+					ccjd:null,
+					kstime:null,
+					jstime:null,
+					zjdx:null,
+					xydx:{},
 				}
 			})
 			var id=[[${id}]];
@@ -309,6 +321,126 @@
 					v.clazz=data;
 				}
 			})
+			
+			//使用Ajax查询 班级课程进度
+			$.ajax({
+				url:'queryzzdx?cid='+id,
+				type:'POST',
+				dataType:'json',
+				success:function(data){
+					v.ccjd=data;
+				}
+			})
+			
+			//使用Ajax查询此班级本班级本周课表
+			$.ajax({
+				url:'gjbjqxkb?cid='+id,
+				type:'POST',
+				dataType:'json',
+				success:function(data){
+					//定义一个新的对象数组 一个元素代表一天 对象里面有一天的上午 和下午两条课表记录 
+					var xarry=[];
+					//定义一个循环的记录  循环达到两次 重置
+					var count=0;
+					var kb={};
+					$.each(data,function(i2,obj2){
+						if(i2==0){
+							v.kstime=obj2.time;
+						}
+						if(i2==data.length-1){
+							v.jstime=obj2.time;
+						}
+						
+						//定义一个对象 代表班级 一天的课表
+						if(i2%2==0){
+							kb.am=obj2;
+							count++;
+						}else if(i2%2==1){
+							kb.pm=obj2;
+							count++;
+						}
+						if(count==2){
+							count=0;
+							xarry.push(kb);
+							kb={};
+						}
+						
+					})
+					v.kb=xarry;			
+					}
+			})
+			
+			//当选中的周数改变时
+			$("body").on("change","#time",function(){
+				var sj=$("#time").val();
+				$.ajax({
+					url:'anzhouckb?time='+sj+'&cid='+id,
+					type:'POST',
+					dataType:'json',
+					success:function(data){
+						//定义一个新的对象数组 一个元素代表一天 对象里面有一天的上午 和下午两条课表记录 
+						var xarry=[];
+						//定义一个循环的记录  循环达到两次 重置
+						var count=0;
+						var kb={};
+						$.each(data,function(i2,obj2){
+							if(i2==0){
+								v.kstime=obj2.time;
+							}
+							if(i2==data.length-1){
+								v.jstime=obj2.time;
+							}
+							
+							//定义一个对象 代表班级 一天的课表
+							if(i2%2==0){
+								kb.am=obj2;
+								count++;
+							}else if(i2%2==1){
+								kb.pm=obj2;
+								count++;
+							}
+							if(count==2){
+								count=0;
+								xarry.push(kb);
+								kb={};
+							}
+							
+						})
+						if(xarry.length==0){
+							$("#tab2").hide();
+							$("#tab3").html("本周还没有安排课表哦").addClass("jz").show();
+							//$("#tab2").html("本周还没有安排课表哦").addClass("jz");
+						}else{
+							$("#tab3").hide();
+							$("#tab2").show();
+						}
+						v.kb=xarry;			
+						}
+				})
+				
+			})
+			
+			//点击修改学员个人信息
+			$("body").on("click",".xgxx",function(){
+				//中间表id
+				var zid=$(this).attr("id");
+				//学员id 
+				var sid=$(this).attr("sid");
+				$.each(v.stulist,function(i,obj){
+					if(obj.id==zid){
+						v.zjdx=obj;
+						v.xydx=obj.stu;
+					}
+				})
+				
+				$("#xyxx").show();
+				
+			})
+			//点击关闭
+			$("body").on("click","#closexy",function(){
+				$("#xyxx").hide();
+			})
+			
 			
 			//升学点击事件
 			$("body").on("click","#shengxue",function(){
@@ -351,11 +483,13 @@
 			})
 			$("body").on("click","#cli1",function(){
 				$(".clickblock").addClass("clicknone").removeClass("clickblock");
+				$(".clickblock2").addClass("clicknone").removeClass("clickblock2");
 				$("#tab1").addClass("clickblock");
 			})
 			$("body").on("click","#cli2",function(){
 				$(".clickblock").addClass("clicknone").removeClass("clickblock");
 				$("#tab2").addClass("clickblock");
+				$("#time").addClass("clickblock2");
 			})
 			
 	

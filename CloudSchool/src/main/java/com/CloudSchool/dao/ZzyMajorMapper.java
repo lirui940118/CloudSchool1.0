@@ -12,5 +12,8 @@ public interface ZzyMajorMapper {
     
     int insertList(Map<String,Object> map);
     
-    public List<ZzyMajor> queryAll(Integer vid);
+    public List<ZzyMajor> queryAll();
+    
+    public List<ZzyMajor> queryAll2(Integer vid);
+    
 }
