@@ -82,8 +82,12 @@
             	url:"updateClassRoom",
             	data:"id="+id+"&name="+name+"&floor="+floor+"&ctid="+type+"&galleryful="+nums,
             	success:function(result){
-            		alert(result)
-            		location.href="queryClr"
+            		if(result==1){
+            			alert("修改成功");
+            			location.href="queryClr"
+            		}else{
+            			alert("修改失败");
+            		}
             	}
             })
         })

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.CloudSchool.dao.ClassroomMapper;
 import com.CloudSchool.domain.Classroom;
+import com.CloudSchool.domain.CqjUser;
+import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.service.ClassroomService;
 @Service
 public class ClassroomServiceImpl implements ClassroomService{
@@ -46,6 +48,16 @@ public class ClassroomServiceImpl implements ClassroomService{
 	public Classroom queryByroomid(Integer id) {
 		// TODO Auto-generated method stub
 		return clr.queryByroomid(id);
+	}
+
+	@Override
+	public PageBean pageRoom(Integer cur, Integer pageSize) {
+		// TODO Auto-generated method stub
+		int count=clr.queryCunt();
+		int cur1=(cur-1)*pageSize;
+		List<Classroom> list=clr.pageRoom(cur1, pageSize);
+		PageBean page=new PageBean(count, pageSize,list , cur);
+		return page;
 	}
 
 }

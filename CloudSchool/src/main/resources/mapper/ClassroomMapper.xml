@@ -117,4 +117,14 @@
   <select id="queryBytimeRoom" resultType="INTEGER">
   		SELECT COUNT(*) FROM `zzy_class_schedule` WHERE rid=#{rid} AND `time`=#{time}
   </select>
+  <!-- 分页查询教室 -->
+  <select id="pageRoom" resultMap="BaseResultMap">
+  	    SELECT cs.`name` AS `name`,cs.`id` AS `id`,ct.`name` AS ctname,cs.`galleryful`,cs.`floor` 
+  	    FROM classroom cs INNER JOIN classtype ct ON cs.`ctid`=ct.`id`
+  	    LIMIT #{cur},#{pageSize}
+  </select>
+  <select id="queryCunt"  resultType="java.lang.Integer">
+   SELECT	count(*)
+  	    FROM classroom cs INNER JOIN classtype ct ON cs.`ctid`=ct.`id`
+  </select>
 </mapper>
