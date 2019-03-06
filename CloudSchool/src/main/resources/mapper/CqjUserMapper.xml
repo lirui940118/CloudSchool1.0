@@ -625,7 +625,7 @@ ORDER BY stuinfo
 	  <!-- gk判断是否为调查教员问卷，true带出zid -->
 	  <select id="queryWJcsjfPD" resultMap="BaseResultMap">
 	  	SELECT `userid` FROM `cqj_user` WHERE `userid` IN (
-			SELECT `z_id` FROM `gk_wjcsjf` WHERE `wj_id` = 21 AND `tm_id` IS NULL
+			SELECT `z_id` FROM `gk_wjcsjf` WHERE  `tm_id` IS NULL AND `wj_id` = 10 OR `wj_id` = 9
 		) AND `usertypenub` = 0
 	 </select>
 

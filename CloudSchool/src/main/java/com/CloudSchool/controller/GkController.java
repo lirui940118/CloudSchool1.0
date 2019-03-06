@@ -186,18 +186,21 @@ public class GkController {
 		if(ft.getWjxxTypeId() == 2) {
 			//插入计分题
 			gkWjcsjfService.insertWjcsjf(quanbulist, ft.getWjId(), ft.getzId());
-			//判断是否为调查教员问卷，true带出zid
-			CqjUser yonghu = cqjUserService.queryWJcsjfPD();
-			//通过zid带出所有记录
-			List<GkWjcsjf> wjcsjfList = gkWjcsjfService.queryAllByzid(yonghu.getUserid());
-			//互换oid，zid位置
-			for (GkWjcsjf gkWjcsjf : wjcsjfList) {
-				GkWjcsjf jf = new GkWjcsjf();
-				jf.setoId(gkWjcsjf.getoId());
-				jf.setzId(gkWjcsjf.getzId());
-				jf.setWjcsjfId(gkWjcsjf.getWjcsjfId());
-				gkWjcsjfService.updateByoidAndzid(jf);
+			if(ft.getWjTypeId() == 2 || ft.getWjTypeId() == 3) {
+				//判断是否为调查教员或调查班主任问卷，true带出zid
+				CqjUser yonghu = cqjUserService.queryWJcsjfPD();
+				//通过zid带出所有记录
+				List<GkWjcsjf> wjcsjfList = gkWjcsjfService.queryAllByzid(yonghu.getUserid());
+				//互换oid，zid位置
+				for (GkWjcsjf gkWjcsjf : wjcsjfList) {
+					GkWjcsjf jf = new GkWjcsjf();
+					jf.setoId(gkWjcsjf.getoId());
+					jf.setzId(gkWjcsjf.getzId());
+					jf.setWjcsjfId(gkWjcsjf.getWjcsjfId());
+					gkWjcsjfService.updateByoidAndzid(jf);
+				}
 			}
+			
 		}
 		
 		return gkWenJuanService.insertWenJuanFB(ft);

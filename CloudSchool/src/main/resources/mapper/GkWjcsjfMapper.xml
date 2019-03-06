@@ -22,7 +22,7 @@
   </update>
   <!-- 通过zid带出所有记录 -->
   <select id="queryAllByzid" resultMap="BaseResultMap">
-  	SELECT * FROM `gk_wjcsjf` WHERE `z_id` = #{zId} AND `wj_id` = 21
+  	SELECT * FROM `gk_wjcsjf` WHERE `z_id` = #{zId} AND `wj_id` = 9 or `wj_id` = 10
   </select>
   
   
