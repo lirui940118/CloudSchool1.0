@@ -121,7 +121,7 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
     				if(aa.getPeriod()==count) {
     					continue;
     				}else {
-    					dqcourse=aa;
+    					dqcourse=aa; 
     					break;
     				}
 				}
@@ -221,6 +221,7 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
 			}
         	 
 		}
+        
         //当所有课程添加完成后 再次循环每一个班级
         //再次定义一个时间集合
         for (Clazz clazz : ClaList) {
@@ -496,5 +497,45 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
 		        	clazz.setSchlist(list);
 				}
 		return ClaList;
+	}
+
+	@Override
+	public List<ZzyClassSchedule> gjbjqxkb(Integer cid) throws ParseException {
+		// TODO Auto-generated method stub
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar cal = Calendar.getInstance();
+	      cal.setTime(date);
+	      // 判断要计算的日期是否是周日，如果是则减一天计算周六的，否则会出问题，计算到下一周去了  
+	      int dayWeek = cal.get(Calendar.DAY_OF_WEEK);// 获得当前日期是一个星期的第几天  
+	      if(1 == dayWeek){
+	         cal.add(Calendar.DAY_OF_MONTH,-1);
+	      }
+	      // 设置一个星期的第一天，按中国的习惯一个星期的第一天是星期一  
+	      cal.setFirstDayOfWeek(Calendar.MONDAY);
+	      // 获得当前日期是一个星期的第几天  
+	      int day = cal.get(Calendar.DAY_OF_WEEK);
+	      // 根据日历的规则，给当前日期减去星期几与一个星期第一天的差值  
+	      cal.add(Calendar.DATE, cal.getFirstDayOfWeek() - day);
+	      String imptimeBegin = sdf.format(cal.getTime());
+	      Date imptimeBegin2 = sdf.parse(imptimeBegin);
+	      System.out.println(imptimeBegin);
+	      cal.add(Calendar.DATE,6);
+	      String imptimeEnd = sdf.format(cal.getTime());
+	      Date imptimeEnd2 = sdf.parse(imptimeEnd);
+	      System.out.println(imptimeEnd);
+	      List<ZzyClassSchedule> list=schm.queryKbBytime(imptimeBegin2, imptimeEnd2,cid);
+		return list;
+	}
+	
+	public List<ZzyClassSchedule> anzhouckb(int year,int wekk,Integer cid) throws ParseException{
+		String start=getStartDayOfWeekNo(year,wekk);
+		String end=getEndDayOfWeekNo(year,wekk);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        //将String 转为date
+        Date date1 = sdf.parse(start);
+        Date date2 = sdf.parse(end);
+    	List<ZzyClassSchedule> list=schm.queryKbBytime(date1, date2,cid);
+    	return list;
 	}
 }

@@ -25,6 +25,7 @@ import com.CloudSchool.dao.ZzyRealtimeClassroomMapper;
 import com.CloudSchool.dao.ZzyTeacherAbilityMapper;
 import com.CloudSchool.domain.Classroom;
 import com.CloudSchool.domain.Clazz;
+import com.CloudSchool.domain.Clazzcourseteacher;
 import com.CloudSchool.domain.Clazzstudent;
 import com.CloudSchool.domain.CqjStaff;
 import com.CloudSchool.domain.CqjUser;
@@ -41,6 +42,7 @@ import com.CloudSchool.domain.ZzyVersion;
 import com.CloudSchool.service.ClassStudentService;
 import com.CloudSchool.service.ClassroomService;
 import com.CloudSchool.service.ClazzService;
+import com.CloudSchool.service.ClazzcourseteacherService;
 import com.CloudSchool.service.CqjStaffService;
 import com.CloudSchool.service.ZzyClassCommitteeService;
 import com.CloudSchool.service.ZzyClassPositionService;
@@ -98,6 +100,9 @@ public class ZzyController {
 	@Autowired
 	ZzyTeacherAbilityService teacher;
 	
+	@Autowired
+	ClazzcourseteacherService coursetea;
+	
 	List<ZzyClassPosition> deletelist=null;
 	
 	//查询所有版本
@@ -154,9 +159,16 @@ public class ZzyController {
 	//根据版本查询专业
 	@RequestMapping("/queryMajorAll")
 	@ResponseBody
-	public List<ZzyMajor> queryMajorAll(Integer vid){
-		return majs.queryAll(vid);
+	public List<ZzyMajor> queryMajorAll(){
+		return majs.queryAll();
 	}
+	
+	//根据版本查询专业
+		@RequestMapping("/queryMajorAll2")
+		@ResponseBody
+		public List<ZzyMajor> queryMajorAll(Integer vid){
+			return majs.queryAll2(vid);
+		}
 	
 	//添加课程以及循环添加章节
 	@RequestMapping("/insertCourse")
@@ -465,6 +477,33 @@ public class ZzyController {
 	public Integer tjxgjssq(@RequestBody List<ZzyTeacherAbility> list) {
 		return teacher.insertTea(list);
 		
+	}
+	
+	//根据班级id查询课程进度
+	@RequestMapping("queryzzdx")
+	@ResponseBody
+	public List<Clazzcourseteacher> queryzzdx(Integer cid){
+		Date time = new Date();
+		return coursetea.queryzzdx(cid, time);
+	}
+	
+	@RequestMapping("gjbjqxkb")
+	@ResponseBody
+	public List<ZzyClassSchedule> gjbjqxkb(Integer cid) throws ParseException {
+	      return csss.gjbjqxkb(cid);
+	}
+	
+	@RequestMapping("anzhouckb")
+	@ResponseBody
+	public List<ZzyClassSchedule> anzhouckb(String time,Integer cid) throws ParseException{
+		System.out.println("进入方法");
+		//将获取的时间分隔为年 周
+				String[] arry=time.split("-W");
+				//年
+				int year =Integer.parseInt(arry[0]);
+				//周
+				int week =Integer.parseInt(arry[1]);
+				return csss.anzhouckb(year, week, cid);
 	}
 	
 }

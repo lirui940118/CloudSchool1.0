@@ -18,5 +18,10 @@ public interface ZzyClassScheduleService {
 	public Integer insertkebiao(ZzyClassSchedule ins);
 	
 	 public List<Clazz> queryKbBytime(int year,int wekk) throws ParseException;
+	 
+	 //根据班级id和当前时间获取班级本周课表
+	 public List<ZzyClassSchedule> gjbjqxkb(Integer cid) throws ParseException;
+	 
+	 public List<ZzyClassSchedule> anzhouckb(int year,int wekk,Integer cid) throws ParseException;
 	
 }

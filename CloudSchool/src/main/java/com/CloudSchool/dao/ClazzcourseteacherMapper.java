@@ -1,5 +1,6 @@
 package com.CloudSchool.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -34,5 +35,8 @@ public interface ClazzcourseteacherMapper {
 
     
     public Integer queryClidAndCid(@Param("clid")Integer clid,@Param("cid")Integer cid);
+    
+    //张泽洋 根据班级id 以及时间查询 这个班级的所有课程对象 老师对象 以及课程进度
+    public List<Clazzcourseteacher> queryzzdx(@Param("cid")Integer cid,@Param("time")Date time);
 
 }
