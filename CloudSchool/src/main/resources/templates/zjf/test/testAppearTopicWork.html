@@ -64,77 +64,58 @@ table {
 					</div>
 					<div class="card-body">
 						<nav id="condition">
-							<div class="form-group courseselect">
+							<div class="form-group" id="grade">
+							<label for="successInput">年级</label> <select
+											class="form-control input-square">
+											<option v-bind:value="obj.gid" v-for="(obj,index) in list">{{obj.gradeName}}</option>
+							</select>
+						</div>
+						<div class="form-group courseselect" id="course">
 								<label for="squareSelect">课程</label> <select
-									class="form-control input-square" id="squareSelect">
-									<option>逻辑java</option>
-									<option>MySQL数据库</option>
-									<option>ssm框架</option>
+									class="form-control input-square">
+									<option v-for="(obj,index) in list" v-bind:value="obj.cid">{{obj.courseName}}</option>
 								</select>
 							</div>
-							<div class="form-group courseselect">
+							<div class="form-group courseselect" id="chapter">
 								<label for="squareSelect">章节</label> <select
-									class="form-control input-square" id="squareSelect">
-									<option>第一章</option>
-									<option>第二章</option>
-									<option>第三章</option>
+									class="form-control input-square">
+									<option v-for="(obj,index) in list" v-bind:value="obj.secid">{{obj.sectionName}}</option>
 								</select>
+							</div>
+							<div class="form-group courseselect" id="point">
+								<label for="squareSelect">知识点</label> <select
+								class="form-control form-control" id="defaultSelect" name="cid">
+								<option v-for="(obj,index) in list" v-bind:value="obj.id">{{obj.kname}}</option>
+							</select>
 							</div>
 							<div class="form-group courseselect" id="topicType">
 								<label for="squareSelect">题目类型</label> <select
-									class="form-control input-square" id="squareSelect">
+									class="form-control input-square">
 									<option v-for="(obj,index) in list" v-bind:value="obj.id">{{obj.typename}}</option>
 									<!-- <option>上机题</option>
 										<option>阅读题</option> -->
 								</select>
 							</div>
-							<!--<div class="form-group courseselect">
-									<label for="squareSelect">考题类别</label>
-									<select class="form-control input-square" id="squareSelect">
-										<option>理解</option>
-										<option>应用</option>
-										<option>识记</option>
-									</select>
-								</div>-->
-							<div class="form-group courseselect">
-								<label class="card-category">考题类别</label> <label
-									class="form-radio-label"> <input
-									class="form-radio-input" type="radio" name="topicClass"
-									value=""> <span class="form-radio-sign">理解</span>
-								</label> <label class="form-radio-label"> <input
-									class="form-radio-input" type="radio" name="topicClass"
-									value=""> <span class="form-radio-sign">应用</span>
-								</label> <label class="form-radio-label"> <input
-									class="form-radio-input" type="radio" name="topicClass"
-									value=""> <span class="form-radio-sign">识记</span>
-								</label>
+							<div class="form-group courseselect" id="testpoint">
+								<label for="squareSelect">考点类型</label> <select
+									class="form-control input-square">
+									<option value="0">识记</option>
+									<option value="1">理解</option>
+									<option value="2">应用</option>
+								</select>
 							</div>
-							<div class="form-group courseselect">
-								<label class="card-category">题目级别</label> <label
-									class="form-radio-label"> <input
-									class="form-radio-input" type="radio" name="topicLevel"
-									value=""> <span class="form-radio-sign">易</span>
-								</label> <label class="form-radio-label"> <input
-									class="form-radio-input" type="radio" name="topicLevel"
-									value=""> <span class="form-radio-sign">中</span>
-								</label> <label class="form-radio-label"> <input
-									class="form-radio-input" type="radio" name="topicLevel"
-									value=""> <span class="form-radio-sign">难</span>
-								</label>
-							</div>
+							<button class="btn btn-primary" id="query">查询 </button>
 							<!-- <div class="btn" style="display: flex;justify-content:space-between;">
 								<label style="line-height: 40px;">模板名称:</label>
 								<input type="text" class="form-control form-control" style="width: 40%;" name="workMoudleName">
 									<button class="btn btn-primary btn-round"  id="addWork">生成作业</button>
 								</div> -->
 						</nav>
-						<div style="float: left;margin-top: 20px;width: 100%;">
+						<div style="float: left;margin-top: 20px;width: 100%;" id="gradeTest">
 							<div class="form-group courseselect">
 								<label for="squareSelect">试卷所属年级</label> 
 								<select class="form-control input-square" name="grade" id="squareSelect">
-									<option value="1">S1</option>
-									<option value="2">S2</option>
-									<option value="3">Y2</option>
+									<option v-bind:value="obj.gid" v-for="(obj,index) in list">{{obj.gradeName}}</option>
 								</select>
 							</div>
 							<div class="form-group courseselect">
@@ -262,12 +243,48 @@ table {
 <script src="js/ready.min.js"></script>
 <script src="js/demo.js"></script>-->
 <script>
+	var i=0;
 	var ids = [] //选中的题目id
 	//题目类型
 	var v = new Vue({
 		el : "#topicType",
 		data : {
 			list : null,
+		}
+	})
+	var i=0;
+	//年级
+	var grade=new Vue({
+		el:"#grade",
+		data:{
+			list:null
+		}
+	})
+	//章节
+	var chapter = new Vue({
+		el : "#chapter",
+		data : {
+			list : null
+		}
+	})
+	var point=new Vue({
+		el:"#point",
+		data:{
+			list:null
+		}
+	})
+	//年级
+	var gradeTest=new Vue({
+		el:"#gradeTest",
+		data:{
+			list:null
+		}
+	})
+	//课程
+	var course=new Vue({
+		el:"#course",
+		data:{
+			list:null
 		}
 	})
 	//题目
@@ -322,6 +339,38 @@ table {
 					}
 				})
 	}
+	function pageTopics(str,cur){
+		$.ajax({
+			type:"post",
+			url : "http://127.0.0.1:8080/topicWarehouseController/conditionsQueryTopci",
+			data : {
+				str:str,
+				cur:cur
+			},
+			success : function(data) {
+				$("#previousPage").attr("data-pre", data.prePage)
+				$("#nextPage").attr("data-next", data.nextPage)
+				topiclist.obj = data
+				topiclist.ids = ids
+			}
+	})
+	}
+	function getparam(){
+		var gid=$("#grade option:selected").val();			//年级
+		var courseid=$("#course option:selected").val();	//课程
+		var chapter=$("#chapter option:selected").val();	//章节
+		var point=$("#point option:selected").val();		//知识点	
+		var tid=$("#topicType option:selected").val()		//题目类型
+		var testpoint=$("#testpoint option:selected").val()	//考点类型
+		var obj={}
+		obj.gid=gid;
+		obj.courseid=courseid;
+		obj.chapter=chapter;
+		obj.point=point;
+		obj.tid=tid;
+		obj.testpoint=testpoint;
+		return obj;
+	}
 
 	/* cheackbox事件 */
 	var sum = 0; //出题总分数
@@ -372,12 +421,25 @@ table {
 		/*上一页*/
 		$("body").on("click", "#previousPage", function() {
 			var cur = $(this).attr("data-pre")
-			paging(cur)
+			if(i>0){
+				alert(1)
+				var obj=getparam()
+				var str=JSON.stringify(obj)
+				pageTopic(str,cur)
+			}else{
+				paging(cur)
+			}
 		})
 		/*下一页  */
 		$("body").on("click", "#nextPage", function() {
 			var cur = $(this).attr("data-next")
-			paging(cur)
+			if(i>0){
+				var obj=getparam()
+				var str=JSON.stringify(obj)
+				pageTopic(str,cur)
+			}else{
+				paging(cur)
+			}
 		})
 		/*生成作业模板  */
 		$("#addWork")
@@ -407,5 +469,63 @@ table {
 										})
 							}
 						})
+			
+		$.ajax({
+			type : "get",
+			url : "http://127.0.0.1:8080/TestInstance/queryAll",
+			data : {
+				id : 1
+			},
+			success : function(data) {
+				grade.list = data;
+				gradeTest.list=data;
+			}
+		})
+		$("body").on("change","#grade select",function() {
+			var gid = $(this).find("option:selected").val()
+			$.ajax({
+				type:"get",
+				url:"http://127.0.0.1:8080/topicWarehouseController/queryBygid",
+				data:{cid:gid},
+				success:function(data){
+					course.list=data
+					/* console.log(JSON.stringify(data)) */
+				}
+			})
+			
+		})
+		//课程联动
+		$("body").on("change","#course select",function() {
+				var cid = $(this).find("option:selected").val()
+				$.ajax({
+						type : "get",
+						url : "http://127.0.0.1:8080/topicWarehouseController/queryBycid",
+						data : {
+								cid : cid
+						},
+						success : function(data) {
+						chapter.list = data
+						/* console.log(JSON.stringify(data)) */
+						}
+				})
+		})
+		$("body").on("change","#chapter select",function(){
+			var sid=$(this).find("option:selected").val()
+			$.ajax({
+				type:"get",
+				url:"http://127.0.0.1:8080/topicWarehouseController/queryPoint",
+				data:{sid:sid},
+				success:function(data){
+					point.list=data
+					/* console.log(JSON.stringify(data)) */
+				}
+			})
+		})
+		$("#query").click(function(){
+			i++;
+			var obj=getparam()
+			var str=JSON.stringify(obj)
+			pageTopics(str,1)
+		})
 	})
 </script>

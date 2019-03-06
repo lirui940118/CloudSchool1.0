@@ -269,17 +269,65 @@
   </update>
   <select id="queryCount" resultType="int">
   	SELECT count(*) FROM topic
+	INNER JOIN zzy_section ON zzy_section.`secid`=topic.`cId`
+	INNER JOIN zzy_course ON zzy_course.`cid`=zzy_section.`cid`
+	INNER JOIN zzy_grade ON zzy_grade.`gid`=zzy_course.`gid`
   	<where>
+  		<!--  题目类型-->
   		<if test="tid!=null">
-  			tid=#{tid}
+  			and topic.tid=#{tid}
+  		</if>
+  		<!--  年级-->
+  		<if test="gid!=null">
+  			and zzy_grade.`gid`=#{gid}
+  		</if>
+  		<!--  课程-->
+  		<if test="courseid!=null">
+  			and zzy_course.`cid`=#{courseid}
+  		</if>
+  		<!--  章节-->
+  		<if test="chapter!=null">
+  			and zzy_section.`secid`=#{chapter}
+  		</if>
+  		<!-- 知识点 -->
+  		<if test="point!=null">
+  			and topic.kid=#{point}
+  		</if>
+  		<!-- 考点类型 -->
+  		<if test="testpoint!=null">
+  			and topic.examdot=#{testpoint}
   		</if>
   	</where>
   </select>
   <select id="conditionsQueryTopci" resultMap="ResultMapWithBLOBs">
-  	SELECT * FROM topic
+  	SELECT topic.* FROM topic
+	INNER JOIN zzy_section ON zzy_section.`secid`=topic.`cId`
+	INNER JOIN zzy_course ON zzy_course.`cid`=zzy_section.`cid`
+	INNER JOIN zzy_grade ON zzy_grade.`gid`=zzy_course.`gid`
   	<where>
+  		<!--  题目类型-->
   		<if test="obj.tid!=null">
-  			tid=#{obj.tid}
+  			and topic.tid=#{obj.tid}
+  		</if>
+  		<!--  年级-->
+  		<if test="obj.gid!=null">
+  			and zzy_grade.`gid`=#{obj.gid}
+  		</if>
+  		<!--  课程-->
+  		<if test="obj.courseid!=null">
+  			and zzy_course.`cid`=#{obj.courseid}
+  		</if>
+  		<!--  章节-->
+  		<if test="obj.chapter!=null">
+  			and zzy_section.`secid`=#{obj.chapter}
+  		</if>
+  		<!-- 知识点 -->
+  		<if test="obj.point!=null">
+  			and topic.kid=#{obj.point}
+  		</if>
+  		<!-- 考点类型 -->
+  		<if test="obj.testpoint!=null">
+  			and topic.examdot=#{obj.testpoint}
   		</if>
   	</where>
   	limit #{cur},#{pagesize}

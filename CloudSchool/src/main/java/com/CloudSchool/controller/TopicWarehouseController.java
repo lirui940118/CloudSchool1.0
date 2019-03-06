@@ -27,6 +27,7 @@ import com.CloudSchool.domain.Workmould;
 import com.CloudSchool.domain.ZzyCourse;
 import com.CloudSchool.domain.ZzySection;
 import com.CloudSchool.domain.zjfvo.TeacherAdminStu;
+import com.CloudSchool.domain.zjfvo.TopicParam;
 import com.CloudSchool.domain.zjfvo.WorkPublishParam;
 import com.CloudSchool.service.ClazzcourseteacherService;
 import com.CloudSchool.service.LrKnowledagepointService;
@@ -111,11 +112,17 @@ public class TopicWarehouseController {
 	//根据条件查询题目(多条件)
 	@RequestMapping("conditionsQueryTopci")
 	@ResponseBody
-	public PageBean conditionsQueryTopci(Topic obj,Integer cur){
+	public PageBean conditionsQueryTopci(String str,Integer cur){
+		TopicParam obj=new TopicParam();
+		if(str!=null) {
+			obj=JSON.parseObject(str, TopicParam.class);
+		}
+		
+		System.out.println(JSON.toJSONString(obj));
 		if(cur==null) {
 			cur=1;
 		}
-		Integer pagesize=2;
+		Integer pagesize=10;
 		return topicService.conditionsQueryTopci(obj,cur,pagesize);
 	}
 	

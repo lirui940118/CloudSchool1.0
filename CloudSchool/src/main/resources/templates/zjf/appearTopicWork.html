@@ -1,127 +1,121 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<title>发布模板</title>
-		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-		<link rel="stylesheet" href="../static/css/bootstrap.min.css">
-		<link rel="stylesheet" href="../static/css/ready.css">
-		<style>
-			#condition div {
-				width: 30%;
-				float: left;
-			}
-			
-			table {
-				border: 1px solid lightskyblue;
-			}
-			
-			.btn {
-				float: right;
-			}
-			#pagebox{
-				float: right;
-			}
-			#topicinfo button{
-				float: left;
-			}
-			#topicinfo button:nth-child(2){
-				margin-left: 10px;
-			}
-			#testscore{
-				margin-left: 30px;
-			}
-			#testscore{
-				float: left;
-			}
-			#testscore button{
-				float: left;
-			}
-			#testscore button:nth-child(2){
-				margin-left: 10px;
-			}
-		</style>
-	</head>
+<head>
+<meta charset="UTF-8">
+<title>发布模板</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+<link rel="stylesheet" href="../static/css/ready.css">
+<style>
+#condition div {
+	width: 30%;
+	float: left;
+}
 
-	<body>
-		<div class="main-panel">
-			<div class="content">
-				<div class="container-fluid">
-					<h4 class="page-title">布置作业</h4>
-					<div class="card">
-						<div class="card-header">
-							<h4 class="card-title">选择题目</h4>
+table {
+	border: 1px solid lightskyblue;
+}
+
+.btn {
+	float: right;
+}
+
+#pagebox {
+	float: right;
+}
+
+#topicinfo button {
+	float: left;
+}
+
+#topicinfo button:nth-child(2) {
+	margin-left: 10px;
+}
+
+#testscore {
+	margin-left: 30px;
+}
+
+#testscore {
+	float: left;
+}
+
+#testscore button {
+	float: left;
+}
+
+#testscore button:nth-child(2) {
+	margin-left: 10px;
+}
+</style>
+</head>
+
+<body>
+	<div class="main-panel">
+		<div class="content">
+			<div class="container-fluid">
+				<h4 class="page-title">布置作业</h4>
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">选择题目</h4>
+					</div>
+					<div class="card-body">
+						<nav id="condition">
+						<div class="form-group" id="grade">
+							<label for="successInput">年级</label> <select
+											class="form-control input-square">
+											<option v-bind:value="obj.gid" v-for="(obj,index) in list">{{obj.gradeName}}</option>
+							</select>
 						</div>
-						<div class="card-body">
-							<nav id="condition">
-								<div class="form-group courseselect" id="course">
-									<label for="squareSelect">课程</label>
-									<select class="form-control input-square" id="squareSelect">
-										<option v-for="(obj,index) in list" v-bind:value="obj.cid">{{obj.courseName}}</option>
-									</select>
-								</div>
-								<div class="form-group courseselect" id="chapter">
-									<label for="squareSelect">章节</label>
-									<select class="form-control input-square" id="squareSelect">
-										<option v-for="(obj,index) in list" v-bind:value="obj.secid">{{obj.sectionName}}</option>
-									</select>
-								</div>
-								<div class="form-group courseselect" id="topicType">
-									<label for="squareSelect">题目类型</label>
-									<select class="form-control input-square" id="squareSelect">
-										<option v-for="(obj,index) in list" v-bind:value="obj.id">{{obj.typename}}</option>
-										<!-- <option>上机题</option>
+						<div class="form-group courseselect" id="course">
+								<label for="squareSelect">课程</label> <select
+									class="form-control input-square">
+									<option v-for="(obj,index) in list" v-bind:value="obj.cid">{{obj.courseName}}</option>
+								</select>
+							</div>
+							<div class="form-group courseselect" id="chapter">
+								<label for="squareSelect">章节</label> <select
+									class="form-control input-square">
+									<option v-for="(obj,index) in list" v-bind:value="obj.secid">{{obj.sectionName}}</option>
+								</select>
+							</div>
+							<div class="form-group courseselect" id="point">
+								<label for="squareSelect">知识点</label> <select
+								class="form-control form-control" id="defaultSelect" name="cid">
+								<option v-for="(obj,index) in list" v-bind:value="obj.id">{{obj.kname}}</option>
+							</select>
+							</div>
+							<div class="form-group courseselect" id="topicType">
+								<label for="squareSelect">题目类型</label> <select
+									class="form-control input-square">
+									<option v-for="(obj,index) in list" v-bind:value="obj.id">{{obj.typename}}</option>
+									<!-- <option>上机题</option>
 										<option>阅读题</option> -->
-									</select>
-								</div>
-								<!--<div class="form-group courseselect">
-									<label for="squareSelect">考题类别</label>
-									<select class="form-control input-square" id="squareSelect">
-										<option>理解</option>
-										<option>应用</option>
-										<option>识记</option>
-									</select>
-								</div>-->
-								<div class="form-group courseselect">
-									<label class="card-category">考题类别</label>
-									<label class="form-radio-label">
-										<input class="form-radio-input" type="radio" name="topicClass" value="" >
-										<span class="form-radio-sign">理解</span>
-									</label>
-									<label class="form-radio-label">
-										<input class="form-radio-input" type="radio" name="topicClass" value="" >
-										<span class="form-radio-sign">应用</span>
-									</label>
-									<label class="form-radio-label">
-										<input class="form-radio-input" type="radio" name="topicClass" value="">
-										<span class="form-radio-sign">识记</span>
-									</label>
-								</div>
-								<div class="form-group courseselect">
-									<label class="card-category">题目级别</label>
-									<label class="form-radio-label">
-										<input class="form-radio-input" type="radio" name="topicLevel" value="" >
-										<span class="form-radio-sign">易</span>
-									</label>
-									<label class="form-radio-label">
-										<input class="form-radio-input" type="radio" name="topicLevel" value="" >
-										<span class="form-radio-sign">中</span>
-									</label>
-									<label class="form-radio-label">
-										<input class="form-radio-input" type="radio" name="topicLevel" value="" >
-										<span class="form-radio-sign">难</span>
-									</label>
-								</div>
-								<div class="btn" style="display: flex;justify-content:space-between;">
-								<label style="line-height: 40px;">模板名称:</label>
-								<input type="text" class="form-control form-control" style="width: 40%;" name="workMoudleName">
-									<button class="btn btn-primary btn-round"  id="addWork">生成作业</button>
-								</div>
-							</nav>
-							<div id="conten">
-								<table class="table table-striped mt-3">
-									<!--<thead>
+								</select>
+							</div>
+							<div class="form-group courseselect" id="testpoint">
+								<label for="squareSelect">考点类型</label> <select
+									class="form-control input-square">
+									<option value="0">识记</option>
+									<option value="1">理解</option>
+									<option value="2">应用</option>
+								</select>
+							</div>
+							<button class="btn btn-primary" id="query">查询 </button>
+							<div class="btn"
+								style="display: flex; justify-content: space-between;">
+								<label style="line-height: 40px;">模板名称:</label> <input
+									type="text" class="form-control form-control"
+									style="width: 40%;" name="workMoudleName">
+								<button class="btn btn-primary btn-round" id="addWork">生成作业</button>
+							</div>
+						</nav>
+						<div id="conten">
+							<table class="table table-striped mt-3">
+								<!--<thead>
 									<tr>
 										<th scope="col">#</th>
 										<th scope="col">First</th>
@@ -129,20 +123,22 @@
 										<th scope="col">Handle</th>
 									</tr>
 								</thead>-->
-									<tbody id="topics">
-										<tr v-for="(obj,index) in obj.list" v-bind:data-score="obj.user1" v-bind:data-id="obj.id">
-											<td>
-												<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="" v-bind:data-id="obj.id">
-												<span class="form-check-sign"></span>
-											</label>
-											</td>
-											<td colspan="4">
-												<p class="text-muted"><span v-if="obj.tid==1">（选择题）</span><span v-if="obj.tid==2">（简答题）</span><span v-if="obj.tid==3">（上机题）</span>{{obj.topicconten}}</p>
-												</span>
-											</td>
-										</tr>
-										<!-- <tr data-score="2">
+								<tbody id="topics">
+									<tr v-for="(obj,index) in obj.list"
+										v-bind:data-score="obj.user1" v-bind:data-id="obj.id">
+										<td><label class="form-check-label"> <input
+												class="form-check-input" type="checkbox" value=""
+												v-bind:data-id="obj.id"> <span
+												class="form-check-sign"></span>
+										</label></td>
+										<td colspan="4">
+											<p class="text-muted">
+												<span v-if="obj.tid==1">（选择题）</span><span v-if="obj.tid==2">（简答题）</span><span
+													v-if="obj.tid==3">（上机题）</span>{{obj.topicconten}}
+											</p> </span>
+										</td>
+									</tr>
+									<!-- <tr data-score="2">
 											<td>
 												<label class="form-check-label">
 												<input class="form-check-input" type="checkbox" value="" checked>
@@ -167,106 +163,117 @@
 												</span>
 											</td>
 										</tr> -->
-									</tbody>
-								</table>
-								<div id="topicinfo">
-									<button class="btn btn-default" disabled="disabled">已出题数量</button>
-									<button class="btn btn-default" disabled="disabled" id="topicCount">0</button>
-								</div>
-								<div id="testscore">
-									<button class="btn btn-default" disabled="disabled">总分</button>
-									<button class="btn btn-default" disabled="disabled" id="sumScore">0</button>
-								</div>
-								<div id="pagebox">
-									<p class="demo">
-										<ul class="pagination pg-primary">
-											<li class="page-item">
-												<a class="page-link" href="javascript:void(0)" aria-label="Previous" id="previousPage">
-													<span aria-hidden="true">&laquo;</span>
-													<span class="sr-only">Previous</span>
-												</a>
-											</li>
-											<li class="page-item active">
-												<a class="page-link" href="#">1</a>
-											</li>
-											<li class="page-item">
-												<a class="page-link" href="#">2</a>
-											</li>
-											<li class="page-item">
-									 				<a class="page-link" href="#">3</a>
-											</li>
-											<li class="page-item">
-												<a class="page-link" href="javascript:void(0)" aria-label="Next"  id="nextPage">
-													<span aria-hidden="true">&raquo;</span>
-													<span class="sr-only">Next</span>
-												</a>
-											</li>
-										</ul>
-									</p>
-								</div>
-
+								</tbody>
+							</table>
+							<div id="topicinfo">
+								<button class="btn btn-default" disabled="disabled">已出题数量</button>
+								<button class="btn btn-default" disabled="disabled"
+									id="topicCount">0</button>
 							</div>
+							<div id="testscore">
+								<button class="btn btn-default" disabled="disabled">总分</button>
+								<button class="btn btn-default" disabled="disabled"
+									id="sumScore">0</button>
+							</div>
+							<div id="pagebox">
+								<p class="demo">
+								<ul class="pagination pg-primary">
+									<li class="page-item"><a class="page-link"
+										href="javascript:void(0)" aria-label="Previous"
+										id="previousPage"> <span aria-hidden="true">&laquo;</span>
+											<span class="sr-only">Previous</span>
+									</a></li>
+									<li class="page-item active"><a class="page-link" href="#">1</a>
+									</li>
+									<li class="page-item"><a class="page-link" href="#">2</a>
+									</li>
+									<li class="page-item"><a class="page-link" href="#">3</a>
+									</li>
+									<li class="page-item"><a class="page-link"
+										href="javascript:void(0)" aria-label="Next" id="nextPage">
+											<span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
+									</a></li>
+								</ul>
+								</p>
+							</div>
+
 						</div>
 					</div>
-
 				</div>
+
 			</div>
 		</div>
-	</body>
+	</div>
+</body>
 
 </html>
 <script src="../static/js/core/jquery.min.js"></script>
 <script src="../static/js/core/vue.js"></script>
 <script>
-	var ids=[]		//选中的题目id
+	var ids = [] //选中的题目id
 	//题目类型
-	var v=new Vue({
-		el:"#topicType",
-		data:{
-			list:null,
+	var v = new Vue({
+		el : "#topicType",
+		data : {
+			list : null,
 		}
 	})
-	
+	var i=0;
+	//年级
+	var grade=new Vue({
+		el:"#grade",
+		data:{
+			list:null
+		}
+	})
 	//章节
-	var chapter=new Vue({
-		el:"#chapter",
+	var chapter = new Vue({
+		el : "#chapter",
+		data : {
+			list : null
+		}
+	})
+	var point=new Vue({
+		el:"#point",
 		data:{
 			list:null
 		}
 	})
 	//题目
-	var topiclist=new Vue({
-		el:"#topics",
-		data:{
-			obj:{},
-			ids:null
-		},updated : function(){
+	var topiclist = new Vue({
+		el : "#topics",
+		data : {
+			obj : {},
+			ids : null
+		},
+		updated : function() {
 			/* 清空所有check选中 */
-			$("[type=checkbox]").each(function(){
-				if(this.checked){
-					this.checked=false
-				 }
+			$("[type=checkbox]").each(function() {
+				if (this.checked) {
+					this.checked = false
+				}
 			})
-			 $("[type=checkbox]").each(function(){
-				var id=$(this).attr("data-id")
-				for(var i=0; i<ids.length; i++){
-					if(id==ids[i]){
-						this.checked=true
+			$("[type=checkbox]").each(function() {
+				var id = $(this).attr("data-id")
+				for (var i = 0; i < ids.length; i++) {
+					if (id == ids[i]) {
+						this.checked = true
 					}
 				}
-			 })
-			 /* 语出值 */
-			 $("[type=checkbox]").click(function(){
-				 var id=$(this).attr("data-id")
-				 for(var i=0; i<ids.length; i++){
-						if(id==ids[i]){
-							ids.splice(i,1);
-							break;
-						}
+			})
+			/* 语出值 */
+			$("[type=checkbox]").click(function() {
+				var id = $(this).attr("data-id")
+				for (var i = 0; i < ids.length; i++) {
+					if (id == ids[i]) {
+						ids.splice(i, 1);
+						break;
 					}
-			 })
+				}
+			})
 		}
 	})
+	//课程
 	var course=new Vue({
 		el:"#course",
 		data:{
@@ -274,129 +281,205 @@
 		}
 	})
 	//分页查询题目
-	function paging(cur){
-		$.ajax({
-			url:"http://127.0.0.1:8080/topicWarehouseController/conditionsQueryTopci",
-			data:{cur:cur},
-			success:function(data){
-				console.log(JSON.stringify(data))
-				$("#previousPage").attr("data-pre",data.prePage)
-				$("#nextPage").attr("data-next",data.nextPage)
-				topiclist.obj=data
-				topiclist.ids=ids
-			}
-		})
+	function paging(cur) {
+		$
+				.ajax({
+					url : "http://127.0.0.1:8080/topicWarehouseController/conditionsQueryTopci",
+					data : {
+						cur : cur
+					},
+					success : function(data) {
+						/* console.log(JSON.stringify(data)) */
+						$("#previousPage").attr("data-pre", data.prePage)
+						$("#nextPage").attr("data-next", data.nextPage)
+						topiclist.obj = data
+						topiclist.ids = ids
+					}
+				})
 	}
-	
+	function pageTopics(str,cur){
+		$.ajax({
+			type:"post",
+			url : "http://127.0.0.1:8080/topicWarehouseController/conditionsQueryTopci",
+			data : {
+				str:str,
+				cur:cur
+			},
+			success : function(data) {
+				$("#previousPage").attr("data-pre", data.prePage)
+				$("#nextPage").attr("data-next", data.nextPage)
+				topiclist.obj = data
+				topiclist.ids = ids
+			}
+	})
+	}
+	function getparam(){
+		var gid=$("#grade option:selected").val();			//年级
+		var courseid=$("#course option:selected").val();	//课程
+		var chapter=$("#chapter option:selected").val();	//章节
+		var point=$("#point option:selected").val();		//知识点	
+		var tid=$("#topicType option:selected").val()		//题目类型
+		var testpoint=$("#testpoint option:selected").val()	//考点类型
+		var obj={}
+		obj.gid=gid;
+		obj.courseid=courseid;
+		obj.chapter=chapter;
+		obj.point=point;
+		obj.tid=tid;
+		obj.testpoint=testpoint;
+		return obj;
+	}
+
 	/* cheackbox事件 */
-	var sum=0;		//出题总分数
-	var topicCount=0;	//出题总数量
-	function getSumScore(th){
-		var checklist=$("[type=checkbox]")
-		var id=$(th).parents("tr").attr("data-id")
-		if($(th).is(":checked")){
-			sum=sum+parseInt($(th).parents("tr").attr("data-score"))
-			topicCount+=1
+	var sum = 0; //出题总分数
+	var topicCount = 0; //出题总数量
+	function getSumScore(th) {
+		var checklist = $("[type=checkbox]")
+		var id = $(th).parents("tr").attr("data-id")
+		if ($(th).is(":checked")) {
+			sum = sum + parseInt($(th).parents("tr").attr("data-score"))
+			topicCount += 1
 			/* 添加id到数组中 */
-			if(ids.length==0){
+			if (ids.length == 0) {
 				ids.push(id)
 			}
-			for(var j=0; j<ids.length; j++){
-				if(id==ids[j]){
+			for (var j = 0; j < ids.length; j++) {
+				if (id == ids[j]) {
 					break;
 				}
-				if(ids.length-1==j && id!=ids[j]){
+				if (ids.length - 1 == j && id != ids[j]) {
 					ids.push(id)
 					break;
 				}
 			}
-		}else{
-			topicCount-=1;
-			sum=sum-$(th).parents("tr").attr("data-score")
+		} else {
+			topicCount -= 1;
+			sum = sum - $(th).parents("tr").attr("data-score")
 		}
 		$("#sumScore").html(sum)
 		$("#topicCount").html(topicCount)
 	}
-	$(function(){
-		
-		 paging(1)
+	$(function() {
+
+		paging(1)
 		//查询选择题类型
-		$.ajax({
-			url:"http://127.0.0.1:8080/topicWarehouseController/queryAllTopicType",
-			data:"",
-			success:function(data){
-				v.list=data
-			}
-		})
-		
-		
+		$
+				.ajax({
+					url : "http://127.0.0.1:8080/topicWarehouseController/queryAllTopicType",
+					data : "",
+					success : function(data) {
+						v.list = data
+					}
+				})
+
 		/* 选择题目 */
-		$("body").on("click","[type=checkbox]",function(){
+		$("body").on("click", "[type=checkbox]", function() {
 			getSumScore(this)
 		})
 		/*上一页*/
-		$("body").on("click","#previousPage",function(){
-			var cur=$(this).attr("data-pre")
-			paging(cur)
+		$("body").on("click", "#previousPage", function() {
+			var cur = $(this).attr("data-pre")
+			if(i>0){
+				alert(1)
+				var obj=getparam()
+				var str=JSON.stringify(obj)
+				pageTopic(str,cur)
+			}else{
+				paging(cur)
+			}
 		})
 		/*下一页  */
-		$("body").on("click","#nextPage",function(){
-			var cur=$(this).attr("data-next")
-			paging(cur)
+		$("body").on("click", "#nextPage", function() {
+			var cur = $(this).attr("data-next")
+			if(i>0){
+				var obj=getparam()
+				var str=JSON.stringify(obj)
+				pageTopic(str,cur)
+			}else{
+				paging(cur)
+			}
 		})
 		/*生成作业模板  */
-		$("#addWork").click(function(){
-			var name=$("[name=workMoudleName]").val().trim()
-			if(name!=null && name!=""){
-				var obj={}
-				obj.name=name;
-				obj.tcount=topicCount;
-				obj.score=sum;
-				obj.tid=1;		//出作业人ID暂时死值 */
-				obj.ids=ids;
-				$.ajax({
-					type:"post",
-					url:"http://127.0.0.1:8080/topicWarehouseController/workTemplateCreate",
-					data:JSON.stringify(obj),
-					contentType:"application/json;charset=utf-8",
-					success:function(data){
-						if(data>0){
-							alert("成功！")
-						}
+		$("#addWork").click(function() {
+					var name = $("[name=workMoudleName]").val().trim()
+					if (name != null && name != "") {
+					var obj = {}
+					obj.name = name;
+					obj.tcount = topicCount;
+					obj.score = sum;
+					obj.tid = 1; //出作业人ID暂时死值 */
+					obj.ids = ids;
+					$.ajax({
+							type : "post",
+							url : "http://127.0.0.1:8080/topicWarehouseController/workTemplateCreate",
+							data : JSON.stringify(obj),
+							contentType : "application/json;charset=utf-8",
+							success : function(data) {
+							if (data > 0) {
+									alert("成功！")
+							}
+							}
+					})
 					}
-				})
-			}
-		})
-		$.ajax({
-			type:"get",
-			url:"http://127.0.0.1:8080/topicWarehouseController/queryCourseAll",
-			data:{},
-			success:function(data){
-				course.list=data;
-				/* console.log(JSON.stringify(data)) */
-			}
 		})
 		
-		//联动
-		$("body").on("change","#course select",function(){
-			var cid=$(this).find("option:selected").val()
+		
+		$.ajax({
+			type : "get",
+			url : "http://127.0.0.1:8080/TestInstance/queryAll",
+			data : {
+				id : 1
+			},
+			success : function(data) {
+				grade.list = data;
+			}
+		})
+		$("body").on("change","#grade select",function() {
+			var gid = $(this).find("option:selected").val()
 			$.ajax({
 				type:"get",
-				url:"http://127.0.0.1:8080/topicWarehouseController/queryBycid",
-				data:{cid:cid},
+				url:"http://127.0.0.1:8080/topicWarehouseController/queryBygid",
+				data:{cid:gid},
 				success:function(data){
-					chapter.list=data
+					course.list=data
+					/* console.log(JSON.stringify(data)) */
+				}
+			})
+			
+		})
+		//课程联动
+		$("body").on("change","#course select",function() {
+				var cid = $(this).find("option:selected").val()
+				$.ajax({
+						type : "get",
+						url : "http://127.0.0.1:8080/topicWarehouseController/queryBycid",
+						data : {
+								cid : cid
+						},
+						success : function(data) {
+						chapter.list = data
+						/* console.log(JSON.stringify(data)) */
+						}
+				})
+		})
+		
+		$("body").on("change","#chapter select",function(){
+			var sid=$(this).find("option:selected").val()
+			$.ajax({
+				type:"get",
+				url:"http://127.0.0.1:8080/topicWarehouseController/queryPoint",
+				data:{sid:sid},
+				success:function(data){
+					point.list=data
 					/* console.log(JSON.stringify(data)) */
 				}
 			})
 		})
-		
-		
-		//课程下拉框值改变时
-		$("body").on("change","#course",function(){
-			var courseid=$("#course option:selected").val()	//课程id
-			var chapter=$("#chapter option:selected").val() //章节
-			console.log(chapter)
+		$("#query").click(function(){
+			i++;
+			var obj=getparam()
+			var str=JSON.stringify(obj)
+			pageTopics(str,1)
 		})
 	})
 </script>

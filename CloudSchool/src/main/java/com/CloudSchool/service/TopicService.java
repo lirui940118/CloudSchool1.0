@@ -11,11 +11,12 @@ import com.CloudSchool.domain.Topic;
 import com.CloudSchool.domain.TopicWithBLOBs;
 import com.CloudSchool.domain.Workmould;
 import com.CloudSchool.domain.ZzyCourse;
+import com.CloudSchool.domain.zjfvo.TopicParam;
 
 public interface TopicService {
 	int insertSelective(TopicWithBLOBs record,MultipartFile file);
 	
-	PageBean conditionsQueryTopci(Topic obj,Integer cur,Integer pagesize);
+	PageBean conditionsQueryTopci(TopicParam obj,Integer cur,Integer pagesize);
 	
 	int workTemplateCreate(Workmould obj);
 	
