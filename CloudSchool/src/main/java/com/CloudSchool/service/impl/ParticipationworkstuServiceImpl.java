@@ -80,5 +80,6 @@ public class ParticipationworkstuServiceImpl implements ParticipationworkstuServ
 		PageBean page=new PageBean(datas, pagesize, participationworkstuMapper.queryStuWorkBySid(sid,(cur-1)*pagesize,pagesize,isCorrect), cur);
 		return page;
 	}
+	
 
 }

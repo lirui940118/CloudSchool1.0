@@ -200,27 +200,30 @@
   <select id="queryStudentWorkTimelyFinishRate" resultType="double">
   	SELECT IFNULL((
 	(
-	#已经完成作业次数
-	SELECT COUNT(*)AS finishCount FROM `workgrade`
-	INNER JOIN `workinstance` ON `workinstance`.id = `workgrade`.wId
-	INNER JOIN `participationworkstu` ON `participationworkstu`.wId = `workgrade`.wId
-	INNER JOIN `clazz` ON `clazz`.`id` = participationworkstu.`user1`#年级
+	#按时完成作业次数
+	SELECT COUNT(*) AS finishCount FROM workgrade
+	INNER JOIN workinstance ON workgrade.`wId`=workinstance.`id`
+	INNER JOIN participationworkclass ON participationworkclass.`wId`=workinstance.`id`
+	INNER JOIN participationworkstu ON participationworkstu.`sId`=workgrade.`uId` AND workinstance.`id`=participationworkstu.`wId`
+	INNER JOIN clazz ON clazz.`id`=participationworkclass.`cId`
+	INNER JOIN zzy_grade ON clazz.`gid`=zzy_grade.`gid`
 	WHERE workgrade.uId = #{sId} #学员id
 	<if test="gId!=null">
-		AND clazz.`gid` = #{gId}
+		AND zzy_grade.`gid` = #{gId}
 	</if>
 	AND workinstance.`endTime` &gt;= participationworkstu.`user2`#作业是否及时完成 (及时完成次数)
 	)
 	/
 	(
 	#总过次数
-	SELECT COUNT(*)AS totalCount FROM `workgrade`
-	INNER JOIN `workinstance` ON `workinstance`.id = `workgrade`.wId
-	INNER JOIN `participationworkstu` ON `participationworkstu`.wId = `workgrade`.wId
-	INNER JOIN `clazz` ON `clazz`.`id` = participationworkstu.`user1`#年级
+	SELECT COUNT(*) AS totalCount FROM workgrade
+	INNER JOIN workinstance ON workgrade.`wId`=workinstance.`id`
+	INNER JOIN participationworkclass ON participationworkclass.`wId`=workinstance.`id`
+	INNER JOIN clazz ON clazz.`id`=participationworkclass.`cId`
+	INNER JOIN zzy_grade ON clazz.`gid`=zzy_grade.`gid`
 	WHERE workgrade.uId = #{sId} #学员id
 	<if test="gId!=null">
-		AND clazz.`gid` = #{gId}
+		AND zzy_grade.`gid` = #{gId}
 	</if>
 	AND workinstance.`endTime` &lt;= NOW() #到了上交时间
 	)

@@ -14,4 +14,6 @@ public interface ParticipateteststuService {
 	
 	TestInfo  queryTestInfoBySidAndTid(Integer id,Integer sid);
 	 public PageBean queryTestInfoBySidAndTidCorrect(Integer id,Integer sid,Integer cur,Integer pagesize);
+	 /*查询该场考试是否缺考  0为缺考 其他为正常参加考试 write by lirui*/
+	boolean queryIsTestBySidAndTid(Integer sId,Integer tId);
 }

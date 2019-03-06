@@ -130,12 +130,10 @@ table {
 						</nav>
 						<div style="float: left;margin-top: 20px;width: 100%;">
 							<div class="form-group courseselect">
-								<label for="squareSelect">试卷所属年级</label> 
-								<select class="form-control input-square" name="grade" id="squareSelect">
-									<option value="1">S1</option>
-									<option value="2">S2</option>
-									<option value="3">Y2</option>
-								</select>
+								<label for="successInput">试卷所属年级</label> <select
+											class="form-control input-square" name="grade" id="squareSelect">
+											<option v-bind:value="obj.gid" v-for="(obj,index) in list">{{obj.gradeName}}</option>
+							</select>
 							</div>
 							<div class="form-group courseselect">
 								<label for="squareSelect">生成试卷类型</label> <select
@@ -270,6 +268,12 @@ table {
 			list : null,
 		}
 	})
+	var grade=new Vue({
+		el : "[name=grade]",
+		data : {
+			list : null,
+		}
+	})
 	//题目
 	var topiclist = new Vue({
 		el : "#topics",
@@ -378,6 +382,16 @@ table {
 		$("body").on("click", "#nextPage", function() {
 			var cur = $(this).attr("data-next")
 			paging(cur)
+		})
+		$.ajax({
+			type : "get",
+			url : "http://127.0.0.1:8080/TestInstance/queryAll",
+			data : {
+				id : 1
+			},
+			success : function(data) {
+				grade.list = data;
+			}
 		})
 		/*生成作业模板  */
 		$("#addWork")

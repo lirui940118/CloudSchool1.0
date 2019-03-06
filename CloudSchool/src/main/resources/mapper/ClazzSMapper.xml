@@ -17,7 +17,7 @@
   
  	<!-- 查询多个学生（一个班级），多次考试成绩 -->
   <select id="queryStudentTestVoBySidsAndTid" resultMap="BaseResultMap">
-	SELECT (((@i:=@i+1)-1)%2+1)AS `rank`,a.* FROM (
+	SELECT ((@i:=@i+1))AS `rank`,a.* FROM (
 	SELECT testGrade.`tid`,testModule.`name`AS TestName,testGrade.`sId`AS studentId,IFNULL(testGrade.`score`,0)AS`StudentScore`,
 	cqj_student.`studentname`AS studentName,cqj_student.`studentnub`AS `no`
 	FROM cqj_student
@@ -28,7 +28,7 @@
 	INNER JOIN testInstance ON testInstance.`id` = testGrade.`tid`
 	INNER JOIN testModule ON testModule.`id` = testInstance.`tId`#试卷名称
 	WHERE testModule.`tId` = 1#日常小考
-	AND testModule.`uId` = (SELECT cqj_user.`userid` FROM `cqj_user` WHERE `cqj_user`.`usertypenub` = 0 AND `cqj_user`.`usertypeid` = #{staffId})
+	AND testModule.`uId` = #{staffId}
 	GROUP BY testGrade.`tid`,testGrade.`sId`
 	ORDER BY (testGrade.`tid`+ `StudentScore`/1000) DESC
 	) a , (SELECT @i:=0) i
