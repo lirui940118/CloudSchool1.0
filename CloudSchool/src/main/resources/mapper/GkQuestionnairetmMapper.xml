@@ -15,15 +15,32 @@
     <result column="by3" jdbcType="VARCHAR" property="by3" />
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
+    
+    
+    <result column="wjtm_type_name" jdbcType="VARCHAR" property="wjtmTypeName" />
   </resultMap>
   
+  <!-- 新增题目 -->
+  <insert id="insertTiMu" useGeneratedKeys="true" keyProperty="wjtmId">
+  	INSERT INTO `gk_questionnairetm`(`wjtm_name`,`wjtm_type_id`,`chutiren_id`,`creation_time`,`update_time`,`by1`,`by2`)
+  	values(#{wjtmName},#{wjtmTypeId},#{chutirenId},NOW(),NOW(),#{by1},#{by2})
+  </insert>
+  
+  <!-- 通过问卷id查询题目（计分） -->
+  <select id="queryTiMuByWJid" resultMap="BaseResultMap">
+	SELECT * FROM `gk_questionnairetm` AS tm
+	JOIN `gk_wjtm_fk` AS fk ON (fk.`tm_id` = tm.`wjtm_id`)
+	#join `gk_questionnairexx` as xx on (xx.`wjxx_fk_tmid` = tm.`wjtm_id`)
+	WHERE fk.`wj_id` = #{wjId}
+  </select>
   
   <!-- 通过问卷类型，选项类型查询题目 -->
   <select id="queryAllTiMuByXXandwj" resultMap="queryXXByTiMuId">
-		SELECT * FROM `gk_questionnairetm` AS tm
-		JOIN `gk_questionnairexx_type` AS xxtype ON (xxtype.`wjxx_type_id` = tm.`by1`)
-		JOIN `gk_questionnaire_type` AS t ON (t.`wj_type_id` = tm.`wjtm_type_id`)
-		WHERE xxtype.`wjxx_type_id` = #{xx} AND t.`wj_type_id` = #{wj}
+	SELECT * FROM `gk_questionnairetm` AS tm
+	JOIN `gk_questionnairexx_type` AS xxtype ON (xxtype.`wjxx_type_id` = tm.`by1`)
+	JOIN `gk_questionnaire_type` AS t ON (t.`wj_type_id` = tm.`by2`)
+	JOIN `gk_questionnairetm_type` AS tmtype ON (tmtype.`wjtm_type_id` = tm.`wjtm_type_id`)		
+	WHERE xxtype.`wjxx_type_id` = #{xx} AND t.`wj_type_id` = #{wj}
   </select>
   <resultMap  type="com.CloudSchool.domain.GkQuestionnairetm" id="queryXXByTiMuId" extends="BaseResultMap">
   	<id column="wjtm_id" property="wjtmId"/>

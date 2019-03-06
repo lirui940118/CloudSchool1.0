@@ -3,7 +3,9 @@ package com.CloudSchool.controller;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.standard.expression.Each;
 
+import com.CloudSchool.dao.CqjStaffMapper;
+import com.CloudSchool.dao.GkWjcsMapper;
 import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.CqjParents;
 import com.CloudSchool.domain.CqjPosition;
@@ -30,14 +34,20 @@ import com.CloudSchool.domain.GkKaoqinState;
 import com.CloudSchool.domain.GkPageBean;
 import com.CloudSchool.domain.GkQuestionnaire;
 import com.CloudSchool.domain.GkQuestionnairetm;
+import com.CloudSchool.domain.GkQuestionnairexx;
+import com.CloudSchool.domain.GkWjcsjf;
 import com.CloudSchool.service.ClazzService;
 import com.CloudSchool.service.CqjPositionService;
+import com.CloudSchool.service.CqjStaffService;
 import com.CloudSchool.service.CqjStudentService;
 import com.CloudSchool.service.CqjUserService;
 import com.CloudSchool.service.GkFangTanService;
 import com.CloudSchool.service.GkKaoQinService;
 import com.CloudSchool.service.GkKaoqinStateService;
 import com.CloudSchool.service.GkWenJuanService;
+import com.CloudSchool.service.GkWjcsService;
+import com.CloudSchool.service.GkWjcsjfService;
+import com.alibaba.fastjson.JSON;
 
 @Controller
 @RequestMapping("/GK/")
@@ -64,6 +74,160 @@ public class GkController {
 	//问卷
 	@Autowired
 	GkWenJuanService gkWenJuanService;
+	//员工
+	@Autowired
+	CqjStaffService cqjStaffService;
+	//用户
+	@Autowired
+	CqjUserService cqjUserService;
+	//问卷测试选择题
+	@Autowired
+	GkWjcsService gkWjcsService;
+	//问卷测试计分题
+	@Autowired
+	GkWjcsjfService gkWjcsjfService;
+	
+	
+	//新增问卷题目
+	@RequestMapping("insertTiMu")
+	@ResponseBody
+	public int insertTiMu(@RequestBody GkQuestionnairetm tm,HttpSession session) {
+//		System.out.println(JSON.toJSON(tm));
+//		System.out.println(JSON.toJSON(tm.getListxx()));
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		tm.setChutirenId(100);
+		int count = gkWenJuanService.insertTiMu(tm);
+		if(tm.getBy1().equals("1")){
+			List<GkQuestionnairexx> listxx = tm.getListxx();
+			for(int i = 0;i<tm.getListxx().size();i++) {
+				listxx.get(i).setWjxxFkTmid(tm.getWjtmId());
+			}
+			gkWenJuanService.insertXX(listxx);
+		}
+		return count;
+	}
+	//去创建题目页面
+	@RequestMapping("toNewProblem")
+	public String toNewProblem(Model model) {
+		model.addAttribute("tm", gkWenJuanService.queryAllTiMuType());
+		model.addAttribute("xx", gkWenJuanService.queryAllXXLeiXing());
+		model.addAttribute("wj", gkWenJuanService.queryAllWenJuanLeiXing());
+		
+		return "gk/NewProblem";
+	}
+	
+	
+	//完善问卷（计分）
+	@RequestMapping("insertWjcsjfWS")
+	@ResponseBody
+	public int insertWjcsjfWS(@RequestBody List<GkWjcsjf> list) {
+		//修改问卷状态
+		gkWjcsjfService.updateWjcsjf(list.get(0).getWjcsjfId());
+		return gkWjcsjfService.insertWjcsjfWS(list);
+	}
+	//刷新我的问卷页面
+	@RequestMapping("resetMyWenJuan")
+	@ResponseBody
+	public GkPageBean<GkQuestionnaire> resetMyWenJuan(GkQuestionnaire wj){
+		return gkWenJuanService.queryinsertByUserid(wj);
+	}
+	//去我的问卷页面
+	@RequestMapping("toMyWenJuan")
+	public String toMyWenJuan(HttpSession session,Model model) {
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		model.addAttribute("zId", 68);
+		return "gk/MyWenJuan";
+	}
+	
+	
+	
+	
+	//新增问卷发布记录
+	@RequestMapping("insertWenJuanFB")
+	@ResponseBody
+	public int insertWenJuanFB(@RequestBody GkQuestionnaire ft,HttpSession session) {
+		//全部
+		List<CqjUser> quanbulist = new ArrayList<CqjUser>();
+		//学生userid集合
+		List<CqjUser> studentidlist = new ArrayList<CqjUser>();
+		for (Integer bj : ft.getBanji()) {
+			//查询学生userid  by  班级id
+			List<CqjUser> banji = cqjUserService.queryUseridByCid(bj);
+			studentidlist.addAll(banji);
+		}
+		//家长userid集合
+		List<CqjUser> parentsidlist = new ArrayList<CqjUser>();
+		for (Integer jz : ft.getJiazhang()) {
+			//查询家长userid  by  班级id
+			List<CqjUser> jiazhang = cqjUserService.queryJZuseridBycid(jz);
+			parentsidlist.addAll(jiazhang);
+			//去掉家长集合里重复的家长userid
+			for (int i = 0; i < parentsidlist.size() - 1; i++) {// 从第一个数开始，到最后一个数-1次循环
+				for (int j = parentsidlist.size() - 1; j > i; j--) {// 从最后一个数开始到i+1
+					if (parentsidlist.get(i).getUserid() == parentsidlist.get(j).getUserid()) {
+						parentsidlist.remove(j);// 这里的remove里的参数j就是角标，通过角标移除数据
+					}
+				}
+			}
+		}
+		quanbulist.addAll(studentidlist);
+		quanbulist.addAll(parentsidlist);
+		quanbulist.addAll(ft.getYuangong());
+		
+		//新增问卷发布记录表gk_questionnaire
+		CqjUser user=(CqjUser)session.getAttribute("user");
+		ft.setWjPublisher(100);
+		System.out.println(JSON.toJSON(ft));
+		
+		if(ft.getWjxxTypeId() == 1) {
+			//插入选择题
+			gkWjcsService.insertWjcs(quanbulist, ft.getWjId());
+		}
+		if(ft.getWjxxTypeId() == 2) {
+			//插入计分题
+			gkWjcsjfService.insertWjcsjf(quanbulist, ft.getWjId(), ft.getzId());
+			//判断是否为调查教员问卷，true带出zid
+			CqjUser yonghu = cqjUserService.queryWJcsjfPD();
+			//通过zid带出所有记录
+			List<GkWjcsjf> wjcsjfList = gkWjcsjfService.queryAllByzid(yonghu.getUserid());
+			//互换oid，zid位置
+			for (GkWjcsjf gkWjcsjf : wjcsjfList) {
+				GkWjcsjf jf = new GkWjcsjf();
+				jf.setoId(gkWjcsjf.getoId());
+				jf.setzId(gkWjcsjf.getzId());
+				jf.setWjcsjfId(gkWjcsjf.getWjcsjfId());
+				gkWjcsjfService.updateByoidAndzid(jf);
+			}
+		}
+		
+		return gkWenJuanService.insertWenJuanFB(ft);
+	}
+	//通过班级名称模糊查
+	@RequestMapping("queryAllBanJiByLikeName")
+	@ResponseBody
+	public List<Clazz> queryAllBanJiByLikeName(String name){
+		return clazzService.queryAllBanJiByLikeName(name);
+	}
+	//通过问卷id查询说明
+	@RequestMapping("queryShuoMingBywjId")
+	@ResponseBody
+	public GkQuestionnaire queryShuoMingBywjId(Integer wjId) {
+		return gkWenJuanService.queryShuoMingBywjId(wjId);
+	}
+	//通过问卷类型，选项类型查询问卷
+	@RequestMapping("queryWenJuanBywjTypeIdAndwjxxTypeId")
+	@ResponseBody
+	public List<GkQuestionnaire> queryWenJuanBywjTypeIdAndwjxxTypeId(Integer wjTypeId,Integer wjxxTypeId){
+		return gkWenJuanService.queryWenJuanBywjTypeIdAndwjxxTypeId(wjTypeId, wjxxTypeId);
+	}
+	//去发布问卷页面
+	@RequestMapping("toPublish_questionnaire")
+	public String toPublish_questionnaire(Model model) {
+		model.addAttribute("xx", gkWenJuanService.queryAllXXLeiXing());
+		model.addAttribute("wj", gkWenJuanService.queryAllWenJuanLeiXing());
+		model.addAttribute("jy", cqjUserService.queryAllJiaoYuan());
+		return "gk/Publish_questionnaire";
+	}
 	
 	
 	//创建问卷
@@ -138,6 +302,55 @@ public class GkController {
 	public List<GkKaoqin> queryKaoQinYuanGongXiangByTime(Integer userid,String startStr,String endStr){
 		return gkKaoQinService.queryKaoQinYuanGongXiangByTime(userid, startStr, endStr);
 	}
+	
+	//通过用户id查询自己所有考勤ajax
+	@RequestMapping("queryKaoQinByUseridajax")
+	@ResponseBody
+	public GkPageBean<GkKaoqin> queryKaoQinByUseridajax(GkKaoqin kq){
+		return gkKaoQinService.queryKaoQinByUserid(kq);
+	}
+	//通过用户id查询自己所有考勤
+	@RequestMapping("queryKaoQinByUserid")
+	public String queryKaoQinByUserid(String name,Integer userid,Model model) {
+		//todo
+		model.addAttribute("userid", userid);
+		model.addAttribute("name", name);
+		return "gk/KaoQinByUserId";
+	}
+	
+	//去员工考勤页面
+	@RequestMapping("toAttendance_inputYG")
+	public String toAttendance_inputYG(Model model) {
+		List<GkKaoqinState> kqstate = gkKaoqinStateService.queryAllKaoQinState();
+		model.addAttribute("kqstate", kqstate);
+		int y,m,d,h,mi,s;    
+		Calendar cal=Calendar.getInstance();    
+		y=cal.get(Calendar.YEAR);    
+		m=cal.get(Calendar.MONTH);    
+		m = m+1;
+		d=cal.get(Calendar.DATE);    
+		h=cal.get(Calendar.HOUR_OF_DAY);    
+		mi=cal.get(Calendar.MINUTE);    
+		s=cal.get(Calendar.SECOND);    
+		System.out.println("现在时刻是"+y+"年"+m+"月"+d+"日"+h+"时"+mi+"分"+s+"秒");
+		String time = y+"-"+m+"-"+d;
+		model.addAttribute("time", time);
+		return "gk/Attendance_inputYG";
+	}
+	//查询所有员工
+	@RequestMapping("queryAllYuanGongkq")
+	@ResponseBody
+	public List<CqjStaff> queryAllYuanGongkq(){
+		return cqjStaffService.queryAllYuanGong();
+	}
+	//新增员工当天考勤
+	@RequestMapping("insertYuanGongKaoQin")
+	@ResponseBody
+	public int insertYuanGongKaoQin(@RequestBody List<GkKaoqin> list) {
+		return gkKaoQinService.insertYuanGongKaoQin(list);
+	}
+	
+	
 	
 	//去录入班级考勤页面
 	@RequestMapping("toAttendance_input")

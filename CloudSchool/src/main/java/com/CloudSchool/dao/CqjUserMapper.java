@@ -39,5 +39,13 @@ public interface CqjUserMapper {
     int insertAll(List<CqjUser> u);
     //gk通过userid判断是否为学生，if是，则带出当前班级id插入访谈记录表 -->
 	Integer queryCidByUserid(Integer userid);
+	//gk通过班级id查询所有学生userid
+	List<CqjUser> queryUseridByCid(Integer cid);
+	//gk通过班级id查询家长userid
+	List<CqjUser> queryJZuseridBycid(Integer cid);
+	//gk查询所有教员
+	List<CqjUser> queryAllJiaoYuan();
+	//gk判断是否为调查教员问卷，true带出zid
+	CqjUser queryWJcsjfPD();
     
 }

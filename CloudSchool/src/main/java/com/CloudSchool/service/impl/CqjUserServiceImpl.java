@@ -100,4 +100,30 @@ public class CqjUserServiceImpl implements CqjUserService {
 		}
 		return z;
 	}
+
+	@Override
+	public List<CqjUser> queryUseridByCid(Integer cid) {
+		// TODO Auto-generated method stub
+		return cum.queryUseridByCid(cid);
+	}
+
+	@Override
+	public List<CqjUser> queryJZuseridBycid(Integer cid) {
+		// TODO Auto-generated method stub
+		return cum.queryJZuseridBycid(cid);
+	}
+
+	@Override
+	public List<CqjUser> queryAllJiaoYuan() {
+		// TODO Auto-generated method stub
+		return cum.queryAllJiaoYuan();
+	}
+
+	@Override
+	public CqjUser queryWJcsjfPD() {
+		// TODO Auto-generated method stub
+		return cum.queryWJcsjfPD();
+	}
+
+
 }

@@ -16,6 +16,18 @@
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
+  
+  <!-- 新增选项 -->
+  <insert id="insertXX">
+  	INSERT INTO `gk_questionnairexx`(`wjxx_name`,`wjxx_fk_tmid`,`creation_time`,`update_time`)
+  	values
+  	<foreach collection="list" item="l"  separator=",">
+  		(#{l.wjxxName},#{l.wjxxFkTmid},NOW(),NOW())
+  	</foreach>
+  </insert>
+  
+  
+  
   <!-- 按题目id查询题目的选项 -->
 	<select id="queryXXByTiMuId" resultMap="BaseResultMap">
 		SELECT * FROM `gk_questionnairexx` WHERE `wjxx_fk_tmid` = #{wjtm_id}

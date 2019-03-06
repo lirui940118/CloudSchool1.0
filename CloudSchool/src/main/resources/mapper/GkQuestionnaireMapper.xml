@@ -27,6 +27,53 @@
   </resultMap>
   
   
+  <!-- 查询需要自己填写的问卷（计分） -->
+  <select id="queryinsertByUserid" resultMap="queryinsertByUseridMap">
+	SELECT *,CONCAT_WS('',s.`studentname`,yg.`staffname`,jz.`parentsname`)AS `peoplename` 
+	FROM `gk_questionnaire` AS wj
+	JOIN `gk_wjcsjf` AS jf ON (wj.`wj_id` = jf.`wj_id`)
+	JOIN `cqj_user` AS u ON (u.`userid` = jf.`o_id`)
+	LEFT JOIN `cqj_student` AS s ON (s.studentid = u.usertypeid) AND u.`usertypenub` = 1
+	LEFT JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	LEFT JOIN `cqj_parents` AS jz ON (jz.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+	WHERE jf.`z_id` = #{zId} AND jf.`tm_id` IS NULL
+	GROUP BY jf.`wjcsjf_id`
+	LIMIT #{currentPage},#{pageSize}
+  </select>
+  <!-- 查询需要自己填写的问卷（计分）count -->
+  <select id="queryinsertByUseridCount" resultType="int">
+	SELECT COUNT(*),CONCAT_WS('',s.`studentname`,yg.`staffname`,jz.`parentsname`)AS `peoplename` 
+	FROM `gk_questionnaire` AS wj
+	JOIN `gk_wjcsjf` AS jf ON (wj.`wj_id` = jf.`wj_id`)
+	JOIN `cqj_user` AS u ON (u.`userid` = jf.`o_id`)
+	LEFT JOIN `cqj_student` AS s ON (s.studentid = u.usertypeid) AND u.`usertypenub` = 1
+	LEFT JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	LEFT JOIN `cqj_parents` AS jz ON (jz.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+	WHERE jf.`z_id` = #{zId} AND jf.`tm_id` IS NULL
+  </select>
+  <!-- 用查询出的问卷id带出题目 -->
+  <resultMap type="com.CloudSchool.domain.GkQuestionnaire" id="queryinsertByUseridMap" extends="BaseResultMap">
+  	<id property="wjId" column="wj_id"/>
+  	<collection property="listtm" column="wj_id" ofType="com.CloudSchool.domain.GkQuestionnairetm" select="com.CloudSchool.dao.GkQuestionnairetmMapper.queryTiMuByWJid"></collection>
+  </resultMap>
+  
+  
+  <!-- 新增问卷发布记录表gk_questionnaire -->
+  <insert id="insertWenJuanFB">
+  	INSERT INTO `gk_questionnaire`(`wj_name`,`wj_type_id`,`wj_publisher`,`wj_object`,`wj_fb_time`,`wjxx_type_id`,`wj_Explain`,`wj_num`,`creation_time`,`update_time`,`by1`)
+	VALUES(#{wjName},#{wjTypeId},#{wjPublisher},#{wjObject},NOW(),#{wjxxTypeId},#{wjExplain},#{wjNum},NOW(),NOW(),0)
+  </insert>
+  
+	<!-- 通过问卷id查询说明 -->
+	<select id="queryShuoMingBywjId" resultMap="BaseResultMap">
+		SELECT * FROM `gk_questionnaire`
+		WHERE `wj_id` = #{wjId}
+	</select>
+	<!--  通过问卷类型，选项类型查询问卷 -->
+	<select id="queryWenJuanBywjTypeIdAndwjxxTypeId" resultMap="BaseResultMap">
+		SELECT * FROM `gk_questionnaire`
+		WHERE wj_type_id = #{wjTypeId} AND wjxx_type_id = #{wjxxTypeId} AND `by1` = 1
+	</select>
   
   <!-- 创建问卷 -->
   <insert id="insertWenJuanCJ" useGeneratedKeys="true" keyColumn="wj_id" keyProperty="wjId">
@@ -48,7 +95,7 @@
 		<if test="staffname">
 			AND yg.`staffname` LIKE concat('%',#{staffname},'%')
 		</if>
-		<if test="startStr and endStr">
+		<if test="startStr and endSt">
 			AND wj.`wj_fb_time` BETWEEN  #{startStr} AND #{endStr}
 		</if>
 		<if test="startStr and !endStr">
@@ -63,7 +110,9 @@
   <!-- 查询问卷发布记录行数 -->
   <select id="queryAllWenJuanFaBuJiLuCount" resultType="int">
   	SELECT COUNT(*) FROM `cqj_user` AS u
-	JOIN `gk_questionnaire` AS wj ON (wj.`wj_publisher` = u.userid)
+	JOIN `gk_questionnaire` AS wj ON (wj.`wj_publisher` = u.userid) AND wj.`status`=0 AND wj.`by1` = 0
+	JOIN `gk_questionnaire_type` AS wjtype ON (wjtype.`wj_type_id` = wj.`wj_type_id`)
+	JOIN `gk_questionnairexx_type` AS wjxxtype ON (wjxxtype.`wjxx_type_id` = wj.`wjxx_type_id`)
 	JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0 
 	<where>
 		<if test="wjObject">

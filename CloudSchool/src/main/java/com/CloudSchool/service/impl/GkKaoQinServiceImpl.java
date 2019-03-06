@@ -94,5 +94,26 @@ public class GkKaoQinServiceImpl implements GkKaoQinService{
 		return gkKaoqinMapper.querykaoqinRateByStaffId(staffId);
 	}
 
+	@Override
+	public GkPageBean<GkKaoqin> queryKaoQinByUserid(GkKaoqin kq) {
+		// TODO Auto-generated method stub
+		GkKaoqin kq2 = new GkKaoqin();
+		kq2.setCurrentPage((kq.getCurrentPage()-1)*kq.getPageSize());//下标
+		kq2.setPageSize(kq.getPageSize());
+		kq2.setStartStr(kq.getStartStr());
+		kq2.setEndStr(kq.getEndStr());
+		kq2.setUserid(kq.getUserid());
+		List<GkKaoqin> list = gkKaoqinMapper.queryKaoQinByUserid(kq2);
+		int totalSize = (int)gkKaoqinMapper.queryKaoQinByUseridCount(kq2);
+		GkPageBean<GkKaoqin> page = new GkPageBean<GkKaoqin>(kq.getCurrentPage(), kq.getPageSize(), totalSize, list);
+		return page;
+	}
+
+	@Override
+	public int insertYuanGongKaoQin(List<GkKaoqin> list) {
+		// TODO Auto-generated method stub
+		return gkKaoqinMapper.insertYuanGongKaoQin(list);
+	}
+
 	
 }

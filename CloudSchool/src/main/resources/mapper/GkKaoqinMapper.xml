@@ -17,6 +17,70 @@
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
   
+  <!-- 新增员工当天考勤 -->
+  <insert id="insertYuanGongKaoQin">
+		INSERT INTO `gk_kaoqin`
+		(`uid`,`kq_time`,`kq_state_id`,`creation_time`,`status`)VALUES
+		<foreach collection="list" close=";"  separator="," item="l">
+			(#{l.uid},NOW(),#{l.kqStateId},NOW(),0)
+		</foreach>
+  </insert>
+  
+  <!-- 通过用户id查询自己所有考勤 -->
+  <select id="queryKaoQinByUserid" resultMap="BaseResultMap">
+  	SELECT * FROM `cqj_user` AS u
+	RIGHT JOIN 
+		(SELECT uid, SUM(IF(kq_state_id=1, 1, 0)) yi,
+		SUM(IF(kq_state_id=2, 1, 0)) er, 
+		SUM(IF(kq_state_id=3, 1, 0)) san, 
+		SUM(IF(kq_state_id=4, 1, 0)) si, 
+		SUM(IF(kq_state_id=5, 1, 0)) wu
+		FROM `gk_kaoqin` AS kq 
+			<if test="startStr==null and endStr==null">
+				GROUP BY kq.uid
+			</if>
+		<where>
+			<if test="startStr!=null and endStr!=null">
+				AND kq_time BETWEEN  #{startStr} AND #{endStr} GROUP BY kq.uid
+			</if>
+			<if test="startStr!=null and endStr==null">
+				AND kq_time BETWEEN  #{startStr} AND NOW() GROUP BY kq.uid
+			</if>
+			<if test="startStr==null and endStr!=null">
+				AND kq_time &lt;= #{endStr} GROUP BY kq.uid
+			</if>
+		</where>
+		) kq ON (u.userid = kq.uid) 
+	WHERE u.userid = #{userid}
+	LIMIT #{currentPage},#{pageSize}
+  </select>
+  <!-- 通过用户id查询自己所有考勤行数 -->
+  <select id="queryKaoQinByUseridCount" resultType="int">
+  	SELECT COUNT(*) FROM `cqj_user` AS u
+	RIGHT JOIN 
+		(SELECT uid, SUM(IF(kq_state_id=1, 1, 0)) yi,
+		SUM(IF(kq_state_id=2, 1, 0)) er, 
+		SUM(IF(kq_state_id=3, 1, 0)) san, 
+		SUM(IF(kq_state_id=4, 1, 0)) si, 
+		SUM(IF(kq_state_id=5, 1, 0)) wu
+		FROM `gk_kaoqin` AS kq 
+			<if test="startStr==null and endStr==null">
+				GROUP BY kq.uid
+			</if>
+		<where>
+			<if test="startStr!=null and endStr!=null">
+				AND kq_time BETWEEN  #{startStr} AND #{endStr} GROUP BY kq.uid
+			</if>
+			<if test="startStr!=null and endStr==null">
+				AND kq_time BETWEEN  #{startStr} AND NOW() GROUP BY kq.uid
+			</if>
+			<if test="startStr==null and endStr!=null">
+				AND kq_time &lt;= #{endStr} GROUP BY kq.uid
+			</if>
+		</where>
+		) kq ON (u.userid = kq.uid) 
+	WHERE u.userid = #{userid}
+  </select>
   
   <!-- 查询某段时间内的考勤状况by userid -->
   <select id="queryKaoQinYuanGongXiangByTime" resultMap="BaseResultMap">
@@ -53,7 +117,7 @@
 		INSERT INTO `gk_kaoqin`
 		(`uid`,`kq_time`,`kq_state_id`,`creation_time`,`status`,`by1`,`by2`)VALUES
 		<foreach collection="list" close=";"  separator="," item="l">
-			(#{l.uid},NOW(),#{l.kqStateId},NOW(),0,0,0)
+			(#{l.uid},NOW(),#{l.kqStateId},NOW(),0,#{cid},#{gid})
 		</foreach>
   </insert>
   

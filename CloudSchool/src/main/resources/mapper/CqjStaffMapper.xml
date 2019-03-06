@@ -313,4 +313,9 @@
 		ON cqj_staff.`positionid`=cqj_position.`positionid`
 		WHERE cqj_position.`positionid`=5
 	</select>
+	<!-- 查询所有员工 龚款 -->
+	<select id="queryAllYuanGong" resultMap="BaseResultMap">
+		SELECT * FROM `cqj_staff` AS yg
+		JOIN `cqj_user` AS u ON(yg.`staffid` = u.`usertypeid`) AND u.`usertypenub` = 0 AND u.`usertypeid` != -1
+	</select>
 </mapper>

@@ -1,109 +1,601 @@
 <!DOCTYPE html>
 <html>
-
-	<head>
-		<meta charset="UTF-8">
-		<title>发布问卷</title>
-		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
-		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
-		<link rel="stylesheet" th:href="@{/static/css/demo.css}">
-		<style type="text/css">
-			/** {
-				margin: 0px;
-				padding: 0px;
-				
-			}*/
+<head>
+<meta charset="UTF-8">
+<title>发布问卷</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+<style type="text/css">
+/** {
+			margin: 0px;
+			padding: 0px;
 			
-			.card {
-				margin-bottom: 10px;
-			}
-		</style>
-	</head>
+		}*/
+.card {
+	margin-bottom: 10px;
+}
+</style>
+</head>
 
-	<body>
-		<div class="main-panel">
-			<div class="content">
-				<div class="container-fluid">
-					<h4 class="page-title">发布问卷</h4>
-					
-					<div class="row">
-						<div class="card col-lg-12">
-							<div class="card-body">
-								
-								<div class="col-lg-12 row">
-									<div class="col-lg-3 col-md-9 col-sm-12 row">
-										<select class="form-control input-fixed" id="position">
-											<option value="primary">题目类型</option>
-											<option value="primary">教员</option>
-											<option value="info">班主任</option>
-											<option value="success">保安</option>
-											<option value="warning">保洁</option>
-											<option value="danger">经理</option>
-										</select>
+<body>
+	<div class="main-panel">
+		<div class="content">
+			<div class="container-fluid">
+				<h4 class="page-title">发布问卷</h4>
+
+				<div class="row">
+					<div id="shua" class="card col-lg-12">
+						<div class="card-body">
+							<div class="col-lg-12 row">
+								<div class="col-lg-3">
+									<h6>选择要发布的问卷：</h6>
+								</div>
+							</div>
+							<div class="col-lg-12 row">
+								<div class="col-lg-3 col-md-3 col-sm-12 row">
+									<select v-model="wj" class="form-control input-fixed" id="wjTypeId">
+										<option th:each="list:${wj}" th:value="${list.wjTypeId}"><span th:text="${list.wjTypeName}"></span></option>
+									</select>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-12 row">
+									<select v-model="xx" class="form-control input-fixed" id="wjxxTypeId">
+										<option th:each="list:${xx}" th:value="${list.wjxxTypeId}"><span th:text="${list.wjxxTypeName}"></span></option>
+									</select>
+								</div>
+								<div v-if="jihe" class="col-lg-3 col-md-3 col-sm-12 row">
+									<select id="wjmingchen" v-on:change="queryShuoMingBywjId()" class="form-control input-fixed" >
+										<option v-for="item in jihe"  v-bind:value="item.wjId"><span>{{item.wjName}}</span></option>
+									</select>
+								</div>
+								<div id="alljiaoyuan" class="col-lg-3 col-md-3 col-sm-12 row">
+									<div class="col-lg-6 col-md-6 col-sm-12 row">
+										<span>选择教员：</span>
 									</div>
-									<div class="col-lg-3 col-md-9 col-sm-12 row">
-										<input type="text" class="form-control form-control" id="defaultInput" placeholder="姓名">
+									<div class="col-lg-6 col-md-6 col-sm-12 row">
+										<select id="jiaoyuan" class="form-control input-fixed" >
+											<option th:each="list:${jy}" th:value="${list.userid}"><span th:text="${list.staffname}"></span></option>
+										</select>
 									</div>
 								</div>
 							</div>
 						</div>
-	
-							<div class="card col-lg-12">
-								<div class="card-body">
-									
+						<div class="card-body">
+							<div  class="col-lg-12 row">
+								<input readonly="readonly" id="shuoming" type="text" class="form-control form-control" placeholder="说明">
+							</div>
+						</div>
+					</div>
+
+					
+
+					<div class="card col-lg-12">
+						<div class="card-body">
+							<div class="col-lg-12 row">
+								<div class="col-lg-3">
+									<h6>选择调查对象：</h6>
 								</div>
+							</div>
+							<div class="form-group col-lg-12">
+								<div class="col-lg-12 row">
+									<div class="col-lg-2 col-md-6 col-sm-6">
+										<select class="form-control " id="xialakuang">
+											<option><font style="vertical-align: inherit;">班级</font></option>
+											<option><font style="vertical-align: inherit;">员工</font></option>
+											<option><font style="vertical-align: inherit;">家长</font></option>
+										</select>
+									</div>
+									<div class="col-lg-4 col-md-6 col-sm-6">
+										<input type="text" id="tongyong" placeholder="姓名关键字"
+											class="form-control form-control" />
+									</div>
+									<div class="col-lg-3">
+										<input class="btn btn-success" type="button" value="搜索"
+											onclick="sousuo()" />
+									</div>
+									<div class="col-lg-2">
+										<button onclick="jiaru()" class="btn btn-success">加入列表</button>
+									</div>
+									<div class="col-lg-1">
+										<button onclick="quxiao()" class="btn btn-danger">取消加入</button>
+									</div>
+								</div>
+
+							</div>
+							<div class="form-group" id="xs">
+								<span hidden="hidden" id="wjNum"></span>
+								<label class="form-check-label"> <input
+									onclick="quanxuanXS()" name="quanxuanXS"
+									class="form-check-input task-select" type="checkbox"> <span
+									class="form-check-sign">全选</span>
+								</label>
+								<table class="table table-head-bg-primary mt-4">
+
+									<thead>
+										<tr>
+											<th scope="col">姓名</th>
+											<th scope="col">复选框</th>
+										</tr>
+									</thead>
+									<tbody v-if="xslist" id="tbodyXS">
+										<tr v-for="item in xslist">
+											<td>{{item.cname}}</td>
+											<td><label class="form-check-label"> <input
+													v-on:click="panduanXS()" v-bind:banji="item.id"
+													name="xuanzeXS" class="form-check-input task-select"
+													type="checkbox"> <span class="form-check-sign">选择</span>
+											</label></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="form-group" id="yg">
+								<label class="form-check-label"> <input
+									onclick="quanxuanYG()" name="quanxuanYG"
+									class="form-check-input task-select" type="checkbox"> <span
+									class="form-check-sign">全选</span>
+								</label>
+								<table class="table table-head-bg-primary mt-4">
+
+									<thead>
+										<tr>
+											<th scope="col">姓名</th>
+											<th scope="col">复选框</th>
+										</tr>
+									</thead>
+									<tbody v-if="yglist" id="tbodyYG">
+										<tr v-for="item in yglist">
+											<td>{{item.staffname}}</td>
+											<td><label class="form-check-label"> <input
+													v-on:click="panduanYG()" v-bind:yuangong="item.userid"
+													name="xuanzeYG" class="form-check-input task-select"
+													type="checkbox"> <span class="form-check-sign">选择</span>
+											</label></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="form-group" id="jz">
+								<label class="form-check-label"> <input
+									onclick="quanxuanJZ()" name="quanxuanJZ"
+									class="form-check-input task-select" type="checkbox"> <span
+									class="form-check-sign">全选</span>
+								</label>
+								<table class="table table-head-bg-primary mt-4">
+
+									<thead>
+										<tr>
+											<th scope="col">姓名</th>
+											<th scope="col">复选框</th>
+										</tr>
+									</thead>
+									<tbody v-if="jzlist" id="tbodyJZ">
+										<tr v-for="item in jzlist">
+											<td>{{item.cname}}家长</td>
+											<td>
+												<label class="form-check-label"> <input
+													v-on:click="panduanJZ()" v-bind:jiazhang="item.id"
+													name="xuanzeJZ" class="form-check-input task-select"
+													type="checkbox"> <span class="form-check-sign">选择</span>
+											</label>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+
+
+
+
+
+							<div class="form-group">
+								<label for="exampleFormControlSelect1"><font
+									style="vertical-align: inherit;">已选对象</font></label> <label
+									class="form-check-label"> <input onclick="quanxuan()"
+									name="quanxuan" class="form-check-input task-select"
+									type="checkbox"> <span class="form-check-sign">全选</span>
+								</label>
+								<table class="table table-striped mt-3">
+
+									<tbody id="tbody">
+
+									</tbody>
+								</table>
+							</div>
 						</div>
-						
-						
-						<div class="col-lg-12">
-							<button class="btn btn-success">上一页</button>
-							<button class="btn btn-success">下一页</button>
-						</div>
+					</div>
+
+
+
+					<div class="card-action">
+						<button onclick="tijiao()" class="btn btn-success">
+							<font style="vertical-align: inherit;"> 提交 </font>
+						</button>
+						<button class="btn btn-danger">
+							<font style="vertical-align: inherit;"> 取消 </font>
+						</button>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+</body>
+<script th:src="@{/static/js/core/jquery.min.js}"></script>
+<script th:src="@{/static/js/core/vue.js}" type="text/javascript"
+	charset="utf-8"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+<script th:src="@{/static/js/core/popper.min.js}"></script>
+<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+<script th:src="@{/static/js/ready.min.js}"></script>
 
-	</body>
-	<script th:src="@{/static/core/jquery.min.js}"></script>
-	<script th:src="@{/static/core/vue.js}" type="text/javascript" charset="utf-8"></script>
-	<script th:src="@{/static/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
-	<script th:src="@{/static/core/popper.min.js}"></script>
-	<script th:src="@{/static/plugin/chartist/chartist.min.js}"></script>
-	<script th:src="@{/static/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
-	<script th:src="@{/static/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
-	<script th:src="@{/static/core/bootstrap.min.js}"></script>
-	<script th:src="@{/static/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
-	<script th:src="@{/static/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
-	<script th:src="@{/static/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
-	<script th:src="@{/static/plugin/chart-circle/circles.min.js}"></script>
-	<script th:src="@{/static/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
-	<script th:src="@{/static/ready.min.js}"></script>
-
-	<script>
-		/* 加载事件，默认全部复选框选中 */
-		$(function(){
-			$("input[type='checkbox']").attr("checked",'true');
-			$("td input[type='checkbox']").attr("checked",'false');
+<script>
+	var Vxs = new Vue({
+		el:"#xs",
+		data:{
+			xslist:null
+		},methods:{
+			panduanXS:function(){
+				panduanXS();
+			}
+		}
+	});
+	var Vyg = new Vue({
+		el:"#yg",
+		data:{
+			yglist:null
+		},methods:{
+			panduanYG:function(){
+				panduanYG();
+			}
+		}
+	});
+	var Vjz = new Vue({
+		el:"#jz",
+		data:{
+			jzlist:null
+		},methods:{
+			panduanJZ:function(){
+				panduanJZ();
+			}
+		}
+	});
+	//提交
+	function tijiao(){
+		var ft = {};
+		var banji = [];
+		var yuangong = new Array();
+		var jiazhang = [];
+		var wjObject = "";
+		$.each($("#tbody [name = xuanzeXS]:checkbox"),function(){
+			//var bj = {};
+			//bj.banji =$(this).attr("banji") ;
+			banji.push($(this).attr("banji"));
+			wjObject += $(this).parent().parent().prev().html()+",";
 		});
-		/* 复选框单击事件*/
-		$("input[type='checkbox']").click(function(){
-			var ziji = $(this);
-			var checkboxname = $(this).next().html();
-			$("th[scope='col']").each(function(index,element){
-				var thname = $(this).text();
-				if(checkboxname == thname){
-					if(ziji.prop("checked")){
-						$(this).show();
-						$("[name="+thname+"]").show();
-					}else{
-						$(this).hide();
-						$("[name="+thname+"]").hide();
-					}
+		$.each($("#tbody [name = xuanzeYG]:checkbox"),function(index){
+			var bj = {};
+			bj.userid = $(this).attr("yuangong") ;
+			yuangong.push(bj);
+			wjObject += $(this).parent().parent().prev().html()+",";
+			/* yuangong.push($(this).attr("yuangong")); */
+		});
+		$.each($("#tbody [name = xuanzeJZ]:checkbox"),function(){
+			jiazhang.push($(this).attr("jiazhang"));
+			wjObject += $(this).parent().parent().prev().html()+",";
+		});
+		if(wjObject.length > 0){
+			wjObject = wjObject.substring(0,wjObject.length-1);
+		}else{
+			alert("请选择调查对象！！！");
+			return;
+		}
+		ft.banji = banji;
+		ft.yuangong = yuangong;
+		ft.jiazhang = jiazhang;
+		ft.wjId = $("#wjmingchen").val();
+		ft.wjName = $("#wjmingchen").find("option:selected").text();
+		ft.wjTypeId = $("#wjTypeId").val();
+		ft.wjObject = wjObject;
+		ft.wjxxTypeId = $("#wjxxTypeId").val();
+		ft.wjExplain = $("#shuoming").val();
+		ft.wjNum = $("#wjNum").html();
+		ft.zId = $("#jiaoyuan").val();
+		if(!ft.wjxxTypeId){
+			alert("请选择选项类型！！！");
+			return;
+		}
+		if(!ft.wjTypeId){
+			alert("请问卷类型！！！");
+			return;
+		}
+		console.log(ft);
+		$.ajax({
+			url:"insertWenJuanFB",
+			type:"post",
+			dataType:"json",
+			data:JSON.stringify(ft),
+			contentType:"application/json",
+			success:function(result){
+				if(result > 0){
+					alert("已发送");
+				}else{
+					alert("失败！！！");
+				}
+			}
+		});
+	}
+	//加入列表
+	function jiaru(){
+		$.each($("input[type='checkbox']:checked"),function(index,element){
+			if($(this).attr("banji") != undefined){
+				$("#tbody").append($(this).parent().parent().parent());
+			}
+			if($(this).attr("yuangong") != undefined){
+				$("#tbody").append($(this).parent().parent().parent());
+			}
+			if($(this).attr("jiazhang") != undefined){
+				$("#tbody").append($(this).parent().parent().parent());
+			}
+        });
+		$("input[type='checkbox']").prop("checked",false);
+		/* if(shuzu.length > 0){
+			shuzu = shuzu.substring(0, shuzu.length - 1);
+		} */
+	}
+	//取消加入
+	function quxiao(){
+		$.each($("input[type='checkbox']:checked"),function(index,element){
+			if($(this).attr("banji") != undefined || $(this).attr("yuangong") != undefined || $(this).attr("jiazhang") != undefined){
+				if($(this).attr("name") == "xuanzeXS"){
+					$("#tbodyXS").append($(this).parent().parent().parent());
+				}
+				if($(this).attr("name") == "xuanzeYG"){
+					$("#tbodyYG").append($(this).parent().parent().parent());
+				}
+				if($(this).attr("name") == "xuanzeJZ"){
+					$("#tbodyJZ").append($(this).parent().parent().parent());
+				}
+			}
+        });
+		$("input[type='checkbox']").prop("checked",false);
+	}
+
+	//全选反选---取消
+	function quanxuan(){
+		if($("input[name='quanxuan']").prop("checked")){
+			$("#tbody input:checkbox").prop("checked",true);
+		}else{
+			$("#tbody input:checkbox").prop("checked",false);
+		}
+	}
+	//全选反选---学生
+	function quanxuanXS(){
+		if($("input[name='quanxuanXS']").prop("checked")){
+			$("input[name='xuanzeXS']").prop("checked",true);
+		}else{
+			$("input[name='xuanzeXS']").prop("checked",false);
+		}
+	}
+	//全选反选---员工
+	function quanxuanYG(){
+		if($("input[name='quanxuanYG']").prop("checked")){
+			$("input[name='xuanzeYG']").prop("checked",true);
+		}else{
+			$("input[name='xuanzeYG']").prop("checked",false);
+		}
+	}
+	//全选反选---家长
+	function quanxuanJZ(){
+		if($("input[name='quanxuanJZ']").prop("checked")){
+			$("input[name='xuanzeJZ']").prop("checked",true);
+		}else{
+			$("input[name='xuanzeJZ']").prop("checked",false);
+		}
+	}
+	//判断是否全部选中---学生
+	function panduanXS(){
+		var num=0;
+		var pd = $("input[name='xuanzeXS']");
+		for(var i =0;i<pd.length;i++){
+			if(pd[i].checked == true){
+				num++;
+			}
+		}
+		if(num == pd.length){
+			$("input[name='quanxuanXS']").prop("checked",true);
+		}else{
+			$("input[name='quanxuanXS']").prop("checked",false);
+		}
+	}
+	//判断是否全部选中---员工
+	function panduanYG(){
+		var num=0;
+		var pd = $("input[name='xuanzeYG']");
+		for(var i =0;i<pd.length;i++){
+			if(pd[i].checked == true){
+				num++;
+			}
+		}
+		if(num == pd.length){
+			$("input[name='quanxuanYG']").prop("checked",true);
+		}else{
+			$("input[name='quanxuanYG']").prop("checked",false);
+		}
+	}
+	//判断是否全部选中---家长
+	function panduanJZ(){
+		var num=0;
+		var pd = $("input[name='xuanzeJZ']");
+		for(var i =0;i<pd.length;i++){
+			if(pd[i].checked == true){
+				num++;
+			}
+		}
+		if(num == pd.length){
+			$("input[name='quanxuanJZ']").prop("checked",true);
+		}else{
+			$("input[name='quanxuanJZ']").prop("checked",false);
+		}
+	}
+	//搜索
+	function sousuo(){
+		var leixing = $("#xialakuang").val();
+		if(leixing == "班级"){
+			$("#jz").hide();
+			$("#yg").hide();
+			$("#xs").show();
+			var name = $("#tongyong").val();
+			$.ajax({
+				url:"queryAllBanJiByLikeName",
+				data:"name="+name,
+				success:function(result){
+					console.log(result);
+					Vxs.xslist = result;
 				}
 			});
+		}else if(leixing == "家长"){
+			$("#jz").show();
+			$("#yg").hide();
+			$("#xs").hide();
+			var name = $("#tongyong").val();
+			$.ajax({
+				url:"queryAllBanJiByLikeName",
+				data:"name="+name,
+				success:function(result){
+					console.log(result);
+					Vjz.jzlist = result;
+				}
+			});
+		}else if(leixing == "员工"){
+			$("#jz").hide();
+			$("#yg").show();
+			$("#xs").hide();
+			var name = $("#tongyong").val();
+			$.ajax({
+				url:"queryAllYuanGong",
+				data:"name="+name,
+				type:"post",
+				success:function(result){
+					Vyg.yglist = result;
+				}
+			});
+		}
+	}
+	//加载事件
+	$(function(){
+		queryWenJuanBywjTypeIdAndwjxxTypeId(this.wj,this.xx);
+		//隐藏教员
+		$("#alljiaoyuan").hide();
+		//一开始显示班级
+		$.ajax({
+			url:"queryAllBanJiByLikeName",
+			data:"name="+"",
+			success:function(result){
+				Vxs.xslist = result;
+			}
 		});
-	</script>
+		//默认三个table隐藏
+		$("#jz").hide();
+		$("#yg").hide();
+	});
+	//通过问卷id查询说明
+	function queryShuoMingBywjId(wjId){
+		$.ajax({
+			url:"queryShuoMingBywjId",
+			data:"wjId="+wjId,
+			success:function(result){
+				console.log(result);
+				$("#shuoming").val(result.wjExplain);
+				$("#wjNum").html(result.wjNum);
+			}
+		});
+	}
+	
+	//通过问卷类型，选项类型查询问卷
+	var V = new Vue({
+		el:"#shua",
+		data:{
+			jihe:null,
+			wj:null,
+			xx:null
+		},methods:{
+			queryShuoMingBywjId:function(){
+				var wjId = $("#wjmingchen option:selected").val();
+				queryShuoMingBywjId(wjId);
+			}
+		},watch:{
+			wj:function(){
+				if(this.wj == 7 || this.wj == 2){
+					//显示教员
+					$("#alljiaoyuan").show();
+				}else{
+					$("#alljiaoyuan").hide();
+				}
+				queryWenJuanBywjTypeIdAndwjxxTypeId(this.wj,this.xx)
+			},
+			xx:function(){
+				queryWenJuanBywjTypeIdAndwjxxTypeId(this.wj,this.xx)
+			},
+		}
+	});
+	//通过问卷类型，选项类型查询问卷
+	function queryWenJuanBywjTypeIdAndwjxxTypeId(wj,xx){
+		if(!wj){
+			wj = 1;
+		}
+		if(!xx){
+			xx = 1;
+		}
+		$.ajax({
+			url:"queryWenJuanBywjTypeIdAndwjxxTypeId",
+			data:"wjTypeId="+wj+"&wjxxTypeId="+xx,
+			success:function(result){
+				console.log(result);
+				V.jihe = result;
+			}
+		});
+	}
+	//全选反选
+	function quanxuan(){
+		if($("input[name='quanxuan']").prop("checked")){
+			$("input[name='xuanze']").prop("checked",true);
+		}else{
+			$("input[name='xuanze']").prop("checked",false);
+		}
+	}
+	//判断是否全部选中
+	function panduan(){
+		var num=0;
+		var pd = $("input[name='xuanze']");
+		for(var i =0;i<pd.length;i++){
+			if(pd[i].checked == true){
+				num++;
+			}
+		}
+		if(num == pd.length){
+			$("input[name='quanxuan']").prop("checked",true);
+		}else{
+			$("input[name='quanxuan']").prop("checked",false);
+		}
+	}
+</script>
 
 </html>

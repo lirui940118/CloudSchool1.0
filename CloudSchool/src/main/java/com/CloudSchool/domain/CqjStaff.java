@@ -3,7 +3,19 @@ package com.CloudSchool.domain;
 import java.util.Date;
 
 public class CqjStaff {
-    private Integer staffid;
+	//用户id gk
+	private Integer userid;
+	
+	
+    public Integer getUserid() {
+		return userid;
+	}
+
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
+
+	private Integer staffid;
 
     private String staffname;
 

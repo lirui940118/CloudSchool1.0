@@ -249,4 +249,9 @@ public class ClazzServiceImpl implements ClazzService {
 		System.out.println("分配的批次为："+pc);
 		return pc;
 	}
+	@Override
+	public List<Clazz> queryAllBanJiByLikeName(String name) {
+		// TODO Auto-generated method stub
+		return cm.queryAllBanJiByLikeName(name);
+	}
 }

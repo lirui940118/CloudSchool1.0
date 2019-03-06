@@ -40,4 +40,6 @@ public interface CqjStaffMapper {
     //查询到所有任课老师(赵举峰)
     List<CqjStaff> queryTeachAll();
 
+    //查询所有员工 龚款
+	List<CqjStaff> queryAllYuanGong();
 }

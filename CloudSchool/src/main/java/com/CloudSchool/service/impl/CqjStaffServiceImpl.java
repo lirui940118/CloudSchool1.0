@@ -176,4 +176,11 @@ public class CqjStaffServiceImpl implements CqjStaffService{
 		return null;
 	}
 
+
+	@Override
+	public List<CqjStaff> queryAllYuanGong() {
+		// TODO Auto-generated method stub
+		return cqjStaffMapper.queryAllYuanGong();
+	}
+
 }
