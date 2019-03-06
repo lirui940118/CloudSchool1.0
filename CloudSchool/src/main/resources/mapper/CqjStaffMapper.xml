@@ -344,12 +344,12 @@
 	
 	<!-- 查询所有任课老师  张泽洋 -->
 	<select resultMap="BaseResultMap" id="ZzyqueryTeachAll">
-		SELECT cqj_staff.* FROM cqj_staff where positionid in (5,6)
+		SELECT cqj_staff * FROM cqj_staff where positionid in (5,6)
 	</select>
 	
 	<!-- 查询所有新老师 张泽洋 -->
 	<select resultMap="BaseResultMap" id="ZzyqueryXinTeach">
-		SELECT cqj_staff.* FROM cqj_staff where standby5=9
+		SELECT cqj_staff * FROM cqj_staff where standby5=9
 	</select> 
 	
 	<!-- 授课后将老师 状态从新职工改成0 -->

@@ -38,7 +38,8 @@
 														<td>{{index+1}}</td>
 														<td>{{l.cname}}</td>
 														<td v-for="l2 in list2" v-if="l.gid==l2.gid">{{l2.gradeName }}</td>
-														<td  v-for="l3 in list3" v-if="l.mid==l3.mid">{{l3.majorName }}</td>
+														<td v-if="l.zzzzzz!=null">{{l.zzzzzz}}</td>
+														<td v-if="l.zzzzzz==null">无</td>
 														<td>{{l.normalCount}}/{{l.count}}</td>
 														<td>{{l.master.staffname}}</td>
 														<td>{{l.startdate}}</td>
@@ -71,24 +72,17 @@
 	<script th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
 	<script th:src="@{/static/js/ready.min.js}"></script>
 	<script type="text/javascript">
+	var v=new Vue({
+		el:'.main-panel',
+		data:{
+			list:{},
+			list2:{},
+			list3:{}
+		}
+	})
 		$(function(){
-				v=new Vue({
-					el:'.main-panel',
-					data:{
-						list:null,
-						list2:null,
-						list3:null,
-					}
-				})
-			//Ajax查询班级信息
-			$.ajax({
-				url:'zz',
-				type:'POST',
-				dataType:'json',
-				success:function(data){
-					v.list=data;
-				}
-			})
+			
+			
 			//Ajax查询所有年级信息
 			$.ajax({
 				url:'queryGradeAll',
@@ -106,6 +100,27 @@
 				dataType:'json',
 				success:function(data){
 					v.list3=data;
+					
+					//Ajax查询班级信息
+					$.ajax({
+						url:'zz',
+						type:'POST',
+						dataType:'json',
+						success:function(data2){
+							v.list=data2;
+							//循环每一个班级
+							$.each(data2,function(i,obj){
+								//循环每一个专业
+								$.each(v.list3,function(i2,obj2){
+									//如果班级的专业id等于专业id
+									if(obj.mid==obj2.mid){
+										obj.zzzzzz=obj2.majorName;
+									}
+								})
+							})
+						}
+					})
+					
 				}
 			})
 		})
