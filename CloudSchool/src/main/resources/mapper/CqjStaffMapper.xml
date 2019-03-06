@@ -356,4 +356,11 @@
 	<update id="ZzyUpdateUser">
 		update cqj_staff set user5=0 where staffid=#{staffid}
 	</update>
+	
+	<!-- 查询所有员工 龚款 -->
+	<select id="queryAllYuanGong" resultMap="BaseResultMap">
+		SELECT * FROM `cqj_staff` AS yg
+		JOIN `cqj_user` AS u ON(yg.`staffid` = u.`usertypeid`) AND u.`usertypenub` = 0 AND u.`usertypeid` != -1
+	</select>
+
 </mapper>

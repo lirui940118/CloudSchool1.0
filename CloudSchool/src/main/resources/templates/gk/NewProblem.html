@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>创建问卷</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/static/css/ready.css}">
+<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+<style type="text/css">
+/** {
+				margin: 0px;
+				padding: 0px;
+				
+			}*/
+.card {
+	margin-bottom: 10px;
+}
+</style>
+</head>
+
+<body>
+	<div class="main-panel">
+		<div class="content">
+			<div class="container-fluid">
+				<h4 class="page-title">创建题目</h4>
+
+				<div class="row">
+					<div class="card col-lg-12">
+						<div class="card-body">
+							<div class="col-lg-12 row">
+								<div class="col-lg-4 col-md-4 col-sm-12 row">
+									<div class="col-lg-4 col-md-4 col-sm-12">
+										<h6>问卷类型：</h6>
+									</div>
+									<div class="col-lg-8 col-md-8 col-sm-12">
+										<select  class="form-control input-fixed"
+											id="wjTypeId">
+											<option th:each="list:${wj}" th:value="${list.wjTypeId}"><span
+													th:text="${list.wjTypeName}"></span></option>
+										</select>
+									</div>
+								</div>
+								
+								<div class="col-lg-4 col-md-4 col-sm-12 row">
+									<div class="col-lg-4 col-md-4 col-sm-12">
+										<h6>题目类型：</h6>
+									</div>
+									<div class="col-lg-8 col-md-8 col-sm-12">
+										<select  class="form-control input-fixed" id="wjtmTypeId">
+											<option th:each="list:${tm}" th:value="${list.wjtmTypeId}"><span
+													th:text="${list.wjtmTypeName}"></span></option>
+										</select>
+									</div>
+								</div>
+								
+								<div class="col-lg-4 col-md-4 col-sm-12 row">
+									<div class="col-lg-4 col-md-4 col-sm-12">
+										<h6>选项类型：</h6>
+									</div>
+									<div class="col-lg-8 col-md-8 col-sm-12">
+										<select onchange="djxx(this)" class="form-control input-fixed"
+											id="wjxxTypeId">
+											<option th:each="list:${xx}" th:value="${list.wjxxTypeId}"><span
+													th:text="${list.wjxxTypeName}"></span></option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="card col-lg-12">
+						<div class="card-body" id="xuanze">
+							<div class="col-lg-12 row">
+								<div class="col-lg-8 row">
+									<input type="text" id="wjtmName" class="form-control form-control" placeholder="请输入题目内容">
+								</div>
+								<div class="col-lg-2 row">
+								</div>
+								<div class="col-lg-2 row">
+									<div class="col-lg-6">
+										<button onclick="tjxx()" class="btn btn-success">
+											<font style="vertical-align: inherit;">添加选项</font>
+										</button>
+									</div>
+									<div class="col-lg-6">
+										<button onclick="scxx()" class="btn btn-danger">
+											<font style="vertical-align: inherit;">删除选项</font>
+										</button>
+									</div>
+								</div>
+							</div>
+							<p></p>
+							<div class=" col-lg-12 row" id="xuanxiang">
+								<div class="col-lg-3 row">
+									<input name="neirongxx" type="text" placeholder="请输入选项内容">
+								</div>
+								<div class="col-lg-3 row">
+									<input name="neirongxx" type="text" placeholder="请输入选项内容">
+								</div>
+								<div class="col-lg-3 row">
+									<input name="neirongxx" type="text" placeholder="请输入选项内容">
+								</div>
+								<div class="col-lg-3 row">
+									<input name="neirongxx" type="text" placeholder="请输入选项内容">
+								</div>
+							</div>
+						</div>
+						<div class="card-body" id="jifen">
+							<div class="col-lg-12 row">
+								<div class="col-lg-10 row">
+									<input type="text" id="namejifen" class="form-control form-control" placeholder="请输入题目内容，默认为十分每题">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="card-action">
+						<button onclick="tijiao()" class="btn btn-success">
+							<font style="vertical-align: inherit;"> 提交 </font>
+						</button>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script th:src="@{/static/js/core/jquery.min.js}"></script>
+<script th:src="@{/static/js/core/vue.js}" type="text/javascript"
+	charset="utf-8"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+<script th:src="@{/static/js/core/popper.min.js}"></script>
+<script th:src="@{/static/js/plugin/chartist/chartist.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+<script th:src="@{/static/js/core/bootstrap.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js}"></script>
+<script th:src="@{/static/js/plugin/jquery-mapael/jquery.mapael.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-mapael/maps/world_countries.min.js}"></script>
+<script th:src="@{/static/js/plugin/chart-circle/circles.min.js}"></script>
+<script
+	th:src="@{/static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+<script th:src="@{/static/js/ready.min.js}"></script>
+
+<script>
+	//提交
+	function tijiao(){
+		var tm = {};
+		if($("#wjxxTypeId").val() == 2){
+			tm.wjtmName = $("#namejifen").val();
+		}else{
+			tm.wjtmName = $("#wjtmName").val();
+		}
+		var listxx = [];
+		$.each($("input[name=neirongxx]"),function(){
+			var dx = {};
+			dx.wjxxName = $(this).val();
+			listxx.push(dx);
+		});
+		tm.wjtmTypeId = $("#wjtmTypeId").val();
+		tm.by1 = $("#wjxxTypeId").val();
+		tm.by2 = $("#wjTypeId").val();
+		tm.listxx = listxx;
+			
+		if(!tm.by2){
+			alert("请选择问卷类型！！！");
+			return;
+		}
+		if(!tm.wjtmTypeId){
+			alert("请选择题目类型！！！");
+			return;
+		}
+		if(!tm.by1){
+			alert("请选择选项类型！！！");
+			return;
+		}
+		if(!tm.wjtmName){
+			alert("请输入题目！！！");
+			return;
+		}
+		console.log(tm);
+		$.ajax({
+			url:"insertTiMu",
+			type:"post",
+		    dataType:"json",
+		    data:JSON.stringify(tm),
+			contentType:"application/json",
+		    success:function(result){
+		    	if(result > 0){
+					alert("成功！！！");
+				}else{
+					alert("失败！！！");
+				}
+		    }
+		})
+	}
+	//加载
+	$(function(){
+		$("#jifen").hide();
+		$("#xuanze").show();
+	})
+	//切换
+	function djxx(){
+		if($("#wjxxTypeId").val() == 1){
+			$("#jifen").hide();
+			$("#xuanze").show();
+		}else{
+			$("#jifen").show();
+			$("#xuanze").hide();
+		}
+	};
+	//添加选项
+	function tjxx(){
+		var num = 0;
+		$.each($("input[name=neirongxx]"),function(){
+			num++;
+		});
+		if(num == 4){
+			alert("不能再加了！！！");
+			return;
+		}
+		$("#xuanxiang").append("<div class='col-lg-3 row'><input name='neirongxx' type='text' placeholder='请输入选项内容'></div>");
+	}
+	
+	//删除选项
+	function scxx(){
+		var num = 0;
+		$.each($("input[name=neirongxx]"),function(){
+			num++;
+		});
+		if(num == 2){
+			alert("不能再减了！！！");
+			return;
+		}
+		$("#xuanxiang").children("div:last").remove();
+	}
+</script>
+
+</html>

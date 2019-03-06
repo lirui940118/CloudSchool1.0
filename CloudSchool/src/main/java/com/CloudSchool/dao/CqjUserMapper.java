@@ -42,5 +42,13 @@ public interface CqjUserMapper {
 	Integer queryCidByUserid(Integer userid);
 	//批量分配职工的系统登录账号user
 	int addStaffUser(List<CqjStaff> staff);
+	//gk通过班级id查询所有学生userid
+	List<CqjUser> queryUseridByCid(Integer cid);
+	//gk通过班级id查询家长userid
+	List<CqjUser> queryJZuseridBycid(Integer cid);
+	//gk查询所有教员
+	List<CqjUser> queryAllJiaoYuan();
+	//gk判断是否为调查教员问卷，true带出zid
+	CqjUser queryWJcsjfPD();
     
 }

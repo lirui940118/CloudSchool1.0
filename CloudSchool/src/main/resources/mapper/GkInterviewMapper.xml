@@ -126,9 +126,27 @@
   </delete>
   <!-- 查询所有访谈 -->
   <select id="queryAllFangTan" resultMap="BaseResultMap" >
-  	SELECT * FROM ftinfo
+  	SELECT * FROM 
+  	(
+	SELECT * FROM(
+	SELECT ft.*,CONCAT_WS('',s.`studentname`,yg.`staffname`,jz.`parentsname`)AS `peoplename` 
+	FROM `cqj_user` AS u
+	LEFT JOIN `cqj_student` AS s ON (s.studentid = u.usertypeid) AND u.`usertypenub` = 1
+	LEFT JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	LEFT JOIN `cqj_parents` AS jz ON (jz.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+	JOIN `gk_interview` AS ft ON (u.userid = ft.`ft_people`)
+)AS a
+INNER JOIN (
+	SELECT u.userid,CONCAT_WS('',s2.`studentname`,yg2.`staffname`,jz2.`parentsname`)AS `objectname` 
+	FROM `cqj_user` AS u
+	LEFT JOIN (SELECT * FROM `cqj_student`) AS s2 ON (s2.studentid = u.usertypeid) AND u.`usertypenub` = 1
+	LEFT JOIN (SELECT * FROM `cqj_staff`) AS yg2 ON (yg2.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	LEFT JOIN (SELECT * FROM `cqj_parents`) AS jz2 ON (jz2.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+)AS b ON a.ft_object = b.userid
+)
+  	as ftinfo
   	<where>
-  		status=0 and by1 = 1
+  		`status`=0 and by1 = 1
   		<if test="peoplename">
   			AND peoplename LIKE concat('%',#{peoplename},'%')
   		</if>
@@ -149,9 +167,28 @@
   </select>
   <!-- 查询所有访谈行数 -->
   <select id="queryAllFangTanCount" resultType="int">
-  	SELECT COUNT(*) FROM `ftinfo`
+  	SELECT COUNT(*) FROM (
+	SELECT * FROM(
+	SELECT ft.*,CONCAT_WS('',s.`studentname`,yg.`staffname`,jz.`parentsname`)AS `peoplename` 
+	FROM `cqj_user` AS u
+	LEFT JOIN `cqj_student` AS s ON (s.studentid = u.usertypeid) AND u.`usertypenub` = 1
+	LEFT JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	LEFT JOIN `cqj_parents` AS jz ON (jz.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+	JOIN `gk_interview` AS ft ON (u.userid = ft.`ft_people`)
+	#WHERE CONCAT_WS('',s.`studentname`,yg.`staffname`,jz.`parentsname`) LIKE '%%' 
+	#AND ft.`ft_starttime` BETWEEN '2019-01-11' AND  '2019-01-13'
+)AS a
+INNER JOIN (
+	SELECT u.userid,CONCAT_WS('',s2.`studentname`,yg2.`staffname`,jz2.`parentsname`)AS `objectname` 
+	FROM `cqj_user` AS u
+	LEFT JOIN (SELECT * FROM `cqj_student`) AS s2 ON (s2.studentid = u.usertypeid) AND u.`usertypenub` = 1
+	LEFT JOIN (SELECT * FROM `cqj_staff`) AS yg2 ON (yg2.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	LEFT JOIN (SELECT * FROM `cqj_parents`) AS jz2 ON (jz2.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+	#WHERE CONCAT_WS('',s2.`studentname`,yg2.`staffname`,jz2.`parentsname`) LIKE '%%'
+)AS b ON a.ft_object = b.userid
+) as `ftinfo`
   	<where>
-  	 	status=0 and by1 = 1
+  	 	`status`=0 and by1 = 1
 	<if test="peoplename">
 		AND peoplename LIKE concat('%',#{peoplename},'%')
 	</if>
@@ -172,7 +209,26 @@
   </select>
   <!-- 通过访谈id查询访谈详情 -->
   <select id="queryFangTanDetailsByftid" resultMap="BaseResultMap">
-  	SELECT * FROM `ftinfo`WHERE ft_id=#{ftId}
+  	SELECT * FROM (
+	SELECT * FROM(
+	SELECT ft.*,CONCAT_WS('',s.`studentname`,yg.`staffname`,jz.`parentsname`)AS `peoplename` 
+	FROM `cqj_user` AS u
+	LEFT JOIN `cqj_student` AS s ON (s.studentid = u.usertypeid) AND u.`usertypenub` = 1
+	LEFT JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	LEFT JOIN `cqj_parents` AS jz ON (jz.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+	JOIN `gk_interview` AS ft ON (u.userid = ft.`ft_people`)
+	#WHERE CONCAT_WS('',s.`studentname`,yg.`staffname`,jz.`parentsname`) LIKE '%%' 
+	#AND ft.`ft_starttime` BETWEEN '2019-01-11' AND  '2019-01-13'
+)AS a
+INNER JOIN (
+	SELECT u.userid,CONCAT_WS('',s2.`studentname`,yg2.`staffname`,jz2.`parentsname`)AS `objectname` 
+	FROM `cqj_user` AS u
+	LEFT JOIN (SELECT * FROM `cqj_student`) AS s2 ON (s2.studentid = u.usertypeid) AND u.`usertypenub` = 1
+	LEFT JOIN (SELECT * FROM `cqj_staff`) AS yg2 ON (yg2.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	LEFT JOIN (SELECT * FROM `cqj_parents`) AS jz2 ON (jz2.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+	#WHERE CONCAT_WS('',s2.`studentname`,yg2.`staffname`,jz2.`parentsname`) LIKE '%%'
+)AS b ON a.ft_object = b.userid
+) as `ftinfo`WHERE ft_id=#{ftId}
   </select>
   
   

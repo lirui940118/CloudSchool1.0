@@ -1,10 +1,25 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
+import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.GkWjcsjf;
 
 public interface GkWjcsjfMapper {
+	//互换oid，zid位置
+	int updateByoidAndzid(GkWjcsjf jf);
+	//通过zid带出所有记录
+	List<GkWjcsjf> queryAllByzid(Integer zid);
+	//完善后修改状态
+	int updateWjcsjf(Integer wjcsjfId);
+	//新增问卷测试表计分题(完善问卷时)
+	int insertWjcsjfWS(List<GkWjcsjf> list);
+	//新增问卷测试表计分题
+	int insertWjcsjf(@Param("quanbulist")List<CqjUser> quanbulist,@Param("wjId")Integer wjId,@Param("zId")Integer zId);
+	
+	
     int deleteByPrimaryKey(Integer wjcsjfId);
 
     int insert(GkWjcsjf record);

@@ -86,9 +86,27 @@ public class CqjUser {
     //首页路径
     private String homeUrl;
     
+    //gk教员名称
+    private String staffname;
+    //gk年级id
+    private String gid;
     
-    
-	
+
+	public String getGid() {
+		return gid;
+	}
+
+	public void setGid(String gid) {
+		this.gid = gid;
+	}
+
+	public String getStaffname() {
+		return staffname;
+	}
+
+	public void setStaffname(String staffname) {
+		this.staffname = staffname;
+	}
 
 	public String getHomeUrl() {
 		return homeUrl;

@@ -231,4 +231,10 @@ public class CqjStaffServiceImpl implements CqjStaffService {
 		return cqjStaffMapper.ZzyUpdateUser(staffid);
 	}
 
+	@Override
+	public List<CqjStaff> queryAllYuanGong() {
+		// TODO Auto-generated method stub
+		return cqjStaffMapper.queryAllYuanGong();
+	}
+
 }

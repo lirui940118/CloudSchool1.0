@@ -395,4 +395,8 @@ public class ClazzServiceImpl implements ClazzService {
 		}
 		return tlist;
 	}
+	public List<Clazz> queryAllBanJiByLikeName(String name) {
+		// TODO Auto-generated method stub
+		return cm.queryAllBanJiByLikeName(name);
+	}
 }

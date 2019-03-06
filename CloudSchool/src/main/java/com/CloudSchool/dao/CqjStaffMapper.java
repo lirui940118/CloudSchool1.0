@@ -52,4 +52,7 @@ public interface CqjStaffMapper {
     public List<CqjStaff> ZzyqueryXinTeach();
     
     public Integer ZzyUpdateUser(Integer staffid);
+
+    //查询所有员工 龚款
+	List<CqjStaff> queryAllYuanGong();
 }

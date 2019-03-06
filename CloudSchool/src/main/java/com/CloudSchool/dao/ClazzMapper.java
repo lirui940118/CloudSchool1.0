@@ -15,6 +15,8 @@ import com.CloudSchool.domain.ClazzPlan;
 
 @Mapper
 public interface ClazzMapper {
+	//通过班级名称模糊查gk
+	List<Clazz> queryAllBanJiByLikeName(String name);
 	//gk查询所有班级
 	public List<Clazz> queryAllBanJi();
 	//gk通过id查询班级和年级名称

@@ -5,6 +5,13 @@ import java.util.List;
 import com.CloudSchool.domain.GkQuestionnairexx;
 
 public interface GkQuestionnairexxMapper {
+	//新增选项
+	int insertXX(List<GkQuestionnairexx> listxx);
+	
+	
+	
+	
+	
     int deleteByPrimaryKey(Integer wjxxId);
 
     int insert(GkQuestionnairexx record);

@@ -588,6 +588,7 @@ ORDER BY stuinfo
 		JOIN `clazzstudent` AS cs ON (s.studentid = cs.`sid`) AND cs.`status` = 0
 		WHERE u.userid = #{userid}
 	</select>
+
 	<!-- 为职工批量添加user登录账号 -->
 	<insert id="addStaffUser" useGeneratedKeys="true" keyProperty="userid" >
 		INSERT INTO cqj_user VALUES
@@ -595,4 +596,37 @@ ORDER BY stuinfo
 	    	(0,#{s.staffnub},'8888',2,#{s.staffid},0,DATE(now()),null,0,null,null,null,null,null,null,null)
 	    </foreach>
 	</insert>
+
+	<!-- gk通过班级id查询所有学生userid -->
+	  <select id="queryUseridByCid" resultMap="BaseResultMap">
+		SELECT u.userid,g.gid FROM `cqj_user` AS u
+		JOIN `cqj_student` AS s ON (u.`usertypeid` = s.`studentid`) AND u.`usertypenub` = 1
+		JOIN `clazzstudent` AS c ON (c.`sid` = s.`studentid`) AND c.`status` = 0
+		JOIN `clazz` AS z ON (z.`id` = c.cid)
+		JOIN `zzy_grade` AS g ON (g.`gid` = z.`gid`)
+		WHERE c.cid = #{cid}
+	  </select>
+	  <!-- gk通过班级id查询家长userid -->
+	  <select id="queryJZuseridBycid" resultMap="BaseResultMap">
+	  	SELECT u.userid FROM `cqj_user` AS u
+		JOIN (
+			SELECT jzxs.parentsid FROM `cqj_parents_student` AS jzxs
+			JOIN `clazzstudent` AS cs ON (cs.sid = jzxs.`studentid`)
+			WHERE cs.`cid` = #{cid}
+		)AS xs ON (xs.parentsid = u.usertypeid)AND u.`usertypenub` = 2
+	  </select>
+	  <!-- gk查询所有教员 -->
+	  <select id="queryAllJiaoYuan" resultMap="BaseResultMap">
+	  	SELECT u.userid,yg.staffname FROM `cqj_user` AS u
+		JOIN `cqj_staff` AS yg ON (u.`usertypeid` = yg.`staffid`) AND u.`usertypenub` = 0
+		JOIN `cqj_position` AS zw ON (yg.`positionid` = zw.`positionid`)
+		WHERE zw.`positionid` = 5
+	  </select>
+	  <!-- gk判断是否为调查教员问卷，true带出zid -->
+	  <select id="queryWJcsjfPD" resultMap="BaseResultMap">
+	  	SELECT `userid` FROM `cqj_user` WHERE `userid` IN (
+			SELECT `z_id` FROM `gk_wjcsjf` WHERE `wj_id` = 21 AND `tm_id` IS NULL
+		) AND `usertypenub` = 0
+	 </select>
+
 </mapper>

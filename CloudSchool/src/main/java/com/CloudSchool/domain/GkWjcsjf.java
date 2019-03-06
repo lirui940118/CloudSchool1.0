@@ -1,7 +1,11 @@
 package com.CloudSchool.domain;
 
+import java.util.List;
+
 public class GkWjcsjf {
-    private Integer wjcsjfId;
+
+
+	private Integer wjcsjfId;
 
     private Integer oId;
 

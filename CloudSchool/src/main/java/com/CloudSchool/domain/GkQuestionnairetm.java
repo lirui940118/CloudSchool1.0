@@ -4,12 +4,36 @@ import java.util.Date;
 import java.util.List;
 
 public class GkQuestionnairetm {
+	//问卷id
+	private Integer wjId;
+	
+	
+	public Integer getWjId() {
+		return wjId;
+	}
+
+	public void setWjId(Integer wjId) {
+		this.wjId = wjId;
+	}
+
 	//选项集合
 	private List<GkQuestionnairexx> listxx;
+	//题目类型名称
+	private String wjtmTypeName;
 	
 	
 	
-    public List<GkQuestionnairexx> getListxx() {
+	
+	
+    public String getWjtmTypeName() {
+		return wjtmTypeName;
+	}
+
+	public void setWjtmTypeName(String wjtmTypeName) {
+		this.wjtmTypeName = wjtmTypeName;
+	}
+
+	public List<GkQuestionnairexx> getListxx() {
 		return listxx;
 	}
 

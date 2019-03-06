@@ -16,6 +16,9 @@
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
   
+  
+  
+  
 	<!-- 新增问卷题目关联表 -->
 	<insert id="insertWJTMFK">
 		INSERT INTO `gk_wjtm_fk`(`wj_id`,`tm_id`,`creation_time`,`update_time`)

@@ -1,8 +1,18 @@
 package com.CloudSchool.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.GkWjcs;
 
 public interface GkWjcsMapper {
+	//新增问卷测试记录（选择题）
+	int insertWjcs(@Param("quanbulist")List<CqjUser> quanbulist,@Param("wjId")Integer wjId);
+	
+	
+	
     int deleteByPrimaryKey(Integer wjcsId);
 
     int insert(GkWjcs record);

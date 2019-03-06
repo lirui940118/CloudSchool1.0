@@ -24,7 +24,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 	public ThreadPoolTaskScheduler taskScheduler() {
 
 		ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
-		taskScheduler.setPoolSize(10);
+		taskScheduler.setPoolSize(100);
 		taskScheduler.initialize();
 		return taskScheduler;
 	}

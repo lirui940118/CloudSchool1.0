@@ -10,6 +10,10 @@ import com.CloudSchool.domain.GkKaoqin;
 import com.CloudSchool.domain.GkPageBean;
 
 public interface GkKaoqinMapper {
+	//通过用户id查询自己所有考勤行数
+	int queryKaoQinByUseridCount(GkKaoqin kq);
+	//通过用户id查询自己所有考勤
+	List<GkKaoqin> queryKaoQinByUserid(GkKaoqin kq);
 	//查询班级考勤
 	List<GkKaoqin> queryAllKaoQinBanJi(GkKaoqin kq);
 	//查询班级考勤行数
@@ -22,6 +26,10 @@ public interface GkKaoqinMapper {
 	GkKaoqin queryKaoQinPanDuan(Integer userid);
 	//新增班级当天考勤 
 	int insertBanJiKaoQin(List<GkKaoqin> list,@Param("cid")Integer cid,@Param("gid")Integer gid);
+	
+	//新增班级当天考勤 
+	int insertYuanGongKaoQin(List<GkKaoqin> list);
+	
 	
 	//查询所有员工考勤
 	List<GkKaoqin> queryAllKaoQinYuanGong(GkKaoqin kq);

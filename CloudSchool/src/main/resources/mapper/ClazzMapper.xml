@@ -30,6 +30,12 @@
 	<result column="period" property="period" />
 	<result column="tid" property="tid" />
   </resultMap>
+  
+  <!-- 通过班级名称模糊查gk -->
+  <select id="queryAllBanJiByLikeName" resultMap="BaseResultMap">
+		SELECT * FROM `clazz`
+		WHERE `cname` LIKE concat('%',#{cname},'%')
+  </select>
   <!-- 查询所有班级gk -->
   <select id="queryAllBanJi" resultMap="BaseResultMap">
   	SELECT * FROM `clazz`

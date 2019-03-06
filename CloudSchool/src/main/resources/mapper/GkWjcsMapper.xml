@@ -18,6 +18,23 @@
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
+  
+  
+  <!-- 新增问卷测试记录（选择题） -->
+  <insert id="insertWjcs">
+  	INSERT INTO `gk_wjcs`(`uid`,`wj_id`,`wjcs_time`,`creation_time`,`update_time`)
+	VALUES
+	<foreach collection="quanbulist" close=";" item="l" separator=",">
+		(#{l.userid},#{wjId},NOW(),NOW(),NOW())
+	</foreach>
+  </insert>
+  
+  
+  
+  
+  
+  
+  
   <sql id="Base_Column_List">
     wjcs_id, uid, wj_id, wjtm_id, wjxx_name, wjcs_time, creation_time, update_time, founder, 
     status, by1, by2, by3, by4, by5

@@ -31,7 +31,7 @@ public class GkFangTanServiceImpl implements GkFangTanService{
 		ft2.setPeoplename(ft.getPeoplename());
 		ft2.setStartStr(ft.getStartStr());
 		ft2.setEndStr(ft.getEndStr());
-		List<GkInterview> list = gkInterviewMapper.queryAllFangTan(ft);
+		List<GkInterview> list = gkInterviewMapper.queryAllFangTan(ft2);
 		int totalSize = (int)gkInterviewMapper.queryAllFangTanCount(ft2);
 		GkPageBean<GkInterview> page = new GkPageBean<GkInterview>(ft.getCurrentPage(), ft.getPageSize(), totalSize, list);
 		return page;

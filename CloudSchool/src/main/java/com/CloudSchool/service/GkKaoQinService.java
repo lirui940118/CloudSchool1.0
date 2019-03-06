@@ -9,6 +9,8 @@ import com.CloudSchool.domain.GkKaoqin;
 import com.CloudSchool.domain.GkPageBean;
 
 public interface GkKaoQinService {
+	//通过用户id查询自己所有考勤
+	GkPageBean<GkKaoqin> queryKaoQinByUserid(GkKaoqin kq);
 	//查询班级考勤
 	GkPageBean<GkKaoqin> queryAllKaoQinBanJi(GkKaoqin kq);
 	//查询某段时间内的考勤状况（员工）
@@ -19,6 +21,12 @@ public interface GkKaoQinService {
 	GkKaoqin queryKaoQinPanDuan(Integer userid);
 	//新增班级当天考勤 
 	int insertBanJiKaoQin(List<GkKaoqin> list,@Param("cid")Integer cid,@Param("gid")Integer gid);
+	
+	//新增班级当天考勤 
+	int insertYuanGongKaoQin(List<GkKaoqin> list);
+	
+	
+	
 	//查询所有员工考勤信息
 	GkPageBean<GkKaoqin> queryAllKaoQinYuanGong(GkKaoqin kq);
 	

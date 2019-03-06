@@ -9,6 +9,8 @@ import com.CloudSchool.domain.Clazzcourseteacher;
 import com.CloudSchool.domain.statistics.ClazzBaseInfoVO;
 
 public interface ClazzService {
+	//通过班级名称模糊查gk
+	List<Clazz> queryAllBanJiByLikeName(String name);
 	//gk查询所有班级
 	public List<Clazz> queryAllBanJi();
 	//gk通过id查询班级和年级名称
