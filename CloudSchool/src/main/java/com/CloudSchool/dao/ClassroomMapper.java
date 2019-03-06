@@ -38,4 +38,9 @@ public interface ClassroomMapper {
     //查询某一天空教室(赵举峰)
     int queryBytimeRoom(@Param("rid")Integer rid,@Param("time")Date time);
     
+    //分页查询教室 pageRoom
+    List<Classroom> pageRoom(@Param("cur")Integer cur,@Param("pageSize")Integer pageSize);
+    //获得教室总数
+    int queryCunt();
+    
 }

@@ -16,6 +16,7 @@ import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.Commission;
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.Missionhistory;
+import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.ZzyGrade;
 import com.CloudSchool.service.ClassroomService;
 import com.CloudSchool.service.ClasstypeService;
@@ -69,6 +70,15 @@ public class MissionController {
 		model.addAttribute("list", list);
 		return "czw_mission/ClassRoom";
 	}
+	@RequestMapping("/getPage")
+	@ResponseBody
+	public PageBean getPage(Integer pageSize,Integer cur) {
+		if(pageSize==null) {
+			pageSize=1;
+		}
+		PageBean page=cls.pageRoom(cur, pageSize);
+		return page;
+		}
 	@RequestMapping("/toInsertClr")
 	public String bbb(Model model) {
 		List<Classtype> list=clt.query();
@@ -85,12 +95,9 @@ public class MissionController {
 		return "新增成功！";
 	}
 	@RequestMapping("/delClassRoom")
-	public String delClassRoom(Integer id) {
-		int i=cls.delete(id);
-		if(i>0) {
-			System.out.println("成功！");
-		}
-		return "删除成功！";
+	@ResponseBody
+	public int delClassRoom(Integer id) {
+		return cls.delete(id);
 	}
 	@RequestMapping("/selectByid")
 	public String selectByid(Integer id,Model model) {
@@ -102,12 +109,8 @@ public class MissionController {
 	}
 	@RequestMapping("/updateClassRoom")
 	@ResponseBody
-	public String updateClassRoom(Classroom classroom) {
-		int i=cls.update(classroom);
-		if(i>0) {
-			System.out.println("成功！");
-		}
-		return "修改成功！";
+	public int updateClassRoom(Classroom classroom) {
+		return cls.update(classroom);
 	}
 	@RequestMapping("/toCommission")
 	public String toCommission(Model model) {

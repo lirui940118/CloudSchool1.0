@@ -116,7 +116,7 @@
 											<td>{{p.rolename}}</td>
 											<td>{{p.positionname}}</td>
 											<td>
-												<button    data-toggle="modal" v-on:click="getInfo(index)"
+												<button  infoBut moduleUrl="/user/updateUser"   data-toggle="modal" v-on:click="getInfo(index)"
 													data-target=".bs-example-modal-lg" name="goInsertRole"
 													class="btn btn-success">修改用户</button>
 											</td>
@@ -250,6 +250,13 @@
 		watch : {
 			filtrate : function() {
 				this.getAnswer();
+			},
+			page:function(){
+				this.$nextTick(function () {
+					infoBut.ccc();
+					//infoBut.fadeOut(); 
+					console.log(sumCount+":"+count)
+			})
 			}
 		},
 		methods : {
@@ -263,6 +270,8 @@
 			},
 			getPage : function(index) {
 				getPage(index);
+				
+
 			}
 		}
 	});
@@ -277,13 +286,11 @@
 		}
 	});
 	var count = 0;
-	var sumCount =4;
+	var sumCount =3;
 	$(function() {
-		
-		infoBut.ccc();
+		getPage(1);
 		getRole();
 		getPosition();
-		getPage(1);
 		$('[name="goInsertStaff"]').click(function(){
 			window.location.href="/staff/goAddStaff";
 		});
@@ -331,6 +338,11 @@
 	}
 	//通过传值获取模块信息
 	function getPage(i) {
+		$("#hezi").show();
+		console.log(sumCount+":"+count)
+		if(count!=0){
+			count--;
+		}
 		var json = {};
 		json.cur = i;
 		json.filtrate = v.filtrate;
@@ -341,11 +353,10 @@
 			dataType : "json",
 			success : function(data) {
 				
-				console.log(data)
 				if(data!="404"){
 					v.page = data;
+					
 				}
-				infoBut.fadeOut();
 			}
 		})
 	}
