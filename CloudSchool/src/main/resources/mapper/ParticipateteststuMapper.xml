@@ -415,4 +415,14 @@
 	<select id="queryByTidAndStatusAll" resultType="Integer">
 		select participateteststu.sId from participateteststu where tid=#{tid} and user3!=2
 	</select>
+	
+	
+	
+	<!-- 查询该场考试是否缺考  0为缺考 其他为正常参加考试 write by lirui-->
+	<select id="queryIsTestBySidAndTid" resultType="String">
+	SELECT IFNULL(participateteststu.`user2`,0) FROM `participateteststu`
+	INNER JOIN participatetestclass ON `participatetestclass`.`id` = participateteststu.user1
+	WHERE participateteststu.`sId` = #{sId}
+	AND participateteststu.`tId` = #{tId}
+	</select>
 </mapper>

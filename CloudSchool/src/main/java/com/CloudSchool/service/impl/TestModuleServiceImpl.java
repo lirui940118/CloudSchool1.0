@@ -23,29 +23,6 @@ public class TestModuleServiceImpl implements TestModuleService{
 	TestinfoMapper testinfoMapper;
 	 //添加试卷模板
     public int insertTestModule(Testmodule obj) {
-    	//生成作业的类型    选择题 阅读题 上机题  混合题
-    			Integer[] array = testmoduleMapper.queryTestMouldType(obj);
-    			for (int j = 0; j < array.length; j++) {
-    				/*选择题*/
-    				if (array.length == 1 && array[0] == 1) {
-    					obj.setUser1("0");
-    					break;
-    				}
-    				/*阅读题*/
-    				if (array.length == 1 && array[0] == 2) {
-    					obj.setUser1("1");
-    					break;
-    				}
-    				/*上机题*/
-    				if (array.length == 1 && array[0] == 3) {
-    					obj.setUser1("2");
-    					break;
-    				}
-    				/*混合题*/
-    				if(array.length>1) {
-    					obj.setUser1("3");
-    				}
-    			}
     			int i=testmoduleMapper.insertTestModule(obj);
     			if(i>0) {
     				Map<String, Object> map=new HashMap<String, Object>();

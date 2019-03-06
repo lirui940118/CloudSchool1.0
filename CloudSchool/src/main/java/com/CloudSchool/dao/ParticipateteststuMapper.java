@@ -42,4 +42,7 @@ public interface ParticipateteststuMapper {
     Integer queryNotCorrectCountByUser1(@Param("tid")Integer tid,@Param("user1")Integer user1,@Param("user3")Integer user3);
     
     Integer[] queryByTidAndStatusAll(Integer tid);
+    /*查询该场考试是否缺考  0为缺考 其他为正常参加考试 write by lirui*/
+    String queryIsTestBySidAndTid(@Param("sId")Integer sId,@Param("tId")Integer tId);
+    
 }

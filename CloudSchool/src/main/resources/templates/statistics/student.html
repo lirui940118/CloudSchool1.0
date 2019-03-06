@@ -267,7 +267,7 @@ img {
 										<td>{{item.courseName}}</td>
 										<td>{{item.sectionName}}</td>
 										<td>{{item.knowledageName}}</td>
-										<td>{{item.rate}}</td>
+										<td>{{item.rate|rate100Filter}}</td>
 										<td>{{item.totalCount}}</td>
 										<td>
 											<!-- <button class="btn btn-danger">补习</button> -->
@@ -323,8 +323,29 @@ img {
 			</div>
 		</div>
 	</div>
-	
-	
+	<!-- 未参加考试提示 -->
+	<div class="modal fade" id="getTestInfoModal" tabindex="-1" role="dialog" aria-labelledby="getTestInfoModalPro" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<h6 class="modal-title"><i class="la la-file"></i>提示</h6>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">									
+					<p id="">查询考试提示</p>
+					<p>
+						<b>该学员本场考试未交，无考试记录！</b>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button>
+					<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
 	
 	
 	
@@ -342,7 +363,7 @@ img {
 	//初始化echars实例
 	var sId = "[[${gotoStudentsId}]]" ? "[[${gotoStudentsId}]]" : null;
 	var myChar = echarts.init(document.querySelector("#studentAbilityPicture"));
-	//myChar.showLoading();
+	myChar.showLoading();
 	//设置图标配置和数据
 	option = {
 		title : {
@@ -521,7 +542,7 @@ img {
 				gId:gId
 			},
 			success : function(data) {
-				console.log(data);
+				console.log(JSON.stringify(data));
 				//渲染table
 				var vue = new Vue({
 					el:"#studentTestInfoTable",
@@ -543,7 +564,11 @@ img {
 						}
 					}
 				});
+				//试卷实例id数组 1,2,3
+				var tIds =[];
 				for (var i = 0; i < data.length; i++) {
+					//实例id
+					tIds.push(data[i].tId);
 					//分数集合
 					scoreArr.push(data[i].studentScore100);
 					//日期集合+考试每次
@@ -551,6 +576,9 @@ img {
 					vue.testTotalCount++;//考试合计次数
 					vue.test100TotalScore = vue.test100TotalScore + data[i].studentScore100;//百分制总分
 				}
+				//试卷实例id字符串 1,2,3
+				var tIdsStr = tIds.join(",");
+				
 				if(data!=""){//没有查询到考试成绩数据
 					//显示下载按钮
 					$("#downLoadTestBtn").show();
@@ -568,7 +596,7 @@ img {
 						        end: 60         // 右边在 60% 的位置。
 						    }],
 							title : {
-								text:"1,2,3,4",
+								text:tIdsStr,
 								show:false
 							},
 							tooltip : {
@@ -646,7 +674,28 @@ img {
 				            var ids = op.title[0].text.split(",");
 				            
 				            //跳转查询具体某场考试分析
-				            window.location.href=adress.url+"/statistics/gotoStudentText?sId="+sId+"&tId="+ids[xIndex];
+				            //判断是否为为参考的考试
+				             $.ajax({
+								type : "post",
+								url : adress.url + "/statistics/getTestInfoBySidAndTid",
+								data : {
+									sId:sId,
+									tId:ids[xIndex]
+								},
+								success : function(data) {
+									if(data){//参加了考试
+										if(sId==null){
+							            	window.location.href=adress.url+"/statistics/gotoStudentText?tId="+ids[xIndex];
+							            }else{
+							            	window.location.href=adress.url+"/statistics/gotoStudentText?sId="+sId+"&tId="+ids[xIndex];
+							            }
+									}else{//缺考
+										//tip提示无法查看
+										$("#getTestInfoModal").modal('show');
+									}
+								}
+				            }) 
+				            
 				            //window.location.href=adress.url+"/statistics/gotoStudentText?sId="+1+"&tId="+1;
 						}
 					});
@@ -833,6 +882,11 @@ img {
 							
 							
 						}
+					},
+					filters:{
+						rate100Filter:function(value){
+							return (value*100).toFixed(2);
+						}
 					}
 				});
 			}
@@ -878,7 +932,7 @@ img {
 					}
 				}
 				
-				myChar.showLoading();
+				//myChar.showLoading();
 				option = {
 						title : {
 

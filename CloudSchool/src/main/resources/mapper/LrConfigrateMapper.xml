@@ -253,7 +253,7 @@
   
   <update id="updateAllConfig" parameterType="com.CloudSchool.domain.LrConfigrate">
   UPDATE
-  `cloudschool`.`lr_configrate`
+  `lr_configrate`
 SET
   `config1` = #{config1},
   `config2` = #{config2},

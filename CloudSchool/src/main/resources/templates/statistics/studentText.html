@@ -8,6 +8,7 @@
 		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
 		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
 		<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+		<link rel="stylesheet" th:href="@{/static/css/vueAnimation.css}">
 		<style type="text/css">
 			.card{
 				border-radius: 0px;
@@ -31,24 +32,29 @@
 						<!--单次考试统计-->
 						<div class="card col-lg-12">
 							<div id="testBaseInfoSec"  class="card-header">
-								<h4 class="card-title">
-									学员考试得分情况
-								</h4>
-								<p class="card-category">
-									<p>考生学号：<span>{{testBaseInfo.studentNo}}</span></p>
-									<p>考生名称：<span>{{testBaseInfo.studentName}}</span></p>
-									<p>试卷名称：<span>{{testBaseInfo.testName}}</span></p>
-									<p>考试时间：<span>{{testBaseInfo.startTime}}-{{testBaseInfo.endTime}}</span></p>
-									<p>年级：<span>{{testBaseInfo.gradeName}}</span></p>
-									<p>班级：<span>{{testBaseInfo.clazzName}}</span></p>
-									<p>教室：<span>{{testBaseInfo.classroomName}}</span></p>
-									<p>考试得分：<span>{{testBaseInfo.testScore}}</span>分</p>
-									<p>考试总分：<span>{{testBaseInfo.testTotalScore}}</span>分</p>
-								</p>
+								<transition name="v">
+								<div v-if="show" style="text-align: center;">
+									<h4 class="card-title">
+										学员考试得分情况
+									</h4>
+									<p class="card-category">
+										<p>考生学号：<span>{{testBaseInfo.studentNo}}</span></p>
+										<p>考生名称：<span>{{testBaseInfo.studentName}}</span></p>
+										<p>试卷名称：<span>{{testBaseInfo.testName}}</span></p>
+										<p>考试时间：<span>{{testBaseInfo.startTime}}-{{testBaseInfo.endTime}}</span></p>
+										<p>年级：<span>{{testBaseInfo.gradeName}}</span></p>
+										<p>班级：<span>{{testBaseInfo.clazzName}}</span></p>
+										<p>教室：<span>{{testBaseInfo.classroomName}}</span></p>
+										<p>考试得分：<span>{{testBaseInfo.testScore}}</span>分</p>
+										<p>考试总分：<span>{{testBaseInfo.testTotalScore}}</span>分</p>
+									</p>
+								</div>
+								</transition>
 							</div>
-							<div class="card-body">
+							<div class="card-body" id="knowledgeAndApplicationVue">
 								<h6>选择和简答题题目统计</h6>
-								<table id="knowledgePointSec" class="table table-bordered mt-1" style="text-align: center;">
+								<transition name="a">
+								<table v-if="show" id="knowledgePointSec" class="table table-bordered mt-1" style="text-align: center;">
 									<thead>
 										<tr>
 											<th scope="col" rowspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">题目类别/知识点</font></font></th>
@@ -70,9 +76,9 @@
 											<!-- 识记分布和得分 -->
 											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
 												<span v-for="topicItems in item.topicList">
-													<span v-if="topicItems.topicExamdotId==0 && topicItems.topicRate>=goodRate"  v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-success btn-xs">T:{{topicItems.topicNo}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
-													<span v-if="topicItems.topicExamdotId==0 && topicItems.topicRate<goodRate && topicItems.topicRate>=badRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-default btn-xs">T:{{topicItems.topicNo}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
-													<span v-if="topicItems.topicExamdotId==0 && topicItems.topicRate<badRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-danger btn-xs">T:{{topicItems.topicNo}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
+													<span v-if="topicItems.topicExamdotId==0 && topicItems.topicRate>=goodRate"  v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-success btn-xs">T:{{topicItems.topicNo+1}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
+													<span v-if="topicItems.topicExamdotId==0 && topicItems.topicRate<goodRate && topicItems.topicRate>=badRate" v-for="topicItems in item.topicList" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-default btn-xs">T:{{topicItems.topicNo+1}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
+													<span v-if="topicItems.topicExamdotId==0 && topicItems.topicRate<badRate" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-danger btn-xs">T:{{topicItems.topicNo+1}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
 												</span>
 											</font></font></td>
 											
@@ -82,9 +88,9 @@
 											<!-- 理解分布和得分 -->
 											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
 												<span v-for="topicItems in item.topicList">
-													<span v-if="topicItems.topicExamdotId==1 && topicItems.topicRate>=goodRate"  v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-success btn-xs">T:{{topicItems.topicNo}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
-													<span v-if="topicItems.topicExamdotId==1 && topicItems.topicRate<goodRate && topicItems.topicRate>=badRate" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-default btn-xs">T:{{topicItems.topicNo}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
-													<span v-if="topicItems.topicExamdotId==1 && topicItems.topicRate<badRate" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-danger btn-xs">T:{{topicItems.topicNo}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
+													<span v-if="topicItems.topicExamdotId==1 && topicItems.topicRate>=goodRate"  v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-success btn-xs">T:{{topicItems.topicNo+1}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
+													<span v-if="topicItems.topicExamdotId==1 && topicItems.topicRate<goodRate && topicItems.topicRate>=badRate" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-default btn-xs">T:{{topicItems.topicNo+1}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
+													<span v-if="topicItems.topicExamdotId==1 && topicItems.topicRate<badRate" v-bind:topicScore="topicItems.topicScore" v-bind:topicTotalScore="topicItems.topicTotalScore" v-bind:topicId="topicItems.tId" v-bind:recordId="topicItems.recordId" class="btn btn-danger btn-xs">T:{{topicItems.topicNo+1}}--{{topicItems.topicScore}}|{{topicItems.topicTotalScore}}</span>
 												</span>
 											</font></font></td>
 											
@@ -114,6 +120,7 @@
 										
 									</tbody>
 								</table>
+								</transition>
 								<!--应用-->
 								<h6>上级题目统计</h6>
 								<table id="applicationSec" v-if="applicationTopicList" class="table table-bordered mt-1" style="text-align: center;">
@@ -129,9 +136,9 @@
 											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.topicScore}}</font>分</font></td>
 											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.topicTotalScore}}</font>分</font></td>
 											<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-												<button v-if="item.topicRate>=goodRate" class="btn btn-default btn-xs" v-bind:topicId="item.tId" v-bind:recordId="item.recordId" >T:{{item.topicNo}}</button>
-												<button v-if="item.topicRate<goodRate && item.topicRate>=badRate" class="btn btn-success btn-xs" v-bind:topicId="item.tId" v-bind:recordId="item.recordId" >T:{{item.topicNo}}</button>
-												<button v-if="item.topicRate<badRate" class="btn btn-danger btn-xs" v-bind:topicId="item.tId" v-bind:recordId="item.recordId" >T:{{item.topicNo}}</button>
+												<button v-if="item.topicRate>=goodRate" class="btn btn-default btn-xs" v-bind:topicId="item.tId" v-bind:recordId="item.recordId" >T:{{item.topicNo+1}}</button>
+												<button v-if="item.topicRate<goodRate && item.topicRate>=badRate" class="btn btn-success btn-xs" v-bind:topicId="item.tId" v-bind:recordId="item.recordId" >T:{{item.topicNo+1}}</button>
+												<button v-if="item.topicRate<badRate" class="btn btn-danger btn-xs" v-bind:topicId="item.tId" v-bind:recordId="item.recordId" >T:{{item.topicNo+1}}</button>
 											</font></font></td>
 										</tr>
 									</thead>
@@ -193,57 +200,60 @@
 	 $(function(){
 		 initData();
 	 })
+	 var vue2 = new Vue({
+		el:"#testBaseInfoSec",
+		data:{
+			show:false,
+			testBaseInfo:null
+		}
+	 });
+	 var vue = new Vue({
+		el:"#knowledgeAndApplicationVue",
+		data:{
+			show:false,
+			applicationTopicList:null,
+			knowledgePointList:null,
+			goodRate:goodRate,
+			badRate:badRate
+		}
+	 });
 	 function initData(){
 		 $.ajax({
 				type : "post",
 				url : adress.url + "/statistics/getDataAboutTextInfo",
 				data : {
-					
+					sId:[[${sId}]],
+					tId:[[${tId}]]
 				},
 				success:function(data){
-					var vue = new Vue({
-						el:"#applicationSec",
-						data:{
-							applicationTopicList:data.applicationTopicList,
-							goodRate:goodRate,
-							badRate:badRate
-						}
-					})
-					var vue1 = new Vue({
-						el:"#knowledgePointSec",
-						data:{
-							knowledgePointList:data.knowledgePointList,
-							goodRate:goodRate,
-							badRate:badRate
-						}
-					})
+					console.log(JSON.stringify(data));
+					vue.show = true;
+					vue.applicationTopicList=data.applicationTopicList;
+					vue.knowledgePointList=data.knowledgePointList;
 					//console.log(JSON.stringify(data));
 					//计算合计
 					countTotalValue();
 				}
 		 });
+		 
 		 $.ajax({
 				type : "post",
 				url : adress.url + "/statistics/getDataAboutTestBase",
 				data : {
-					
+					sId:[[${sId}]],
+					tId:[[${tId}]]
 				},
 				success:function(data){
-					var vue2 = new Vue({
-						el:"#testBaseInfoSec",
-						data:{
-							testBaseInfo:data
-						}
-					})
+					vue2.show= true;
+					vue2.testBaseInfo=data;
 					//设置报表名称
 					$("#downLoadBtn").attr("download",vue2.testBaseInfo.studentNo+vue2.testBaseInfo.studentName+"-"+vue2.testBaseInfo.testName);
-					console.log(JSON.stringify(data));
+					//console.log(JSON.stringify(data));
 				}
 		 });
 	 }
 	 //计算合计
 	 function countTotalValue(){
-		 understandRateValue
 		 //理解部分合计
 		 var understandKnowledgePointTotalArr = $(".understandKnowledgePointTotal");
 		 var understandFinnalScore = 0.0;
@@ -269,10 +279,10 @@
 		 $("#totalRate").html(((understandFinnalScore+memorizationFinnalScore)/(understandFinnalTotalScore+memorizationFinnalTotalScore)).toFixed(3)*100+"%");
 	 
 	 }
-	 //查看详情
+	 /* //查看详情
 	 $("#searchBtn").live("click",function(){
 		 //修改文件名称
 		 
-	 })
+	 }) */
 	</script>
 </html>

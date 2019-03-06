@@ -5,12 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.GkKaoqinState;
@@ -37,6 +35,7 @@ import com.CloudSchool.service.GkKaoqinStateService;
 import com.CloudSchool.service.LrConfigrateService;
 import com.CloudSchool.service.LrGradeTestScoreService;
 import com.CloudSchool.service.LrKnowledagepointTeacherService;
+import com.CloudSchool.service.ParticipateteststuService;
 import com.CloudSchool.service.TestGradeService;
 import com.CloudSchool.service.WorkgradeService;
 import com.CloudSchool.service.WtrecordService;
@@ -76,6 +75,9 @@ public class StatisticsController {
 	ZzyCourseService zzyCourseService;
 	@Autowired
 	LrGradeTestScoreService lrGradeTestScoreService;
+	@Autowired
+	ParticipateteststuService participateteststuService;
+	
 	/**
 	 * 学员首页
 	 * 
@@ -89,7 +91,7 @@ public class StatisticsController {
 
 	/* 打开考试详细分析 */
 	@RequestMapping("/gotoStudentText")
-	public String gotoStudentText(String sId, Integer tId, HttpSession session) {// textGrade.Id
+	public String gotoStudentText(String sId, Integer tId, HttpSession session,Model model) {// textGrade.Id
 		// 當前登陸賬號信息
 		CqjUser cqjUser = (CqjUser) session.getAttribute("user");
 		if (sId != null) {// 查其他学员
@@ -97,9 +99,9 @@ public class StatisticsController {
 		} else {// 查本人（学员）
 			sId = cqjUser.getUsertypeid().toString();// doto session获取登陆学员的id
 		}
-		// 保存至session
-		session.setAttribute("lr_textGradeId", tId);
-		session.setAttribute("lr_sId", sId);
+		// 保存至model
+		model.addAttribute("sId", sId);
+		model.addAttribute("tId", tId);
 		return "statistics/studentText";
 	}
 
@@ -240,14 +242,8 @@ public class StatisticsController {
 	/* 查询考试基本信息数据 */
 	@RequestMapping("/getDataAboutTestBase")
 	@ResponseBody
-	public testBaseInfo getDataAboutTestBase(HttpSession session) {
-		/*
-		 * session.setAttribute("lr_textGradeId", tId); session.setAttribute("lr_sId",
-		 * sId);
-		 */
+	public testBaseInfo getDataAboutTestBase(Integer sId,Integer tId) {
 		// 获取需要查询的数据id
-		Integer sId = Integer.parseInt(session.getAttribute("lr_sId").toString());
-		Integer tId = Integer.parseInt(session.getAttribute("lr_textGradeId").toString());// testGrade.id
 		testBaseInfo testbaseinfo = testGradeService.queryTestBaseInfoBySidAndtId(sId, tId);
 		return testbaseinfo;
 	}
@@ -255,18 +251,27 @@ public class StatisticsController {
 	/* 查询考试详细分析数据 */
 	@RequestMapping("/getDataAboutTextInfo")
 	@ResponseBody
-	public TestInfo getDataAboutTextInfo(HttpSession session) {
-		/*
-		 * session.setAttribute("lr_textGradeId", tId); session.setAttribute("lr_sId",
-		 * sId);
-		 */
-		// 获取需要查询的数据id
-		Integer sId = Integer.parseInt(session.getAttribute("lr_sId").toString());
-		Integer tId = Integer.parseInt(session.getAttribute("lr_textGradeId").toString());// testGrade.id
+	public TestInfo getDataAboutTextInfo(Integer sId,Integer tId) {//textGradeId
+		// 获取需要查询的数据id testGrade.id
 		TestInfo testInfo = testGradeService.queryAllKnowledagePointBySidAndtId(sId, tId);
 		return testInfo;
 	}
 
+	/* 查询学员是否参加考试 */
+	@RequestMapping("/getTestInfoBySidAndTid")
+	@ResponseBody
+	public boolean getTestInfoBySidAndTid(Integer sId,Integer tId,HttpSession session) {//tId实例id
+		CqjUser cqjUser = (CqjUser) session.getAttribute("user");
+		if (sId != null) {// 查其他学员
+
+		} else {// 查本人（学员）
+			sId = cqjUser.getUsertypeid();// doto session获取登陆学员的id
+		}
+		// 获取需要查询的数据id testGrade.id
+		boolean isJoin	= participateteststuService.queryIsTestBySidAndTid(sId, tId);
+		return isJoin;
+	}
+	
 	// ============================班级=====================================
 	/* 查询班级基础信息数据 */
 	@RequestMapping("/getDataAboutClazzBaseInfo")

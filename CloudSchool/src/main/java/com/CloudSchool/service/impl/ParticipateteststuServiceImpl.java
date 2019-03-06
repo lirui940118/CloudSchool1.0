@@ -35,5 +35,15 @@ public class ParticipateteststuServiceImpl implements ParticipateteststuService{
 		PageBean page=new PageBean(count, pagesize, participateteststuMapper.queryTestInfoBySidAndTidCorrect(id, sid, (cur-1)*pagesize, pagesize), cur);
 		return page;
 	}
+
+	@Override
+	public boolean queryIsTestBySidAndTid(Integer sId, Integer tId) {
+		String temp =participateteststuMapper.queryIsTestBySidAndTid(sId, tId);
+		if(temp.equals("0"))//缺考
+			return false;
+		else
+			return true;//参加考试
+		
+	}
 	
 }

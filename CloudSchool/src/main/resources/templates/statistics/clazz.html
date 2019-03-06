@@ -8,6 +8,7 @@
 		<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
 		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
 		<link rel="stylesheet" th:href="@{/static/css/demo.css}">
+		<link rel="stylesheet" th:href="@{/static/css/vueAnimation.css}">
 		<style type="text/css">
 			.card{
 				border-radius: 0px;
@@ -57,8 +58,9 @@
 							<div class="card-header">
 								<!-- <h4 class="card-title">班级考试情况</h4> -->
 							</div>
-							<div class="card-body">
-								<table v-if="studentList!=null" id="tableTestSec" class="table table-bordered mt-1" style="text-align: center;">
+							<div class="card-body" id="tableTestVue">
+								<transition name="a">
+								<table  v-if="show" id="tableTestSec" class="table table-bordered mt-1" style="text-align: center;">
 									<thead>
 										<tr>
 											<th scope="col" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">学号</font></font></th>
@@ -92,6 +94,7 @@
 									
 									
 								</table>
+								</transition>
 							</div>
 						</div>
 						<div class="card col-lg-12">
@@ -208,8 +211,9 @@
 	
 	//获取一个班（多个学员）的多次考试成
 	var vue1 = new Vue({
-		el:"#tableTestSec",
+		el:"#tableTestVue",
 		data:{
+			show:false,
 			studentList:null,
 			gotoStudentAdress:adress.url+"/statistics/"+"gotoStudent?studentId=" //跳转班级页面前缀
 		},
@@ -237,6 +241,7 @@
 	
 	
 	function getTestsData(staffId,sortType){
+		 myChar.showLoading();
 		 $.ajax({
 				type : "post",
 				url : adress.url + "/statistics/getStudentTestVoByStaffId",
@@ -246,14 +251,16 @@
 					sortType:sortType
 				},
 				success:function(data){
-					myChar.showLoading();
 					console.log(JSON.stringify(data));
-					vue1.studentList = data;
-					myChar.showLoading();
+					
 					if(data == ''){//无数据
 						myChar.setOption(noDataLoadingOption,true);
 						$("#downLoadTestBtn").hide();
+						vue1.studentList = null;
+						vue1.show= false;
 					}else{
+						vue1.studentList = data;
+						vue1.show= true;
 						$("#downLoadTestBtn").show();
 						//数据筛选
 						var studentNameArr = [];//学生姓名集合

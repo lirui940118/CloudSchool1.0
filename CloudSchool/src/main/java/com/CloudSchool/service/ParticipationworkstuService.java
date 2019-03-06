@@ -2,7 +2,6 @@ package com.CloudSchool.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 
 import com.CloudSchool.domain.PageBean;
 import com.CloudSchool.domain.Wtrecord;
@@ -18,5 +17,5 @@ public interface ParticipationworkstuService {
 	public int updateIscorrectByid(Wtrecord obj);
 	
 	PageBean queryStuWorkBySid(Integer sid,Integer cur,Integer pagesize,Integer isCorrect);
-	
+	 
 }
