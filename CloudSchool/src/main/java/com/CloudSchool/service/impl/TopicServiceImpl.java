@@ -23,7 +23,9 @@ import com.CloudSchool.domain.Topic;
 import com.CloudSchool.domain.TopicWithBLOBs;
 import com.CloudSchool.domain.Topicoption;
 import com.CloudSchool.domain.Workmould;
+import com.CloudSchool.domain.zjfvo.TopicParam;
 import com.CloudSchool.service.TopicService;
+import com.alibaba.fastjson.JSON;
 
 @Service
 @Transactional
@@ -84,8 +86,8 @@ public class TopicServiceImpl implements TopicService {
 
 	// 多条件查询题目
 	@Override
-	public PageBean conditionsQueryTopci(Topic obj, Integer cur, Integer pagesize) {
-		// TODO Auto-generated method stub
+	public PageBean conditionsQueryTopci(TopicParam obj, Integer cur, Integer pagesize) {
+		System.out.println(JSON.toJSONString(obj));
 		PageBean page = new PageBean(topicMapper.queryCount(obj), pagesize,
 				topicMapper.conditionsQueryTopci(obj, (cur - 1) * pagesize, pagesize), cur);
 		return page;

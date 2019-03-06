@@ -263,7 +263,7 @@
 		LEFT JOIN topicoption ON
 		topic.`id`=topicoption.`tId`
 		LEFT JOIN wtrecord ON
-		wtrecord.`tId`=topic.`id` AND wtrecord.`type`=0 AND wtrecord.`sId`=#{sid}
+		wtrecord.`tId`=topic.`id` AND wtrecord.`type`=0 AND wtrecord.`sId`=#{sid} AND wtrecord.`wId`=testinstance.`id`
 		WHERE
 		testinstance.`id`=#{id} AND participateteststu.`sId`=#{sid}
 		ORDER BY

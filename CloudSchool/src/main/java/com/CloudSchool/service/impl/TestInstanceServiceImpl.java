@@ -104,6 +104,7 @@ public class TestInstanceServiceImpl implements TestInstanceService{
 			List<TestclassVoParam> list=obj.getClazz();
 			System.out.println(JSON.toJSONString(list));
 			Integer tid=obj.getObj().getId();		//作业实例id
+			System.out.println(tid+"**************************88");
 			for (TestclassVoParam testclassVoParam : list) {
 				Integer cid=testclassVoParam.getCid();	//班级id
 				Integer roomid=testclassVoParam.getRoomid();			//教室id

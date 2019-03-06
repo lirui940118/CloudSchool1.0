@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.CloudSchool.domain.Topic;
 import com.CloudSchool.domain.TopicWithBLOBs;
+import com.CloudSchool.domain.zjfvo.TopicParam;
 
 public interface TopicMapper {
     int deleteByPrimaryKey(Integer id);
@@ -21,8 +22,8 @@ public interface TopicMapper {
     int updateByPrimaryKeyWithBLOBs(TopicWithBLOBs record);
 
     int updateByPrimaryKey(Topic record);
-    int queryCount(Topic obj);
-    List<Topic> conditionsQueryTopci(@Param("obj")Topic obj,@Param("cur")Integer cur,@Param("pagesize")Integer pagesize);
+    int queryCount(TopicParam obj);
+    List<Topic> conditionsQueryTopci(@Param("obj")TopicParam obj,@Param("cur")Integer cur,@Param("pagesize")Integer pagesize);
 
   
     /*当前课程下学员的实际答题量rate*/
