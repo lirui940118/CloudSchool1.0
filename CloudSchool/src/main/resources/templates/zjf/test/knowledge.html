@@ -132,7 +132,7 @@
 		$(".submit").click(function() {
 			var sid=$("#chapter option:selected").val();
 			var kname=$("#point input").val();
-			alert(sid+" "+kname)
+		/* 	alert(sid+" "+kname) */
 			$.ajax({
 				type:"post",
 				url:"http://127.0.0.1:8080/topicWarehouseController/insertObj",
