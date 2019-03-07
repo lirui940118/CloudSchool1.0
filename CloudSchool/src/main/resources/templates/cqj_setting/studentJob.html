@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>用户管理-新增用户</title>
+<title>用户管理-就业调查</title>
 <meta
 	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
 	name='viewport' />
@@ -77,6 +77,7 @@
 									<button name="getStudentInfo" class="btn btn-success">查看未就业毕业生表</button>
 									<button name="getExce" class="btn btn-success">导出未就业毕业生表</button>
 									<button id="fileUpdate-button" name="goInsertStudent" class="btn btn-success">导入毕业生就业情况表</button>
+									<button  name="getExce" class="btn btn-success">保存未就业毕业生表</button>
 								</p>
 							</div>
 						</div>
@@ -238,8 +239,8 @@
 			data :JSON.stringify(excelJson),
 			type : "post",
 			contentType: "application/json",
-			success : function(data) {
-				alert("成了")
+				alert("成了");
+				
 			}
         })
         };

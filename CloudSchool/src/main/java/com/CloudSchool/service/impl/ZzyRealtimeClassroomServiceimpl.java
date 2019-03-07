@@ -50,8 +50,15 @@ public class ZzyRealtimeClassroomServiceimpl implements ZzyRealtimeClassroomServ
 
 	@Override
 	public Integer queryRealtimeBysIdAndgId(Integer sId, Integer gId) {
-		// TODO Auto-generated method stub
-		return zzyRealtimeClassroomMapper.queryRealtimeBysIdAndgId(sId, gId);
+		Integer score = zzyRealtimeClassroomMapper.queryRealtimeBysIdAndgId(sId, gId);
+		if(score == null)
+			return 0;
+		else if(score<0)
+			return 0;
+		else if(score>100)
+			return 100;
+		else 
+			return score;//错误
 	}
 
 }
