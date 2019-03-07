@@ -9,6 +9,7 @@
 		<link rel="stylesheet" th:href="@{/static/css/ready.css}">
 		<link rel="stylesheet" th:href="@{/static/css/demo.css}">
 		<style type="text/css">
+		@import "../static/css/vueAnimation.css";
 			* {
 				margin: 0px;
 				padding: 0px;
@@ -44,7 +45,8 @@
 							<div class="card-header">
 								<h4 class="card-title">个人信息</h4>
 							</div>
-							<div class="card-body" style="text-align: center;">
+							<transition name="a">
+							<div v-cloak v-if="show" class="card-body" style="text-align: center;">
 								<div>
 									<img v-bind:src=url+staffBaseInfo.url>
 								</div>
@@ -58,6 +60,7 @@
 								<!-- 所教课程名称 -->
 								<span v-for="course in staffBaseInfo.courseList" class="badge badge-count">{{course.courseName}}</span>
 							</div>
+							</transition>
 						</div>
 						<!--员工教学能力雷达图-->
 						<div class="card col-lg-7">
@@ -296,7 +299,14 @@
 		
 		//==============================================================
 			
-			
+		var vueStaffBaseInfo = new Vue({
+			el:"#staffBaseInfoSec",
+			data:{
+				show:false,
+				staffBaseInfo:null,
+				url:adress.url
+			}
+		});
 		function initStaffBaseInfo(){
 			$.ajax({
 				type:"post",
@@ -307,13 +317,8 @@
 				},
 				success:function(data){
 					console.log(data.url);
-					var vue = new Vue({
-						el:"#staffBaseInfoSec",
-						data:{
-							staffBaseInfo:data,
-							url:adress.url
-						}
-					});
+					vueStaffBaseInfo.show = true;
+					vueStaffBaseInfo.staffBaseInfo = data;
 					//设置报表名称
 					$("#downLoadkaoqinBtn").attr("download",data.staffNum+data.staffName+"考情情况报表.xls");
 					$("#downLoadBadKonwledagepointBtn").attr("download",data.staffNum+data.staffName+"查漏补缺上报报表.xls");
