@@ -191,12 +191,12 @@
  
  <!-- 教员添加自定义按钮 -->
  <insert id="insertZidingyi" >
- 	INSERT INTO `cloudSchool`.`zzy_event_type` (`event_name`,`returned_value`,`uid`)
+ 	INSERT INTO `zzy_event_type` (`event_name`,`returned_value`,`uid`)
 	VALUE(#{event_name},#{returned_value},#{uid})
  </insert>
  
  <!-- 新增一条实时课堂记录 -->
  <insert id="insertTSEid">
- 	INSERT INTO `cloudSchool`.`zzy_realtime_classroom` (`tid`,`sid`,`etid`,`user1`)VALUES(#{tid},#{sid},#{etid},#{user1});
+ 	INSERT INTO `zzy_realtime_classroom` (`tid`,`sid`,`etid`,`user1`)VALUES(#{tid},#{sid},#{etid},#{user1});
  </insert>
 </mapper>

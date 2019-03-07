@@ -513,4 +513,9 @@
   </update>
   
   
+  <!-- 根据学员id修改学员的个人信息 张泽洋 -->
+  <update id="updateBystudentid">
+  		update cqj_student set `phone`=#{phone},`address`=#{address},`email`=#{email} where `studentid`=#{studentid}
+  </update>
+  
 </mapper>

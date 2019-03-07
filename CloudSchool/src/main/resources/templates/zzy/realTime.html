@@ -91,6 +91,8 @@
 			</div>
 		</div> 
 	</div>
+	
+	
 		</div>
 	</body>
 <script th:src="@{/static/js/echarts.js}"></script>
@@ -127,6 +129,9 @@
 			url:'queryBytidAndtime?tid='+tid,
 			type:'POST',
 			success:function(data){
+				if(data.csid==null){
+					alert("您当前没有安排课程哦");
+				}
 				v.kb=data; 
 				console.log(v.kb);
 				$.ajax({

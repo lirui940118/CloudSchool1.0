@@ -25,4 +25,6 @@ public interface ClassStudentService {
     
     //查询一个班级中所有正常的学员
     public List<Clazzstudent> queryBystatusAndid(Integer cid);
+    
+    public Integer updateByzjid(Clazzstudent cstu);
 }

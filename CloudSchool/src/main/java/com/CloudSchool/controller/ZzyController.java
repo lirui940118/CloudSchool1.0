@@ -28,6 +28,7 @@ import com.CloudSchool.domain.Clazz;
 import com.CloudSchool.domain.Clazzcourseteacher;
 import com.CloudSchool.domain.Clazzstudent;
 import com.CloudSchool.domain.CqjStaff;
+import com.CloudSchool.domain.CqjStudent;
 import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.ZzyClassPosition;
 import com.CloudSchool.domain.ZzyClassSchedule;
@@ -44,6 +45,7 @@ import com.CloudSchool.service.ClassroomService;
 import com.CloudSchool.service.ClazzService;
 import com.CloudSchool.service.ClazzcourseteacherService;
 import com.CloudSchool.service.CqjStaffService;
+import com.CloudSchool.service.CqjStudentService;
 import com.CloudSchool.service.ZzyClassCommitteeService;
 import com.CloudSchool.service.ZzyClassPositionService;
 import com.CloudSchool.service.ZzyClassScheduleService;
@@ -102,6 +104,9 @@ public class ZzyController {
 	
 	@Autowired
 	ClazzcourseteacherService coursetea;
+	
+	@Autowired
+	CqjStudentService students;
 	
 	List<ZzyClassPosition> deletelist=null;
 	
@@ -311,9 +316,10 @@ public class ZzyController {
 	
 	//进入实时课堂
 	@RequestMapping("Goshishi")
-	public String Goshishi(Integer tid,Model model) {
-		tid=3;
-		model.addAttribute("tid", tid);
+	public String Goshishi(Integer tid,Model model,HttpSession session) {
+		CqjUser userinfo=(CqjUser)session.getAttribute("user");
+		model.addAttribute("tid", userinfo.getUsertypeid());
+		System.out.println("老师id是"+userinfo.getUsertypeid());
 		return "zzy/realTime.html";
 	}
 	
@@ -322,7 +328,6 @@ public class ZzyController {
 	//Ajax根据当前日期以及当前时间区间和教师id判断该教师该时间段是否有课
 	public ZzyClassSchedule queryBytidAndtime(Integer tid) {
 		ZzyClassSchedule ss=csss.queryBytidAndtime(tid);
-		System.out.println(ss.getCsid());
 		return ss; 
 	}
 	
@@ -408,6 +413,8 @@ public class ZzyController {
 		int week =Integer.parseInt(arry[1]);
 		return csss.queryKbBytime(year, week);
 	}
+	
+
 	
 	
 	@RequestMapping("goaddevent")
@@ -504,6 +511,30 @@ public class ZzyController {
 				//周
 				int week =Integer.parseInt(arry[1]);
 				return csss.anzhouckb(year, week, cid);
+	}
+	
+	
+	//修改学员个人信息
+	@RequestMapping("updateBystudentid")
+	@ResponseBody
+	public Integer updateBystudentid(CqjStudent stu) {
+		
+		return  students.updateBystudentid(stu);
+	}
+	
+	//修改学员在班级里面的状态
+	@RequestMapping("updateByzjid")
+	@ResponseBody
+	public Integer updateByzjid(Clazzstudent cstu) {
+		System.out.println("id是"+cstu.getId());
+		System.out.println("状态是"+cstu.getStatus());
+		return clss.updateByzjid(cstu);
+	}
+	
+	@RequestMapping("queryShengxue")
+	@ResponseBody
+	public Integer queryShengxue(Integer cid) throws ParseException {
+		return csss.queryShengxue(cid);
 	}
 	
 }

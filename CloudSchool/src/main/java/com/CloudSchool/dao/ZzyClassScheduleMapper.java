@@ -32,4 +32,10 @@ public interface ZzyClassScheduleMapper {
        
     // 查询time(这一天)没课的老师  （赵举峰）
     int queryBytimeTeach(@Param("tid")Integer tid,@Param("time")Date time);
+    
+    public ZzyClassSchedule queryBydansk(@Param("clid") Integer clid,@Param("time") Date time);
+    
+    public Integer queryByyouyouyou(@Param("clid") Integer clid,@Param("time") Date time);
+    
+    public List<ZzyClassSchedule> queryBycidH(Integer cid);
 }

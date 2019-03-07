@@ -23,5 +23,8 @@ public interface ZzyClassScheduleService {
 	 public List<ZzyClassSchedule> gjbjqxkb(Integer cid) throws ParseException;
 	 
 	 public List<ZzyClassSchedule> anzhouckb(int year,int wekk,Integer cid) throws ParseException;
+	 
+	 
+	 public Integer queryShengxue(Integer cid) throws ParseException;
 	
 }
