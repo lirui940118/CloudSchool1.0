@@ -47,4 +47,6 @@ public interface ClazzstudentMapper {
     public int updateStatusByMap(HashMap<String, Object> map);
     //游离学生分班后将状态3游离改为4游离已分配-tzx
     int setStudentStatusAfterCreateClazz(List<CqjStudent> list);
+    
+    public Integer updateByzjid(Clazzstudent cstu);
 }

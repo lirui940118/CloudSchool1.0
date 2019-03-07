@@ -180,5 +180,10 @@ public class CqjStudentServiceImpl implements CqjStudentService{
 		// TODO Auto-generated method stub
 		return cqjStudentMapper.setupgradeSuccess(array);
 	}
+	@Override
+	public Integer updateBystudentid(CqjStudent student) {
+		// TODO Auto-generated method stub
+		return cqjStudentMapper.updateBystudentid(student);
+	}
 
 }

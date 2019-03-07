@@ -26,4 +26,7 @@ public interface CqjStudentService {
 	List<StudentVO> queryStudentForCreateClazz();
     //设置升学成功-升学开班完成，修改studentupgrade表status为1
     int setupgradeSuccess(int[] array);
+    
+    
+    public Integer updateBystudentid(CqjStudent student);
 }

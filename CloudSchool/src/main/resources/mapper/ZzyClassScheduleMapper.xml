@@ -190,4 +190,19 @@
   <select id="queryBytimeTeach" resultType="INTEGER">
   	SELECT COUNT(*) FROM `zzy_class_schedule` WHERE tid= 1 AND `time`='2019-02-22' AND state=0
   </select>
+  
+  <!-- 根据班级id 时间 上课状态  -->
+  	<select id="queryBydansk" resultMap="BaseResultMap">
+  		select * from `zzy_class_schedule` where clid=#{clid} and time=#{time} and state=0
+  	</select>
+  	
+  	<!-- 查询某个班级 某一天是否 有数据 -->
+  	<select id="queryByyouyouyou" resultType="INTEGER">
+  		select count(*) from `zzy_class_schedule` where clid=#{clid} and time=#{time}
+  	</select>
+  	
+  	<!-- 根据班级id  查询所有上课记录 -->
+  	<select id="queryBycidH" resultMap="BaseResultMap">
+  		SELECT * FROM `zzy_class_schedule` WHERE clid=#{cid} ORDER BY `time` DESC
+  	</select>
 </mapper>

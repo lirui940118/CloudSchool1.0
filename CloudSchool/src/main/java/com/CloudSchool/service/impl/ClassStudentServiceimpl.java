@@ -52,4 +52,10 @@ public class ClassStudentServiceimpl implements ClassStudentService{
 		// TODO Auto-generated method stub
 		return clas.queryBystatusAndid(cid);
 	}
+
+	@Override
+	public Integer updateByzjid(Clazzstudent cstu) {
+		// TODO Auto-generated method stub
+		return clas.updateByzjid(cstu);
+	}
 }

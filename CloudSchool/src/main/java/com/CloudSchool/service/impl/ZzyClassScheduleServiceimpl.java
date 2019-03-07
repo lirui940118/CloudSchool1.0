@@ -93,10 +93,11 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
         	for (Clazz clist : ClaList) {
         		//当前班级id
         		Integer clistAndid=clist.getId();
-        		//先定义一个为空的课程对象
-        		ZzyCourse dqcourse= new ZzyCourse();
+        		
         		//在定义一个为空的 老师id
         		Integer dqtid=null;
+        		//先定义一个为空的课程对象
+        		ZzyCourse dqcourse= new ZzyCourse();
         		//此班级在当前日期 当前区间没有定义事件 那么在判断该班级在上什么课程 以及到哪一个课时了
     			//根据班级的id  获取这个班级的年级对象 要上什么课
     			ZzyGrade grade = gram.queryBycid(clist.getId());
@@ -126,7 +127,7 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
     				}
 				}
     			//如果循环结束后dqcourse还是为空那么代表这个班级课程以及全部排完了
-    			if(dqcourse==null) {
+    			if(dqcourse.getCid()==null) {
     				continue;
     			}
     			//查询这个课程的老师是谁
@@ -230,8 +231,9 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
         	for (int j = 0; j < cdate.size(); j++) {
         		  //每个班级有一个时间周集合  打包含休息 事件的日期排除出来 
         		Integer pc=schm.querySjAndXx(sdf.format(cdate.get(j)),clazz.getId());
+        		Integer pc2=schm.queryByyouyouyou(clazz.getId(), cdate.get(j));
         		//如果今天有事件或者休息将这一天排除出去
-        		if(pc>0) {
+        		if(pc>0 || pc2==0) {
         			System.out.println("ddd!!!!!!!!"+cdate.get(j));
         			cdate.remove(cdate.get(j--));
         		}
@@ -249,29 +251,177 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
         	Integer size=cdate.size();
         	System.out.println(size+"次");
         	if(size==6){
-        		Random r=new Random();
-        		int i1=r.nextInt(5)+1;
-        		System.out.println("随机数是"+i1);
-        		//如果每个礼拜是上了六天课 那么挑选其中的第三个改为休息
-        		schm.update(clazz.getId(), cdate.get(i1-1));
-        	}else if(size==7) {
-        		//如果每个礼拜上了七天课那么 挑选其中的星期四和星期天休息
-        		Random r=new Random();
-        		int i1=r.nextInt(6)+1;
-        		int i2=r.nextInt(6)+1;
-        		boolean xh=true;
-        		while (xh) {
-					if(i1==i2||i1+1==i2||i2+1==i1) {
-						i1=r.nextInt(6)+1;
-						i2=r.nextInt(6)+1;
-					}else {
-						xh=false;
-					}
+        		//如果这个班级的这个礼拜六天都满足上课条件 
+        		//先查询这个班级是否是课程全部排完了  如果是课程全部排完了  排了六天 那么不做处理 直接上六天课  上完GG
+        		//先定义一个为空的课程对象
+        		ZzyCourse dqcourse= new ZzyCourse();
+        		//此班级在当前日期 当前区间没有定义事件 那么在判断该班级在上什么课程 以及到哪一个课时了
+    			//根据班级的id  获取这个班级的年级对象 要上什么课
+    			ZzyGrade grade = gram.queryBycid(clazz.getId());
+    			//查看这个年级是否分了专业
+    			String user1=grade.getUser1();
+    			//定义课程集合
+    			List<ZzyCourse> Coulist= new ArrayList<ZzyCourse>();
+    			//如果没分专业	
+    			if(user1.equals("0")) {
+    				//那么获取这个年级所有的课程
+    				Coulist=coum.queryBygidTwo(grade.getGid());
+    			}else {
+    				//获取这个分了专业的年级的所有课程
+    				Coulist=coum.queryBygidAndmid(grade.getGid(), clazz.getMid());
+    			}
+    			//循环这个班级所有的课程对象
+    			for (ZzyCourse aa : Coulist) {
+					//查询这个班级这个课程是否已经是上完了课   没上完就排课
+    				int count=schm.queryClidAndCid(clazz.getId(), aa.getCid());
+    				System.out.println(aa.getCourseName()+"这个课程上了"+count+"次课");
+    				//如果这门课程已经上完了  那就继续循环下一个课程
+    				if(aa.getPeriod()==count) {
+    					continue;
+    				}else {
+    					dqcourse=aa; 
+    					break;
+    				}
 				}
-        		System.out.println("随机数是"+i1);
-        		System.out.println("随机数是"+i2);
-        		schm.update(clazz.getId(), cdate.get(i1-1));
-        		schm.update(clazz.getId(), cdate.get(i2-1));
+    			//如果循环结束后dqcourse还是为空那么代表这个班级课程以及全部排完了
+    			if(dqcourse.getCid()==null) {
+    				
+    			}else {
+    			
+        		//定义一个bool对象  用来记录这个班级本周是否是有两门不同的课程(就是正好一门课程课时上完切换课程)
+        		Boolean sdbool=false;
+        		//第一个上课的课程id
+        		Integer cid=-1;
+        		//记录如果有两门不同的课程 那么是从哪一天开始的
+        		Integer scid=-1;
+        		//循环筛选过后的时间集合
+        		for (int k = 0; k < cdate.size(); k++) {
+        			//通过班级id  时间   状态 查询此班级 当前时间上课的对象
+        			ZzyClassSchedule  ss=schm.queryBydansk(clazz.getId(), cdate.get(k));
+        			if(ss!=null) {
+        				if(k==0) {
+            				cid=ss.getCid();
+            			}else {
+             				if(cid!=ss.getCid()) {
+            					sdbool=true;
+            					scid=k;
+            					k=cdate.size();
+            				}
+            			}
+        			}
+        			
+        		}
+        		//如果出现过两门不同的课程执行循环
+        		List<Date> csddate = new ArrayList<Date>();
+        		if(sdbool) {
+        			//把不是第一种课程的日期全部加入一个新的时间集合
+        			for (int l = scid; l <cdate.size() ; l++) {
+    					csddate.add(cdate.get(l));
+    				}
+        			//既然有两门或以上的课程出现 那么判断除第一个课程外 其余课程排了多少天
+        			if(csddate.size()==1) {
+        				//如果是一天那么这天就休息
+        				schm.update(clazz.getId(), csddate.get(0));
+        			}else {
+        				//如果一天以上 在这里面 随机一天休息
+        				Random r=new Random();
+        				int i1=r.nextInt(csddate.size());
+                		schm.update(clazz.getId(), csddate.get(i1));
+        			}
+        		}else {
+        			//代表没有出现过两门以上的课程 那么随机一天休息
+        			Random r=new Random();
+            		int i1=r.nextInt(5);
+            		System.out.println("随机数是"+i1);
+            		schm.update(clazz.getId(), cdate.get(i1));
+    			}
+    			}
+        		
+        	}else if(size==7) {
+        		//如果这个班级的这个礼拜七天都满足上课条件 
+        		//定义一个bool对象  用来记录这个班级本周是否是有两门不同的课程(就是正好一门课程课时上完切换课程)
+        		Boolean sdbool=false;
+        		//第一个上课的课程id
+        		Integer cid=-1;
+        		//记录如果有两门不同的课程 那么是从哪一天开始的
+        		Integer scid=-1;
+        		//循环筛选过后的时间集合
+        		for (int k = 0; k < cdate.size(); k++) {
+        			//通过班级id  时间   状态 查询此班级 当前时间上课的对象
+        			ZzyClassSchedule  ss=schm.queryBydansk(clazz.getId(), cdate.get(k));
+        			if(ss!=null) {
+        				if(k==0) {
+            				cid=ss.getCid();
+            			}else {
+             				if(cid!=ss.getCid()) {
+            					sdbool=true;
+            					scid=k;
+            					k=cdate.size();
+            				}
+            			}
+        			}
+        			
+        		}
+        		//如果出现过两门不同的课程执行循环
+        		List<Date> csddate = new ArrayList<Date>();
+        		if(sdbool) {
+        			//把不是第一种课程的日期全部加入一个新的时间集合
+        			for (int l = scid; l <cdate.size() ; l++) {
+    					csddate.add(cdate.get(l));
+    				}
+        			//既然有两门或以上的课程出现 那么判断除第一个课程外 其余课程排了多少天
+        			if(csddate.size()==1) {
+        				//如果是一天那么这天就休息 这天的前两天也休息
+        				schm.update(clazz.getId(), csddate.get(0));
+        				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
+        				Date dd = format.parse(format.format(csddate.get(0)));
+        				Calendar calendar2 = Calendar.getInstance();
+        				calendar2.setTime(dd);
+        				calendar2.add(Calendar.DAY_OF_MONTH, -2); 
+        				String T3 = format.format(calendar2.getTime() ) ;
+        				Date dddd=format.parse(T3);
+        				schm.update(clazz.getId(), dddd);
+        			}else if(csddate.size()==2) {
+        				//如果是两天那么就这两天休息
+        				schm.update(clazz.getId(), csddate.get(0));
+        				schm.update(clazz.getId(), csddate.get(1));
+        			}else {
+        				//如果两天以上 随机两天休息
+        				Random r=new Random();
+        				int i1=r.nextInt(csddate.size());
+                		int i2=r.nextInt(csddate.size());
+                		boolean xh=true;
+                		while (xh) {
+        					if(i1==i2) {
+        						i1=r.nextInt(6)+1;
+        						i2=r.nextInt(6)+1;
+        					}else {
+        						xh=false;
+        					}
+        				}
+                		schm.update(clazz.getId(), csddate.get(i1));
+        				schm.update(clazz.getId(), csddate.get(i2));
+        			}
+        		}else {
+        			//代表这个班级 这个礼拜的课表没有出现两种不同的课程 那么直接随机两天休息
+        			Random r=new Random();
+            		int i1=r.nextInt(6)+1;
+            		int i2=r.nextInt(6)+1;
+            		boolean xh=true;
+            		while (xh) {
+    					if(i1==i2||i1+1==i2||i2+1==i1) {
+    						i1=r.nextInt(6)+1;
+    						i2=r.nextInt(6)+1;
+    					}else {
+    						xh=false;
+    					}
+    				}
+            		System.out.println("随机数是"+i1);
+            		System.out.println("随机数是"+i2);
+            		schm.update(clazz.getId(), cdate.get(i1-1));
+            		schm.update(clazz.getId(), cdate.get(i2-1));
+        		}
+        
         	}
 		}
 		return 1;
@@ -537,5 +687,61 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
         Date date2 = sdf.parse(end);
     	List<ZzyClassSchedule> list=schm.queryKbBytime(date1, date2,cid);
     	return list;
+	}
+	
+	@Override
+	public Integer queryShengxue(Integer cid) throws ParseException  {
+			//先定义一个为空的课程对象
+				ZzyCourse dqcourse= new ZzyCourse();
+				//根据班级的id  获取这个班级的年级对象 要上什么课
+				ZzyGrade grade = gram.queryBycid(cid);
+				Clazz cl = claz.queryByid(cid);
+				//查看这个年级是否分了专业
+				String user1=grade.getUser1();
+				//定义课程集合
+				List<ZzyCourse> Coulist= new ArrayList<ZzyCourse>();
+				//如果没分专业	
+				if(user1.equals("0")) {
+					//那么获取这个年级所有的课程
+					Coulist=coum.queryBygidTwo(grade.getGid());
+				}else {
+					//获取这个分了专业的年级的所有课程
+					Coulist=coum.queryBygidAndmid(grade.getGid(), cl.getMid());
+				}
+				//循环这个班级所有的课程对象
+				for (ZzyCourse aa : Coulist) {
+					//查询这个班级这个课程是否已经是上完了课   没上完就排课
+					int count=schm.queryClidAndCid(cid, aa.getCid());
+					System.out.println(aa.getCourseName()+"这个课程上了"+count+"次课");
+					//如果这门课程已经上完了  那就继续循环下一个课程
+					if(aa.getPeriod()==count) {
+						continue;
+					}else {
+						dqcourse=aa; 
+						break;
+					}
+				}
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				//如果循环结束后dqcourse还是为空那么代表这个班级课程以及全部排完了
+				if(dqcourse.getCid()==null) {
+					//如果课程全部排完了  那么查询这个班级最后一天上课是什么时间
+					List<ZzyClassSchedule>  lists=schm.queryBycidH(cid);
+					//课程全部排完  最大的一天时间
+					String time=lists.get(0).getTime();
+					//当前时间
+					Date sdate = new Date();
+					//如果课程最大的一天时间早于当前时间  那么说明所有的课程全部上完了 返回1
+					if(sdf.parse(time).before(sdate)) {
+						return 1;
+					}else{
+						//如果不早于那么返回-1
+						return -1;
+					}
+					
+				}else {
+					//课程没有全部排完 那么直接返回-1
+					return -1;
+				}
+			
 	}
 }
