@@ -412,7 +412,7 @@
 	
 	<!-- 查询出这场考试没有交卷的人 -->
 	<select id="queryByTidAndStatusAll" resultType="Integer">
-		select participateteststu.sId from participateteststu where tid=#{tid} and user3!=2
+		select participateteststu.sId from participateteststu where tid=#{tid} and user3!=3
 	</select>
 	
 	
