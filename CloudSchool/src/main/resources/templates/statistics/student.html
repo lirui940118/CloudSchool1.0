@@ -90,7 +90,7 @@ img {
 							<h4 class="card-title">学员考试成绩趋势图</h4>
 						</div>
 						<div class="card-body">
-							<table id="studentTestInfoTable"  class="table table-bordered" style="text-align: center;">
+							<table v-cloak id="studentTestInfoTable"  class="table table-bordered" style="text-align: center;">
 								<thead>
 									<tr>
 										<th scope="col">考试名称</th>
@@ -120,14 +120,14 @@ img {
 						</div>
 						<div class="card-footer row">
 							<!-- 查询详情 -->
-							<div id="searchTestBtn" class="col-md-2 demo-icon"> 
+							<!-- <div id="searchTestBtn" class="col-md-2 demo-icon"> 
 								<div class="icon-preview">
 									<i class="la la-search"></i>
 								</div>
 								<div class="icon-class">
 									查看详情
 								</div> 
-							</div>
+							</div> -->
 							<!-- 下载报表 -->
 							<a id="downLoadTestBtn" download="学员考试情况表.xls" class="col-md-2 demo-icon" href="#" onclick="return ExcellentExport.excel(this, 'studentTestInfoTable', 'sheet');"> 
 								<div class="icon-preview">
@@ -147,7 +147,7 @@ img {
 						</div>
 						<div class="card-body" id="workTableSec">
 							<!-- 作业情况饼状图 -->
-							<table id="studentWorkInfoTable" v-if="workInfoList.length!=0" class="table table-bordered" style="text-align: center;">
+							<table v-cloak id="studentWorkInfoTable" v-if="workInfoList.length!=0" class="table table-bordered" style="text-align: center;">
 								<thead>
 									<tr>
 										<th scope="col">等级</th>
@@ -170,14 +170,14 @@ img {
 						</div>
 						<div class="card-footer row">
 							<!-- 查询详情 -->
-							<div id="searchWorkBtn" class="col-md-2 demo-icon"> 
+							<!-- <div id="searchWorkBtn" class="col-md-2 demo-icon"> 
 								<div class="icon-preview">
 									<i class="la la-search"></i>
 								</div>
 								<div class="icon-class">
 									查看详情
 								</div> 
-							</div>
+							</div> -->
 							<!-- 下载报表 -->
 							<a id="downLoadWorkBtn" download="学员作业情况表.xls" class="col-md-2 demo-icon" href="#" onclick="return ExcellentExport.excel(this, 'studentWorkInfoTable', 'sheet');"> 
 								<div class="icon-preview">
@@ -223,14 +223,14 @@ img {
 						</div>
 						<div class="card-footer row">
 							<!-- 查看更多 -->
-							<div id="searchkaoqinBtn" class="col-md-2 demo-icon"> 
+							<!-- <div id="searchkaoqinBtn" class="col-md-2 demo-icon"> 
 								<div class="icon-preview">
 									<i class="la la-search"></i>
 								</div>
 								<div class="icon-class">
 									查看详情
 								</div> 
-							</div>
+							</div> -->
 							<!-- 下载报表 -->
 							<a id="downLoadkaoqinBtn" download="考勤情况.xls" class="col-md-2 demo-icon" href="#" onclick="return ExcellentExport.excel(this, 'kaoqinTable', '考勤情况');"> 
 								<div class="icon-preview">
@@ -252,7 +252,7 @@ img {
 							</p>
 						</div>
 						<div class="card-body">
-							<table v-if="badKnowledageList.length>0" id="badKnowledageSec" class="table table-bordered" style="text-align: center;">
+							<table v-cloak v-if="badKnowledageList.length>0" id="badKnowledageSec" class="table table-bordered" style="text-align: center;">
 								<thead>
 									<tr>
 										<th scope="col">课程</th>
