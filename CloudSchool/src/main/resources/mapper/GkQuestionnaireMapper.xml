@@ -26,6 +26,42 @@
     <result column="wjxx_type_name" jdbcType="VARCHAR" property="wjxxTypeName" />
   </resultMap>
   
+
+  
+  
+  
+  <!-- 用查询出的问卷id带出题目和选项 -->
+  <resultMap type="com.CloudSchool.domain.GkQuestionnaire" id="queryinsertByUseridMap2" extends="BaseResultMap">
+  	<id property="wjId" column="wj_id"/>
+  	<collection property="listtm" column="wj_id" ofType="com.CloudSchool.domain.GkQuestionnairetm" select="com.CloudSchool.dao.GkQuestionnairetmMapper.queryTiMuByWJid"></collection>
+  	
+  	</resultMap>
+  <!-- 查询需要自己填写的问卷（选择） -->
+  <select id="queryinsertByUserid2" resultMap="queryinsertByUseridMap2">
+	SELECT *,CONCAT_WS('',s.`studentname`,yg.`staffname`,jz.`parentsname`)AS `peoplename` 
+	FROM `gk_questionnaire` AS wj
+	JOIN `gk_wjcs` AS jf ON (wj.`wj_id` = jf.`wj_id`)
+	JOIN `cqj_user` AS u ON (u.`userid` = jf.`uid`)
+	LEFT JOIN `cqj_student` AS s ON (s.studentid = u.usertypeid) AND u.`usertypenub` = 1
+	LEFT JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	LEFT JOIN `cqj_parents` AS jz ON (jz.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+	WHERE jf.`uid` = 72 AND jf.`wjtm_id` IS NULL
+	GROUP BY jf.`wjcs_id`
+	LIMIT #{currentPage},#{pageSize}
+  </select>
+  <!-- 查询需要自己填写的问卷（计分）count -->
+  <select id="queryinsertByUseridCount2" resultType="int">
+	SELECT *,CONCAT_WS('',s.`studentname`,yg.`staffname`,jz.`parentsname`)AS `peoplename` 
+	FROM `gk_questionnaire` AS wj
+	JOIN `gk_wjcs` AS jf ON (wj.`wj_id` = jf.`wj_id`)
+	JOIN `cqj_user` AS u ON (u.`userid` = jf.`uid`)
+	LEFT JOIN `cqj_student` AS s ON (s.studentid = u.usertypeid) AND u.`usertypenub` = 1
+	LEFT JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
+	LEFT JOIN `cqj_parents` AS jz ON (jz.parentsid = u.usertypeid) AND u.`usertypenub` = 2
+	WHERE jf.`uid` = 72 AND jf.`wjtm_id` IS NULL
+  </select>
+  
+  
   
   <!-- 查询需要自己填写的问卷（计分） -->
   <select id="queryinsertByUserid" resultMap="queryinsertByUseridMap">

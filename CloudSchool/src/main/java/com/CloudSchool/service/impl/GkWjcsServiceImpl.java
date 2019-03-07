@@ -20,7 +20,6 @@ public class GkWjcsServiceImpl implements GkWjcsService{
 	@Override
 	public int insertWjcs(List<CqjUser> quanbulist,Integer wjId) {
 		// TODO Auto-generated method stub
-		System.out.println(JSON.toJSON(quanbulist)+"****************impl");
 		return gkWjcsMapper.insertWjcs(quanbulist,wjId);
 	}
 

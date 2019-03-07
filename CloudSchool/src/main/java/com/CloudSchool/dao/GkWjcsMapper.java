@@ -8,6 +8,8 @@ import com.CloudSchool.domain.CqjUser;
 import com.CloudSchool.domain.GkWjcs;
 
 public interface GkWjcsMapper {
+	//完善问卷选择
+	int updateWjcs(GkWjcs wj);
 	//新增问卷测试记录（选择题）
 	int insertWjcs(@Param("quanbulist")List<CqjUser> quanbulist,@Param("wjId")Integer wjId);
 	

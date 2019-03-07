@@ -3,7 +3,21 @@ package com.CloudSchool.domain;
 import java.util.Date;
 
 public class GkQuestionnairexx {
-    private Integer wjxxId;
+	//题目id
+	private Integer wjtmId;
+	
+	
+	
+	
+    public Integer getWjtmId() {
+		return wjtmId;
+	}
+
+	public void setWjtmId(Integer wjtmId) {
+		this.wjtmId = wjtmId;
+	}
+
+	private Integer wjxxId;
 
     private String wjxxName;
 

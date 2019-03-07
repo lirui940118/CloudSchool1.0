@@ -407,7 +407,7 @@
 		LEFT JOIN `cqj_user` cu
 		ON cu.`usertypeid`=clstu.`sid` AND cu.`usertypenub`=1
 		LEFT JOIN `gk_wjcs` gw
-		ON gw.`uid`=cu.`userid` AND gw.`wjtm_id`=20
+		ON gw.`uid`=cu.`userid` AND gw.`wjtm_id`=17
 		LEFT JOIN (
 		SELECT tm.`id`,COUNT(tm.`id`) AS tc,tm.`name`,tg.`sId` FROM `testgrade` tg
 		LEFT JOIN
@@ -511,6 +511,9 @@
 		#{item}
 	</foreach>
   </update>
-  
+  <select id="queryVidByStudentid" resultType="java.lang.Integer">
+  		SELECT zg.`vid` FROM cqj_student cs INNER  JOIN `clazzstudent` cls ON  cls.`status`=0 AND cs.`studentid`=cls.`sid` AND cs.`studentid`=#{studentid}
+			LEFT JOIN `clazz` cl ON cls.`cid`=cl.`id` LEFT JOIN `zzy_grade` zg ON cl.`gid`=zg.`gid`
+  </select>
   
 </mapper>

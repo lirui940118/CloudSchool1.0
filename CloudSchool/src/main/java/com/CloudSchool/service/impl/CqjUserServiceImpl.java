@@ -50,6 +50,9 @@ public class CqjUserServiceImpl implements CqjUserService {
 					clazzidsList.add(c[i]);
 				}
 			}
+			if(userinfo.getUsertypenub()==1) {
+				userinfo.setStandby1(csm.queryVidByStudentid(userinfo.getUsertypeid())+"");
+			}
 			userinfo.setClazzidsList(clazzidsList);
 		}
 		return userinfo;

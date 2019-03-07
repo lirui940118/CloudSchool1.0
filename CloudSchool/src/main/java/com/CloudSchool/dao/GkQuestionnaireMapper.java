@@ -7,6 +7,12 @@ import org.apache.ibatis.annotations.Param;
 import com.CloudSchool.domain.GkQuestionnaire;
 
 public interface GkQuestionnaireMapper {
+	//查询需要自己填写的问卷（选择）
+	int queryinsertByUseridCount2(GkQuestionnaire wj);
+	//查询需要自己填写的问卷（选择）
+	List<GkQuestionnaire> queryinsertByUserid2(GkQuestionnaire wj);
+	
+	
 	//查询需要自己填写的问卷（计分）
 	int queryinsertByUseridCount(GkQuestionnaire wj);
 	//查询需要自己填写的问卷（计分）
