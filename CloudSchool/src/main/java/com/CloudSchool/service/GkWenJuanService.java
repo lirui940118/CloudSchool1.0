@@ -11,8 +11,14 @@ import com.CloudSchool.domain.GkQuestionnairetm;
 import com.CloudSchool.domain.GkQuestionnairetmType;
 import com.CloudSchool.domain.GkQuestionnairexx;
 import com.CloudSchool.domain.GkQuestionnairexxType;
+import com.CloudSchool.domain.GkWjcs;
 
 public interface GkWenJuanService {
+	//完善问卷选择
+	int updateWjcs(GkWjcs wj);
+	//查询需要自己填写的问卷（选择）
+	GkPageBean<GkQuestionnaire> queryinsertByUserid2(GkQuestionnaire wj);
+	
 	//新增选项
 	int insertXX(List<GkQuestionnairexx> list);
 	//新增题目 

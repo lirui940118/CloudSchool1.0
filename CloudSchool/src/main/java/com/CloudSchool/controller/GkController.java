@@ -35,6 +35,7 @@ import com.CloudSchool.domain.GkPageBean;
 import com.CloudSchool.domain.GkQuestionnaire;
 import com.CloudSchool.domain.GkQuestionnairetm;
 import com.CloudSchool.domain.GkQuestionnairexx;
+import com.CloudSchool.domain.GkWjcs;
 import com.CloudSchool.domain.GkWjcsjf;
 import com.CloudSchool.service.ClazzService;
 import com.CloudSchool.service.CqjPositionService;
@@ -47,6 +48,7 @@ import com.CloudSchool.service.GkKaoqinStateService;
 import com.CloudSchool.service.GkWenJuanService;
 import com.CloudSchool.service.GkWjcsService;
 import com.CloudSchool.service.GkWjcsjfService;
+import com.CloudSchool.service.ZzyMajorService;
 import com.alibaba.fastjson.JSON;
 
 @Controller
@@ -86,6 +88,9 @@ public class GkController {
 	//问卷测试计分题
 	@Autowired
 	GkWjcsjfService gkWjcsjfService;
+	//专业
+	@Autowired
+	ZzyMajorService zzyMajorService;
 	
 	
 	//新增问卷题目	sql
@@ -117,11 +122,31 @@ public class GkController {
 	}
 	
 	
+	
+	//完善问卷选择	sql
+	@RequestMapping("updateWjcs")
+	@ResponseBody
+	public int updateWjcs(@RequestBody List<GkWjcs> jihe) {
+		System.out.println(JSON.toJSON(jihe));
+		int count = 0;
+		for (GkWjcs a : jihe) {
+			 count += gkWenJuanService.updateWjcs(a);
+		}
+		return count;
+	}
+	//刷新我的问卷页面选择	sql
+	@RequestMapping("resetMyWenJuan2")
+	@ResponseBody
+	public GkPageBean<GkQuestionnaire> resetMyWenJuan2(GkQuestionnaire wj){
+		return gkWenJuanService.queryinsertByUserid2(wj);
+	}
+	
+	
 	//完善问卷（计分）		sql
 	@RequestMapping("insertWjcsjfWS")
 	@ResponseBody
 	public int insertWjcsjfWS(@RequestBody List<GkWjcsjf> list) {
-		//修改问卷状态
+		//修改问卷状态Wjcsjf
 		gkWjcsjfService.updateWjcsjf(list.get(0).getWjcsjfId());
 		return gkWjcsjfService.insertWjcsjfWS(list);
 	}
@@ -136,6 +161,7 @@ public class GkController {
 	public String toMyWenJuan(HttpSession session,Model model) {
 		CqjUser user=(CqjUser)session.getAttribute("user");
 		model.addAttribute("zId", user.getUserid());
+		model.addAttribute("zy",zzyMajorService.queryAllZYByBB(user.getStandby1()));
 		return "gk/MyWenJuan";
 	}
 	
@@ -321,7 +347,7 @@ public class GkController {
 		return "gk/KaoQinByUserId";
 	}
 	
-	//去员工考勤页面    sql
+	//去新增员工考勤页面    sql
 	@RequestMapping("toAttendance_inputYG")
 	public String toAttendance_inputYG(Model model) {
 		List<GkKaoqinState> kqstate = gkKaoqinStateService.queryAllKaoQinState();
@@ -463,8 +489,9 @@ public class GkController {
 	
 	//完善访谈   sql
 	@RequestMapping("updateFangTanWS")
-	public void updateFangTanWS(Integer ftId,String ftObjectExplain) {
+	public String updateFangTanWS(Integer ftId,String ftObjectExplain) {
 		gkFangTanService.updateFangTanWS(ftId, ftObjectExplain);
+		return "gk/Fill_interview";
 	}
 	//查询所有访谈   sql
 	@RequestMapping("queryAllFangTan")

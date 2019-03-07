@@ -9,7 +9,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class GkQuestionnaire {
+	//问卷测试选择id
+	private Integer wjcs_id;
 	
+
+	public Integer getWjcs_id() {
+		return wjcs_id;
+	}
+
+	public void setWjcs_id(Integer wjcs_id) {
+		this.wjcs_id = wjcs_id;
+	}
+
 	//问卷调查对象userid
     private Integer o_id;
     //问卷调查对象年级id
@@ -58,11 +69,21 @@ public class GkQuestionnaire {
 	}
 	//题目集合
 	private List<GkQuestionnairetm> listtm;
+	//选项集合
+	private List<GkQuestionnairexx> listxx;
 	
 	
 	
 	
-    public List<GkQuestionnairetm> getListtm() {
+    public List<GkQuestionnairexx> getListxx() {
+		return listxx;
+	}
+
+	public void setListxx(List<GkQuestionnairexx> listxx) {
+		this.listxx = listxx;
+	}
+
+	public List<GkQuestionnairetm> getListtm() {
 		return listtm;
 	}
 

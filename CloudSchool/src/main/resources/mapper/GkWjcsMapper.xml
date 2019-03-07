@@ -17,8 +17,18 @@
     <result column="by3" jdbcType="VARCHAR" property="by3" />
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
+    
+    
+    <result column="tm_id" jdbcType="VARCHAR" property="tmId" />
   </resultMap>
   
+  
+    <!-- 完善问卷选择 -->
+  <update id="updateWjcs">
+  	UPDATE `gk_wjcs`
+	SET `wjtm_id` = #{wjtmId},`wjxx_name` = #{wjxxName},`by1` = #{by1}
+	WHERE `wjcs_id` = #{wjcsId}
+  </update>
   
   <!-- 新增问卷测试记录（选择题） -->
   <insert id="insertWjcs">
