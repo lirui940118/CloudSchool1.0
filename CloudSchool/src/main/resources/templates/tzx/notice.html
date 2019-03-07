@@ -28,7 +28,7 @@
 									</span>
 									<button infoBut moduleUrl="notice/toinsert" class="btn btn-primary btn-xs" onclick="addnotice()">添加通知</button>
 								</p>
-								<table class="table table-hover">
+								<table class="table table-head-bg-success table-striped table-hover">
 									<thead>
 										<tr>
 											<th scope="col">序号</th>
@@ -42,7 +42,8 @@
 									<tbody>
 										<tr v-for="obj,index in aa" v-bind:nid="obj.id">
 											<td>{{obj.id}}</td><td>{{obj.title}}</td><td>{{obj.sendername}}</td><td>{{obj.time}}</td><td>已发布</td>
-											<td>删除</td><td><button class="btn btn-primary btn-xs" v-on:click="jump(obj.id)">编辑</button></td>
+											<!-- <td>删除</td> -->
+											<td><button class="btn btn-primary btn-xs" v-on:click="jump(obj.id)">查看</button></td>
 										</tr>
 										
 									</tbody>

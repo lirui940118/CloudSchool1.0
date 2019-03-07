@@ -238,7 +238,8 @@ iframe{padding-left:260px;}
 		data : {
 			userinfo : {},
 			leftmodule:{},
-			settingmodule:{}
+			settingmodule:{},
+			chatid:0
 		}
 	});
 	function windowAutoHeight() {
@@ -310,6 +311,41 @@ iframe{padding-left:260px;}
 		showIframe(adressName);
 	}
 	
+	function simNavClick1(adressName,chineseName){
+		var adressName = adressName;
+		var chineseName = chineseName;
+		console.log(adressArr);
+		if (adressArr.indexOf(adressName) != -1) {
+			//存在，显示iframe
+
+		} else {
+			//不存在，创建iframe，并显示
+			var iframeNode = "<iframe src='"
+					+ adressName
+					+ "' width='100%' border='0' frameborder='0' ></iframe>";
+			$("#iframeSec").append(iframeNode);
+			adressArr.push(adressName);
+			windowAutoHeight();
+			//创建导航
+			var headNode = "<li class='nav-item'><a data-adress='"+adressName+"' class='nav-link'>"
+					+ chineseName
+					+ "<i class='la la-close navCloseBtn'></i></a></li>";
+			$(".navSec ul").append(headNode);
+			$(".navSec ul li a").click(simHeadNavClick);//创建节点绑定节点
+			//
+			$(
+					".navSec ul li a[data-adress='"
+							+ adressName + "']").find("i")
+					.click(adressName, closeIframe);
+		}
+		console.log(CountUlWidth());
+		showIframe(adressName);
+		if("/message"==adressName){
+			console.log("3秒后切换聊天对象......")
+			setTimeout('a('+v.chatid+')', 3000); //延迟1秒
+		}
+	}
+	
 	//移动的全局变量	
 	var index = 0;
 	//导航左右移动
@@ -363,37 +399,64 @@ iframe{padding-left:260px;}
 	}
 </script>
 <script>
-console.log("进入首页，正在开始注册websocket......");
-var websocket = new WebSocket("ws://127.0.0.1:8080/mywebsocket");
-//开启websocket
-websocket.onopen = function(){
-	console.log("连接成功.....");
-}
-websocket.onclose = function(){
-	console.log("连接断开.....");
-}
-websocket.onerror = function(){
-	console.log("连接异常.....");
-}
-websocket.onmessage = function(msg){
-	console.log("接收到通信的消息."+msg.data+'\n'+v.userinfo.userid);
-	var chatid=msg.data.substring(0,msg.data.indexOf("-"))
-	var message=msg.data.substring(msg.data.indexOf("-")+1)
-	if("notice"==chatid){
-		//通知
-		tips("通知","你有一条新的通知<br>"+message,"../notice")
-	}else if(v.userinfo.userid==chatid){
-		//自己刚发的消息
-		
-	}else if("0"==chatid){
-		//系统的消息
-		tips("系统","你有一条系统消息<br>"+message,"../message")
-	}else if("00"==chatid){
-		tips("系统","登录成功！<br>"+message,"javascript:void(0)")
-	}else if(chatid>0){
-		//其他好友的消息
-			tips("好友消息","你有一条好友消息：<br>"+message,"../message")
+initSocket()
+function initSocket(){
+	console.log("进入首页，正在开始注册websocket......");
+	var websocket = new WebSocket("ws://127.0.0.1:8080/mywebsocket");
+	//开启websocket
+	websocket.onopen = function(){
+		console.log("连接成功.....");
 	}
+	websocket.onclose = function(){
+		console.log("连接断开.....");
+	}
+	websocket.onerror = function(){
+		console.log("连接异常.....");
+	}
+	websocket.onmessage = function(msg){
+		console.log("接收到通信的消息."+msg.data+'\n'+v.userinfo.userid);
+		var chatid=msg.data.substring(0,msg.data.indexOf("-"))
+		var message=msg.data.substring(msg.data.indexOf("-")+1)
+		if("notice"==chatid){
+			//通知
+			tips("通知","你有一条新的通知<br>"+message,"/notice")
+			$("[data-notify=container] a").attr("onclick","simNavClick1('/notice','消息列表')").attr("href","javascript:void(0)")
+		}else if(v.userinfo.userid==chatid){
+			//自己刚发的消息
+			
+		}else if("0"==chatid){
+			//系统的消息
+			tips("系统","你有一条系统消息<br>"+message,"../message")
+			$("[data-notify=container] a").attr("onclick","simNavClick1('/message','消息列表')").attr("href","javascript:void(0)")
+		}else if("00"==chatid){
+			tips("系统","登录成功！<br>"+message,"javascript:void(0)")
+		}else if(chatid>0){
+			//其他好友的消息
+				tips("好友消息","你有一条好友消息：<br>"+message,"../message")
+				$("[data-notify=container] a").attr("onclick","simNavClick1('/message','消息列表')").attr("href","javascript:void(0)")
+				v.chatid=chatid
+		}
+	}
+}
+
+//更换聊天子页面的聊天对象
+function a(chatid){
+	var frameWin = null;
+	$('#iframeSec iframe[src]').each(function(index,element){
+		if("/message"==$(element).attr("src")){
+			frameWin = $(element)
+			console.log("找到了聊天子页面")
+		}
+	})
+	var target=$(frameWin).contents().find(".m_left ul li[nid]")
+	$.each(target,function(i){
+		if(chatid==$(target[i]).attr("nid")){
+			target = $(target[i])
+			console.log("找到了子页面中的聊天对象")
+			console.log(target)
+			$(target).trigger("click")	//模拟点击事件
+		}
+	})
 }
 //消息弹出提示
 function tips(title,content1,url){
