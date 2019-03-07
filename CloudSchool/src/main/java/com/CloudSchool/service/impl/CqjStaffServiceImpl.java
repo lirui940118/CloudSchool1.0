@@ -107,7 +107,7 @@ public class CqjStaffServiceImpl implements CqjStaffService {
 
 			dutyScore = (int) Math.round(averageWorkCountScore * lrConfigrate.getConfig21() / 100
 					+ averageTestCountScore * lrConfigrate.getConfig22() / 100
-					+ kaoqinRateScore * lrConfigrate.getConfig23() / 100 + wjScore * lrConfigrate.getConfig24());
+					+ kaoqinRateScore * lrConfigrate.getConfig23() / 100 + wjScore * lrConfigrate.getConfig24()/100);
 		} else if (tip == 1) {// 班主任
 			// 谈心（访谈） 覆盖率（广度rate）
 			Double TalkRateScore = lrStaffAbilityMapper.getTalkRateByStaffId(staffId);

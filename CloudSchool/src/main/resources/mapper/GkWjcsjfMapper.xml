@@ -189,7 +189,8 @@
 	INNER JOIN `gk_questionnairetm_type` ON `gk_questionnairetm_type`.`wjtm_type_id` = gk_questionnairetm.`wjtm_type_id`#题目类型表
 	INNER JOIN `cqj_user` ON `cqj_user`.userid = gk_wjcsjf.o_id AND cqj_user.usertypenub = 1 #学员类型
 	WHERE gk_questionnairetm_type.`wjtm_type_id` = #{tId} #1理解能力
-	AND cqj_user.`usertypeid` = #{sId} #被调查对象 学员id
+	AND cqj_user.`userid` = (SELECT cqj_user.`userid` FROM `cqj_user` WHERE cqj_user.`usertypeid` = #{sId}  AND cqj_user.usertypenub = 1 )
+	 #被调查对象 学员id 转换成userId
 	<if test="gId!=null">
 	AND gk_wjcsjf.`g_id` = #{gId} #被调查的对象处于的年级
 	</if>
@@ -201,7 +202,8 @@
 	INNER JOIN `gk_questionnairetm_type` ON `gk_questionnairetm_type`.`wjtm_type_id` = gk_questionnairetm.`wjtm_type_id`#题目类型表
 	INNER JOIN `cqj_user` ON `cqj_user`.userid = gk_wjcsjf.o_id AND cqj_user.usertypenub = 0 #教员类型
 	WHERE gk_questionnairetm_type.`wjtm_type_id` = #{tId} #6教员教学质量
-	AND cqj_user.`usertypeid` = #{staffId} #被调查对象 教员id
+	AND cqj_user.`userid` = (SELECT cqj_user.`userid` FROM `cqj_user` WHERE cqj_user.`usertypeid` = #{staffId}  AND cqj_user.usertypenub = 0 )
+	#被调查对象 教员id 转换成userId  
   </select>
   
   

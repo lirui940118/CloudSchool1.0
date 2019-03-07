@@ -147,7 +147,7 @@
 			<if test="gId!=null">
 			AND  clazz.`gid` = #{gId}  #年级
 			</if>
-			AND zzy_event_type.`returned_value` = 1 #表扬
+			AND zzy_event_type.`returned_value` = 0 #表扬
 			) -
 			(
 			SELECT COUNT(zzy_event_type.`returned_value`) FROM `zzy_realtime_classroom`
@@ -157,7 +157,7 @@
 			<if test="gId!=null">
 			AND  clazz.`gid` = #{gId}  #年级
 			</if>
-			AND zzy_event_type.`returned_value` = 0 #批评
+			AND zzy_event_type.`returned_value` = 1 #批评
 			)
 		)
 		/
@@ -170,6 +170,7 @@
 		<if test="gId!=null">
 			AND  clazz.`gid` = #{gId}  #年级
 		</if>
+		AND zzy_class_schedule.`state` = 0
 		AND zzy_class_schedule.`time` &lt;=  CURDATE()
 		)
 		* 100,0)

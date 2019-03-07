@@ -118,7 +118,7 @@ public class CqjUserController {
 		return "redirect:goIndex";
 		
 	}
-	@RequestMapping("goStudentJob")
+	@RequestMapping("/goStudentJob")
 	public String goStudentJob() {
 		return "cqj_setting/studentJob";
 	}
