@@ -64,5 +64,21 @@ public class ZzyMajorServiceimpl implements ZzyMajorService{
 		// TODO Auto-generated method stub
 		return ma.queryAll2(vid);
 	}
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public List<ZzyMajor> queryAllZYByBB(String user1) {
+		// TODO Auto-generated method stub
+		return ma.queryAllZYByBB(user1);
+	}
 	
 }

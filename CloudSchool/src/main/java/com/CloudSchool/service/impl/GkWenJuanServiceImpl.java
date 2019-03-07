@@ -11,6 +11,7 @@ import com.CloudSchool.dao.GkQuestionnairetmMapper;
 import com.CloudSchool.dao.GkQuestionnairetmTypeMapper;
 import com.CloudSchool.dao.GkQuestionnairexxMapper;
 import com.CloudSchool.dao.GkQuestionnairexxTypeMapper;
+import com.CloudSchool.dao.GkWjcsMapper;
 import com.CloudSchool.dao.GkWjtmFkMapper;
 import com.CloudSchool.domain.GkPageBean;
 import com.CloudSchool.domain.GkQuestionnaire;
@@ -19,6 +20,7 @@ import com.CloudSchool.domain.GkQuestionnairetm;
 import com.CloudSchool.domain.GkQuestionnairetmType;
 import com.CloudSchool.domain.GkQuestionnairexx;
 import com.CloudSchool.domain.GkQuestionnairexxType;
+import com.CloudSchool.domain.GkWjcs;
 import com.CloudSchool.service.GkWenJuanService;
 
 @Service
@@ -45,6 +47,9 @@ public class GkWenJuanServiceImpl implements GkWenJuanService{
 	//问卷选项
 	@Autowired
 	GkQuestionnairexxMapper gkQuestionnairexxMapper;
+	//问卷选择
+	@Autowired
+	GkWjcsMapper gkWjcsMapper;
 	
 	@Override
 	public GkPageBean<GkQuestionnaire> queryAllWenJuanFaBuJiLu(GkQuestionnaire wj) {
@@ -151,6 +156,26 @@ public class GkWenJuanServiceImpl implements GkWenJuanService{
 			System.out.println(l.getWjxxName());
 		}
 		return gkQuestionnairexxMapper.insertXX(listxx);
+	}
+
+	@Override
+	public GkPageBean<GkQuestionnaire> queryinsertByUserid2(GkQuestionnaire wj) {
+		// TODO Auto-generated method stub
+		GkQuestionnaire wj2 = new GkQuestionnaire();
+		wj2.setCurrentPage((wj.getCurrentPage()-1)*wj.getPageSize());//下标
+		wj2.setPageSize(wj.getPageSize());
+		wj2.setzId(wj.getzId());
+		List<GkQuestionnaire> list = gkQuestionnaireMapper.queryinsertByUserid2(wj2);
+		int totalSize = (int)gkQuestionnaireMapper.queryinsertByUseridCount2(wj2);
+		GkPageBean<GkQuestionnaire> page = new GkPageBean<GkQuestionnaire>(wj.getCurrentPage(), wj.getPageSize(), totalSize, list);
+		
+		return page;
+	}
+
+	@Override
+	public int updateWjcs(GkWjcs wj) {
+		// TODO Auto-generated method stub
+		return gkWjcsMapper.updateWjcs(wj);
 	}
 
 }

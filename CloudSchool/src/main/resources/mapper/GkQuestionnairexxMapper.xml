@@ -16,7 +16,10 @@
     <result column="by4" jdbcType="VARCHAR" property="by4" />
     <result column="by5" jdbcType="VARCHAR" property="by5" />
   </resultMap>
-  
+  <select id="queryXXByTMid" resultMap="BaseResultMap">
+  	SELECT * FROM `gk_questionnairexx` AS xx
+	WHERE `wjxx_fk_tmid` = #{wjtmId}
+  </select>
   <!-- 新增选项 -->
   <insert id="insertXX">
   	INSERT INTO `gk_questionnairexx`(`wjxx_name`,`wjxx_fk_tmid`,`creation_time`,`update_time`)

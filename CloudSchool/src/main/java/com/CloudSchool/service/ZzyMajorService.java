@@ -6,6 +6,8 @@ import java.util.Map;
 import com.CloudSchool.domain.ZzyMajor;
 
 public interface ZzyMajorService {
+	//gk根据版本id查询所有专业
+	List<ZzyMajor> queryAllZYByBB(String user1);
 	//循环添加专业
 	int insertList(Map<String,Object> map);
 	

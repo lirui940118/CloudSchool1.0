@@ -30,10 +30,10 @@
 			<div class="container-fluid">
 				<h4 class="page-title">我的访谈</h4>
 				<div id="shou">
-					<div><button onclick="wy()" class="btn btn-success">我发起，已完成</button></div>
-					<div><button onclick="by()" class="btn btn-default">别人发起，已完成</button></div>
-					<div><button onclick="ww()" class="btn btn-default">我发起，未完成</button></div>
-					<div><button onclick="bw()" class="btn btn-default">别人发起，未完成</button></div>
+					<div><button onclick="wy(this)" class="gkbtn gkkey btn btn-success">我发起，已完成</button></div>
+					<div><button onclick="by(this)" class="gkbtn btn btn-default">别人发起，已完成</button></div>
+					<div><button onclick="ww(this)" class="gkbtn btn btn-default">我发起，未完成</button></div>
+					<div><button onclick="bw(this)" class="gkbtn btn btn-default">别人发起，未完成</button></div>
 				</div>
 				<!-- 已完成，我发起 -->
 				<div id="YWCW">
@@ -187,36 +187,44 @@
 		WWCW();
 		YWCB();
 		WWCB();
-		wy();
-	})
-	//提交后刷新
-	$("form").submit(function () {
-		bw();
-	})
-	//单击按钮切换
-	function wy(){
 		$("#YWCW").show();
 		$("#YWCB").hide();
 		$("#WWCB").hide();
 		$("#WWCW").hide();
+	})
+	//提交后刷新
+	/* $("form").submit(function () {
+		window.location.reload();
+	}) */
+	//单击按钮切换
+	function wy(th){
+		$("#YWCW").show();
+		$("#YWCB").hide();
+		$("#WWCB").hide();
+		$("#WWCW").hide();
+		gkbut(th);
+		
 	}
-	function ww(){
+	function ww(th){
 		$("#YWCW").hide();
 		$("#YWCB").hide();
 		$("#WWCB").hide();
 		$("#WWCW").show();
+		gkbut(th);
 	}
-	function by(){
+	function by(th){
 		$("#YWCW").hide();
 		$("#YWCB").show();
 		$("#WWCB").hide();
 		$("#WWCW").hide();
+		gkbut(th);
 	}
-	function bw(){
+	function bw(th){
 		$("#YWCW").hide();
 		$("#YWCB").hide();
 		$("#WWCB").show();
 		$("#WWCW").hide();
+		gkbut(th);
 	}
 	//查询已完成，我发起
 	var Vywcw = new Vue({
@@ -279,6 +287,13 @@
 				Vwwcb.fangtan = result;
 			}
 		});
+	}
+	function gkbut(th){
+		$(".gkkey").removeClass("gkkey btn-success");
+		$(".gkbtn").addClass("btn-default");
+		th.classList.remove("btn-default");
+		th.classList.add("btn-success");
+		th.classList.add("gkkey");
 	}
 </script>
 

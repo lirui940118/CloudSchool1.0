@@ -6,6 +6,11 @@ import java.util.Map;
 import com.CloudSchool.domain.ZzyMajor;
 
 public interface ZzyMajorMapper {
+	//gk根据版本id查询所有专业
+	List<ZzyMajor> queryAllZYByBB(String user1);
+	
+	
+	
     int insert(ZzyMajor record);
 
     int insertSelective(ZzyMajor record);
