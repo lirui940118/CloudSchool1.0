@@ -1011,6 +1011,18 @@ li {
 				alert("请选择正确的时间区间")
 			}
 		})
+		/*选中年级 并且选中所有的学生  */
+		/* $("body").on("click",".clazzInput",function(){
+				var id=$(this).attr("data-id")
+				var li=$("#list").find("[data-id="+id+"]")
+				alert(li.length)
+			if($(this).is(":checked")){
+				$(li).find("input[type=checkbox]").attr("checked","checked");
+			}else{
+				$(li).find("input[type=checkbox]").removeAttr("checked");
+			}
+				
+		}) */
 		
 	})
 </script>

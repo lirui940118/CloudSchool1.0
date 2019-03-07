@@ -78,13 +78,14 @@
 								</div>
 								<div class="row">
 								<div class="col-md-12">
-									<table class="table table-head-bg-success">
+									<table class="table table-head-bg-success" style="text-align: center;">
 										<thead>
 											<tr>
 												<th scope="col">考试名称</th>
 												<th scope="col">开始时间</th>
 												<th scope="col">结束时间</th>
 												<th scope="col">状态</th>
+												<th scope="col">得分</th>
 												<th scope="col" style="text-align: center;">操作</th>
 											</tr>
 										</thead>
@@ -97,6 +98,8 @@
 												<td v-if="obj.user3==1">未提交</td>
 												<td v-if="obj.user3==2">待批改</td>
 												<td v-if="obj.user3==3">已批改</td>
+												<td v-if="obj.score==null"></td>
+												<td v-if="obj.score!=null">{{obj.score}}</td>
 												<td style="display: flex;justify-content: center;">
 													<!-- <button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-id="obj.workmouldid">查看详情</button> -->
 													<button class="btn btn-success workcorrection btnWork"  v-bind:data-id="obj.id"  v-if="obj.clazzstatus!=2" disabled=ture>进入</button>

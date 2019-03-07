@@ -181,14 +181,13 @@
 	<!--根据学生id查询出所有考试 -->
 	<select id="queryStuTestAllBySid"
 		resultType="com.CloudSchool.domain.zjfvo.StuTestInfo">
-		SELECT
-		testinstance.`id`,testmodule.`name`,testinstance.`startTime`,testinstance.`endtime`,participateteststu.`user3`,participatetestclass.`user3` AS clazzstatus
+		SELECT testinstance.`id`,testmodule.`name`,testinstance.`startTime`,testinstance.`endtime`,participateteststu.`user3`,participatetestclass.`user3` AS clazzstatus,
+		testgrade.`score`
 		FROM participateteststu
 		INNER JOIN participatetestclass ON participateteststu.`user1`=participatetestclass.`id`
-		INNER JOIN testinstance ON
-		participateteststu.`tId`=testinstance.`id`
-		INNER JOIN testmodule ON
-		testmodule.`id`=testinstance.`tId`
+		INNER JOIN testinstance ON participateteststu.`tId`=testinstance.`id`
+		INNER JOIN testmodule ON testmodule.`id`=testinstance.`tId`
+		LEFT JOIN  testgrade ON testgrade.`sId`=participateteststu.`sId` AND testinstance.`id`=testgrade.`tid`
 		WHERE
 		participateteststu.`sId`=#{sid}
 	</select>

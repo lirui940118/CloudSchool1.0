@@ -7,6 +7,13 @@ public class StudentWork {
 	private String endTime;
 	private Integer isCorrect;
 	private Integer wStatus;
+	private String rank;
+	public String getRank() {
+		return rank;
+	}
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
 	public Integer getwStatus() {
 		return wStatus;
 	}

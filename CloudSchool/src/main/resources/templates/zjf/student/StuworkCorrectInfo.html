@@ -78,13 +78,14 @@
 								</div>
 								<div class="row">
 								<div class="col-md-12">
-									<table class="table table-head-bg-success">
+									<table class="table table-head-bg-success" style="text-align: center;">
 										<thead>
 											<tr>
 												<th scope="col">名称</th>
 												<th scope="col">开始时间</th>
 												<th scope="col">结束时间</th>
 												<th scope="col">状态</th>
+												<th scope="col">得分</th>
 												<th scope="col" style="text-align: center;">操作</th>
 											</tr>
 										</thead>
@@ -97,8 +98,10 @@
 												<td v-if="obj.isCorrect==1">未提交</td>
 												<td v-if="obj.isCorrect==2">待批改</td>
 												<td v-if="obj.isCorrect==3">已批改</td>
+												<td  v-if="obj.rank==null"></td>
+												<td  v-if="obj.rank!=null">{{obj.rank}}</td>
 												<td style="display: flex;justify-content: center;">
-													<button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-id="obj.workmouldid">查看详情</button>
+													<!-- <button class="btn btn-success workinfo" style="margin-right: 5px;" v-bind:data-id="obj.workmouldid">查看详情</button> -->
 													<!-- <button class="btn btn-success workcorrection" v-bind:data-id="obj.workmouldid"  v-if="obj.isCorrect==2 || obj.isCorrect==3 && obj.wStatus>=2" disabled="disabled">进入</button> -->
 													<button class="btn btn-success workcorrection btnWork"  v-bind:data-id="obj.workmouldid"  v-if="obj.isCorrect!=2 && obj.isCorrect!=3  && obj.wStatus==1" id="main">进入</button>
 												</td>

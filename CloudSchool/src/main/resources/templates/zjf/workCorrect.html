@@ -125,8 +125,8 @@
 													<td>{{obj.score}}</td>
 													<td>{{obj.rank}}</td>
 													<td>
-														<button class="btn btn-success updateWork" v-bind:data-wid="obj.id" v-bind:data-sid="obj.sid" v-if="obj.isCorrect!=3">批改</button>
-														<button class="btn btn-success updateWork" v-bind:data-wid="obj.id" v-bind:data-sid="obj.sid" v-if="obj.isCorrect==3" disabled=ture>批改</button>
+														<button class="btn btn-success updateWork" v-bind:data-wid="obj.id" v-bind:data-sid="obj.sid" v-if="obj.isCorrect!=3 && obj.isCorrect!=0">批改</button>
+														<button class="btn btn-success updateWork" v-bind:data-wid="obj.id" v-bind:data-sid="obj.sid" v-if="obj.isCorrect==3 || obj.isCorrect==0" disabled=ture>批改</button>
 													</td>
 												</tr>
 											</tbody>
@@ -359,6 +359,7 @@
 				success:function(data){
 					if(data>0){
 						alert("完成")
+						location=location
 					}
 				}
 			})

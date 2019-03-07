@@ -381,11 +381,12 @@
 	<!--根据学生id查询所有作业  -->
 	<select id="queryStuWorkBySid" resultType="com.CloudSchool.domain.zjfvo.StudentWork">
 		SELECT workinstance.`id` AS workmouldid,workmould.`name`,workinstance.`startTime`,workinstance.`endTime`,participationworkstu.`isCorrect`,
-		 participationworkclass.`wStatus` 
+		 participationworkclass.`wStatus`,workgrade.`rank` 
 FROM participationworkstu 
 INNER JOIN workinstance ON participationworkstu.`wId`=workinstance.`id` 
 INNER JOIN workmould ON workinstance.`wid`=workmould.`id`
 INNER JOIN participationworkclass ON participationworkclass.`id`=participationworkstu.`user1`
+LEFT JOIN workgrade ON workgrade.`uId`= participationworkstu.`sId` AND workgrade.`wId`=workinstance.`id`
 		<where>
 			 participationworkstu.`sId`=#{sid} AND participationworkstu.`status`=0 
 			<if test="isCorrect==0">

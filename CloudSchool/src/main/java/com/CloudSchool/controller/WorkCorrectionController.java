@@ -131,7 +131,7 @@ public class WorkCorrectionController {
 	@ResponseBody
 	public PageBean queryStuWorkBySid(Integer cur,Integer pagesize,Integer isCorrect,HttpSession session){
 		if(pagesize==null) {
-			pagesize=1;
+			pagesize=10;
 		}
 		CqjUser user=(CqjUser)session.getAttribute("user");
 		Integer sid=user.getUsertypeid();
