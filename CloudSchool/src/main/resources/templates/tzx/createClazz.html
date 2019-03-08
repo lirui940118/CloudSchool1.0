@@ -87,7 +87,7 @@
 											<th scope="col">专业</th>
 											<th scope="col">课时</th>
 											<th scope="col">版本</th>
-											<th scope="col">没想好</th>
+<!-- 											<th scope="col">没想好</th> -->
 											<th scope="col">教员</th>
 										</tr>
 									</thead>
@@ -97,7 +97,7 @@
 											<td>{{getVMname(1)}}</td>
 											<td>{{obj.coursePeriod}}</td>
 											<td>{{getVMname(0)}}</td>
-											<td>30</td>
+<!-- 											<td>30</td> -->
 											<td>
 												<select v-if="null!=tlist" class="form-control form-control-sm" id="smallSelect" name=tid>
 													<option v-for="obj1,index1 in obj.staffVOList" v-bind:value="obj1.staffId">{{obj1.staffName}}--综合评分：{{obj1.staffScore}}</option>
@@ -309,7 +309,7 @@
 			},
 			getSelMajor:function(major){
 				v.targetstulist=[]
-				alert(major)
+// 				alert(major)
 				console.log("选择专业："+major)
 				v.major=major
 				getTeacherList()
