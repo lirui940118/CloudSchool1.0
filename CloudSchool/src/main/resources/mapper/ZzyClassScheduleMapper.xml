@@ -185,6 +185,11 @@
   <select id="queryKbBytime" resultMap="Kbjihe">
   		SELECT * FROM `zzy_class_schedule` WHERE `time`&gt;=#{stime} AND `time`&lt;=#{etime} AND `clid`=#{clid} ORDER BY `time`
 	</select>
+	
+<!-- 查询一个时间段已经确定的课表 -->
+<select id="queryKbBytimeqd" resultMap="Kbjihe">
+  		SELECT * FROM `zzy_class_schedule` WHERE `time`&gt;=#{stime} AND `time`&lt;=#{etime} AND `clid`=#{clid} and user1=0 ORDER BY `time`
+	</select>
   
   <!-- 查询time(这一天)没课的老师  （赵举峰）-->
   <select id="queryBytimeTeach" resultType="INTEGER">
@@ -204,5 +209,19 @@
   	<!-- 根据班级id  查询所有上课记录 -->
   	<select id="queryBycidH" resultMap="BaseResultMap">
   		SELECT * FROM `zzy_class_schedule` WHERE clid=#{cid} ORDER BY `time` DESC
+  	</select>
+  	
+  	<!-- 修改所有未确定的为正常状态 -->
+  	<update id="updateuser1">
+  		update `zzy_class_schedule` set `user1`=0
+  	</update>
+  	
+  	<!-- 将所有未确定的删除 -->
+  	<delete id="deleteByuser1">
+  		delete from `zzy_class_schedule` where `user1`=-1
+  	</delete>
+  	<!-- 根据班级id 和时间以及user1的状态  判断这个班级今天是否已经是确定过课表了 -->
+  	<select id="queryByqd" resultType="INTEGER">
+  		select COUNT(*) from `zzy_class_schedule` where `clid`=#{cid} and `time`=#{time} and user1=0
   	</select>
 </mapper>
