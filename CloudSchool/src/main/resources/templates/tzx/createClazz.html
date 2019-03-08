@@ -9,12 +9,15 @@
 		<link rel="stylesheet" href="../static/css/ready.css">
 		<script src="static/js/core/jquery.3.2.1.min.js"></script>
 		<script src="../static/js/core/vue.js"></script>
+		<link rel="stylesheet" href="../static/css/demo.css">
+	<script src="../static/js/core/bootstrap.min.js"></script>
 		<style type="text/css">
 			.jb .form-control{width: 50%;}
 			.form-group, .form-check{padding: 10px 10px}
 			.sel input{position:relative;left:auto;position:unset;} 
 			.sel .btnchooseClose:hover{backgroud-color:red;}
 			.form-group{position: relative;}
+			.modal-dialog {max-width: 85%;/*最大宽度*/margin: 4rem auto;}
 		</style>
 	</head>
 
@@ -131,7 +134,10 @@
 											<td><input type="hidden" name=sid v-bind:value="obj.studentid" v-bind:studentnub="obj.studentnub" style="border: 0px;width: 100%;">{{obj.studentname}}</td>
 											<td v-if="1==obj.sex">男</td><td v-if="0==obj.sex">女</td>
 											<td>{{obj.birthday}}</td>
-											<td>{{obj.phone}}</td><td>新生</td>
+											<td>{{obj.phone}}</td>
+											<td v-if="null==obj.studentnub">新生</td>
+											<td v-if="null!=obj.tagetgName">升学</td>
+											<td v-if="null==obj.tagetgName&&null!=obj.studentnub">游离</td>
 											<td style="font-size:8px;max-width:100px;padding: 0 !important;">
 												<span v-if="null!=obj.studentnub">学号：{{obj.studentnub}}</span>
 												<span v-if="null!=obj.gname">原年级：{{obj.gname}}-原班级：{{obj.cname}}</span>
@@ -143,7 +149,7 @@
 									</tbody>
 								</table>
 								<p class="demo">
-									<button onclick="showChoose()" class="btn btn-primary btn-xs">添加学生</button>
+									<button data-toggle="modal" data-target="#modalUpdate" onclick="showChoose()" class="btn btn-primary btn-xs">添加学生</button>
 								</p>
 							</div>
 						</div>
@@ -151,14 +157,18 @@
 							<button class="btn btn-success btn-lg" onclick="createClazz()">马上开班</button>
 							<button class="btn btn-link" disabled style="color: red;">放弃</button>
 						</p>
-						<div class="sel" style="display:none;background:rgba(255,255,255,0.6);width:100%;min-width:500px;height:100%;min-height:300px;position:fixed;top:0;left:0;">
-							<p class="demo" style="position: absolute;top: 14%;right: 11%;z-index:99;">
-								<button onclick="chooseAll()" class="btn btn-primary btn-xs">添加学生</button>
-								<button onclick="chooseClose()" class="btnchooseClose btn btn-warning btn-xs">取消</button>
-							</p>
-							<div style="background:#66ccd0;max-height: 35%;overflow-y: auto;min-width:80%;min-height:300px;position:absolute;top:13%;left:10%;">
-								<label for="exampleSelect">升学：</label>
-								<div class="card-body">
+						<div class="modal fade sel" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header bg-primary">
+										<h6 class="modal-title"><i class="la la-file"></i>选择学生</h6>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body text-center" style="overflow-y: scroll;max-height: 430px;">	
+																	
+<!-- 								<div class="card-body"> -->
 									<table class="table table-head-bg-success table-striped table-hover">
 										<thead>
 											<tr>
@@ -189,10 +199,59 @@
 											
 										</tbody>
 									</table>
-
+<!-- 								</div> -->
+								
+									</div>
+									<div class="modal-footer">
+										<button type="button" onclick="chooseAll()" class="btn btn-secondary btn-primary" data-dismiss="modal">添加学生</button>
+										<button type="button" onclick="chooseClose()" class="btn btn-secondary btn-warning" data-dismiss="modal">取消</button>
+									</div>
 								</div>
 							</div>
 						</div>
+<!-- 						<div class="sel" style="display:none;background:rgba(255,255,255,0.6);width:100%;min-width:500px;height:100%;min-height:300px;position:fixed;top:0;left:0;"> -->
+<!-- 							<p class="demo" style="position: absolute;top: 14%;right: 13%;z-index:99;"> -->
+<!-- 								<button onclick="chooseAll()" class="btn btn-primary btn-xs">添加学生</button> -->
+<!-- 								<button onclick="chooseClose()" class="btnchooseClose btn btn-warning btn-xs">取消</button> -->
+<!-- 							</p> -->
+<!-- 							<div style="background:#66ccd0;max-height: 35%;overflow-y: auto;min-width:80%;min-height:300px;position:absolute;top:13%;left:10%;"> -->
+<!-- 								<label for="exampleSelect">升学：</label> -->
+<!-- 								<div class="card-body"> -->
+<!-- 									<table class="table table-head-bg-success table-striped table-hover"> -->
+<!-- 										<thead> -->
+<!-- 											<tr> -->
+<!-- 												<th scope="col">选择</th> -->
+<!-- 												<th scope="col">姓名</th> -->
+<!-- 												<th scope="col">生日</th> -->
+<!-- 												<th scope="col">版本</th> -->
+<!-- 												<th scope="col">年级</th> -->
+<!-- 												<th scope="col">状态</th> -->
+<!-- 												<th scope="col">额外信息</th> -->
+<!-- 											</tr> -->
+<!-- 										</thead> -->
+<!-- 										<tbody> -->
+<!-- 											<tr v-for="obj,index in selstudentlist"> -->
+<!-- 												<td><label class="form-check-label"><input type="checkbox" name=studentid v-bind:value="obj.studentid" v-bind:studentnub="obj.studentnub" style=""><span class="form-check-sign"></span><label></td> -->
+<!-- 												<td>{{obj.studentname}}</td> -->
+<!-- 												<td style="font-size:8px;">{{obj.birthday}}</td> -->
+<!-- 												<td style="font-size:8px;">{{obj.vname}}</td> -->
+<!-- 												<td v-if="null==obj.tagetgName">{{obj.gname}}</td><td v-if="null!=obj.tagetgName">{{obj.tagetgName}}</td> -->
+<!-- 												<td v-if="null==obj.studentnub">新生</td> -->
+<!-- 												<td v-if="null!=obj.tagetgName">升学</td> -->
+<!-- 												<td v-if="null==obj.tagetgName&&null!=obj.studentnub">游离</td> -->
+<!-- 												<td style="font-size:8px;"> -->
+<!-- 													<span v-if="null!=obj.gname">原年级：{{obj.gname}}-原班级：{{obj.cname}}</span> -->
+<!-- 													<span v-if="null!=obj.studentnub&null!=obj.tagetgName">学号：{{obj.studentnub}}原班级：{{obj.cname}}-年级：{{obj.gname}}-原专业：{{obj.mname}}</span> -->
+<!-- 												</td> -->
+<!-- 											</tr> -->
+											
+<!-- 										</tbody> -->
+<!-- 									</table> -->
+
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+					
 					</div>
 				</div>
 			</div>

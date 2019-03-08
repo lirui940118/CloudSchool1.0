@@ -49,6 +49,10 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 			return "没有登陆";
 		}
 		try {
+			if(!session.isOpen()) {
+				System.out.println("补坑成功！");
+				return "000002";	//登陆过但是断开了链接
+			}
 			session.sendMessage(new TextMessage(msg));
 			return "000001";
 		} catch (IOException e) {
