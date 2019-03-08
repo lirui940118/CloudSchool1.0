@@ -38,4 +38,14 @@ public interface ZzyClassScheduleMapper {
     public Integer queryByyouyouyou(@Param("clid") Integer clid,@Param("time") Date time);
     
     public List<ZzyClassSchedule> queryBycidH(Integer cid);
+    
+    public Integer updateuser1();
+    
+    public Integer deleteByuser1();
+    
+    public Integer queryByqd(@Param("cid") Integer cid,@Param("time")Date date);
+    
+    public List<ZzyClassSchedule> queryKbBytimeqd(@Param("stime")Date stime,@Param("etime")Date etime,@Param("clid") Integer clid);
+
+    
 }

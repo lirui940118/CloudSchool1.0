@@ -137,6 +137,11 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
         		System.out.println("当前日期:"+presentDate);
         		System.out.println("当前班级:"+clist.getCname());
         		System.out.println(i);
+        		//查询这个班级是否已经确认过课表了 如果确认过了那么循环下一个班级
+        		Integer qd =schm.queryByqd(clist.getId(),date );
+        		if(qd!=0) {
+        			continue;
+        		}
         		if(i==null) { 
         			//老师有空吗
         			Integer youkong =schm.queryByyoukong(dqtid,date,0);
@@ -674,7 +679,7 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
 	      String imptimeEnd = sdf.format(cal.getTime());
 	      Date imptimeEnd2 = sdf.parse(imptimeEnd);
 	      System.out.println(imptimeEnd);
-	      List<ZzyClassSchedule> list=schm.queryKbBytime(imptimeBegin2, imptimeEnd2,cid);
+	      List<ZzyClassSchedule> list=schm.queryKbBytimeqd(imptimeBegin2, imptimeEnd2,cid);
 		return list;
 	}
 	
@@ -685,7 +690,7 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
         //将String 转为date
         Date date1 = sdf.parse(start);
         Date date2 = sdf.parse(end);
-    	List<ZzyClassSchedule> list=schm.queryKbBytime(date1, date2,cid);
+    	List<ZzyClassSchedule> list=schm.queryKbBytimeqd(date1, date2,cid);
     	return list;
 	}
 	
@@ -743,5 +748,17 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
 					return -1;
 				}
 			
+	}
+
+	@Override
+	public Integer updateuser1() {
+		// TODO Auto-generated method stub
+		return schm.updateuser1();
+	}
+
+	@Override
+	public Integer deleteByuser1() {
+		// TODO Auto-generated method stub
+		return schm.deleteByuser1();
 	}
 }

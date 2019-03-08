@@ -46,7 +46,7 @@
 								<table class="table table-head-bg-success">
 												<thead>
 													<tr>
-														<th scope="col"></th>
+														<th scope="col"><span>{{kstime}}</span>~<span>{{jstime}}</span></th>
 														<th scope="col">周一</th>
 														<th scope="col">周二</th>
 														<th scope="col">周三</th>
@@ -80,6 +80,9 @@
 
 							</div>
 						</div>
+						<div id="sfsc"  style="float: right; display: none" >
+							<button class="btn btn-success" id="qd">确定</button> <button id="qx" class="btn btn-danger">取消</button>
+						</div>
 						</div>
 					
 				</div>
@@ -108,55 +111,95 @@
 				el:'.main-panel',
 				data:{
 					clazzlist:null,
+					kstime:null,
+					jstime:null,
 				}
 			})
-			$("#click").click(function(){
-				//获取选择的时间
-				var time =$("#time").val()+" ";
-				console.log(time);
-				
+			
+			$("body").on("click","#qd",function(){
+				//点击确定将所有的状态改为0正常状态
 				$.ajax({
-					url:'arrangement?time='+time,
-					type:'POST',
+				url:'updateuser1',
+				type:'POST',
+				success:function(data){
+					alert("您发布了课程");
+					location.reload()
+				}
+				})
+			})
+			
+			$("body").on("click","#qx",function(){
+				//点击取消把所有的-1未确定的删除
+				$.ajax({
+				url:'deleteByuser1', 
+				type:'POST', 
+				success:function(data){
+					
+				}
+				})
+			})
+			
+			
+			$("#click").click(function(){
+				$.ajax({
+					url:'deleteByuser1', 
+					type:'POST', 
 					success:function(data){
 						$.ajax({
-							url:"queryKbBytime?time="+time,
+							url:'arrangement?time='+time,
 							type:'POST',
-							dataType:"json",
-							success:function(date2){
-								console.log(date2);
-								$.each(date2,function(i,obj){
-									//定义一个新的对象数组 一个元素代表一天 对象里面有一天的上午 和下午两条课表记录 
-									var xarry=[];
-									//定义一个循环的记录  循环达到两次 重置
-									var count=0;
-									var kb={};
-									$.each(obj.schlist,function(i2,obj2){
-										//定义一个对象 代表班级 一天的课表
-										if(i2%2==0){
-											kb.am=obj2;
-											count++;
-										}else if(i2%2==1){
-											kb.pm=obj2;
-											count++;
-										}
-										if(count==2){
-											count=0;
-											xarry.push(kb);
-											kb={};
-										}
+							success:function(data){
+								$.ajax({
+									url:"queryKbBytime?time="+time,
+									type:'POST',
+									dataType:"json",
+									success:function(date2){
+										console.log(date2);
+										$.each(date2,function(i,obj){
+											//定义一个新的对象数组 一个元素代表一天 对象里面有一天的上午 和下午两条课表记录 
+											var xarry=[];
+											//定义一个循环的记录  循环达到两次 重置
+											var count=0;
+											var kb={};
+											$.each(obj.schlist,function(i2,obj2){
+												if(i2==0){
+													v.kstime=obj2.time;
+												}
+												if(i2==obj.schlist.length-1){
+													v.jstime=obj2.time;
+												}
+												//定义一个对象 代表班级 一天的课表
+												if(i2%2==0){
+													kb.am=obj2;
+													count++;
+												}else if(i2%2==1){
+													kb.pm=obj2;
+													count++;
+												}
+												if(count==2){
+													count=0;
+													xarry.push(kb);
+													kb={};
+												}
+												
+											})
+											obj.xarry=xarry;
+											
+										})
 										
-									})
-									obj.xarry=xarry;
-									
+										v.clazzlist=date2;
+										console.log(v.clazzlist);
+									}
 								})
-								
-								v.clazzlist=date2;
-								console.log(v.clazzlist);
 							}
 						})
 					}
-				})
+					})
+				//获取选择的时间
+				var time =$("#time").val()+" ";
+				console.log(time);
+				$("#sfsc").show();
+			
 				
 			})
 		})

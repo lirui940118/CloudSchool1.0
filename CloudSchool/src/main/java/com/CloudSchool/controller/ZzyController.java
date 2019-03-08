@@ -537,4 +537,18 @@ public class ZzyController {
 		return csss.queryShengxue(cid);
 	}
 	
+	@RequestMapping("updateuser1")
+	@ResponseBody
+	public Integer updateuser1() {
+		csss.updateuser1();
+		return 1;
+	}
+	
+	@RequestMapping("deleteByuser1")
+	@ResponseBody
+	public Integer deleteByuser1() {
+		csss.deleteByuser1();
+		return 1;
+	}
+	
 }

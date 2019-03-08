@@ -26,5 +26,13 @@ public interface ZzyClassScheduleService {
 	 
 	 
 	 public Integer queryShengxue(Integer cid) throws ParseException;
+	 
+	 public Integer updateuser1();
+	    
+	 public Integer deleteByuser1();
+	 
+	 
+	 
+	 
 	
 }
