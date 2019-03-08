@@ -77,7 +77,7 @@
 									<button name="getStudentInfo" class="btn btn-success">查看未就业毕业生表</button>
 									<button name="getExce" class="btn btn-success">导出未就业毕业生表</button>
 									<button id="fileUpdate-button" name="goInsertStudent" class="btn btn-success">导入毕业生就业情况表</button>
-									<button v-if="key==1"  name="setInfo" class="btn btn-success">保存未就业毕业生表</button>
+									<button v-if="key==1"  name="setInfo" class="btn btn-success" onclick="abc()">保存未就业毕业生表</button>
 								</p>
 							</div>
 						</div>
@@ -194,16 +194,7 @@
 		});
 		
 		$('[name="setInfo"]').click(function(){
-		       $.ajax({
-					url : "/student/updateStudentUpGrade",
-					data :JSON.stringify(excelJson),
-					type : "post",
-					contentType: "application/json",
-					success : function(data) {
-						alert("成了");
-						v.key=0;
-					}
-		        })
+
 		});
 	})
 	//=======================================================================================================导出
@@ -343,6 +334,19 @@
     function updateStudentJob(json){
     	
     
+    }
+    function abc(){
+		alert(1)
+	       $.ajax({
+				url : "/student/updateStudentUpGrade",
+				data :JSON.stringify(v.excelJson),
+				type : "post",
+				contentType: "application/json",
+				success : function(data) {
+					alert("成了");
+					v.key=0;
+				}
+	        })
     }
 </script>
 
