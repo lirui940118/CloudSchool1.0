@@ -42,10 +42,11 @@
   </select>
   <!-- 通过id查询班级和年级名称gk -->
   <select id="queryBanJiByUserid" resultMap="BaseResultMap">
-	SELECT *,g.grade_name AS 'gradeName' FROM `clazz` AS c
+SELECT *,g.grade_name AS 'gradeName' FROM `clazz` AS c
 	JOIN `clazzstudent` AS s ON (s.cid = c.id)
 	JOIN `zzy_grade` AS g ON (g.gid = c.gid)
-	WHERE s.sid = #{uid} AND s.`status` = 0
+	WHERE s.sid = 
+	(SELECT `usertypeid` FROM `cqj_user` WHERE `userid` = #{uid} AND `usertypenub` = 1) AND s.`status` = 0
   </select>
   <sql id="Base_Column_List">
     id, cname, gid, mid, startdate, count, enddate, pc, status

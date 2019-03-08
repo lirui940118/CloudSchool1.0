@@ -29,7 +29,7 @@
   <!-- 通过用户id查询自己所有考勤 -->
   <select id="queryKaoQinByUserid" resultMap="BaseResultMap">
   	SELECT * FROM `cqj_user` AS u
-	RIGHT JOIN 
+	JOIN 
 		(SELECT uid, SUM(IF(kq_state_id=1, 1, 0)) yi,
 		SUM(IF(kq_state_id=2, 1, 0)) er, 
 		SUM(IF(kq_state_id=3, 1, 0)) san, 
@@ -57,7 +57,7 @@
   <!-- 通过用户id查询自己所有考勤行数 -->
   <select id="queryKaoQinByUseridCount" resultType="int">
   	SELECT COUNT(*) FROM `cqj_user` AS u
-	RIGHT JOIN 
+	JOIN 
 		(SELECT uid, SUM(IF(kq_state_id=1, 1, 0)) yi,
 		SUM(IF(kq_state_id=2, 1, 0)) er, 
 		SUM(IF(kq_state_id=3, 1, 0)) san, 
@@ -136,7 +136,7 @@
 		FROM `cqj_user` AS u
 		JOIN `cqj_student` AS xs ON (xs.studentid = u.usertypeid) AND u.`usertypenub` = 1
 		JOIN `clazzstudent` AS cs ON (xs.`studentid` = cs.sid)
-		RIGHT JOIN 
+		JOIN 
 		(SELECT uid, SUM(IF(kq_state_id=1, 1, 0)) yi,
 		SUM(IF(kq_state_id=2, 1, 0)) er, 
 		SUM(IF(kq_state_id=3, 1, 0)) san, 
@@ -179,7 +179,7 @@
 		FROM `cqj_user` AS u
 		JOIN `cqj_student` AS xs ON (xs.studentid = u.usertypeid) AND u.`usertypenub` = 1
 		JOIN `clazzstudent` AS cs ON (xs.`studentid` = cs.sid)
-		RIGHT JOIN 
+		JOIN 
 		(SELECT uid, SUM(IF(kq_state_id=1, 1, 0)) yi,
 		SUM(IF(kq_state_id=2, 1, 0)) er, 
 		SUM(IF(kq_state_id=3, 1, 0)) san, 
@@ -225,7 +225,7 @@
 	FROM `cqj_user` AS u
 	JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
 	JOIN `cqj_position` AS zw ON (zw.`positionid` = yg.`positionid`)
-	RIGHT JOIN 
+	JOIN 
 	(
 	SELECT uid, SUM(IF(kq_state_id=1, 1, 0)) yi,
 	SUM(IF(kq_state_id=2, 1, 0)) er, 
@@ -264,7 +264,7 @@
 	FROM `cqj_user` AS u
 	JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
 	JOIN `cqj_position` AS zw ON (zw.`positionid` = yg.`positionid`)
-	RIGHT JOIN 
+	JOIN 
 	(
 	SELECT uid, SUM(IF(kq_state_id=1, 1, 0)) yi,
 	SUM(IF(kq_state_id=2, 1, 0)) er, 

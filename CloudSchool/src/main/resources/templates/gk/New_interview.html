@@ -46,8 +46,8 @@
 										<div class="form-group col-lg-12">
 											<label for="exampleFormControlSelect1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">访谈对象</font></font></label>
 											<div class="col-lg-12 row">
-												<div class="col-lg-4 col-md-6 col-sm-6">
-													<select class="form-control col-lg-3" id="xialakuang">
+												<div class="col-lg-3 col-md-6 col-sm-6">
+													<select class="form-control col-lg-6" id="xialakuang">
 														<option><font style="vertical-align: inherit;">学生</font></option>
 														<option><font style="vertical-align: inherit;">员工</font></option>
 														<option><font style="vertical-align: inherit;">家长</font></option>
@@ -56,11 +56,16 @@
 												<div class="col-lg-3 col-md-6 col-sm-6">
 													<input type="text" id="tongyong" placeholder="姓名关键字" class="form-control form-control" />
 												</div>
-												<div class="col-lg-3" >
-													<input type="button" value="搜索" onclick="sousuo()" />
+												<div class="col-lg-2" >
+													<input class="btn btn-success" type="button" value="搜索" onclick="sousuo()" />
 												</div>
-												<div class="col-lg-2">
-													
+												<div class="col-lg-4 row">
+														<div class="col-lg-6">
+															<button onclick="jiaru()" class="btn btn-success">加入列表</button>
+														</div>
+														<div class="col-lg-6">
+															<button onclick="quxiao()" class="btn btn-danger">取消加入</button>
+														</div>
 													
 													
 												</div>
@@ -158,14 +163,7 @@
 											</table>
 										</div>
 										
-										<div class="form-group col-lg-12">
-											<div class="col-lg-6">
-												<button onclick="jiaru()" class="btn btn-success">加入列表</button>
-											</div>
-											<div class="col-lg-6">
-												<button onclick="quxiao()" class="btn btn-danger">取消加入</button>
-											</div>
-										</div>
+										
 										
 										
 										
@@ -211,7 +209,6 @@
 										
 										<div class="card-action">
 											<button onclick="tijiao()" class="btn btn-success"><font style="vertical-align: inherit;">提交</font></button>
-											<button class="btn btn-danger"><font style="vertical-align: inherit;">取消</font></button>
 										</div>
 									</div>
 							</div>

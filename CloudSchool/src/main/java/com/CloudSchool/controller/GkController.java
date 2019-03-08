@@ -340,10 +340,11 @@ public class GkController {
 	}
 	//通过用户id查询自己所有考勤		sql
 	@RequestMapping("queryKaoQinByUserid")
-	public String queryKaoQinByUserid(String name,Integer userid,Model model) {
+	public String queryKaoQinByUserid(String name,Integer userid,Model model,HttpSession session) {
+		CqjUser user=(CqjUser)session.getAttribute("user");
 		//todo
-		model.addAttribute("userid", userid);
-		model.addAttribute("name", name);
+		model.addAttribute("userid", user.getUserid());
+		model.addAttribute("name", user.getName());
 		return "gk/KaoQinByUserId";
 	}
 	
