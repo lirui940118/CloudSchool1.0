@@ -375,15 +375,15 @@
 		alert("添加学生："+slist.length+"个")
 		data+="&count="+slist.length
 		console.log(data)
-// 		$.post("craeteClazz",data,function(result){
-// 			console.log(result)
-// 			if(0<result){
-// 				alert("开班成功！")
-// 				window.location.reload()
-// 			}else{
-// 				alert("开班失败！")
-// 			}
-// 		})
+		$.post("craeteClazz",data,function(result){
+			console.log(result)
+			if(0<result){
+				alert("开班成功！")
+				window.location.reload()
+			}else{
+				alert("开班失败！")
+			}
+		})
 	}
 	//获取版本
 	function getAllVersion(){
