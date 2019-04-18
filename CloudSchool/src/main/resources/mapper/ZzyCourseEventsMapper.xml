@@ -120,7 +120,7 @@
   
   <!-- 添加事件 -->
   <insert id="insertEvents">
-  		INSERT INTO `cloudSchool`.`zzy_course_events` (`event_name`,`creat_time`,`modificationtime`,`user1`,`user2`)
+  		INSERT INTO `zzy_course_events` (`event_name`,`creat_time`,`modificationtime`,`user1`,`user2`)
 		VALUES
 		<foreach collection="list" item="l" separator=",">
  			(#{l.eventName},#{l.creatTime},#{l.modificationtime},#{l.user1},#{l.user2})

@@ -10,8 +10,9 @@
 <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/static/css/ready.css}">
 <link rel="stylesheet" th:href="@{/static/css/demo.css}">
-<link rel="stylesheet" th:href="@{/static/css/vueAnimation.css}">
+<!-- <link rel="stylesheet" th:href="@{/static/css/vueAnimation.css}"> -->
 <style type="text/css">
+@import "../static/css/vueAnimation.css";
 * {
 	margin: 0px;
 	padding: 0px;
@@ -60,7 +61,7 @@ img {
 						<!-- 学员信息部分 -->
 						<div id="studentInfoSec">
 							<transition name="v">
-								<div v-if="show" class="card-body" style="text-align: center;">
+								<div v-cloak v-if="show" class="card-body" style="text-align: center;">
 									<div>
 										<img v-bind:src="url+studentInfo.url">
 									</div>

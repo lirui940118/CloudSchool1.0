@@ -88,7 +88,7 @@ public class GkController {
 	GkWjcsjfService gkWjcsjfService;
 	
 	
-	//新增问卷题目
+	//新增问卷题目	sql
 	@RequestMapping("insertTiMu")
 	@ResponseBody
 	public int insertTiMu(@RequestBody GkQuestionnairetm tm,HttpSession session) {
@@ -106,7 +106,7 @@ public class GkController {
 		}
 		return count;
 	}
-	//去创建题目页面
+	//去创建题目页面	sql
 	@RequestMapping("toNewProblem")
 	public String toNewProblem(Model model) {
 		model.addAttribute("tm", gkWenJuanService.queryAllTiMuType());
@@ -117,7 +117,7 @@ public class GkController {
 	}
 	
 	
-	//完善问卷（计分）
+	//完善问卷（计分）		sql
 	@RequestMapping("insertWjcsjfWS")
 	@ResponseBody
 	public int insertWjcsjfWS(@RequestBody List<GkWjcsjf> list) {
@@ -125,13 +125,13 @@ public class GkController {
 		gkWjcsjfService.updateWjcsjf(list.get(0).getWjcsjfId());
 		return gkWjcsjfService.insertWjcsjfWS(list);
 	}
-	//刷新我的问卷页面
+	//刷新我的问卷页面	sql
 	@RequestMapping("resetMyWenJuan")
 	@ResponseBody
 	public GkPageBean<GkQuestionnaire> resetMyWenJuan(GkQuestionnaire wj){
 		return gkWenJuanService.queryinsertByUserid(wj);
 	}
-	//去我的问卷页面
+	//去我的问卷页面	sql
 	@RequestMapping("toMyWenJuan")
 	public String toMyWenJuan(HttpSession session,Model model) {
 		CqjUser user=(CqjUser)session.getAttribute("user");
@@ -142,7 +142,7 @@ public class GkController {
 	
 	
 	
-	//新增问卷发布记录
+	//新增问卷发布记录	sql
 	@RequestMapping("insertWenJuanFB")
 	@ResponseBody
 	public int insertWenJuanFB(@RequestBody GkQuestionnaire ft,HttpSession session) {
@@ -202,25 +202,25 @@ public class GkController {
 		
 		return gkWenJuanService.insertWenJuanFB(ft);
 	}
-	//通过班级名称模糊查
+	//通过班级名称模糊查	sql
 	@RequestMapping("queryAllBanJiByLikeName")
 	@ResponseBody
 	public List<Clazz> queryAllBanJiByLikeName(String name){
 		return clazzService.queryAllBanJiByLikeName(name);
 	}
-	//通过问卷id查询说明
+	//通过问卷id查询说明	sql
 	@RequestMapping("queryShuoMingBywjId")
 	@ResponseBody
 	public GkQuestionnaire queryShuoMingBywjId(Integer wjId) {
 		return gkWenJuanService.queryShuoMingBywjId(wjId);
-	}
-	//通过问卷类型，选项类型查询问卷
+	}	
+	//通过问卷类型，选项类型查询问卷	sql
 	@RequestMapping("queryWenJuanBywjTypeIdAndwjxxTypeId")
 	@ResponseBody
 	public List<GkQuestionnaire> queryWenJuanBywjTypeIdAndwjxxTypeId(Integer wjTypeId,Integer wjxxTypeId){
 		return gkWenJuanService.queryWenJuanBywjTypeIdAndwjxxTypeId(wjTypeId, wjxxTypeId);
 	}
-	//去发布问卷页面
+	//去发布问卷页面	sql
 	@RequestMapping("toPublish_questionnaire")
 	public String toPublish_questionnaire(Model model) {
 		model.addAttribute("xx", gkWenJuanService.queryAllXXLeiXing());
@@ -262,7 +262,7 @@ public class GkController {
 	public String toQuestionnaire_Release_Records() {
 		return "gk/Questionnaire_Release_Records";
 	}
-	//查询所有问卷发布记录
+	//查询所有问卷发布记录	sql
 	@RequestMapping("queryAllWenJuanFaBuJiLu")
 	@ResponseBody
 	public GkPageBean<GkQuestionnaire> queryAllWenJuanFaBuJiLu(GkQuestionnaire wj){
@@ -276,7 +276,7 @@ public class GkController {
 		model.addAttribute("banji", banji);
 		return "gk/Student_attendance";
 	}
-	//查询所有班级考勤信息
+	//查询所有班级考勤信息	sql
 	@RequestMapping("queryAllKaoQinBanJi")
 	@ResponseBody
 	public GkPageBean<GkKaoqin> queryAllKaoQinBanJi(GkKaoqin kq){
@@ -290,7 +290,7 @@ public class GkController {
 		model.addAttribute("zhiwei", zhiwei);
 		return "gk/Employee_attendance";
 	}
-	//查询所有员工考勤信息
+	//查询所有员工考勤信息	sql
 	@RequestMapping("queryAllKaoQinYuanGong")
 	@ResponseBody
 	public GkPageBean<GkKaoqin> queryAllKaoQinYuanGong(GkKaoqin kq){
@@ -303,13 +303,13 @@ public class GkController {
 		return gkKaoQinService.queryKaoQinYuanGongXiangByTime(userid, startStr, endStr);
 	}
 	
-	//通过用户id查询自己所有考勤ajax
+	//通过用户id查询自己所有考勤ajax		sql
 	@RequestMapping("queryKaoQinByUseridajax")
 	@ResponseBody
 	public GkPageBean<GkKaoqin> queryKaoQinByUseridajax(GkKaoqin kq){
 		return gkKaoQinService.queryKaoQinByUserid(kq);
 	}
-	//通过用户id查询自己所有考勤
+	//通过用户id查询自己所有考勤		sql
 	@RequestMapping("queryKaoQinByUserid")
 	public String queryKaoQinByUserid(String name,Integer userid,Model model) {
 		//todo
@@ -337,13 +337,13 @@ public class GkController {
 		model.addAttribute("time", time);
 		return "gk/Attendance_inputYG";
 	}
-	//查询所有员工
+	//查询所有员工	sql
 	@RequestMapping("queryAllYuanGongkq")
 	@ResponseBody
 	public List<CqjStaff> queryAllYuanGongkq(){
 		return cqjStaffService.queryAllYuanGong();
 	}
-	//新增员工当天考勤
+	//新增员工当天考勤	sql
 	@RequestMapping("insertYuanGongKaoQin")
 	@ResponseBody
 	public int insertYuanGongKaoQin(@RequestBody List<GkKaoqin> list) {
@@ -352,7 +352,7 @@ public class GkController {
 	
 	
 	
-	//去录入班级考勤页面
+	//去录入班级考勤页面	sql
 	@RequestMapping("toAttendance_input")
 	public String toAttendance_input(Model model,HttpSession session) {
 		CqjUser user=(CqjUser)session.getAttribute("user");

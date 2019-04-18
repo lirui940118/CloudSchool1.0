@@ -14,3 +14,6 @@ transform: translateY(-40px);
     transition: all 0.8s ease;
 
 }
+[v-cloak] {
+  display: none !important;
+}

@@ -159,7 +159,7 @@
   </select>
   <!-- 新增一条课表 -->
   <insert id="insertkebiao">
-  		INSERT INTO `cloudSchool`.`zzy_class_schedule` (`clid`,`rid`,`tid`,`cid`,`time`,`temporal_interva`,`state`)VALUES(#{clid},#{rid},#{tid},#{cid},#{time},#{temporalInterva},#{state});
+  		INSERT INTO `zzy_class_schedule` (`clid`,`rid`,`tid`,`cid`,`time`,`temporal_interva`,`state`)VALUES(#{clid},#{rid},#{tid},#{cid},#{time},#{temporalInterva},#{state});
   </insert>
   
 
