@@ -100,7 +100,7 @@
 											<td>30</td>
 											<td>
 												<select v-if="null!=tlist" class="form-control form-control-sm" id="smallSelect" name=tid>
-													<option v-for="obj1,index1 in obj.staffVOList" v-bind:value="obj1.staffId">{{obj1.staffName}}</option>
+													<option v-for="obj1,index1 in obj.staffVOList" v-bind:value="obj1.staffId">{{obj1.staffName}}--综合评分：{{obj1.staffScore}}</option>
 												</select>
 												<select v-if="null==tlist" class="form-control form-control-sm" id="smallSelect" name=tid>
 													<option value="-1">为查询到教员</option>
@@ -294,21 +294,25 @@
 				console.log("选择版本："+version)
 				v.version=version
 				v.tlist=null
+				v.targetstulist=[]
 				getAllGrade(version)
 			},
 			getSelGrade:function(grade){
 				console.log("选择了年级："+grade)
 				v.grade=grade
 				v.tlist=null
+				v.targetstulist=[]
 				//绑定版本年级对应的专业列表
 				BindingMajorListAfterselGrade()
 				allotClazzName()	//获取班级名
 				isFirstGrade()	//判断为新生班还是升学班
 			},
 			getSelMajor:function(major){
+				v.targetstulist=[]
 				alert(major)
 				console.log("选择专业："+major)
 				v.major=major
+				getTeacherList()
 				allotClazzPC()
 			}
 		}
@@ -352,7 +356,7 @@
 		$.each(tlist,function(index,obj){
 			var courseid=$(obj).find("input[name=courseid]").val()
 			var tid=$(obj).find("[name=tid]").val()
-			if(null==tid||undefined==tid){
+			if(null==tid||undefined==tid||"-1"==tid){
 				alert("课程-教员信息不全，无法开班")
 				return
 			}
