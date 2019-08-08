@@ -124,6 +124,7 @@
 														<td v-if="stul.status==1">退学</td>
 														<td v-if="stul.status==2">休学</td>
 														<td v-if="stul.status==3">游离未分配</td>
+														<td v-if="stul.status==5">已升学</td>
 														<td v-for="yl in yllist" v-if="stul.stu.studentid==yl.sid">游离已分配{{yl.cla.cname}}</td>
 														<td v-bind:id="stul.id" v-bind:sid="stul.sid" class="xgxx">修改</td>
 													</tr>

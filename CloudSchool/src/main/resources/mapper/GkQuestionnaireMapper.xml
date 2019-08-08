@@ -45,7 +45,7 @@
 	LEFT JOIN `cqj_student` AS s ON (s.studentid = u.usertypeid) AND u.`usertypenub` = 1
 	LEFT JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
 	LEFT JOIN `cqj_parents` AS jz ON (jz.parentsid = u.usertypeid) AND u.`usertypenub` = 2
-	WHERE jf.`uid` = 72 AND jf.`wjtm_id` IS NULL
+	WHERE jf.`uid` = #{zId} AND jf.`wjtm_id` IS NULL
 	GROUP BY jf.`wjcs_id`
 	LIMIT #{currentPage},#{pageSize}
   </select>
@@ -58,7 +58,7 @@
 	LEFT JOIN `cqj_student` AS s ON (s.studentid = u.usertypeid) AND u.`usertypenub` = 1
 	LEFT JOIN `cqj_staff` AS yg ON (yg.staffid = u.usertypeid) AND u.`usertypenub` = 0
 	LEFT JOIN `cqj_parents` AS jz ON (jz.parentsid = u.usertypeid) AND u.`usertypenub` = 2
-	WHERE jf.`uid` = 72 AND jf.`wjtm_id` IS NULL
+	WHERE jf.`uid` = #{zId} AND jf.`wjtm_id` IS NULL
   </select>
   
   

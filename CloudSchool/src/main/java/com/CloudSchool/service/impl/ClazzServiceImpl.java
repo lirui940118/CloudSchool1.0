@@ -69,7 +69,7 @@ public class ClazzServiceImpl implements ClazzService {
 			c.setCname(getClazzName(0, null));
 		}else {
 			System.out.println("升学班级");
-			int[] array=new int[c.getSlist().size()-1];
+			int[] array=new int[c.getSlist().size()];
 			for (int i = 0; i < c.getSlist().size(); i++) {
 				array[i]=c.getSlist().get(i).getStudentid();
 			}
@@ -128,12 +128,12 @@ public class ClazzServiceImpl implements ClazzService {
 //				ulist.add(u);
 //			}
 //		}
-		int jg4=um.insertAll(ulist);
+		int jg4=ulist.size()!=0?um.insertAll(ulist):0;
 		System.out.println("开班--分配学生登录账号--cqj_user-"+jg4+"-----------------\n");
 		for (CqjUser s : ulist) {
 			System.out.println(s.getUsername()+"--"+s.getUserid());
 		}
-		int jg5=im.insertAll(ulist);
+		int jg5=ulist.size()!=0?im.insertAll(ulist):0;
 		System.out.println("开班--分配学生登录账号用户头像--img-"+jg5+"-----------------\n");
 		//将游离改为游离已分配
 		int jg6=csm.setStudentStatusAfterCreateClazz(c.getSlist());

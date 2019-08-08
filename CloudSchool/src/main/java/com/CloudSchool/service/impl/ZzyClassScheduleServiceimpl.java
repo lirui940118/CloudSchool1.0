@@ -132,6 +132,7 @@ public class ZzyClassScheduleServiceimpl implements ZzyClassScheduleService{
     			}
     			//查询这个课程的老师是谁
     			dqtid=setm.queryClidAndCid(clist.getId(), dqcourse.getCid());
+    			System.out.println("教员id是"+dqtid);
         		//返回的数据为1代表这个班级的这个日期上午有事件那么这一天不需要排课 返回0代表这一天的上午没有事件那么进行下一层的筛选
         		Integer i=filtrateEvebts(date, 0,clist.getId());
         		System.out.println("当前日期:"+presentDate);

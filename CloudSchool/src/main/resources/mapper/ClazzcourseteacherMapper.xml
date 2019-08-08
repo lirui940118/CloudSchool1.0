@@ -182,7 +182,7 @@
   
   <!-- 根据班级id以及课程id查询这个班级的这个课程是谁教的 -->
   <select id="queryClidAndCid" resultType="INTEGER">
-  		SELECT tid FROM `clazzcourseteacher` WHERE clazzid=#{clid} AND courseid=#{cid}
+  		SELECT tid FROM `clazzcourseteacher` WHERE clazzid=#{clid} AND courseid=#{cid} AND isTeacher =1
   </select>
   <resultMap type="com.CloudSchool.domain.Clazzcourseteacher" id="res" extends="BaseResultMap">
   		<association property="teacher" column="tid" javaType="com.CloudSchool.domain.CqjStaff" select="com.CloudSchool.dao.CqjStaffMapper.queryBytid"></association>
